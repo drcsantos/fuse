@@ -19,9 +19,10 @@ function runProtractor(done)
     var args = params.length > 3 ? [params[3], params[4]] : [];
 
     var specTests = [
-      'e2e/homepage.spec.js',
-      'e2e/login.spec.js',
-      'e2e/add_issue.spec.js'
+        'e2e/register.spec.js',
+        'e2e/homepage.spec.js',
+        'e2e/login.spec.js',
+  //    'e2e/add_issue.spec.js'
     ];
 
     gulp.src(specTests)

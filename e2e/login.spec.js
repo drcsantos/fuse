@@ -7,7 +7,7 @@ describe('User login', function() {
 
   it('Login user', function() {
 
-    element(by.model('vm.form.email')).sendKeys('test0@gmail.com');
+    element(by.model('vm.form.email')).sendKeys('shone@gmail.com');
     element(by.model('vm.form.password')).sendKeys('123456');
 
     element(by.css('.submit-button')).click();
