@@ -108,6 +108,7 @@
         vm.handlesFinances = "";
       }
 
+      vm.shownContact = resident.residentContacts[0];
 
       drawGraphs(vm.selectedResident);
 

@@ -13,14 +13,32 @@
       <div layout="column" layout-align="start start">
 
         <!-- Add details content here -->
-        <h4>First name : {{  }}</h4>
-        <h4>Last name : {{  }}</h4>
-        <h4>Primary phone number : {{  }}</h4>
-        <h4>Secondary phone number : {{  }}</h4>
-        <h4>Email : {{  }}</h4>
-        <h4>Physical address : {{  }}</h4>
-        <h4>Relation : {{  }}</h4>
-        <h4>Notes : {{  }}</h4>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button ng-repeat="contact in vm.selectedResident.residentContacts" ng-click="vm.shownContact = contact"
+                            ng-class="vm.shownContact.firstName == contact.firstName ? 'md-raised md-primary' : 'md-primary'">
+              {{contact.firstName}}
+            </md-button>
+        </section>
+
+            <h4>First name : {{ vm.shownContact.firstName }}</h4>
+            <h4>Last name : {{ vm.shownContact.lastName }}</h4>
+            <h4>Primary phone number : {{ vm.shownContact.primaryPhoneNumber }}</h4>
+            <h4>Secondary phone number : {{ vm.shownContact.secondaryPhoneNumber }}</h4>
+            <h4>Email : {{ vm.shownContact.email }}</h4>
+
+            <h4>Primary Contact : {{ vm.shownContact.primaryContact }}</h4>
+            <h4>Trusted Person : {{ vm.shownContact.trustedPerson }}</h4>
+
+            <h4>Medical Power Of Attorney : {{ vm.shownContact.medicalPowerOfAttorney }}</h4>
+
+            <h4>Financial Power Of Attorney : {{ vm.shownContact.financialPowerOfAttorney }}</h4>
+            <h4>Conservator : {{ vm.shownContact.conservator }}</h4>
+            <h4>Guardian : {{ vm.shownContact.guardian }}</h4>
+
+            <h4>Physical Address : {{ vm.shownContact.physicalAddress }}</h4>
+            <h4>Relation : {{ vm.shownContact.relation }}</h4>
+            <h4>Contact Notes : {{ vm.shownContact.contactNotes }}</h4>
 
 
       </div>
