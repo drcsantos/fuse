@@ -96,6 +96,19 @@
     function selectResident(resident) {
       vm.selectedResident = resident;
 
+      var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
+        if(v._id === resident.handlesFinances) {
+          return true;
+        }
+      });
+
+      if(contact.length > 0) {
+        vm.handlesFinances = contact[0].firstName + " " + contact[0].lastName;
+      } else {
+        vm.handlesFinances = "";
+      }
+
+
       drawGraphs(vm.selectedResident);
 
       vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo);

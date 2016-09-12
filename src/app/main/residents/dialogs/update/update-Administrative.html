@@ -64,6 +64,16 @@
         </div>
       </div>
       <br>
+
+      <md-input-container class="md-block">
+        <label>Handles Finances</label>
+        <md-select ng-model="vm.form.handlesFinances">
+          <md-option ng-repeat="contact in vm.form.residentContacts" ng-value="contact._id">
+            {{ contact.firstName }}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
       <div layout="row" layout-align="space-around end">
         <md-input-container>
           <label>Sex</label>
@@ -153,6 +163,7 @@
            Receiveing Long Term Care Insurance
          </md-checkbox>
        </md-input-container>
+
 
        <md-input-container>
          <label>Appointment Coordination</label>

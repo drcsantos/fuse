@@ -109,7 +109,8 @@
     };
 
     var loadBirthdays = function(id) {
-      apilaData.residentBirthday(id)
+
+      apilaData.residentsList(id)
       .success(function(response) {
         angular.forEach(response, function(value, key) {
 

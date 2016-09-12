@@ -45,8 +45,6 @@
       }
     };
 
-    console.log(vm.form.residentContacts);
-
     vm.form.birthDate = new Date(currResident.birthDate);
     vm.form.admissionDate = new Date(currResident.admissionDate);
     vm.form.locationInfo = vm.form.movedFrom.name;
