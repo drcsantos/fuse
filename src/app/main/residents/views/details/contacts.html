@@ -14,7 +14,7 @@
 
         <!-- Add details content here -->
 
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <section layout="row" layout-sm="column" layout-align="center center" style="background-color:#039BE5;" layout-wrap>
             <md-button ng-repeat="contact in vm.selectedResident.residentContacts" ng-click="vm.shownContact = contact"
                             ng-class="vm.shownContact.firstName == contact.firstName ? 'md-raised md-primary' : 'md-primary'">
               {{contact.firstName}}

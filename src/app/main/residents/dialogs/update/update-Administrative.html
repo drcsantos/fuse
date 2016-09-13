@@ -174,24 +174,6 @@
          </md-select>
        </md-input-container>
 
-       <md-input-container class="md-block">
-         <md-checkbox ng-model="vm.form.communicatedWithResident" aria-label="Communicated With Resident">
-           Communicated With Resident
-         </md-checkbox>
-       </md-input-container>
-
-       <md-input-container class="md-block">
-         <md-checkbox ng-model="vm.form.communicatedWithPrimaryContact" aria-label="Communicated With Primary Contact">
-           Communicated With Primary Contact
-         </md-checkbox>
-       </md-input-container>
-
-       <md-input-container class="md-block">
-         <md-checkbox ng-model="vm.form.communicatedWithTrustedPerson" aria-label="Communicated With Trusted Person">
-           Communicated With Trusted Person
-         </md-checkbox>
-       </md-input-container>
-
         <md-input-container flex class="md-block textarea-container">
           <label>Notes</label>
           <textarea ng-model="vm.form.administrativeNotes"></textarea>
@@ -205,6 +187,11 @@
           UPDATE
         </md-button>
       </div>
-    </md-dialog-actions>
+      
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
+      </div>
+
+  </md-dialog-actions>
+
   </form>
 </md-dialog>
