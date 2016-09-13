@@ -483,6 +483,22 @@
         }
       }
 
+      //checking contacts
+      for(var i = 0; i < oldData.residentContacts.length; ++i) {
+        var contact = oldData.residentContacts[i];
+
+        for(var property in contact) {
+          if(oldData.residentContacts[i][property] !== newData.residentContacts[i][property]) {
+            console.log(property + " changed!!!");
+            diff.push({
+              "field": property + 'InContacts',
+              "old": oldData.residentContacts[i][property],
+              "new": newData.residentContacts[i][property]
+            });
+          }
+        }
+      }
+
 
       return diff;
     }
