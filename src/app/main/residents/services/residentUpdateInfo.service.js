@@ -12,7 +12,7 @@
 
     var username = authentication.currentUser().name;
 
-    function formatUpdateArray(updateArray) {
+    function formatUpdateArray(updateArray, resident) {
 
       var arrayFields = ['foodAllergies', 'medicationAllergies'];
 
@@ -66,6 +66,26 @@
 
             //attaching a time diff at the end (how long ago did we update it)
             formatEntry.diffTime += " " + timeDiff(entry.updateDate);
+
+            formatEntry.communicatedWith = "";
+
+            if(entry.communicatedWith.length > 0) {
+              formatEntry.communicatedWith = "Communicated with ";
+            }
+
+            _.forEach(entry.communicatedWith, function(v) {
+              if(v === "resident") {
+                formatEntry.communicatedWith += "resident " + resident.firstName + " " + resident.lastName + ",";
+              }
+              if(v === "primary") {
+                formatEntry.communicatedWith += " primary contact ,";
+              }
+              if(v === "trusted") {
+                formatEntry.communicatedWith += " trusted person ,";
+              }
+            });
+
+            formatEntry.communicatedWith = formatEntry.communicatedWith.slice(0, -1);
 
             formatedArray.push(formatEntry);
 
@@ -127,9 +147,9 @@
         "longTermCareInsurance",
         "receiveingLongTermCareInsurance",
         "appointmentCoordination",
-        "communicatedWithResident",
-        "communicatedWithPrimaryContact",
-        "communicatedWithTrustedPerson",
+        // "communicatedWithResident",
+        // "communicatedWithPrimaryContact",
+        // "communicatedWithTrustedPerson",
 
         // bathing
         "typeOfBathing",

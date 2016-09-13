@@ -112,7 +112,7 @@
 
       drawGraphs(vm.selectedResident);
 
-      vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo);
+      vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
 
       if (vm.selectedResident.movedFrom) {
         vm.latitude = vm.selectedResident.movedFrom.latitude;
@@ -263,7 +263,7 @@
           clickOutsideToClose: true
         })
         .then(function() {
-          vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo);
+          vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
         });
 
     }
