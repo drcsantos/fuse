@@ -64,6 +64,10 @@
 
             }
 
+            if(field === "create-contact") {
+              formatEntry.text = " has created a new contact " + newValue;
+            }
+
             //attaching a time diff at the end (how long ago did we update it)
             formatEntry.diffTime += " " + timeDiff(entry.updateDate);
 
@@ -73,15 +77,19 @@
               formatEntry.communicatedWith = "Communicated with ";
             }
 
+            var primaryContact = _.find(resident.residentContacts, {"primaryContact": true});
+            var trustedPerson = _.find(resident.residentContacts, {"trustedPerson": true});
+
             _.forEach(entry.communicatedWith, function(v) {
               if(v === "resident") {
-                formatEntry.communicatedWith += "resident " + resident.firstName + " " + resident.lastName + ",";
+                formatEntry.communicatedWith += "Resident, ";
               }
-              if(v === "primary") {
-                formatEntry.communicatedWith += " primary contact ,";
+              if(v === "primary" && primaryContact) {
+
+                formatEntry.communicatedWith += " Primary contact " + primaryContact.firstName + " " + primaryContact.lastName + ",";
               }
-              if(v === "trusted") {
-                formatEntry.communicatedWith += " trusted person ,";
+              if(v === "trusted" && trustedPerson) {
+                formatEntry.communicatedWith += " Trusted person " + trustedPerson.firstName + " " + trustedPerson.lastName + ",";
               }
             });
 

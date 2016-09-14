@@ -144,7 +144,6 @@
 
       apilaData.addContact(currResident._id, vm.form.contact)
       .success(function(response) {
-        console.log(response);
         currResident.residentContacts = response;
         closeDialog();
       })
