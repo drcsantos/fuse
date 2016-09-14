@@ -22,7 +22,9 @@ function runProtractor(done)
         'e2e/register.spec.js',
         'e2e/homepage.spec.js',
         'e2e/login.spec.js',
-  //    'e2e/add_issue.spec.js'
+        'e2e/create_community.spec.js',
+        'e2e/add_issue.spec.js',
+        'e2e/add_resident.spec.js'
     ];
 
     gulp.src(specTests)
