@@ -23,7 +23,7 @@
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
+      <md-input-container class="md-block" ng-if="vm.form.insideApartment.useOfAssistiveDevice != 'No Device'">
         <label>Assitance with Device</label>
         <input ng-model="vm.form.insideApartment.assitanceWithDevice" type="text">
       </md-input-container>
@@ -78,7 +78,7 @@
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
+      <md-input-container class="md-block" ng-if="vm.form.outsideApartment.useOfAssistiveDevice != 'No Device'">
         <label>Assitance with Device</label>
         <input ng-model="vm.form.outsideApartment.assitanceWithDevice" type="text">
       </md-input-container>
@@ -106,14 +106,20 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.fallRisk" ng-hide="vm.showCancel" aria-label="">
+        <md-checkbox ng-model="vm.form.fallRisk" aria-label="">
           Fall Risk
         </md-checkbox>
       </md-input-container>
 
-      <md-input-container class="md-block" ng-if="vm.form.fallRisk">
-        <label>Describe the Fall Risk</label>
-        <textarea ng-model="vm.form.fallRiskDescribe" rows="5"></textarea>
+      <md-input-container ng-if="vm.form.fallRisk == true">
+        <label>Fall Risk Desribe</label>
+        <md-select ng-model="vm.form.fallRiskDescribe">
+          <md-option>Physical Limitations</md-option>
+          <md-option>Medication Challenges,</md-option>
+          <md-option>Cognition</md-option>
+          <md-option>Choice</md-option>
+          <md-option>Other</md-option>
+        </md-select>
       </md-input-container>
 
       <md-input-container class="md-block">

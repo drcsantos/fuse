@@ -82,7 +82,7 @@
 
             _.forEach(entry.communicatedWith, function(v) {
               if(v === "resident") {
-                formatEntry.communicatedWith += "Resident, ";
+                formatEntry.communicatedWith += "Resident,";
               }
               if(v === "primary" && primaryContact) {
 
@@ -145,8 +145,10 @@
         "sex",
         "room",
         "veteran",
+        "socialSecurityNumber",
         "maritalStatus",
         "buildingStatus",
+        "admittedFrom",
         "administrativeNotes",
         "assessmentInterval",
         "fullCode",
@@ -155,9 +157,6 @@
         "longTermCareInsurance",
         "receiveingLongTermCareInsurance",
         "appointmentCoordination",
-        // "communicatedWithResident",
-        // "communicatedWithPrimaryContact",
-        // "communicatedWithTrustedPerson",
 
         // bathing
         "typeOfBathing",
@@ -190,6 +189,7 @@
         "occupation",
         "lifeNotes",
         "contribution",
+        "supportGroup",
         "outsideAgency",
         "easilyUnderstood",
         "englishFirstLanguage",

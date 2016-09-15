@@ -31,12 +31,7 @@
             <span ng-switch-default>Constipated :</span>
         </h4>
 
-        <h4 ng-switch on="vm.selectedResident.laxative">
-            <span ng-switch-when="0">Laxative : Never</span>
-            <span ng-switch-when="1">Laxative : Sometimes</span>
-            <span ng-switch-when="2">Laxative : Always</span>
-            <span ng-switch-default>Laxative : </span>
-        </h4>
+        <h4>Laxative: {{vm.selectedResident.laxative}} </h4>
 
         <h4 ng-switch on="vm.selectedResident.bladderContinent">
             <span ng-switch-when="0">Bladder Continent : Never</span>

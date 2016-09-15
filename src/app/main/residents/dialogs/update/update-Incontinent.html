@@ -23,6 +23,11 @@
         </md-checkbox>
       </md-input-container>
 
+      <md-input-container class="md-block">
+        <label>Laxative</label>
+        <input ng-model="vm.form.laxative" type="text">
+      </md-input-container>
+
       <div layout="row" layout-align="space-around center">
           <div class="md-block">
             <label ng-switch on="vm.form.bowelContinent">
@@ -45,18 +50,6 @@
          <md-slider flex min="0" max="2" ng-model="vm.form.constipated" aria-label="blue">
          </md-slider>
        </div>
-
-       <div class="md-block">
-         <label ng-switch on="vm.form.laxative">
-            <span ng-switch-when="0">Laxative : Never</span>
-             <span ng-switch-when="1">Laxative : Sometimes</span>
-             <span ng-switch-when="2">Laxative : Always</span>
-             <span ng-switch-default>Laxative : </span>
-         </label>
-         <md-slider flex min="0" max="2" ng-model="vm.form.laxative" aria-label="blue">
-         </md-slider>
-       </div>
-
 
       </div>
 
@@ -114,8 +107,6 @@
         <label>Incontinent Apparel Assist</label>
         <md-select ng-model="vm.form.incontinentApparelAssist">
           <md-option>Independent</md-option>
-          <md-option>Standby</md-option>
-          <md-option>Partial</md-option>
           <md-option>Full</md-option>
         </md-select>
       </md-input-container>

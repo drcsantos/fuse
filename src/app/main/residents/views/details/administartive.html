@@ -19,6 +19,7 @@
         <h4>Last Name: {{ vm.selectedResident.lastName }} </h4>
         <h4>Room Number: {{ vm.selectedResident.room }}</h4>
         <h4>Veteran: {{ vm.selectedResident.veteran }}</h4>
+        <h4>Social Security Number: {{ vm.selectedResident.socialSecurityNumber }}</h4>
         <h4>Marital Status: {{ vm.selectedResident.maritalStatus }} </h4>
         <h4>Date of Birth: {{ vm.selectedResident.birthDate | date }} </h4>
         <h4>Admission Date: {{ vm.selectedResident.admissionDate | date }} </h4>
@@ -37,6 +38,7 @@
         </h4>
 
         <h4>Moved from: {{ vm.selectedResident.movedFrom.name }} </h4>
+        <h4>Admitted From: {{ vm.selectedResident.admittedFrom }} </h4>
 
         <!-- Random -->
         <h4>Full Code: {{vm.selectedResident.fullCode}}</h4>

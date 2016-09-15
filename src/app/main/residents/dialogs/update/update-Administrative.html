@@ -42,6 +42,11 @@
       </md-input-container>
 
       <md-input-container class="md-block">
+        <label>Social Security Number</label>
+        <input ng-model="vm.form.socialSecurityNumber" type="number" required="">
+      </md-input-container>
+
+      <md-input-container class="md-block">
         <label>Marital Status</label>
         <md-select ng-model="vm.form.maritalStatus" required="">
           <md-option>Single</md-option>
@@ -97,6 +102,16 @@
             <md-option>Rehab</md-option>
             <md-option>Dead</md-option>
             <md-option>Moved Out</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Admitted From</label>
+          <md-select ng-model="vm.form.admittedFrom">
+            <md-option>Home</md-option>
+            <md-option>Hospital</md-option>
+            <md-option>Rehab</md-option>
+            <md-option>Other</md-option>
           </md-select>
         </md-input-container>
 
