@@ -77,15 +77,22 @@
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.needsFoodInSmallPeices" ng-hide="vm.showCancel" aria-label="Needs Food In Small Peices">
-          Needs Food In Small Peices
-        </md-checkbox>
-      </md-input-container>
-
-      <md-input-container ng-if="vm.form.diabetic">
+      <md-input-container>
         <label>Type of Diet</label>
         <md-select ng-model="vm.form.typeOfDiet">
+          <md-option>BRAT</md-option>
+          <md-option>Gluten free</md-option>
+          <md-option>Full vegan</md-option>
+          <md-option>Partial vegan</md-option>
+          <md-option>Lactose free</md-option>
+          <md-option>Other</md-option>
+          <md-option>Regular</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Special Diet</label>
+        <md-select ng-model="vm.form.specialDiet">
           <md-option>Pureed</md-option>
           <md-option>Ground</md-option>
           <md-option>Regular</md-option>
@@ -113,7 +120,7 @@
         <label>Feed Assist</label>
         <md-select ng-model="vm.form.feedAssist">
           <md-option>Independent</md-option>
-          <md-option>Standby</md-option>
+          <md-option>Reminder</md-option>
           <md-option>Partial assistance</md-option>
           <md-option>Full assistance</md-option>
         </md-select>
@@ -147,7 +154,7 @@
 
       <div ng-include="'app/main/residents/dialogs/update/footer.html'">
       </div>
-      
+
     </md-dialog-actions>
   </form>
 </md-dialog>

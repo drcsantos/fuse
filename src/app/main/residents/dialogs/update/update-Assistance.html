@@ -29,8 +29,7 @@
         <label>Shave Assist</label>
         <md-select ng-model="vm.form.shaveAssist">
           <md-option>Independent</md-option>
-          <md-option>Standby</md-option>
-          <md-option>Partial</md-option>
+          <md-option>Reminder</md-option>
           <md-option>Full</md-option>
         </md-select>
       </md-input-container>
@@ -155,9 +154,14 @@
         </md-input-container>
 
       <!-- night time routine -->
-      <md-input-container class="md-block" ng-if="vm.form.brace == true">
+      <md-input-container class="md-block">
         <label>Bed Assist</label>
         <input ng-model="vm.form.bedAssist" type="text">
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Bed Assist Describe</label>
+        <input ng-model="vm.form.bedAssistDescribe" type="text">
       </md-input-container>
 
     </md-dialog-content>

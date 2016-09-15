@@ -231,6 +231,7 @@
         "braceAssist",
         "braceDescribe",
         "bedAssist",
+        "bedAssistDescribe",
 
         // nutrition
         "overallNutrition",
@@ -241,7 +242,7 @@
         "bloodSugarMonitoring",
         "bedtimeSnack",
         "adaptiveEquipment",
-        "needsFoodInSmallPeices",
+        "specialDiet",
         "typeOfDiet",
         "fingerFoods",
         "feedAssist",
@@ -281,18 +282,19 @@
         "leftEye",
         "rightEye",
         "visionNotes",
-        "visionAssistance",
+        "visionDevice",
+        "visionAssist",
         "visionAbility",
         "hearingNotes",
         "dentistName",
-        "upperDentureFit",
-        "upperDentureFitDescribe",
         "upperTeeth",
-        "lowerDentureFit",
-        "lowerDentureFitDescribe",
         "lowerTeeth",
         "teethCondition",
         "teethAssist",
+        "teethNotes",
+        "oxygen",
+        "oxygenType",
+        "oxygenFlow",
         "medsAtBedside",
         "selfMeds",
         "swallowAssist",
@@ -334,6 +336,7 @@
         "preferedActivites",
         "useFitnessEquipmentIndependently",
         "highMaintenance",
+        "highMaintenanceDescribe",
         "familyInvolvement",
         "psychosocialNotes",
 
@@ -428,12 +431,6 @@
       }, {
         f: "vision",
         s: "leftEye"
-      }, {
-        f: "teeth",
-        s: "upperDentureFit"
-      }, {
-        f: "teeth",
-        s: "lowerDentureFit"
       }, {
         f: "teeth",
         s: "upperTeeth"

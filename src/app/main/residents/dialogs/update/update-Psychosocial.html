@@ -231,9 +231,14 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.highMaintenance" aria-label="Smokes">
-          High Maintenance
-        </md-checkbox>
+        <label>High Maintenance: {{ vm.form.highMaintenance }}</label>
+        <md-slider flex min="0" max="100" ng-model="vm.form.highMaintenance" aria-label="blue">
+        </md-slider>
+      </md-input-container>
+
+      <md-input-container>
+        <label>High Maintenance Describe</label>
+        <input ng-model="vm.form.highMaintenanceDescribe" type="text">
       </md-input-container>
 
       <md-input-container>

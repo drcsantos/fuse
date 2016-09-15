@@ -39,26 +39,25 @@
         <h4>Hearing Notes: {{ vm.selectedResident.hearingNotes }}</h4>
 
         <!-- Vision -->
-        <h4>Vision Assistance: {{vm.selectedResident.visionAssistance}}</h4>
+        <h4>Vision Device: {{vm.selectedResident.visionDevice}}</h4>
         <h4>Vision in Right Eye: {{ vm.selectedResident.rightEye }}</h4>
         <h4>Vision in Left Eye: {{ vm.selectedResident.leftEye }}</h4>
         <h4>Vision Ability: {{ vm.selectedResident.visionAbility }}</h4>
+        <h4>Vision Assist: {{ vm.selectedResident.visionAssist }}</h4>
         <h4>Vision Notes: {{ vm.selectedResident.visionNotes }}</h4>
 
         <!-- Teeth -->
         <h4>Teeth Assist: {{vm.selectedResident.teethAssist}}</h4>
         <h4>Dentist's Name: {{ vm.selectedResident.dentistName }}</h4>
-        <h4>Upper Denture Does Not Fit: {{ vm.selectedResident.upperDentureFit }}</h4>
-        <h4 ng-if="vm.selectedResident.upperDentureFit">
-          Why Doesn't Upper Denture Fit: {{ vm.selectedResident.upperDentureFitDescribe }}
-        </h4>
         <h4>Upper Teeth Status: {{ vm.selectedResident.upperTeeth }}</h4>
-        <h4>Lower Denture Fit: {{ vm.selectedResident.lowerDentureFit }}</h4>
-        <h4 ng-if="vm.selectedResident.lowerDentureFit">
-          Why Doesn't Lower Denture Fit: {{ vm.selectedResident.lowerDentureFitDescribe }}
-        </h4>
         <h4>Lower Teeth Status: {{ vm.selectedResident.lowerTeeth }}</h4>
         <h4>Teeth Condition: {{ vm.selectedResident.teethCondition }}</h4>
+        <h4>Teeth Notes: {{ vm.selectedResident.teethNotes }}</h4>
+
+        <!-- Oxygen -->
+        <h4>Oxygen: {{ vm.selectedResident.oxygen }}</h4>
+        <h4>Oxygen Type: {{ vm.selectedResident.oxygenType }}</h4>
+        <h4>Oxygen Flow: {{ vm.selectedResident.oxygenFlow }}</h4>
 
         <!-- Infection -->
         <h4>Urinary Tract Infection Risk: {{vm.selectedResident.urinaryTractInfectionRisk}}</h4>

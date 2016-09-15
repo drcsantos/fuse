@@ -14,13 +14,8 @@
       <md-input-container>
         <label>Skin Condition</label>
         <md-select ng-model="vm.form.skinCondition">
-          <md-option>Hydrated</md-option>
-          <md-option>Dry</md-option>
-          <md-option>Ashen</md-option>
-          <md-option>Jaundice</md-option>
-          <md-option>Clammy</md-option>
-          <md-option>Pale</md-option>
-          <md-option>Normal</md-option>
+          <md-option>Average</md-option>
+          <md-option>Tears easily</md-option>
         </md-select>
       </md-input-container>
 
@@ -70,6 +65,7 @@
             <md-option>Adequate</md-option>
             <md-option>Adequate with Aid</md-option>
             <md-option>Poor</md-option>
+            <md-option>None</md-option>
           </md-select>
         </md-input-container>
 
@@ -79,6 +75,7 @@
             <md-option>Adequate</md-option>
             <md-option>Adequate with Aid</md-option>
             <md-option>Poor</md-option>
+            <md-option>None</md-option>
           </md-select>
         </md-input-container>
       </div>
@@ -104,8 +101,8 @@
       </md-input-container>
 
       <md-input-container>
-        <label>Vision Assistance</label>
-        <md-select ng-model="vm.form.visionAssistance">
+        <label>Vision Device</label>
+        <md-select ng-model="vm.form.visionDevice">
           <md-option>Glasses</md-option>
           <md-option>Contacts</md-option>
           <md-option>None</md-option>
@@ -119,6 +116,7 @@
             <md-option>Adequate</md-option>
             <md-option>Adequate with Aid</md-option>
             <md-option>Poor</md-option>
+            <md-option>None</md-option>
           </md-select>
         </md-input-container>
 
@@ -128,6 +126,7 @@
             <md-option>Adequate</md-option>
             <md-option>Adequate with Aid</md-option>
             <md-option>Poor</md-option>
+            <md-option>None</md-option>
           </md-select>
         </md-input-container>
       </div>
@@ -137,6 +136,15 @@
        <md-slider flex min="0" max="10" ng-model="vm.form.visionAbility" aria-label="blue">
        </md-slider>
      </div>
+
+     <md-input-container>
+       <label>Vision Assist</label>
+       <md-select ng-model="vm.form.visionAssist">
+         <md-option>Full</md-option>
+         <md-option>Independent</md-option>
+         <md-option>Reminder</md-option>
+       </md-select>
+     </md-input-container>
 
       <md-input-container class="md-block">
         <label>Vision Notes</label>
@@ -157,17 +165,6 @@
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.upperDentureFit" ng-hide="vm.showCancel" aria-label="Upper Denture Fit">
-          Upper Denture Does Not Fit
-        </md-checkbox>
-      </md-input-container>
-
-      <md-input-container class="md-block" ng-if="vm.form.upperDentureFit">
-        <label>Why Doesn't Upper Denture Fit</label>
-        <input ng-model="vm.form.upperDentureFitDescribe" type="text">
-      </md-input-container>
-
       <md-input-container>
         <label>Upper Teeth</label>
         <md-select ng-model="vm.form.upperTeeth">
@@ -176,17 +173,6 @@
           <md-option>Has Partial</md-option>
           <md-option>No Teeth</md-option>
         </md-select>
-      </md-input-container>
-
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.lowerDentureFit" ng-hide="vm.showCancel" aria-label="Upper Denture Fit">
-          Lower Denture Does Not Fit
-        </md-checkbox>
-      </md-input-container>
-
-      <md-input-container class="md-block" ng-if="vm.form.lowerDentureFit">
-        <label>Why Doesn't Lower Denture Fit</label>
-        <input ng-model="vm.form.lowerDentureFitDescribe" type="text">
       </md-input-container>
 
       <md-input-container>
@@ -199,11 +185,40 @@
         </md-select>
       </md-input-container>
 
+      <md-input-container flex class="md-block textarea-container">
+        <label>Teeth Notes</label>
+        <textarea ng-model="vm.form.teethNotes"></textarea>
+      </md-input-container>
+
       <div class="md-block">
        <label>Teeth Condition: {{ vm.form.teethCondition }}</label>
        <md-slider flex min="0" max="10" ng-model="vm.form.teethCondition" aria-label="blue">
        </md-slider>
      </div>
+
+     <!-- Oxygen -->
+
+     <md-input-container class="md-block">
+       <md-checkbox ng-model="vm.form.oxygen"  aria-label="Oxygen">
+         Oxygen
+       </md-checkbox>
+     </md-input-container>
+
+       <md-input-container ng-if="vm.form.oxygen == true">
+         <label>Oxygen Type</label>
+         <md-select ng-model="vm.form.oxygenType">
+           <md-option>Liquid</md-option>
+           <md-option>Concentrate</md-option>
+         </md-select>
+       </md-input-container>
+
+       <md-input-container ng-if="vm.form.oxygen == true">
+         <label>Oxygen Flow</label>
+         <md-select ng-model="vm.form.oxygenFlow">
+           <md-option>Continuous Flow</md-option>
+           <md-option>Helios</md-option>
+         </md-select>
+       </md-input-container>
 
      <md-input-container class="md-block">
        <md-checkbox ng-model="vm.form.urinaryTractInfectionRisk"  aria-label="Urinary Tract Infection Risk">
