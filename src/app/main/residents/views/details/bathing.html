@@ -26,6 +26,11 @@
         </h4>
 
         <h4>Acceptance of Bathing: {{ vm.selectedResident.acceptanceOfBathing }}</h4>
+        
+        <h4>Bathing Days:
+            <md-chips ng-model="vm.selectedResident.bathingDays" readonly="true">
+        </h4>
+
         <h4 ng-if="vm.selectedResident.acceptanceOfBathing == 'Dislikes'">
           Why Dislikes Bathing: {{ vm.selectedResident.dislikesBathingDescribe }}
         </h4>

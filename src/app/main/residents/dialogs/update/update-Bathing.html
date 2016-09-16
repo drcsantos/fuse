@@ -31,21 +31,6 @@
             <md-option>After Supper</md-option>
           </md-select>
         </md-input-container>
-      </div>
-<br>
-      <div layout="row" layout-align="space-around center">
-        <div class="md-block">
-         <label ng-switch on="vm.form.frequencyOfBathing">
-             <span ng-switch-when="0">Frequency of Bathing : No Bathing</span>
-             <span ng-switch-when="1">Frequency of Bathing : Once a week</span>
-            <span ng-switch-when="2">Frequency of Bathing : Twice a week</span>
-             <span ng-switch-when="3">Frequency of Bathing : Every other day</span>
-             <span ng-switch-when="4">Frequency of Bathing : Everyday</span>
-            <span ng-switch-default>Frequency of Bathing : </span>
-         </label>
-         <md-slider flex min="0" max="4" ng-model="vm.form.frequencyOfBathing" aria-label="blue">
-         </md-slider>
-       </div>
 
         <md-input-container>
           <label>Acceptance of Bathing</label>
@@ -57,6 +42,27 @@
           </md-select>
         </md-input-container>
       </div>
+
+      <div class="md-block">
+       <label ng-switch on="vm.form.frequencyOfBathing">
+           <span ng-switch-when="0">Frequency of Bathing : No Bathing</span>
+           <span ng-switch-when="1">Frequency of Bathing : Once a week</span>
+          <span ng-switch-when="2">Frequency of Bathing : Twice a week</span>
+           <span ng-switch-when="3">Frequency of Bathing : Every other day</span>
+           <span ng-switch-when="4">Frequency of Bathing : Everyday</span>
+          <span ng-switch-default>Frequency of Bathing : </span>
+       </label>
+       <md-slider flex min="0" max="4" ng-model="vm.form.frequencyOfBathing" aria-label="blue">
+       </md-slider>
+      </div>
+
+      <span ng-if="vm.form.frequencyOfBathing == 1 || vm.form.frequencyOfBathing == 2 || vm.form.frequencyOfBathing == 3">
+        <label>Bathing Days </label>
+        <md-chips md-separator-keys="vm.seperators" ng-model="vm.bathingDays" md-on-add="vm.updateChip(vm.bathingDays,'bathingDays', $chip, 'add')" md-on-remove="vm.updateChip(vm.bathingDays,'bathingDays', $chip, 'remove')" md-removable="true" readonly="false" placeholder="Add new day">
+        </md-chips>
+     </span>
+
+      <br />
 
       <md-input-container class="md-block" ng-if="vm.form.acceptanceOfBathing == 'Dislikes'">
         <label>Why Dislikes Bathing</label>

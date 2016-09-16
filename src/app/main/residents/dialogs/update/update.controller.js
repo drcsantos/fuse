@@ -33,6 +33,7 @@
 
     vm.foodLikes = currResident.foodLikes;
     vm.foodDislikes = currResident.foodDislikes;
+    vm.bathingDays = currResident.bathingDays;
 
     //needed unchanged values to compare for updateField
     vm.copyResident = angular.copy(currResident);
