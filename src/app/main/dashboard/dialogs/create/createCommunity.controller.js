@@ -1,165 +1,156 @@
-(function ()
-{
-    'use strict';
+(function() {
+  'use strict';
 
-    angular
-        .module('app.dashboard')
-        .controller('CreateCommunityController', CreateCommunityController);
+  angular
+    .module('app.dashboard')
+    .controller('CreateCommunityController', CreateCommunityController);
 
-    /** @ngInject */
-    function CreateCommunityController($mdDialog, apilaData, authentication, $mdToast, $window) {
+  /** @ngInject */
+  function CreateCommunityController($mdDialog, apilaData, authentication, $mdToast, $window) {
 
-      var vm = this;
+    var vm = this;
 
-      //Functions
-      vm.closeDialog = closeDialog;
-      vm.addCommunity = addCommunity;
-      vm.recoverCommunity = recoverCommunity;
+    // Data
+    vm.form = {};
 
-      // Data
-      vm.form = {};
+    vm.hasCanceledCommunity = false;
 
-      vm.hasCanceledCommunity = false;
+    vm.username = authentication.currentUser().name;
+    vm.userid = authentication.currentUser().id;
 
-      vm.username = authentication.currentUser().name;
-      vm.userid = authentication.currentUser().id;
+    vm.restoreCommunity = false;
 
-      vm.restoreCommunity = false;
+    //Functions
+    vm.closeDialog = closeDialog;
+    vm.addCommunity = addCommunity;
+    vm.recoverCommunity = recoverCommunity;
 
-      apilaData.hasCanceledCommunity(vm.userid)
+    // preload data if we have canceledCommunity
+    apilaData.hasCanceledCommunity(vm.userid)
       .success(function(response) {
         vm.canceledCommunity = response;
         vm.hasCanceledCommunity = true;
       })
       .error(function(response) {
+        console.log(response);
       });
 
-      function closeDialog()
-      {
-          $mdDialog.hide();
+    ///////////////////// PUBLIC FUNCTIONS /////////////////////////////////
+
+    function addCommunity() {
+      vm.form.communityMembers = [];
+      vm.form.pendingMembers = [];
+
+      vm.form.username = vm.username;
+
+      if (!vm.form.name) {
+        vm.nameError = "Community name must be specified";
+        return;
       }
 
+      Stripe.card.createToken(vm.cardInfo,
+        function(status, response) {
 
-      function showErrorToast(errorMsg) {
-        $mdToast.show(
-          $mdToast.simple()
-            .textContent(errorMsg)
-            .position("top right")
-            .hideDelay(3000)
-        );
+          if (status !== 200) {
+            processErrors(response.error);
+          } else {
+            saveCreditCard(response);
+          }
+
+        });
+
+    }
+
+    function recoverCommunity() {
+      Stripe.card.createToken(vm.cardInfo,
+        function(status, response) {
+
+          if (status !== 200) {
+            processErrors(response.error);
+          } else {
+            restoreCommunity();
+          }
+
+        });
+    }
+
+    function closeDialog() {
+      $mdDialog.hide();
+    }
+
+    ///////////////////// PRIVATE FUNCTIONS /////////////////////////////////
+
+    function saveCreditCard(response) {
+      apilaData.saveCreditCard(vm.userid, response)
+        .success(function(response) {
+
+          apilaData.addCommunity(vm.form)
+            .success(function(d) {
+              closeDialog();
+
+              showToast("Community has been created!");
+
+              $window.location.reload();
+
+            })
+            .error(function(d) {
+              console.log(d);
+            });
+        })
+        .error(function(response) {
+          console.log(response);
+        });
+    }
+
+    function restoreCommunity() {
+      apilaData.saveCreditCard(vm.userid, response)
+        .success(function(response) {
+
+          //restore community
+          apilaData.restoreCommunity(vm.userid, vm.canceledCommunity._id)
+            .success(function(response) {
+
+              closeDialog();
+              showToast("Community has been restored!");
+
+            })
+            .error(function(response) {
+              console.log(response);
+            });
+        })
+        .error(function(response) {
+          console.log(response);
+        });
+    }
+
+    function processErrors(error) {
+      if (error.param === "card[number]") {
+        vm.cardNumberError = "Invalid credit card number";
+      } else if (error.param === "card[exp_month]") {
+        vm.expMonthError = "Invalid Expiration Month entered please select between 01 - 12";
+      } else if (error.param === "card[exp_year]") {
+        vm.expYearError = "Invalid Expiration Year entered";
       }
-
-      function addCommunity()
-      {
-        vm.form.communityMembers = [];
-        vm.form.pendingMembers = [];
-
-        vm.form.username = vm.username;
-
-        console.log(vm.cardInfo);
-        console.log(vm.userid);
-
-        if(!vm.form.name) {
-          vm.nameError = "Community name must be specified";
-          return;
-        }
-
-        Stripe.card.createToken(vm.cardInfo,
-          function(status, response) {
-
-            console.log(response);
-
-            if(status !== 200) {
-            //  showErrorToast(response.error.message);
-              processErrors(response.error);
-            } else {
-              apilaData.saveCreditCard(vm.userid, response)
-              .success(function(response) {
-                console.log(response);
-
-                apilaData.addCommunity(vm.form)
-                .success(function(d) {
-                  closeDialog();
-
-                  $mdToast.show(
-                    $mdToast.simple()
-                      .textContent("Community has been created!")
-                      .position("top right")
-                      .hideDelay(2200)
-                  );
-
-                  $window.location.reload();
-
-                })
-                .error(function(d) {
-                  console.log("Error while creating community");
-                });
-              })
-              .error(function(response) {
-                console.log(response);
-              });
-            }
+    }
 
 
-          });
+    function showToast(msg) {
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent(msg)
+        .position("top right")
+        .hideDelay(3000)
+      );
+    }
 
-      }
-
-
-      function processErrors(error) {
-        if(error.param === "card[number]") {
-          vm.cardNumberError = "Invalid credit card number";
-        } else if(error.param === "card[exp_month]") {
-          vm.expMonthError = "Invalid Expiration Month entered please select between 01 - 12";
-        } else if(error.param === "card[exp_year]") {
-          vm.expYearError = "Invalid Expiration Year entered";
-        }
-
-      }
-
-      function recoverCommunity() {
-        Stripe.card.createToken(vm.cardInfo,
-          function(status, response) {
-
-            console.log(response);
-
-            if(status !== 200) {
-              //showErrorToast(response.error.message);
-              processErrors(response.error);
-            } else {
-              apilaData.saveCreditCard(vm.userid, response)
-              .success(function(response) {
-                console.log(response);
-
-                //restore community
-                apilaData.restoreCommunity(vm.userid, vm.canceledCommunity._id)
-                .success(function(response) {
-                  console.log(response);
-
-                  closeDialog();
-
-                  $mdToast.show(
-                    $mdToast.simple()
-                      .textContent("Community has been restored!")
-                      .position("top right")
-                      .hideDelay(2200)
-                  );
-
-                })
-                .error(function(response) {
-                  console.log(response);
-                });
-              })
-              .error(function(response) {
-
-              });
-            }
-
-          });
-      }
-
-
-
+    function showSuccessToast() {
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent("Community has been created!")
+        .position("top right")
+        .hideDelay(2200)
+      );
+    }
 
   }
 
