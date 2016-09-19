@@ -25,4 +25,25 @@ describe('User register', function() {
     element(by.css('.user-button')).click();
     element(by.css('#logout')).click();
   });
+
+  it('Should register a second user', function() {
+
+    browser.get('/auth/register');
+
+    element(by.model('vm.form.username')).sendKeys('Pajo');
+    element(by.model('vm.form.email')).sendKeys('pajo@gmail.com');
+    element(by.model('vm.form.password')).sendKeys('123456'); //very security
+    element(by.model('vm.form.passwordConfirm')).sendKeys('123456');
+    element(by.model('data.cb1')).click();
+
+    element(by.css('.submit-button')).click();
+
+    var communityTitle = element(by.binding('vm.title'));
+    browser.wait(protractor.until.elementIsVisible(communityTitle), 10000, 'Error: Element did not display within 10 seconds');
+  });
+
+  it('Should logout the user', function() {
+    element(by.css('.user-button')).click();
+    element(by.css('#logout')).click();
+  });
 });

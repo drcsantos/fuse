@@ -38,9 +38,13 @@ describe('Add resident', function() {
 
     element(by.model('vm.form.sex')).sendKeys('BKN01');
 
+    element(by.model('vm.form.locationInfo')).sendKeys('Denv');
+    element(by.model('vm.form.locationInfo')).sendKeys(protractor.Key.ARROW_DOWN);
+    element(by.model('vm.form.locationInfo')).sendKeys(protractor.Key.ENTER);
+
     element(by.model('vm.form.buildingStatus')).sendKeys('BKN01');
 
-    element(by.css('.send-button')).click();
+    element(by.css('#add-resident-btn')).click();
 
   }
 });

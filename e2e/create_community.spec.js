@@ -18,6 +18,11 @@ describe('Create community', function() {
 
   });
 
+  it('Should logout the user', function() {
+    element(by.css('.user-button')).click();
+    element(by.css('#logout')).click();
+  });
+
   function submitForm() {
     var titleInput = element(by.model("vm.form.name"));
     titleInput.sendKeys("North Korea");
@@ -34,6 +39,9 @@ describe('Create community', function() {
     var cvc = element(by.model("vm.cardInfo.cvc"));
     expMonth.sendKeys("729");
 
-    element(by.css('.send-button')).click();
+    element(by.css('#add-community')).click();
+
+    browser.driver.sleep(3500);
+    browser.waitForAngular();
   }
 });
