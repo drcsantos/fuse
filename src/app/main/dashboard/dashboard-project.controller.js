@@ -8,7 +8,7 @@
 
     /** @ngInject */
     function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, DashboardData,
-                        $mdDialog, $document, apilaData, authentication, $window, Idle)
+                        $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService)
     {
         var vm = this;
 
@@ -42,10 +42,11 @@
         var communityMemberTable = [];
 
         // Functions
-        vm.acceptMember = acceptMember;
-        vm.declineMember = declineMember;
-        vm.addRole = addRole;
-        vm.removeMember = removeMember;
+        vm.acceptMember = MemberService.acceptMember;
+        vm.declineMember = MemberService.declineMember;
+        vm.addRole = MemberService.addRole;
+        vm.removeMember = MemberService.removeMember;
+
         vm.openRecoverModal = openRecoverModal;
         vm.openJoinModal = openJoinModal;
         vm.updateBillingModal = updateBillingModal;
@@ -63,8 +64,6 @@
           vm.myCommunity = d;
 
           vm.hasCommunity = true;
-
-          console.log(vm.myCommunity);
           vm.isTestCommunity = vm.myCommunity.testCommunity;
 
           vm.communityMembers = vm.myCommunity.communityMembers;
@@ -73,7 +72,7 @@
 
           formatMembersData();
 
-
+          MemberService.setData(vm.pendingMemberTable, communityMemberTable, vm.myCommunity._id);
         })
         .error(function(d) {
 
@@ -301,104 +300,6 @@
 
         vm.openCommunityModal = openCommunityModal;
 
-        function acceptMember(index, member)
-        {
-
-          console.log("Pending member " + index);
-
-          console.log(vm.pendingMemberTable.length);
-          vm.pendingMemberTable.splice(0, 1);
-          console.log(vm.pendingMemberTable.length);
-
-          console.log(vm.pendingMemberTable);
-          console.log(vm.pendingMemberWidget.table);
-
-          var data = {};
-          data.member = member[3];
-
-          var addedMember = member.concat([false, false, true, false, "Minion", ""]);
-
-          apilaData.acceptMember(data, vm.myCommunity._id)
-          .success(function(d) {
-            member.splice(member.length-1, 1);
-            communityMemberTable.push(addedMember);
-          })
-          .error(function(d) {
-
-          });
-        }
-
-        function removeMemberFromTable(userid) {
-          for(var i = 0; i < communityMemberTable.length; ++i) {
-            if(communityMemberTable[i][3] === userid) {
-              communityMemberTable.splice(i, 1);
-              return;
-            }
-          }
-        }
-
-
-
-        function removeMember(userid, name) {
-
-          var confirm = $mdDialog.confirm()
-             .title('Are you sure you want to remove the user ' + name)
-             .ariaLabel('Lucky day')
-             .ok('Yes')
-             .cancel('Cancel');
-
-             $mdDialog.show(confirm).then(function() {
-               apilaData.removeMember(vm.myCommunity._id, userid)
-               .success(function(response) {
-                 console.log(response);
-                 removeMemberFromTable(userid);
-
-               })
-               .error(function(response) {
-                 console.log(response);
-               });
-              }, function() {
-
-              });
-
-        }
-
-        function declineMember(index, memberid)
-        {
-
-          vm.pendingMemberTable.splice(index, 1);
-
-          var data = {};
-          data.member = memberid;
-
-
-
-          apilaData.declineMember(data, vm.myCommunity._id)
-          .success(function(d) {
-            console.log(d);
-          })
-          .error(function(d) {
-
-          });
-        }
-
-        function addRole(user, type) {
-
-          var communityid = vm.myCommunity._id;
-          var userId = user;
-
-          var data = {};
-          data.type = type;
-
-          apilaData.addRole(communityid, userId, data)
-          .success(function(response) {
-            console.log("Role added");
-          })
-          .error(function(response) {
-            console.log("Couldn't add a role");
-          });
-        }
-
         function updateBillingModal(ev)
         {
           $mdDialog.show({
@@ -523,18 +424,18 @@
               title    : vm.dashboardData.pendingMemberWidget.title,
               table    : vm.dashboardData.pendingMemberWidget.table,
               dtOptions: {
-               dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-               pagingType: 'simple',
-               autoWidth : false,
-               responsive: true,
-               order     : [1, 'asc'],
-               columnDefs: [
-                   {
-                       width    : '40',
-                       orderable: false,
-                       targets  : [0]
-                   }
-               ]
+              //  dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+              //  pagingType: 'simple',
+              // autoWidth : false,
+              // responsive: true,
+              // order     : [1, 'asc'],
+              //  columnDefs: [
+              //      {
+              //          width    : '40',
+              //          orderable: false,
+              //          targets  : [0]
+              //      }
+              //  ]
            }
           };
         }
@@ -585,19 +486,11 @@
             $interval.cancel(nowWidgetTicker);
         });
 
-        /**
-         * Toggle sidenav
-         *
-         * @param sidenavId
-         */
         function toggleSidenav(sidenavId)
         {
             $mdSidenav(sidenavId).toggle();
         }
 
-        /**
-         * Select project
-         */
         function selectProject(project)
         {
             vm.selectedProject = project;
