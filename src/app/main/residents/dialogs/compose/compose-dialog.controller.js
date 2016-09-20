@@ -24,7 +24,7 @@
 
         vm.autocompleteOptions = {
           componentRestrictions: { country: 'us' }
-        }
+        };
 
         apilaData.userCommunity(userid)
          .success(function(d) {
