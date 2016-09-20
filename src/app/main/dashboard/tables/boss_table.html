@@ -6,8 +6,8 @@
         <ms-widget-front class="white-bg">
 
             <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
-                <div class="h2">{{vm.communityMemberWidget.title}}</div>
-                <div class="text-boxed red-bg white-fg m-0">{{vm.communityMemberWidget.table.rows.length}}
+                <div class="h2">Community Members</div>
+                <div class="text-boxed red-bg white-fg m-0">{{vm.communityMemberTable.length}}
                     members
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 </thead>
                 <tbody>
                     <md-radio-group ng-model="data.group1">
-                    <tr ng-repeat="row in  vm.communityMemberWidget.table.rows track by $index">
+                    <tr ng-repeat="row in  vm.communityMemberTable track by $index">
                       <!-- User image -->
                       <td>
                         <img class="avatar"

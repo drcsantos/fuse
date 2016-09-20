@@ -7,14 +7,12 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, DashboardData,
-                        $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService)
+    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast,
+                        $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
 
         // Data
-        vm.dashboardData = DashboardData;
-        vm.projects = vm.dashboardData.projects;
         vm.recoveryInfo = {};
         vm.currUserId = null;
         vm.bothRoles = 0;
@@ -35,11 +33,12 @@
         vm.hasCommunity = false;
 
         vm.title = 'Join or create a new community';
+        vm.selectedProject = {"name" : "Create a new community"};
 
         vm.myComunity = null;
 
         vm.pendingMemberTable = [];
-        var communityMemberTable = [];
+        vm.communityMemberTable = [];
 
         // Functions
         vm.acceptMember = MemberService.acceptMember;
@@ -49,14 +48,16 @@
 
         vm.openRecoverModal = openRecoverModal;
         vm.openJoinModal = openJoinModal;
-        vm.updateBillingModal = updateBillingModal;
-        vm.cancelSubscription = cancelSubscription;
+        vm.openCommunityModal = openCommunityModal;
+
+        vm.updateBillingModal = BillingService.updateBillingModal;
+        vm.selectProject = selectProject;
+
+        vm.cancelSubscription = function() {
+          BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
+        };
 
         Idle.watch();
-
-        // Widget 1
-        vm.widget1 = vm.dashboardData.widget1;
-
 
         apilaData.userCommunity(vm.userid)
         .success(function(d) {
@@ -72,15 +73,13 @@
 
           formatMembersData();
 
-          MemberService.setData(vm.pendingMemberTable, communityMemberTable, vm.myCommunity._id);
+          MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
         })
         .error(function(d) {
 
         });
 
         function getCommunityMembers(communityid, callback) {
-
-          console.log(communityid);
 
           apilaData.usersInCommunity(communityid)
           .success(function(response) {
@@ -142,8 +141,6 @@
             vm.bothRoles++;
           }
 
-          console.log(vm.bothRoles);
-
           if(vm.userRole == "") {
             if(_.find(vm.myCommunity.directors, {"name" : vm.username}) !== undefined) {
               vm.userRole = "directors";
@@ -152,20 +149,17 @@
             }
           }
 
-          console.log(vm.userRole);
           vm.currUserId = (_.find(vm.communityMembers, {'name' : vm.username}))._id;
 
           loadStats(vm.myCommunity._id);
 
-          communityMemberTable = _.map(vm.communityMembers, function(v) {
+          vm.communityMemberTable = _.map(vm.communityMembers, function(v) {
             var boss = false;
             var director = false;
             var minion = false;
             var creator = false;
             var role = "";
             var recovery = "";
-
-            console.log(v);
 
             if(vm.myCommunity.creator.name === v.name) {
               creator = true;
@@ -207,9 +201,6 @@
             return [v.userImage, v.name, v.email, v._id];
           });
 
-          vm.dashboardData.communityMemberWidget.table.rows = communityMemberTable;
-          vm.dashboardData.pendingMemberWidget.table.rows = vm.pendingMemberTable;
-
           setWidget();
 
           vm.title = "Welcome to " + vm.myCommunity.name + " Community";
@@ -247,9 +238,6 @@
           .success(function(response) {
             vm.customerData = response;
 
-            console.log(vm.customerData);
-
-
             if(vm.customerData.customer.subscriptions.data.length > 0) {
               vm.subscriptionCanceled = false;
               vm.billingDate = moment(vm.customerData.customer.subscriptions.data[0].current_period_end * 1000).format('MMMM Do YYYY');
@@ -262,56 +250,6 @@
             console.log(response);
           });
         })();
-
-        function cancelSubscription() {
-          var confirm = $mdDialog.confirm()
-           .title('Are you sure you want to cancel your subscription?')
-           .textContent('Cancelling means your community will get shut down and other community members would not be able to use it')
-           .ariaLabel('Lucky day')
-           .ok('Yes')
-           .cancel('No');
-
-
-         $mdDialog.show(confirm).then(function() {
-           apilaData.cancelSubscription(vm.userid).
-           success(function(response) {
-             console.log(response);
-             vm.subscriptionCanceled = true;
-             $window.location.reload();
-           })
-           .error(function(response) {
-             console.log(response);
-           });
-         }, function() {
-
-         });
-        }
-
-
-        // Widget 2
-        vm.widget2 = vm.dashboardData.widget2;
-
-        // Widget 3
-        vm.widget3 = vm.dashboardData.widget3;
-
-        // Widget 4
-        vm.widget4 = vm.dashboardData.widget4;
-
-
-        vm.openCommunityModal = openCommunityModal;
-
-        function updateBillingModal(ev)
-        {
-          $mdDialog.show({
-              controller         : 'UpdateBillingController',
-              controllerAs       : 'vm',
-              templateUrl        : 'app/main/dashboard/dialogs/update_billing/update_billing.html',
-              parent             : angular.element($document.body),
-              targetEvent        : ev,
-              clickOutsideToClose: true
-          });
-        }
-
 
         function openCommunityModal(ev)
         {
@@ -343,8 +281,6 @@
           vm.recoveryInfo.userToRecoverId = userToRecoverId;
           vm.recoveryInfo.userToRecoverName = userToRecoverName;
           vm.recoveryInfo.type = type;
-
-          console.log(type);
 
           if(type === 'randomuser') {
             vm.recoveryInfo.bossId = vm.currUserId;
@@ -385,7 +321,6 @@
 
           apilaData.createIssueRecovery(data, vm.myCommunity._id)
           .success(function(response) {
-            console.log(response);
             callback(response);
           })
           .error(function(response) {
@@ -401,8 +336,7 @@
 
         function setWidget() {
           vm.communityMemberWidget = {
-              title    : vm.dashboardData.communityMemberWidget.title,
-              table    : vm.dashboardData.communityMemberWidget.table,
+              title    : "Community Members",
               dtOptions: {
                dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
                pagingType: 'simple',
@@ -418,27 +352,37 @@
                ]
            }
           };
-
-
-          vm.pendingMemberWidget = {
-              title    : vm.dashboardData.pendingMemberWidget.title,
-              table    : vm.dashboardData.pendingMemberWidget.table,
-              dtOptions: {
-              //  dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-              //  pagingType: 'simple',
-              // autoWidth : false,
-              // responsive: true,
-              // order     : [1, 'asc'],
-              //  columnDefs: [
-              //      {
-              //          width    : '40',
-              //          orderable: false,
-              //          targets  : [0]
-              //      }
-              //  ]
-           }
-          };
         }
+
+        function getAverageAge(id) {
+          apilaData.averageAge(id)
+          .success(function(response) {
+            vm.averageAge = response;
+            console.log("Average age: " + response);
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+        }
+
+        function getAverageStayTime(id) {
+          apilaData.averageStayTime(id)
+          .success(function(response) {
+            vm.averageStayTime = response;
+            console.log("Average stay: " + response);
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+        }
+
+        function selectProject(project)
+        {
+            vm.selectedProject = project;
+        }
+
+
+        ///////////////////// THEME CODE //////////////////////////////////
 
         // Now widget
         vm.nowWidget = {
@@ -465,16 +409,8 @@
             }
         };
 
-        // Weather widget
-        //vm.weatherWidget = vm.dashboardData.weatherWidget;
-
         // Methods
         vm.toggleSidenav = toggleSidenav;
-        vm.selectProject = selectProject;
-
-        //////////
-        vm.selectedProject = vm.projects[0];
-
 
       //  Now widget ticker
         vm.nowWidget.ticker();
@@ -489,33 +425,6 @@
         function toggleSidenav(sidenavId)
         {
             $mdSidenav(sidenavId).toggle();
-        }
-
-        function selectProject(project)
-        {
-            vm.selectedProject = project;
-        }
-
-        function getAverageAge(id) {
-          apilaData.averageAge(id)
-          .success(function(response) {
-            vm.averageAge = response;
-            console.log("Average age: " + response);
-          })
-          .error(function(response) {
-            console.log(response);
-          });
-        }
-
-        function getAverageStayTime(id) {
-          apilaData.averageStayTime(id)
-          .success(function(response) {
-            vm.averageStayTime = response;
-            console.log("Average stay: " + response);
-          })
-          .error(function(response) {
-            console.log(response);
-          });
         }
 
     }

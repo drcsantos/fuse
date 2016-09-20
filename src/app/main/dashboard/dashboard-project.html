@@ -40,10 +40,9 @@
                     <!-- WIDGET GROUP -->
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                        <!-- WIDGET 1 -->
+                        <!-- APPOINTMENTS TODAY INFO -->
                         <ms-widget flippable="true"  ui-sref="app.appointments" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
                                 <div class="ph-8 pv-16 h-55" layout="row" layout-align="space-between center">
 
@@ -58,33 +57,15 @@
                                 </div>
 
                             </ms-widget-front>
-                            <!-- / Front -->
-
-                            <!-- Back -->
-                            <!-- <ms-widget-back class="p-16 white-bg">
-                                <div class="flip-to-front">
-                                    <md-button class="md-icon-button" ng-click="flipWidget()"
-                                               aria-label="Flip widget">
-                                        <md-icon md-font-icon="icon-close" class="s16"></md-icon>
-                                    </md-button>
-                                </div>
-
-                                <div>
-                                    {{vm.widget1.detail}}
-                                </div>
-                            </ms-widget-back> -->
-                            <!-- / Back -->
 
                         </ms-widget>
-                        <!-- / WIDGET 1 -->
 
-                        <!-- WIDGET 2 -->
+                        <!-- RESIDENT COUNT INFO-->
                         <ms-widget flippable="true" ui-sref="app.residents" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
                                 <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
-                                    <div class="h3">In the building</div>
+                                    <div class="h3">In building</div>
                                 </div>
 
                                 <div class="pt-8 pb-32" layout="column" layout-align="center center">
@@ -94,30 +75,12 @@
                                     <div class="h3 secondary-text font-weight-500">RESIDENTS</div>
                                 </div>
                             </ms-widget-front>
-                            <!-- / Front -->
-
-                            <!-- Back -->
-                            <ms-widget-back class="p-16 white-bg">
-                                <div class="flip-to-front">
-                                    <md-button class="md-icon-button" ng-click="flipWidget()"
-                                               aria-label="Flip widget">
-                                        <md-icon md-font-icon="icon-close" class="s16"></md-icon>
-                                    </md-button>
-                                </div>
-
-                                <div>
-                                    {{vm.widget2.detail}}
-                                </div>
-                            </ms-widget-back>
-                            <!-- / Back -->
 
                         </ms-widget>
-                        <!-- / WIDGET 2 -->
 
-                        <!-- WIDGET 3 -->
+                        <!-- ISSUE COUNT INFO -->
                         <ms-widget flippable="true" ui-sref="app.issues.boards.board" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
                                 <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
                                     <div class="h3">Issue count</div>
@@ -132,27 +95,8 @@
 
 
                             </ms-widget-front>
-                            <!-- / Front -->
-
-                            <!-- Back -->
-                            <ms-widget-back class="p-16 white-bg">
-                                <div class="flip-to-front">
-                                    <md-button class="md-icon-button" ng-click="flipWidget()"
-                                               aria-label="Flip widget">
-                                        <md-icon md-font-icon="icon-close" class="s16"></md-icon>
-                                    </md-button>
-                                </div>
-
-                                <div>
-                                    {{vm.widget3.detail}}
-                                </div>
-                            </ms-widget-back>
-                            <!-- / Back -->
 
                         </ms-widget>
-                        <!-- / WIDGET 3 -->
-
-
 
                     </div>
                     <!-- / WIDGET GROUP -->
@@ -160,17 +104,13 @@
                     <!-- WIDGET GROUP -->
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                      <!-- WIDGET 11 -->
+                      <!-- RESIDENT STATS-->
                       <ms-widget layout="row" flex="100">
 
-                          <!-- Front -->
                           <ms-widget-front class="white-bg">
 
                               <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
                                   <div class="h2">Resident Statistics</div>
-                                  <!-- <div class="text-boxed red-bg white-fg m-0">{{vm.pendingMemberWidget.table.rows.length}}
-                                      members
-                                  </div> -->
                               </div>
 
                               <table class="row-border hover">
@@ -190,11 +130,8 @@
                               </table>
 
                           </ms-widget-front>
-                          <!-- / Front -->
 
                       </ms-widget>
-                      <!-- / WIDGET 11 -->
-
 
                     </div>
                     <!-- / WIDGET GROUP -->
@@ -230,6 +167,8 @@
 
                 </md-tab>
 
+
+                <!-- COMMUNITY MEMBER TABLES -->
                 <md-tab label="Community Members">
 
                   <div ng-switch on="vm.userRole">
@@ -264,15 +203,14 @@
                     <!-- WIDGET GROUP -->
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                        <!-- WIDGET 11 -->
+                        <!-- PENDING MEMBER TABLE -->
                         <ms-widget layout="row" flex="100">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
 
                                 <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
-                                    <div class="h2">{{vm.pendingMemberWidget.title}}</div>
-                                    <div class="text-boxed red-bg white-fg m-0">{{vm.pendingMemberWidget.table.rows.length}}
+                                    <div class="h2">Pending Members</div>
+                                    <div class="text-boxed red-bg white-fg m-0">{{vm.pendingMemberTable.length}}
                                         members
                                     </div>
                                 </div>
@@ -326,10 +264,8 @@
                                 </table>
 
                             </ms-widget-front>
-                            <!-- / Front -->
 
                         </ms-widget>
-                        <!-- / WIDGET 11 -->
 
                     </div>
                     <!-- / WIDGET GROUP -->
