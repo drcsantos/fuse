@@ -25,6 +25,11 @@
     var username = authentication.currentUser().name;
     var userid = authentication.currentUser().id;
 
+    // Functions
+    vm.addEvent = addEvent;
+    vm.next = next;
+    vm.prev = prev;
+    vm.exportAppointments = exportAppoint;
 
     function openIssuesCount(id) {
       apilaData.openIssuesCount(userid, id)
@@ -169,14 +174,6 @@
         select: select
       }
     };
-
-    // Methods
-    vm.addEvent = addEvent;
-    vm.next = next;
-    vm.prev = prev;
-    vm.exportAppointments = exportAppoint;
-
-    //////////
 
     function exportAppoint() {
       var columns = ["Resident", "Date", "Reason", "Location", "Doctor", "Transportation"];

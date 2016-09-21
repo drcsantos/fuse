@@ -48,6 +48,8 @@
 
                 var name = $window.atob(encodedName);
 
+                getCommunity(payload._id);
+
                 return {
                     email: payload.email,
                     name: name,
@@ -84,7 +86,7 @@
         var login = function(user) {
             return $http.post(apiUrl + '/api/login', user).success(function(data) {
                 saveToken(data.token);
-                getCommunity();
+                //getCommunity();
             });
         };
 
@@ -93,12 +95,11 @@
             $window.localStorage.removeItem('apila-username');
         };
 
-        function getCommunity() {
-          $http.get(apiUrl + '/api/users/community/' + this.currentUser().id, {"headers": {
-            Authorization: 'Bearer ' + this.getToken()
+        function getCommunity(id) {
+          $http.get(apiUrl + '/api/users/community/' + id, {"headers": {
+            Authorization: 'Bearer ' + getToken()
           }})
           .success(function(response) {
-            console.log(response);
             community = response;
           })
           .error(function(response) {
@@ -106,6 +107,9 @@
           });
         }
 
+        function getCommunity() {
+          return community;
+        }
 
         if (isLoggedIn()) {
           $http.get(apiUrl + '/api/users/' + currentUser().id + "/image")
@@ -128,7 +132,8 @@
             logout: logout,
             getUserImage: getUserImage,
             setUserImage: setUserImage,
-            changeUsername : changeUsername
+            changeUsername : changeUsername,
+            getCommunity : getCommunity
         };
     }
 

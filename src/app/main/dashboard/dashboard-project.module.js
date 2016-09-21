@@ -18,12 +18,6 @@
                     controller : 'DashboardProjectController as vm'
                 }
             },
-            resolve  : {
-                DashboardData: function (msApi)
-                {
-                  return {};
-                }
-            },
             bodyClass: 'dashboard-project'
         });
 
