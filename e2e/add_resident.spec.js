@@ -36,13 +36,24 @@ describe('Add resident', function() {
     var admissionDate = element(by.model('vm.form.admissionDate'));
     admissionDate.sendKeys('12/07/2003');
 
-    element(by.model('vm.form.sex')).sendKeys('BKN01');
+    //element(by.model('vm.form.sex')).click();
+    element(by.model('vm.form.sex')).sendKeys("BKN01");
+    //element(by.model('vm.form.buildingStatus')).sendKeys("BKN01");
+
+    browser.driver.sleep(3000);
+
+    //element(by.model('vm.form.buildingStatus')).sendKeys(protractor.Key.ARROW_DOWN);
+
+    //browser.driver.sleep(4000);
+
+    //we have to scroll down to be able to click
+    var elm = element(by.model('vm.form.locationInfo'));
+    browser.executeScript("arguments[0].scrollIntoView();", elm.getWebElement());
 
     element(by.model('vm.form.locationInfo')).sendKeys('Denv');
     element(by.model('vm.form.locationInfo')).sendKeys(protractor.Key.ARROW_DOWN);
     element(by.model('vm.form.locationInfo')).sendKeys(protractor.Key.ENTER);
 
-    element(by.model('vm.form.buildingStatus')).sendKeys('BKN01');
 
     element(by.css('#add-resident-btn')).click();
 
