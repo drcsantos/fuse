@@ -72,18 +72,7 @@
                         }
                     }
                 }
-            )
-
-            // Calendar
-            .state('app.issues.boards.board.calendar', {
-                url  : '/calendar',
-                views: {
-                    'issuesContent@app.issues.boards.board': {
-                        templateUrl: 'app/main/issues/views/calendar/calendar-view.html',
-                        controller : 'CalendarViewController as vm'
-                    }
-                }
-            });
+            );
 
         // Translation
         $translatePartialLoaderProvider.addPart('app/main/issues');
