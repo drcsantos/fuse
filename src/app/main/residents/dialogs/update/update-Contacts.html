@@ -9,10 +9,11 @@
       </div>
     </md-toolbar>
 
-    <md-tabs md-selected="vm.selectedTab" md-dynamic-height md-border-bottom ms-scroll>
+    <span>
+    <md-tabs md-selected="vm.selectedTab">
 
       <md-tab label="new" >
-          <md-dialog-content ms-scroll>
+          <md-dialog-content>
             <md-input-container class="md-block">
               <label>First Name</label>
               <input ng-model="vm.form.contact.firstName" type="text" required="">
@@ -95,7 +96,7 @@
 
       <md-tab ng-repeat="tab in vm.form.residentContacts" label="{{tab.firstName}}" >
 
-        <md-dialog-content ms-scroll>
+        <md-dialog-content>
           <md-input-container class="md-block">
             <label>First Name</label>
             <input ng-model="tab.firstName" type="text" required="">
@@ -177,6 +178,7 @@
 
 
 </md-tabs>
+</span>
 <md-dialog-actions layout="row" layout-align="space-between center">
   <div layout="row" layout-align="start center">
     <md-button ng-if="vm.selectedTab == 0" ng-click="vm.addContact()" class="send-button md-accent md-raised" aria-label="Add">

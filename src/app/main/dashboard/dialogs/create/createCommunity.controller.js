@@ -143,14 +143,6 @@
       );
     }
 
-    function showSuccessToast() {
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent("Community has been created!")
-        .position("top right")
-        .hideDelay(2200)
-      );
-    }
 
   }
 

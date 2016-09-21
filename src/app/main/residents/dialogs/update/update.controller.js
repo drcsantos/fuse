@@ -14,6 +14,9 @@
     vm.form.contact = {};
     vm.selctedTab = "";
 
+    vm.form.communicatedWithResident = false;
+    vm.form.communicatedWithPrimaryContact = false;
+    vm.form.communicatedWithTrustedPerson = false;
 
     vm.status = createMultiSelect(["Alert", "Friendly", "Disoriented",
       "Withdrawn", "Lonely", "Happy", "Confused", "Uncooperative",
