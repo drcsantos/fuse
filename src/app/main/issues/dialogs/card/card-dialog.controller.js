@@ -27,6 +27,8 @@
 
         vm.labels = vm.board.labels;
 
+        var unchangedDueDate = angular.copy(vm.card.due);
+
         vm.newCheckListTitle = "Checklist";
 
         vm.username = authentication.currentUser().name;
@@ -57,15 +59,7 @@
 
           vm.myCommunity = d;
 
-          if(vm.myCommunity.creator.name === vm.username) {
-            vm.userRole = "creator";
-          } else if(vm.myCommunity.boss.name === vm.username) {
-            vm.userRole = "boss";
-          } else if(_.find(vm.myCommunity.directors, {"name" : vm.username}) !== undefined) {
-            vm.userRole = "directors";
-          } else if(_.find(vm.myCommunity.minions, {"name" : vm.username}) !== undefined) {
-            vm.userRole = "minions";
-          }
+          setUserRole();
 
           //load member list
           apilaData.usersInCommunity(d._id)
@@ -76,8 +70,6 @@
                 console.log("error while loading users");
               });
         });
-
-        var unchangedDueDate = angular.copy(vm.card.due);
 
         $scope.$watch('vm.card.currdue', function() {
           if(unchangedDueDate !== vm.card.currdue) {
@@ -101,7 +93,7 @@
          checklist.checkItems.splice(i, 1);
          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('checkitem_remove', "" , checkItemName)));
          vm.updateIssue();
-       }
+       };
 
        vm.updateCheckItem = function(checklist, checkitemId, text) {
          checklist.checkItems[checkitemId] = text;
@@ -109,7 +101,7 @@
          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('checkitem_change', "" , text.name)));
 
          vm.updateIssue();
-       }
+       };
 
        vm.openImage = function(url){
          $mdDialog.show({
@@ -125,7 +117,7 @@
                  }
                }
              });
-        }
+        };
 
 
         // Methods
@@ -165,11 +157,12 @@
 
         vm.wordCloud = wordCloud;
 
-        vm.createdIssue = vm.card.submitBy + " created " + vm.card.title + " " + UpdateInfoService.timeDiff(vm.card.submitDate)
+        vm.createdIssue = vm.card.submitBy + " created " + vm.card.title + " " + UpdateInfoService.timeDiff(vm.card.submitDate);
 
         vm.formatUpdateArray = function(updateField, updateBy, updateDate) {
           return UpdateInfoService.formatUpdateArray(updateField, updateBy, updateDate);
-        }
+        };
+
         vm.changeStatus = changeStatus;
         vm.exportIssue = exportIssue;
 
@@ -214,19 +207,11 @@
         };
 
 
-        //////////
-
-        /**
-         * Close Dialog
-         */
         function closeDialog()
         {
             $mdDialog.hide();
         }
 
-        /**
-         * Get Card List
-         */
         function getCardList()
         {
             var response;
@@ -241,11 +226,6 @@
             return response;
         }
 
-        /**
-         * Remove card
-         *
-         * @param ev
-         */
         function removeCard(ev)
         {
             var confirm = $mdDialog.confirm({
@@ -264,31 +244,18 @@
             {
                 var cardList = getCardList();
 
-                cardList.idCards.splice(cardList.idCards.indexOf(vm.card.id), 1);
-
-                vm.board.cards.splice(vm.board.cards.indexOf(vm.card), 1);
-
                 //delete that issue
                 apilaData.deleteIssue(vm.card._id)
                 .success(function(d) {
 
-                  vm.username = authentication.currentUser().name;
+                  cardList.idCards.splice(cardList.idCards.indexOf(vm.card.id), 1);
+                  vm.board.cards.splice(vm.board.cards.indexOf(vm.card), 1);
 
-                  apilaData.openIssuesCount(userid, vm.myCommunity._id)
-                    .success(function(count) {
-                      msNavigationService.saveItem('fuse.issues', {
-                        badge: {
-                          content:  count,
-                          color  : '#F44336'
-                        }
-                      });
-                    })
-                    .error(function(count) {
-                    })
+                  updateIssueCount();
 
                 })
                 .error(function(d) {
-
+                  console.log(d);
                 });
 
             }, function ()
@@ -759,8 +726,32 @@
             };
         }
 
+        function updateIssueCount() {
+          apilaData.openIssuesCount(userid, vm.myCommunity._id)
+            .success(function(count) {
+              msNavigationService.saveItem('fuse.issues', {
+                badge: {
+                  content:  count,
+                  color  : '#F44336'
+                }
+              });
+            })
+            .error(function(response) {
+              console.log(response);
+            });
+        }
 
-
+        function setUserRole() {
+          if(vm.myCommunity.creator.name === vm.username) {
+            vm.userRole = "creator";
+          } else if(vm.myCommunity.boss.name === vm.username) {
+            vm.userRole = "boss";
+          } else if(_.find(vm.myCommunity.directors, {"name" : vm.username}) !== undefined) {
+            vm.userRole = "directors";
+          } else if(_.find(vm.myCommunity.minions, {"name" : vm.username}) !== undefined) {
+            vm.userRole = "minions";
+          }
+        }
 
         function changeStatus() {
 

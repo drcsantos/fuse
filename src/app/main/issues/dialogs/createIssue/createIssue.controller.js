@@ -14,21 +14,14 @@
       // Data
       var username = authentication.currentUser().name;
       var userid = authentication.currentUser().id;
+
       vm.residentList = [];
       vm.selectedUser = {};
 
       //Functions
       vm.closeDialog = closeDialog;
       vm.addIssue = addIssue;
-
-      console.log(name);
-
-      // if (name != null) {
-      //   vm.selectedItem = {
-      //     value: userid,
-      //     display: name
-      //   };
-      // }
+      vm.getMatches = getMatches;
 
       apilaData.userCommunity(userid)
       .success(function(d) {
@@ -40,21 +33,23 @@
           $mdDialog.hide();
       }
 
-      vm.getMatches = function (text) {
+      function getMatches(text) {
         if(text === null) {
           return;
         }
+
         var textLower = text.toLowerCase();
 
-          var ret = vm.residentList.filter(function (d) {
-              if(d.display != null) {
-                return d.display.toLowerCase().indexOf(text) > -1;
-              }
+        var ret = vm.residentList.filter(function (d) {
+            if(d.display != null) {
+              return d.display.toLowerCase().indexOf(textLower) > -1;
+            }
+        });
 
-          });
-          return ret;
-      };
+        return ret;
+      }
 
+     // load of lists of residents for autocomplete selection
      apilaData.usersList()
        .success(function(usersList) {
          vm.residentList = usersList.map(function(elem) {
@@ -72,7 +67,6 @@
            };
          });
 
-         console.log(vm.residentList);
        })
        .error(function(usersList) {
          console.log("Error retriving the list of residents");
@@ -86,46 +80,53 @@
         apilaData.addIssue(vm.form)
             .success(function(issue) {
 
-              console.log(issue);
-
+              //format issue for frontend
               issue.id = issue._id;
               issue.name = issue.title;
 
-              if(board.data === undefined) {
-                board.data = board;
-              }
+              addIssueToList(issue);
 
-              board.data.cards.push(issue);
-
-              var username = authentication.currentUser().name;
-
-              apilaData.openIssuesCount(userid, vm.myCommunity._id)
-                .success(function(count) {
-                  msNavigationService.saveItem('fuse.issues', {
-                    badge: {
-                      content:  count,
-                      color  : '#F44336'
-                    }
-                  });
-                })
-                .error(function(count) {
-                });
-
-
-              for(var i = 0; i < board.data.lists.length;++i) {
-                if(board.data.lists[i].name === issue.responsibleParty.name) {
-                  board.data.lists[i].idCards.push(issue.id);
-                  break;
-                }
-
-              }
-
+              updateIssueCount();
 
               closeDialog();
             })
             .error(function(issue) {
                 console.log("Error while adding issue");
             });
+      }
+
+      /////////////////////// HELPER FUNCTIONS //////////////////////////
+
+      function updateIssueCount() {
+        apilaData.openIssuesCount(userid, vm.myCommunity._id)
+          .success(function(count) {
+            msNavigationService.saveItem('fuse.issues', {
+              badge: {
+                content:  count,
+                color  : '#F44336'
+              }
+            });
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+      }
+
+      function addIssueToList(issue) {
+
+        //wierd stuff with board.data
+        if(board.data === undefined) {
+          board.data = board;
+        }
+
+        // add to general list of cards
+        board.data.cards.push(issue);
+
+        // find the right list to add a new issue to
+        var rightList = _.find(board.data.lists, {"name" : issue.responsibleParty.name});
+
+        rightList.idCards.push(issue.id);
+
       }
 
     }

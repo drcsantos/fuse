@@ -13,11 +13,7 @@
 
       vm.closeDialog = closeDialog;
 
-      function closeDialog()
-        {
-          $mdDialog.hide();
-        }
-
+      // give it a bit of time to load
       $timeout(function () {
           wordCloud.drawWordCloud(createWordArray());
       }, 100);
@@ -41,9 +37,13 @@
             });
           });
 
-
           return wordCloudText.split(" ");
 
+      }
+
+      function closeDialog()
+      {
+        $mdDialog.hide();
       }
 
     }

@@ -52,9 +52,9 @@
         .success(function(d) {
           vm.myCommunity = d;
 
-          issueList(vm.myCommunity._id);
+          populateCurrentUserList(vm.myCommunity._id);
+          populateLists(vm.myCommunity._id);
           issuesCount(vm.myCommunity._id);
-          listByUsername(vm.myCommunity._id);
 
           setUserRole();
 
@@ -71,10 +71,10 @@
 
         });
 
-
-    function listByUsername(id)
+    //add our first list of issues for our current user
+    function populateCurrentUserList(id)
     {
-      //add our first list of issues for our current user
+
       apilaData.listIssueByUsername(username, status, id)
           .success(function(issues) {
 
@@ -90,69 +90,49 @@
           });
     }
 
-      function populateIssues() {
-        apilaData.usersList()
-          .success(function(d) {
 
+    function createEmptyLists() {
 
-            //foreach user make them a list
-            angular.forEach(d, function(v, k) {
-
-                if(inCommunity(v.name) !== undefined){
-                    var inList = false;
-                    angular.forEach(vm.board.lists, function(value, key) {
-                      if(value.name === v.name) {
-                        inList = true;
-                      }
-                    });
-                    if(inList === false) {
-                      var currList = createList(v.name);
-
-                      if(currList.name !== username) {
-                          console.log(currList);
-                          vm.board.lists.push(currList);
-                        }
-                    }
-              }
-
-
-            });
-
-          })
-          .error(function(d) {
-            console.log("error while loading users");
+      apilaData.usersList()
+        .success(function(users) {
+          //foreach user make them a list
+          angular.forEach(users, function(list, k) {
+            addList(list);
           });
-        }
+        })
+        .error(function(response) {
+          console.log(response);
+        });
+    }
 
-
-        function issueList(id){
-          //add all the other issues assigned to users
+      //add all the other issues assigned to users
+      function populateLists(id){
           apilaData.issuesList(status, id)
                 .success(function(issues) {
 
-                  angular.forEach(issues, function(v, k) {
+                angular.forEach(issues, function(v, k) {
 
-                    var currList = createList(v._id.name);
+                  var currList = createList(v._id.name);
 
-                    //we don't want to add ourself to the list, we are already added
-                    if(currList.name !== username) {
+                  //we don't want to add ourself to the list, we are already added
+                  if(currList.name !== username) {
 
-                       //add all the cards
-                        angular.forEach(v.issues, function(card, key) {
-                          currList.idCards.push(addCard(card.id));
-                        });
-
-                        vm.board.lists.push(currList);
-                      }
+                     //add all the cards
+                      angular.forEach(v.issues, function(card, key) {
+                        currList.idCards.push(addCard(card).id);
                       });
 
-                      //add empty lists with users with no issues
-                      populateIssues();
+                      vm.board.lists.push(currList);
+                    }
+                    });
 
-                })
-                .error(function(issues) {
-                    console.log("Error while loading list of issues for: " + username);
-                });
+                    //add empty lists with users with no issues
+                    createEmptyLists();
+
+              })
+              .error(function(issues) {
+                  console.log("Error while loading list of issues for: " + username);
+              });
 
         }
 
@@ -173,10 +153,29 @@
             card.due = card.due;
 
             vm.board.cards.push(card);
-            currList.idCards.push(card.id);
           }
 
           return card;
+        }
+
+        // Adds an empty list of cards for each resident (except current)
+        function addList(list) {
+
+          if (inCommunity(list.name) !== undefined) {
+
+            //checks if the list with that name is already added
+            var isInList = (_.find(vm.board.lists, {"name" : list.name}) !== undefined);
+
+            if (isInList === false) {
+              var currList = createList(list.name);
+
+              // we already created our card list so dont add it
+              if (currList.name !== username) {
+                vm.board.lists.push(currList);
+              }
+            }
+
+          }
         }
 
         //adds a list of cards to a selected list
