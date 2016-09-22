@@ -50,11 +50,16 @@
         apilaData.addPendingMember(data, vm.communityId)
         .success(function(d) {
           vm.searchText = "";
-          showToastMsg();
+          showToastMsg('Invite Request Sent to ' + vm.selectedItem.display);
 
           closeDialog();
         })
         .error(function(d) {
+          console.log(d);
+
+          if(d.exists) {
+            showToastMsg("You have already sent a request to this community");
+          }
           closeDialog();
         });
       }
@@ -83,10 +88,10 @@
       }
 
       //////////////////// HELPER FUNCTIONS /////////////////////////////
-      function showToastMsg() {
+      function showToastMsg(text) {
         $mdToast.show(
           $mdToast.simple()
-            .textContent('Invite Request Sent to ' + vm.selectedItem.display)
+            .textContent(text)
             .position("top right")
             .hideDelay(3000)
         );
