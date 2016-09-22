@@ -49,6 +49,9 @@
       }
     };
 
+    vm.hasPrimaryContact = (_.find(currResident.residentContacts, {"primaryContact": true}) !== undefined);
+    vm.hasTrustedPerson = (_.find(currResident.residentContacts, {"trustedPerson": true}) !== undefined);
+
     vm.form.birthDate = new Date(currResident.birthDate);
     vm.form.admissionDate = new Date(currResident.admissionDate);
     vm.form.locationInfo = vm.form.movedFrom.name;
