@@ -7,12 +7,16 @@
         .controller('ScrumboardCardDialogController', ScrumboardCardDialogController);
 
     /** @ngInject */
-    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail,
-      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService)
+    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService,
+      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService, MembersService)
     {
         var vm = this;
 
         // Data
+        LabelsService.setViewModel(vm);
+        ChecklistsService.setViewModel(vm);
+        MembersService.setViewModel(vm);
+
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
@@ -50,27 +54,27 @@
         vm.removeAttachment = removeAttachment;
 
         // Labels
-        vm.labelQuerySearch = labelQuerySearch;
-        vm.filterLabel = filterLabel;
-        vm.addNewLabel = addNewLabel;
-        vm.removeLabel = removeLabel;
-        vm.removeLabelFromCard = removeLabelFromCard;
-        vm.editLabel = editLabel;
+        vm.labelQuerySearch = LabelsService.labelQuerySearch;
+        vm.filterLabel = LabelsService.filterLabel;
+        vm.addNewLabel = LabelsService.addNewLabel;
+        vm.removeLabel = LabelsService.removeLabel;
+        vm.removeLabelFromCard = LabelsService.removeLabelFromCard;
+        vm.editLabel = LabelsService.editLabel;
         vm.addLabelToCard = addLabelToCard;
         vm.isLabelInCard = isLabelInCard;
 
         // Members
-        vm.memberQuerySearch = memberQuerySearch;
-        vm.filterMember = filterMember;
+        vm.memberQuerySearch = MembersService.memberQuerySearch;
+        vm.filterMember = MembersService.filterMember;
         vm.addMembers = addMembers;
 
         // Checklist
-        vm.updateCheckedCount = updateCheckedCount;
-        vm.addCheckItem = addCheckItem;
-        vm.removeChecklist = removeChecklist;
-        vm.createCheckList = createCheckList;
-        vm.removeCheckItem = removeCheckItem;
-        vm.updateCheckItem = updateCheckItem;
+        vm.updateCheckedCount = ChecklistsService.updateCheckedCount;
+        vm.addCheckItem = ChecklistsService.addCheckItem;
+        vm.removeChecklist = ChecklistsService.removeChecklist;
+        vm.createCheckList = ChecklistsService.createCheckList;
+        vm.removeCheckItem = ChecklistsService.removeCheckItem;
+        vm.updateCheckItem = ChecklistsService.updateCheckItem;
 
         vm.addNewComment = addNewComment;
         vm.updateIssue = updateIssue;
@@ -153,65 +157,6 @@
 
         //////////////////////////// LABEL /////////////////////////////////
 
-        function addNewLabel()
-        {
-            var label = {
-                id   : msUtils.guidGenerator(),
-                name : vm.newLabelName,
-                color: vm.newLabelColor,
-                author: authentication.currentUser().name
-            };
-
-            label.updateInfo = UpdateInfoService.setUpdateInfo('labels', label.name, "");
-
-            //send data to the api
-            apilaData.addIssueLabelById(vm.card._id, label)
-            .success(function(data) {
-              data.id = data._id;
-              vm.board.labels.push(data);
-              vm.card.updateInfo.push(transformUpdateInfo(label.updateInfo));
-
-              vm.newLabelName = '';
-
-            })
-            .error(function(data) {
-              console.log("Error while adding label");
-            });
-
-        }
-
-        function removeLabel(id)
-        {
-            var arr = vm.board.labels;
-            arr.splice(arr.indexOf(arr.getById(vm.editLabelId)), 1);
-
-            var updateInfo = UpdateInfoService.setUpdateInfo('labels', "", id.name);
-
-            apilaData.deleteIssueLabelById(vm.card._id, id._id)
-            .success(function(d) {
-
-              vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
-
-              angular.forEach(vm.board.cards, function (card)
-              {
-                  if ( card.idLabels && card.idLabels.indexOf(vm.editLabelId) > -1 )
-                  {
-                      card.idLabels.splice(card.idLabels.indexOf(vm.editLabelId), 1);
-                  }
-              });
-
-            })
-            .error(function() {
-              console.log("Error while deleting label");
-            });
-
-            vm.newLabelName = '';
-        }
-
-        function editLabel(id) {
-          vm.labelTabIndex = 2;
-          vm.editLabelId = id;
-        }
 
         function addLabelToCard(id) {
           if(!isLabelInCard(id)) {
@@ -226,23 +171,6 @@
 
         }
 
-        function removeLabelFromCard(id) {
-
-          var index = null;
-          for(var i = 0; i < vm.card.labels.length; ++i) {
-            if(vm.card.labels[i].id === id) {
-              index = i;
-              break;
-            }
-          }
-
-          if(index != null) {
-            vm.card.labels.splice(index, 1);
-          }
-
-        }
-
-
         ////////////////////////////// MEMBERS ////////////////////////////
 
         function addMembers(item, array) {
@@ -253,159 +181,6 @@
 
             updateIssue();
 
-        }
-
-        function memberQuerySearch(query)
-        {
-            return query ? vm.members.filter(createFilterFor(query)) : [];
-        }
-
-        function filterMember(member)
-        {
-            if ( !vm.memberSearchText || vm.memberSearchText === '' )
-            {
-                return true;
-            }
-
-            return angular.lowercase(member.name).indexOf(angular.lowercase(vm.memberSearchText)) >= 0;
-        }
-
-
-        /////////////////////////// CHECKLISTS ///////////////////////////////
-
-        function updateCheckedCount(list, checkedItem)
-        {
-            var checkItems = list.checkItems;
-            var checkedItems = 0;
-            var allCheckedItems = 0;
-            var allCheckItems = 0;
-
-            angular.forEach(checkItems, function (checkItem)
-            {
-                if ( checkItem.checked )
-                {
-                    checkedItems++;
-                }
-            });
-
-            list.checkItemsChecked = checkedItems;
-
-            angular.forEach(vm.card.checklists, function (item)
-            {
-                allCheckItems += item.checkItems.length;
-                allCheckedItems += item.checkItemsChecked;
-            });
-
-            vm.card.checkItems = allCheckItems;
-            vm.card.checkItemsChecked = allCheckedItems;
-
-            if(checkedItem.checked) {
-              list.updateInfo = UpdateInfoService.setUpdateInfo("checkitem_checked", checkedItem.name, "");
-            } else {
-              list.updateInfo = UpdateInfoService.setUpdateInfo("checkitem_unchecked", checkedItem.name, "");
-            }
-
-            apilaData.updateCheckList(vm.card._id, list._id, list)
-            .success(function(d) {
-                vm.card.updateInfo.push(transformUpdateInfo(list.updateInfo));
-            })
-            .error(function(response) {
-              console.log(response);
-            });
-        }
-
-        function addCheckItem(text, checkList)
-        {
-            if ( !text || text === '' )
-            {
-                return;
-            }
-
-            var newCheckItem = {
-                'name'   : text,
-                'checked': false
-            };
-
-            checkList.checkItems.push(newCheckItem);
-
-            checkList.updateInfo = UpdateInfoService.setUpdateInfo('checkitem', newCheckItem.name, "");
-
-            apilaData.updateCheckList(vm.card._id, checkList._id, checkList)
-            .success(function(d) {
-
-                vm.card.updateInfo.push(transformUpdateInfo(checkList.updateInfo));
-                updateCheckedCount(checkList);
-
-            })
-            .error(function() {
-              console.log("Error while updateing checklist");
-            });
-
-        }
-
-        function removeCheckItem(checklist, i) {
-          var checkItemName = checklist.checkItems[i].name;
-          checklist.checkItems.splice(i, 1);
-          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('checkitem_remove', "" , checkItemName)));
-
-          vm.updateIssue();
-        }
-
-        function updateCheckItem(checklist, checkitemId, text) {
-          checklist.checkItems[checkitemId] = text;
-
-          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('checkitem_change', "" , text.name)));
-
-          vm.updateIssue();
-        }
-
-        function removeChecklist(item)
-        {
-
-           var updateInfo = UpdateInfoService.setUpdateInfo("checklists", "", item.checklistName);
-
-            //send remove request to the api
-            apilaData.deleteCheckList(vm.card._id, item._id)
-            .success(function(d) {
-              vm.card.checklists.splice(vm.card.checklists.indexOf(item), 1);
-
-              vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
-
-              angular.forEach(vm.card.checklists, function (list)
-              {
-                  updateCheckedCount(list);
-              });
-            })
-            .error(function(d){
-              console.log("Error while removing checklist");
-            });
-
-        }
-
-        function createCheckList()
-        {
-
-            var data = {
-                id               : msUtils.guidGenerator(),
-                name             : vm.newCheckListTitle,
-                checklistName    : vm.newCheckListTitle,
-                checkItemsChecked: 0,
-                checkItems       : []
-            };
-
-            data.updateInfo = UpdateInfoService.setUpdateInfo('checklists', data.name, "");
-
-            vm.newCheckListTitle = '';
-
-            apilaData.addCheckList(vm.card._id, data)
-            .success(function(d) {
-                vm.card.checklists.push(d);
-                vm.card.updateInfo.push(transformUpdateInfo(data.updateInfo));
-                vm.newCheckListTitle = "Checklist";
-            })
-            .error(function(d) {
-              console.log("Error while adding checklist");
-            });
         }
 
         /////////////////////////// COMMENTS ///////////////////////////////
@@ -693,22 +468,6 @@
             {
                 return angular.lowercase(item.name).indexOf(lowercaseQuery) >= 0;
             };
-        }
-
-        function labelQuerySearch(query)
-        {
-            return query ? vm.labels.filter(createFilterFor(query)) : [];
-        }
-
-
-        function filterLabel(label)
-        {
-            if ( !vm.labelSearchText || vm.labelSearchText === '' )
-            {
-                return true;
-            }
-
-            return angular.lowercase(label.name).indexOf(angular.lowercase(vm.labelSearchText)) >= 0;
         }
 
 
