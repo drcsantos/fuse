@@ -48,7 +48,7 @@
                 $mdDialog.hide();
           })
           .error(function(response) {
-            console.log("Error while adding resident");
+            console.log(response);
           });
         }
 

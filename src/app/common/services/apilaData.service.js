@@ -49,6 +49,10 @@
       return $http.put(apiUrl + '/api/issues/' + issueid, data, getAuth());
     };
 
+    var addIssueLabelById = function(issueid, data) {
+      return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/new', data, getAuth());
+    };
+
     var deleteIssueLabelById = function(issueid, labelid) {
       return $http.delete(apiUrl + '/api/issues/' + issueid + '/labels/' + labelid, getAuth());
     };
@@ -61,8 +65,8 @@
       return $http.post(apiUrl + '/api/issues/' + issueid + '/comments/new', data, getAuth());
     };
 
-    var addIssueLabelById = function(issueid, data) {
-      return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/new', data, getAuth());
+    var issueCommentsList = function(issueid) {
+      return $http.get(apiUrl + '/api/issues/' + issueid + '/comments/', getAuth());
     };
 
     var addCheckList = function(issueid, data) {
@@ -96,10 +100,6 @@
 
     var dueIssuesList = function(communityId) {
       return $http.get(apiUrl + '/api/issues/due/' + communityId, getAuth());
-    };
-
-    var issueCommentsList = function(issueid) {
-      return $http.get(apiUrl + '/api/issues/' + issueid + '/comments/', getAuth());
     };
 
     var issueUpdateInfo = function(issueid) {

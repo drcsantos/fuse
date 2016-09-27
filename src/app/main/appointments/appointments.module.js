@@ -13,7 +13,7 @@
     {
         // State
         $stateProvider.state('app.appointments', {
-            url      : '/appointments',
+            url      : '/calendar',
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/appointments/appointments.html',

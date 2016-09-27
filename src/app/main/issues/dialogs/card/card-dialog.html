@@ -203,6 +203,12 @@
         </md-button>
       <!-- / WORD CLOUD -->
 
+      <md-icon ng-if="vm.card.confidential" md-menu-origin md-font-icon="icon-lock">
+        <md-tooltip>
+          This issue is confidential
+        </md-tooltip>
+      </md-icon>
+
       <span flex></span>
 
       <!-- CLOSE DIALOG BUTTON -->
