@@ -298,6 +298,57 @@ md-dialog {
               }
             }
           }
+
+          .final-plan {
+            .final-plan {
+              margin-bottom: 16px;
+
+              .final-plan-bubble {
+                position: relative;
+                padding: 8px;
+                background-color: white;
+                border: 1px solid rgb(220, 223, 225);
+                font-size: 14px;
+                margin: 4px 0;
+                &:after,
+                &:before {
+                  content: ' ';
+                  position: absolute;
+                  width: 0;
+                  height: 0;
+                }
+                &:after {
+                  left: -7px;
+                  right: auto;
+                  top: 0;
+                  bottom: auto;
+                  border: 11px solid;
+                  border-color: white transparent transparent transparent;
+                }
+                &:before {
+                  left: -9px;
+                  right: auto;
+                  top: -1px;
+                  bottom: auto;
+                  border: 8px solid;
+                  border-color: rgb(220, 223, 225) transparent transparent transparent;
+                }
+              }
+              &.final-plan-new {
+                md-input-container {
+                  margin: 0;
+                  border: none;
+                  textarea {
+                    border: 1px solid rgb(220, 223, 225);
+                    background-color: white;
+                    padding: 8px;
+                    min-height: 96px;
+                  }
+                }
+              }
+            }
+          }
+
           .activities {
             .activity {
               margin-bottom: 12px;
