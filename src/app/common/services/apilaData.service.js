@@ -86,6 +86,10 @@
       return $http.delete(apiUrl + '/api/issues/' + issueid + '/attachments/' + attachmentid, getAuth());
     };
 
+    var addFinalPlan = function(issueid, data) {
+      return $http.put(apiUrl + '/api/issues/' + issueid + '/finalplan', data, getAuth());
+    };
+
     var openIssuesCount = function(username, communityId) {
       return $http.get(apiUrl + '/api/issues/count/' + username + '/id/' + communityId, getAuth());
     };
@@ -302,6 +306,7 @@
       addCheckList: addCheckList,
       updateCheckList: updateCheckList,
       deleteCheckList: deleteCheckList,
+      addFinalPlan: addFinalPlan,
       deleteAttachment: deleteAttachment,
       openIssuesCount: openIssuesCount,
       deleteIssue: deleteIssue,

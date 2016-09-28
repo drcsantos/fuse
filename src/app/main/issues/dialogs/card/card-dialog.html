@@ -285,7 +285,12 @@
           <md-select ng-disabled="vm.userRole !== 'directors' && vm.userRole !== 'boss' && vm.userRole !== 'creator'" ng-model="vm.card.status" ng-change="vm.changeStatus()" placeholder="Issue Status" required>
             <md-option>Open</md-option>
             <md-option>Shelved</md-option>
-            <md-option>Closed</md-option>
+            <md-option>
+              <span ng-if="vm.card.finalPlan.length <= 0" style="color: lightgrey">
+              Closed
+              </span>
+              <span ng-if="vm.card.finalPlan.length > 0">Closed</span>
+            </md-option>
           </md-select>
         </md-input-container>
 
@@ -556,15 +561,15 @@
           </div>
 
           <div class="section-content">
-            <form name="cardCommentForm" ng-submit="" class="final-plan final-plan-new" layout="column" layout-align="start" no-validate>
+            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="final-plan final-plan-new" layout="column" layout-align="start" no-validate>
 
                 <md-input-container flex md-no-float>
-                  <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newCommentText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
+                  <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newFinalPlanText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
                 </md-input-container>
 
               <div layout="row" layout-align="end center">
 
-                <md-switch ng-model="isActive" aria-label="">
+                <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
                   <span ng-if="isActive">Finshed Item</span>
                   <span ng-if="!isActive">Add to checklist</span>
                 </md-switch>

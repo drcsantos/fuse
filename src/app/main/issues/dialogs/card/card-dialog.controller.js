@@ -7,7 +7,7 @@
         .controller('ScrumboardCardDialogController', ScrumboardCardDialogController);
 
     /** @ngInject */
-    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService,
+    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
       fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService, MembersService)
     {
         var vm = this;
@@ -43,6 +43,8 @@
         var userid = authentication.currentUser().id;
 
         vm.now = new Date();
+
+        console.log(vm.card);
 
         // Functions
         vm.palettes = fuseTheming.getRegisteredPalettes();
@@ -94,6 +96,7 @@
         vm.openImage = openImage;
         vm.changeStatus = changeStatus;
         vm.exportIssue = exportIssue;
+        vm.addFinalPlan = addFinalPlan;
 
         vm.formatUpdateArray = UpdateInfoService.formatUpdateArray;
 
@@ -292,6 +295,13 @@
 
         function changeStatus() {
 
+          //if we switched it to Close and we dont have a final plan show Error
+          if(vm.card.status === "Closed" && vm.card.finalPlan.length <= 0) {
+            vm.card.status = oldData.status;
+            showToast("You must write at least one final plan item before closing");
+            return;
+          }
+
           if(vm.card.status === "Shelved") {
             vm.card.shelvedDate = new Date();
           }
@@ -394,6 +404,24 @@
                });
          }
 
+         function addFinalPlan() {
+
+           var data = {
+             "text" : vm.newFinalPlanText,
+             "checklist" : vm.finalPlanChecklist,
+             "author" : userid
+           };
+
+           apilaData.addFinalPlan(vm.card._id, data)
+           .success(function(response) {
+             vm.card.finalPlan.push(response);
+             vm.newFinalPlanText = "";
+           })
+           .error(function(response) {
+             console.log(response);
+           });
+         }
+
         ///////////////////////// HELPER FUNCTIONS ////////////////////////////
 
         function createComment(text, createdOn) {
@@ -457,6 +485,15 @@
           } else if(_.find(vm.myCommunity.minions, {"name" : vm.username}) !== undefined) {
             vm.userRole = "minions";
           }
+        }
+
+        function showToast(msg) {
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent(msg)
+            .position("top right")
+            .hideDelay(3000)
+          );
         }
 
         ///////////////////////// THEME FUNCTIONS /////////////////////////////
