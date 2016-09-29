@@ -283,6 +283,25 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + '/restore/' + userid, {}, getAuth());
     };
 
+
+    ////////////////////////// TODOS RESOURCES /////////////////////////////
+
+    var listTasks = function(todoId) {
+      return $http.get(apiUrl + '/api/todos/' + todoId, getAuth());
+    };
+
+    var addTask = function(todoId, data) {
+      return $http.post(apiUrl + '/api/todos/' + todoId, data, getAuth());
+    };
+
+    var updateTask = function(todoId, taskid, data) {
+      return $http.put(apiUrl + '/api/todos/' + todoId + '/task/' + taskid, data, getAuth());
+    };
+
+    var deleteTask = function(todoId, taskid) {
+      return $http.delete(apiUrl + '/api/todos/'+ todoId + '/task/' + taskid, getAuth());
+    };
+
     return {
       //appointments
       appointmentsList: appointmentsList,
@@ -355,6 +374,12 @@
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
+
+      //todos
+      listTasks:  listTasks,
+      addTask: addTask,
+      updateTask: updateTask,
+      deleteTask: deleteTask
     };
   }
 
