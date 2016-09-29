@@ -12,16 +12,15 @@
         var vm = this;
 
         // Data
-        // vm.tasks = Tasks.data;
-        // vm.tags = Tags.data;
-        vm.tasks = [];
+        vm.tasks = [{
+          'text': "Some to do stuff we need to do Some to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to do",
+          'occurrence': "Once a week",
+          'author': "Nenad"
+        }];
         vm.tags = [];
         vm.completed = [];
         vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
-        vm.projects = {
-            'creapond'    : 'Project Creapond',
-            'withinpixels': 'Project Withinpixels'
-        };
+
         vm.selectedFilter = {
             filter : 'Start Date',
             dueDate: 'Next 3 days'
@@ -57,7 +56,7 @@
             suppressScrollX: true
         };
 
-        // Methods
+        // Functions
         vm.preventDefault = preventDefault;
         vm.openTaskDialog = openTaskDialog;
         vm.toggleCompleted = toggleCompleted;
@@ -117,7 +116,7 @@
             $mdDialog.show({
                 controller         : 'TaskDialogController',
                 controllerAs       : 'vm',
-                templateUrl        : 'app/main/apps/todo/dialogs/task/task-dialog.html',
+                templateUrl        : 'app/main/todo/dialogs/task/task-dialog.html',
                 parent             : angular.element($document.body),
                 targetEvent        : ev,
                 clickOutsideToClose: true,

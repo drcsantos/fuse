@@ -39,7 +39,7 @@
         "DONE": "Done",
         "DELETED": "Deleted",
         "TAGS": "Tags",
-        "TITLE": "Title",
+        "DESCRIPTION": "Task description",
         "FILTERS": "Filters",
         "TAGS": "Tags",
         "START_DATE": "Start Date",
@@ -52,6 +52,10 @@
         "ATTACH_FILE": "Attach file",
         "INSERT_PICTURE": "Insert picture",
         "DELETE": "Delete",
+        "COMPLETED": "Completed",
+        "OVERDUE": "Overdue",
+        "NOTCOMPLETED": "Not Completed",
+        "REMOVE_TASK": "Remove task",
         "ERRORS": {
             "TITLE_REQUIRED": "Title field is required"
         }
