@@ -49,6 +49,11 @@
                     ADD TASK
                 </md-button>
 
+                <md-button type="submit" ng-if="!vm.newTask" ng-click="vm.updateTask()"
+                           class="send-button md-accent md-raised"
+                           aria-label="Add Task" translate="TODO.UPDATE_TASK" translate-attr-aria-label="TODO.UPDATE_TASK">
+                    ADD TASK
+                </md-button>
 
             </div>
 

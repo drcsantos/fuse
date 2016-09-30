@@ -49,6 +49,7 @@
         "DELETE_ATTACHMENT": "Delete attachment",
         "SAVE": "SAVE",
         "ADD_TASK": "ADD TASK",
+        "UPDATE_TASK": "UPDATE TASK",
         "ATTACH_FILE": "Attach file",
         "INSERT_PICTURE": "Insert picture",
         "DELETE": "Delete",

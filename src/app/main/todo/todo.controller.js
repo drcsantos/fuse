@@ -7,23 +7,17 @@
         .controller('TodoController', TodoController);
 
     /** @ngInject */
-    function TodoController($document, $mdDialog, $mdSidenav, authentication)
+    function TodoController($document, $mdDialog, $mdSidenav, authentication, apilaData)
     {
         var vm = this;
 
         // Data
-        vm.tasks = [{
-          'text': "Some to do stuff we need to do Some to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to doSome to do stuff we need to do",
-          'occurrence': "Once a week",
-          'author': "Nenad"
-        }];
+        vm.tasks = [];
         vm.tags = [];
         vm.completed = [];
         vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
 
         vm.todoid = authentication.currentUser().todoid;
-
-        console.log(vm.todoid);
 
         vm.selectedFilter = {
             filter : 'Start Date',
@@ -77,9 +71,17 @@
 
         //////////
 
-        /**
-         * Initialize the controller
-         */
+        (function loadTasks() {
+          apilaData.listTasks(vm.todoid)
+          .success(function(response) {
+            vm.tasks = response;
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+        })();
+
+
         function init()
         {
             angular.forEach(vm.tasks, function (task)
