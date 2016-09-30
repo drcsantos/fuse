@@ -570,8 +570,8 @@
               <div layout="row" layout-align="end center">
 
                 <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
-                  <span ng-if="isActive">Finshed Item</span>
-                  <span ng-if="!isActive">Add to checklist</span>
+                  <span ng-if="vm.finalPlanChecklist">Finshed Item</span>
+                  <span ng-if="!vm.finalPlanChecklist">Add to checklist</span>
                 </md-switch>
 
                 <md-button type="submit" class="md-raised md-accent" aria-label="Add Item">
@@ -580,6 +580,15 @@
               </div>
             </form>
           </div>
+
+          <span ng-repeat="plan in vm.card.finalPlan" ng-if="plan.checklist == true">
+            <h3>The final plan to solve the issue: </h3>
+            <div class="comment" layout="row">
+              <div layout="column">
+                <div class="final-plan-bubble">{{plan.text}}</div>
+              </div>
+           </div>
+         </span>
 
         </div>
         </div>

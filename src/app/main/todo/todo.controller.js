@@ -134,16 +134,26 @@
             });
         }
 
-        /**
-         * Toggle completed status of the task
-         *
-         * @param task
-         * @param event
-         */
         function toggleCompleted(task, event)
         {
             event.stopPropagation();
-            task.completed = !task.completed;
+            console.log(task);
+            task.complete = !task.complete;
+
+            apilaData.updateTask(vm.todoid, task._id,  task)
+            .success(function(response) {
+
+              // Update the correct tasks with new values
+              for(var i = 0; i < vm.tasks.length; ++i) {
+                if(vm.tasks[i]._id === task._id) {
+                  vm.tasks[i].comlete = task.complete;
+                  break;
+                }
+              }
+            })
+            .error(function(response) {
+              console.log(response);
+            });
         }
 
         /**

@@ -44,8 +44,6 @@
 
         vm.now = new Date();
 
-        console.log(vm.card);
-
         // Functions
         vm.palettes = fuseTheming.getRegisteredPalettes();
         vm.rgba = fuseGenerator.rgba;

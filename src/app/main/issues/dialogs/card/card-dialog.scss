@@ -20,6 +20,17 @@ md-dialog {
         }
       }
     }
+
+    .final-plan-bubble {
+        position: relative;
+        padding: 8px;
+        background-color: #d4e1f7;
+        border: 1px solid rgb(220, 223, 225);
+        font-size: 14px;
+        margin: 4px 0;
+      
+    }
+
     md-dialog-content {
       position: relative;
       background-color: #F5F5F5;
