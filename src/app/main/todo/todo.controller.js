@@ -7,7 +7,7 @@
         .controller('TodoController', TodoController);
 
     /** @ngInject */
-    function TodoController($document, $mdDialog, $mdSidenav, Tasks, Tags)
+    function TodoController($document, $mdDialog, $mdSidenav, authentication)
     {
         var vm = this;
 
@@ -20,6 +20,10 @@
         vm.tags = [];
         vm.completed = [];
         vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
+
+        vm.todoid = authentication.currentUser().todoid;
+
+        console.log(vm.todoid);
 
         vm.selectedFilter = {
             filter : 'Start Date',

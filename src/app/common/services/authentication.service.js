@@ -54,7 +54,8 @@
                     email: payload.email,
                     name: name,
                     id: payload._id,
-                    community: community
+                    community: community,
+                    todoid: payload.todoid
                 };
             }
         };
