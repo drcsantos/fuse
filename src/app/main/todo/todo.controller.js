@@ -13,9 +13,10 @@
 
         // Data
         vm.tasks = [];
-        vm.tags = [];
+
         vm.completed = [];
-        vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
+        vm.overdue = [];
+        vm.notcompleted = [];
 
         vm.todoid = authentication.currentUser().todoid;
 
@@ -28,7 +29,6 @@
         // Tasks will be filtered against these models
         vm.taskFilters = {
             search   : '',
-            tags     : [],
             completed: '',
             deleted  : false,
             important: '',
@@ -64,8 +64,6 @@
         vm.filterByStartDate = filterByStartDate;
         vm.filterByDueDate = filterByDueDate;
         vm.resetFilters = resetFilters;
-        vm.toggleTagFilter = toggleTagFilter;
-        vm.isTagFilterExists = isTagFilterExists;
 
         init();
 
@@ -82,41 +80,6 @@
         })();
 
 
-        function init()
-        {
-            angular.forEach(vm.tasks, function (task)
-            {
-                if ( task.startDate )
-                {
-                    task.startDate = new Date(task.startDate);
-                    task.startDateTimestamp = task.startDate.getTime();
-                }
-
-                if ( task.dueDate )
-                {
-                    task.dueDate = new Date(task.dueDate);
-                    task.dueDateTimestamp = task.dueDate.getTime();
-                }
-            });
-        }
-
-        /**
-         * Prevent default
-         *
-         * @param e
-         */
-        function preventDefault(e)
-        {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        /**
-         * Open new task dialog
-         *
-         * @param ev
-         * @param task
-         */
         function openTaskDialog(ev, task)
         {
             $mdDialog.show({
@@ -137,40 +100,66 @@
         function toggleCompleted(task, event)
         {
             event.stopPropagation();
-            console.log(task);
-            task.complete = !task.complete;
 
-            apilaData.updateTask(vm.todoid, task._id,  task)
-            .success(function(response) {
+            task.complete = true;
 
-              // Update the correct tasks with new values
-              for(var i = 0; i < vm.tasks.length; ++i) {
-                if(vm.tasks[i]._id === task._id) {
-                  vm.tasks[i].comlete = task.complete;
-                  break;
-                }
-              }
-            })
-            .error(function(response) {
-              console.log(response);
-            });
+            updateTask(task);
         }
 
-        /**
-         * Toggle sidenav
-         *
-         * @param sidenavId
-         */
+        //////////////////////// HELPER FUNCTINS ////////////////////////
+
+        function updateTask(task) {
+
+          apilaData.updateTask(vm.todoid, task._id,  task)
+          .success(function(response) {
+
+            // Update the correct tasks with new values
+            for(var i = 0; i < vm.tasks.length; ++i) {
+              if(vm.tasks[i]._id === task._id) {
+                vm.tasks[i].comlete = task.complete;
+                break;
+              }
+            }
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+
+        }
+
+        /////////////////////////// THEME CODE //////////////////////////
+
         function toggleSidenav(sidenavId)
         {
             $mdSidenav(sidenavId).toggle();
         }
 
-        /**
-         * Toggles filter with true or false
-         *
-         * @param filter
-         */
+        function init()
+        {
+            angular.forEach(vm.tasks, function (task)
+            {
+                if ( task.startDate )
+                {
+                    task.startDate = new Date(task.startDate);
+                    task.startDateTimestamp = task.startDate.getTime();
+                }
+
+                if ( task.dueDate )
+                {
+                    task.dueDate = new Date(task.dueDate);
+                    task.dueDateTimestamp = task.dueDate.getTime();
+                }
+            });
+        }
+
+        function preventDefault(e)
+        {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ////////////////////////////// FILTERS ///////////////////////////////
+
         function toggleFilter(filter)
         {
             vm.taskFilters[filter] = !vm.taskFilters[filter];
@@ -178,10 +167,7 @@
             checkFilters();
         }
 
-        /**
-         * Toggles filter with true or empty string
-         * @param filter
-         */
+
         function toggleFilterWithEmpty(filter)
         {
             if ( vm.taskFilters[filter] === '' )
@@ -196,30 +182,17 @@
             checkFilters();
         }
 
-        /**
-         * Reset filters
-         */
         function resetFilters()
         {
             vm.showAllTasks = true;
             vm.taskFilters = angular.copy(vm.taskFiltersDefaults);
         }
 
-        /**
-         * Check filters and mark showAllTasks
-         * as true if no filters selected
-         */
         function checkFilters()
         {
             vm.showAllTasks = !!angular.equals(vm.taskFiltersDefaults, vm.taskFilters);
         }
 
-        /**
-         * Filter by startDate
-         *
-         * @param item
-         * @returns {boolean}
-         */
         function filterByStartDate(item)
         {
             if ( vm.taskFilters.startDate === true )
@@ -230,12 +203,6 @@
             return true;
         }
 
-        /**
-         * Filter Due Date
-         *
-         * @param item
-         * @returns {boolean}
-         */
         function filterByDueDate(item)
         {
             if ( vm.taskFilters.dueDate === true )
@@ -246,36 +213,5 @@
             return true;
         }
 
-        /**
-         * Toggles tag filter
-         *
-         * @param tag
-         */
-        function toggleTagFilter(tag)
-        {
-            var i = vm.taskFilters.tags.indexOf(tag);
-
-            if ( i > -1 )
-            {
-                vm.taskFilters.tags.splice(i, 1);
-            }
-            else
-            {
-                vm.taskFilters.tags.push(tag);
-            }
-
-            checkFilters();
-        }
-
-        /**
-         * Returns if tag exists in the tagsFilter
-         *
-         * @param tag
-         * @returns {boolean}
-         */
-        function isTagFilterExists(tag)
-        {
-            return vm.taskFilters.tags.indexOf(tag) > -1;
-        }
     }
 })();

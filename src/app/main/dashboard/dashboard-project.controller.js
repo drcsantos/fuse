@@ -247,7 +247,10 @@
             }
           })
           .error(function(response) {
-            console.log(response);
+            //dont show an error if the user didnt create stripe customer info
+            if(response.customer !== null) {
+              console.log(response);
+            }
           });
         })();
 
