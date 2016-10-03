@@ -22,11 +22,11 @@
     </div>
 
     <div class="navigation-simple" layout="column">
-        <md-button class="item" aria-label="All Tasks" translate translate-attr-aria-label="TODO.ALL_TASKS"
-                   ng-class="{'selected':vm.showAllTasks}" ng-click="vm.resetFilters()">
+        <md-button class="item" aria-label="All Tasks" translate translate-attr-aria-label="TODO.ONGOING_TASK"
+                   ng-class="{'selected':vm.selectedCategory == 'tasks'}" ng-click="vm.setCurrentTasks('tasks')">
             <div layout="row" layout-align="start center">
                 <md-icon md-font-icon="icon-view-headline" class="s16"></md-icon>
-                <span class="title" translate="TODO.ALL_TASKS">All Tasks</span>
+                <span class="title" translate="TODO.ONGOING_TASKS">Ongoing Tasks</span>
             </div>
         </md-button>
 
@@ -35,22 +35,22 @@
         </div>
 
         <md-button class="item" aria-label="Completed" translate translate-attr-aria-label="TODO.COMPLETED"
-                   ng-click="vm.toggleFilterWithEmpty('starred')"
-                   ng-class="{'selected':vm.taskFilters.starred}">
+                   ng-click="vm.setCurrentTasks('completed')"
+                   ng-class="{'selected':vm.selectedCategory == 'completed'}">
             <md-icon class="md-accent-bg unread-message-count">7</md-icon>
             <span  translate="TODO.COMPLETED">Completed</span>
         </md-button>
 
         <md-button class="item" aria-label="Overdue" translate translate-attr-aria-label="TODO.OVERDUE"
-                   ng-click="vm.toggleFilterWithEmpty('starred')"
-                   ng-class="{'selected':vm.taskFilters.starred}">
+                   ng-click="vm.setCurrentTasks('overdue')"
+                   ng-class="{'selected':vm.selectedCategory == 'overdue'}">
             <md-icon class="md-accent-bg unread-message-count" style="background-color: red">4</md-icon>
             <span  translate="TODO.OVERDUE">Overdue</span>
         </md-button>
 
         <md-button class="item" aria-label="Not Completed" translate translate-attr-aria-label="TODO.NOTCOMPLETED"
-                   ng-click="vm.toggleFilterWithEmpty('starred')"
-                   ng-class="{'selected':vm.taskFilters.starred}">
+                   ng-click="vm.setCurrentTasks('notcompleted')"
+                   ng-class="{'selected':vm.selectedCategory == 'notcompleted'}">
             <md-icon class="md-accent-bg unread-message-count" style="background-color: orange">2</md-icon>
             <span  translate="TODO.NOTCOMPLETED">Not Completed</span>
         </md-button>

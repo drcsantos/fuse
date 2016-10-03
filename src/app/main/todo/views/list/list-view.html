@@ -2,7 +2,7 @@
 <div class="todo-items" ng-sortable="vm.sortableOptions" ng-model="vm.tasks" ng-class="{'sortable': vm.taskOrder === ''}">
     <div class="todo-item" md-ink-ripple layout="row" layout-align="start center"
          ng-click="vm.openTaskDialog($event, task)"
-         ng-repeat="task in vm.tasks | orderBy:vm.taskOrder:vm.taskOrderDescending | filter:global.search | filter:vm.taskFilters.search | filter:vm.filterByStartDate | filter:vm.filterByDueDate track by $index"
+         ng-repeat="task in vm.currTasks | orderBy:vm.taskOrder:vm.taskOrderDescending | filter:global.search | filter:vm.taskFilters.search | filter:vm.filterByStartDate | filter:vm.filterByDueDate track by $index"
          ng-class="{'starred': task.starred, 'selected': task.selected, 'completed': task.completed}">
 
         <div class="handle" ng-click="vm.preventDefault($event)">
@@ -49,6 +49,15 @@
             </div>
 
             <div class="buttons" layout="row" layout-align="start center">
+
+                <md-icon ng-if="vm.selectedCategory != 'tasks'" class="md-accent-bg unread-message-count">
+                  {{task.completed.length}}
+                  <md-tooltip>
+                    <div ng-repeat="t in task.completed">
+                      Completed on: {{t.updatedOn | date}}
+                    </div>
+                  </md-tooltip>
+                </md-icon>
 
                 <md-menu>
                     <md-button class="md-icon-button" aria-label="More" translate

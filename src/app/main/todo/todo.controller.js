@@ -18,6 +18,10 @@
         vm.overdue = [];
         vm.notcompleted = [];
 
+        vm.currTasks = [];
+
+        vm.selectedCategory = "tasks"; //Tasks mean the current undone tasks
+
         vm.todoid = authentication.currentUser().todoid;
 
         vm.selectedFilter = {
@@ -64,6 +68,7 @@
         vm.filterByStartDate = filterByStartDate;
         vm.filterByDueDate = filterByDueDate;
         vm.resetFilters = resetFilters;
+        vm.setCurrentTasks = setCurrentTasks;
 
         init();
 
@@ -73,6 +78,22 @@
           apilaData.listTasks(vm.todoid)
           .success(function(response) {
             vm.tasks = response;
+            vm.currTasks = response;
+
+            angular.forEach(vm.tasks, function(task) {
+              if(task.completed.length > 0) {
+                vm.completed.push(task);
+              }
+
+              if(task.overDue.length > 0) {
+                vm.overdue.push(task);
+              }
+
+              if(task.notCompleted.length > 0) {
+                vm.notcompleted.push(task);
+              }
+            });
+
           })
           .error(function(response) {
             console.log(response);
@@ -103,7 +124,30 @@
 
             task.complete = true;
 
+            //remove he task from array by id
+            _.remove(vm.currTasks, {"_id" : task._id});
+
+            vm.completed.push(task);
+
             updateTask(task);
+        }
+
+        function setCurrentTasks(type) {
+
+          if(type === "completed") {
+            vm.currTasks = vm.completed;
+            vm.selectedCategory = "completed";
+          } else if (type === "overdue") {
+            vm.currTasks = vm.overdue;
+            vm.selectedCategory = "overdue";
+          } else if(type === "notcompleted") {
+            vm.currTasks = vm.notcompleted;
+            vm.selectedCategory = "notcompleted";
+          } else if(type === "tasks"){
+            vm.currTasks = vm.tasks;
+            vm.selectedCategory = "tasks";
+          }
+
         }
 
         //////////////////////// HELPER FUNCTINS ////////////////////////
@@ -116,7 +160,7 @@
             // Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
               if(vm.tasks[i]._id === task._id) {
-                vm.tasks[i].comlete = task.complete;
+                vm.tasks[i].complete = task.complete;
                 break;
               }
             }
