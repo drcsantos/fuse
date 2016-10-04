@@ -7,7 +7,7 @@
         .controller('TodoController', TodoController);
 
     /** @ngInject */
-    function TodoController($document, $mdDialog, $mdSidenav, authentication, apilaData)
+    function TodoController($document, $mdDialog, $mdSidenav, authentication, apilaData, ToDoUtilsService)
     {
         var vm = this;
 
@@ -19,6 +19,8 @@
         vm.notcompleted = [];
 
         vm.currTasks = [];
+
+        var utils = ToDoUtilsService;
 
         vm.selectedCategory = "tasks"; //Tasks mean the current undone tasks
 
@@ -81,6 +83,9 @@
             vm.currTasks = response;
 
             angular.forEach(vm.tasks, function(task) {
+
+              var category = taskCategory(task);
+
               if(task.completed.length > 0) {
                 vm.completed.push(task);
               }
@@ -127,7 +132,18 @@
             //remove he task from array by id
             _.remove(vm.currTasks, {"_id" : task._id});
 
-            vm.completed.push(task);
+            var found = false;
+            for(var i = 0; i < vm.completed.length; ++i) {
+              if(vm.completed[i]._id === task._id) {
+                vm.completed[i].completed.push({"counter" : 0, updatedOn: new Date()});
+                found = true;
+                break;
+              }
+            }
+
+            if(!found) {
+              vm.completed.push(task);
+            }
 
             updateTask(task);
         }
@@ -168,6 +184,25 @@
           .error(function(response) {
             console.log(response);
           });
+
+        }
+
+        // checks if the task is finished for the current interval
+        function taskCategory(task) {
+          var currTime = moment();
+
+          if(!task.complete) {
+            if(task.occurrence === utils.EVERY_DAY) {
+              //if it's past 12 pm it's overdue
+              if(currTime.hour() >= 12) {
+                return 'overdue';
+              }
+            }
+          }
+
+        }
+
+        function isTaskOverdue(task) {
 
         }
 

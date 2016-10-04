@@ -52,10 +52,10 @@
 
                 <md-icon ng-if="vm.selectedCategory != 'tasks'" class="md-accent-bg unread-message-count">
                   {{task.completed.length}}
-                  <md-tooltip>
-                    <div ng-repeat="t in task.completed">
+                  <md-tooltip class="tt-multiline">
+                    <span ng-repeat="t in task.completed">
                       Completed on: {{t.updatedOn | date}}
-                    </div>
+                    </span>
                   </md-tooltip>
                 </md-icon>
 

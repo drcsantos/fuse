@@ -5,7 +5,7 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, apilaData, authentication, $timeout, $window, $mdToast, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, apilaData, authentication, $window, $mdToast, exportAppointDetail) {
     var vm = this;
 
     // Data
@@ -288,15 +288,12 @@
           })
           .error(function(appoint) {
 
-            $timeout(function () {
-
             if(appoint.error_list) {
               showToast("Appointment is created but there was an error showing it");
               $window.location.reload();
             }
 
             $mdDialog.hide();
-            }, 3000);
             console.log("Unable to create the appointment, contact the administrator");
           });
       }
