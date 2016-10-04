@@ -197,7 +197,7 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
     </md-dialog-content>
 
     <md-dialog-actions layout="row" layout-align="space-between center">
-      <md-button ng-click="vm.saveEvent()" class="save-button md-accent md-raised" aria-label="SAVE" ng-disabled="eventForm.$invalid || eventForm.$pristine" translate="CALENDAR.SAVE" translate-attr-aria-label="CALENDAR.SAVE">
+      <md-button ng-disabled="vm.isDisabled" ng-click="vm.saveEvent()" class="save-button md-accent md-raised" aria-label="SAVE" ng-disabled="eventForm.$invalid || eventForm.$pristine" translate="CALENDAR.SAVE" translate-attr-aria-label="CALENDAR.SAVE">
         SAVE
       </md-button>
 
