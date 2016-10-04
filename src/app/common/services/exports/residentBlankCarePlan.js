@@ -155,7 +155,7 @@
       doc.line(100, 362, 570, 362);
       doc.line(100, 386, 570, 386);
 
-      doc.rect(10, 420, 575, 212);
+      doc.rect(10, 420, 575, 268);
       doc.text("Allergies", 15, 434);
 
       doc.text("Medication Allergies", 15, 458);
@@ -182,9 +182,13 @@
       doc.line(400, 582, 580, 582);
       doc.line(400, 606, 580, 606);
 
+      doc.text("Notes", 15, 636);
+      doc.line(100, 638, 580, 638);
+      doc.line(100, 662, 580, 662);
+
       doc.addPage();
 
-      doc.rect(10, 10, 575, 400);
+      doc.rect(10, 10, 575, 288);
       doc.text("Assistance", 15, 24);
 
       doc.text("Assist with Hair", 15, 48);
@@ -198,6 +202,54 @@
       doc.text("Assist with Shaving", 400, 48);
       doc.text("Yes", 405, 64);
       doc.text("No", 445, 64);
+
+      doc.text("Assist with Finger Nails", 15, 88);
+      doc.text("Yes", 20, 104);
+      doc.text("No", 60, 104);
+
+      doc.text("Assist with Toe Nails", 400, 88);
+      doc.text("Yes", 405, 104);
+      doc.text("No", 445, 104);
+
+      doc.text("Assist with Makeup", 15, 128);
+      doc.text("Yes", 20, 144);
+      doc.text("No", 60, 144);
+
+      doc.text("Assist with Jewelry", 200, 128);
+      doc.text("Yes", 205, 144);
+      doc.text("No", 245, 144);
+
+      doc.text("Assist with Lotion", 400, 128);
+      doc.text("Yes", 405, 144);
+      doc.text("No", 445, 144);
+//
+      doc.text("Layout Cloths", 15, 168);
+      doc.text("Yes", 20, 184);
+      doc.text("No", 60, 184);
+
+      doc.text("Assist with Shoes", 200, 168);
+      doc.text("Yes", 205, 184);
+      doc.text("No", 245, 184);
+
+      doc.text("Assist with Top", 400, 168);
+      doc.text("Yes", 405, 184);
+      doc.text("No", 445, 184);
+//
+      doc.text("Assist with Bottom", 15, 208);
+      doc.text("Yes", 20, 224);
+      doc.text("No", 60, 224);
+
+      doc.text("Assist with Buttons", 200, 208);
+      doc.text("Yes", 205, 224);
+      doc.text("No", 245, 224);
+
+      doc.text("Assist with Zippers", 400, 208);
+      doc.text("Yes", 405, 224);
+      doc.text("No", 445, 224);
+
+      doc.text("Notes", 15, 248);
+      doc.line(100, 250, 580, 250);
+      doc.line(100, 274, 580, 274);
 
       doc.save(resident.firstName + " " + resident.lastName + ".pdf");
     }
