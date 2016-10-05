@@ -11,7 +11,7 @@
 
 
         <!-- <md-button class="md-accent md-raised" ng-click="vm.toggleCompleted(task, $event)">Done</md-button> -->
-        <md-button class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
+        <md-button ng-if="vm.selectedCategory != 'completed'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
                    aria-label="Task Done">
             <md-icon md-font-icon="icon-check"></md-icon>
             <md-tooltip>

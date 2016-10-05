@@ -80,11 +80,17 @@
           apilaData.listTasks(vm.todoid)
           .success(function(response) {
             vm.tasks = response;
-            vm.currTasks = response;
+
+            angular.forEach(vm.tasks, function(task) {
+              if(task.current) {
+                vm.currTasks.push(task);
+              }
+
+            });
 
             angular.forEach(vm.tasks, function(task) {
 
-              var category = taskCategory(task);
+              //var category = taskCategory(task);
 
               if(task.completed.length > 0) {
                 vm.completed.push(task);
@@ -120,6 +126,8 @@
                     Tasks: vm.tasks,
                     event: ev
                 }
+            }).then(function() {
+              vm.currTasks = vm.tasks;
             });
         }
 
@@ -177,6 +185,7 @@
             for(var i = 0; i < vm.tasks.length; ++i) {
               if(vm.tasks[i]._id === task._id) {
                 vm.tasks[i].complete = task.complete;
+                vm.tasks[i].completed.push({"counter" : 0, updatedOn: new Date()});
                 break;
               }
             }
