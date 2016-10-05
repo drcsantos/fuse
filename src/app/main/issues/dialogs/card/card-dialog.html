@@ -30,7 +30,7 @@
           </md-menu-item>
 
           <md-menu-item class="member" ng-repeat="member in vm.members  | filter: vm.filterMember">
-            <md-button ng-click="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
+            <md-button ng-fclick="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
               <div layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                   <img class="avatar" alt="{{member.name}}" ng-src="http://a3.mzstatic.com/us/r30/Purple6/v4/75/87/fe/7587fe05-83c5-4127-48ce-2a213151d321/icon175x175.png" />
@@ -205,7 +205,7 @@
 
       <md-icon ng-if="vm.card.confidential" md-menu-origin md-font-icon="icon-lock">
         <md-tooltip>
-          This issue is confidential
+          Confidential
         </md-tooltip>
       </md-icon>
 
@@ -557,7 +557,7 @@
 
           <div class="section-header" layout="row" layout-align="start center">
             <i class="icon-clipboard-check s18"></i>
-            <span class="section-title">Final plan</span>
+            <span class="section-title">Plan</span>
           </div>
 
           <div class="section-content">
@@ -569,9 +569,10 @@
 
               <div layout="row" layout-align="end center">
 
+                <span ng-if="vm.finalPlanChecklist">Finshed Item   </span>
+                <span ng-if="!vm.finalPlanChecklist">Add to checklist   </span>
+
                 <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
-                  <span ng-if="vm.finalPlanChecklist">Finshed Item</span>
-                  <span ng-if="!vm.finalPlanChecklist">Add to checklist</span>
                 </md-switch>
 
                 <md-button type="submit" class="md-raised md-accent" aria-label="Add Item">
@@ -582,7 +583,7 @@
           </div>
 
           <span ng-repeat="plan in vm.card.finalPlan" ng-if="plan.checklist == true">
-            <h3>The final plan to solve the issue: </h3>
+            <h3>The plan to solve the issue: </h3>
             <div class="comment" layout="row">
               <div layout="column">
                 <div class="final-plan-bubble">{{plan.text}}</div>

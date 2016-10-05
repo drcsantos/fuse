@@ -63,11 +63,22 @@
       doc.text("Maiden Name", 220, 246);
       doc.line(297, 248, 590, 248);
 
-      doc.text("Room", 220, 270);
-      doc.text("Sex", 390, 270);
+      //doc.text("Room", 220, 270);
+      doc.line(297, 272, 380, 272);
 
-      doc.text("Date of Birth", 220, 294);
-      doc.text("Admission Date", 390, 294);
+      doc.text("Sex", 390, 270);
+      doc.text("Male", 395, 286);
+      doc.text("Female", 435, 286);
+      doc.text("Other", 495, 286);
+
+      doc.text("Floor", 220, 270);
+      doc.line(297, 272, 380, 272);
+
+      doc.text("Date of Birth", 220, 310);
+      doc.line(297, 312, 380, 312);
+
+      doc.text("Admission Date", 390, 310);
+      doc.line(500, 312, 600, 312);
 
       doc.text("Marital Status", 220, 318);
       doc.text("Veteran", 390, 318);
@@ -251,7 +262,27 @@
       doc.line(100, 250, 580, 250);
       doc.line(100, 274, 580, 274);
 
-      doc.save(resident.firstName + " " + resident.lastName + ".pdf");
+      doc.rect(10, 308, 575, 288);
+      doc.text("Mobility", 15, 322);
+      doc.text("Inside Apartment", 15, 346);
+
+      doc.text("Use of Assistive Device", 15, 370);
+      doc.text("Walker", 20, 386);
+      doc.text("Cane", 120, 386);
+      doc.text("Wheelchair", 220, 386);
+      doc.text("Electric Wheelchair", 320, 386);
+      doc.text("No Device", 420, 386);
+      doc.text("Other", 520, 386);
+
+      doc.text("Assistance with Device", 15, 410);
+      doc.line(100, 412, 580, 412);
+      doc.line(100, 436, 580, 436);
+
+      doc.text("Special Ambulation Needs", 15, 460);
+      doc.line(100, 462, 580, 462);
+      doc.line(100, 488, 580, 488);
+
+      doc.save("Blank Careplan.pdf");
     }
 
     return {
