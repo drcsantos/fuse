@@ -212,6 +212,8 @@
       if (vm.dialogData.calendarEvent) {
 
         vm.calendarEvent.appointmentDate = vm.date;
+        vm.calendarEvent.appointmentDate.setHours(0,0,0,0);
+
         vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
         //update info
@@ -268,6 +270,8 @@
        vm.calendarEvent.community = vm.community;
 
        vm.calendarEvent.appointmentDate = vm.date;
+       vm.calendarEvent.appointmentDate.setHours(0,0,0,0);
+  
        vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
 
