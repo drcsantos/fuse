@@ -76,10 +76,16 @@
 
         //////////
 
-        (function loadTasks() {
+        function loadTasks() {
           apilaData.listTasks(vm.todoid)
           .success(function(response) {
             vm.tasks = response;
+
+            vm.completed = [];
+            vm.overdue = [];
+            vm.notcompleted = [];
+
+            vm.currTasks = [];
 
             angular.forEach(vm.tasks, function(task) {
               if(task.current) {
@@ -109,7 +115,9 @@
           .error(function(response) {
             console.log(response);
           });
-        })();
+        }
+
+        loadTasks();
 
 
         function openTaskDialog(ev, task)
@@ -127,7 +135,7 @@
                     event: ev
                 }
             }).then(function() {
-              vm.currTasks = vm.tasks;
+              loadTasks();
             });
         }
 
@@ -168,7 +176,8 @@
             vm.currTasks = vm.notcompleted;
             vm.selectedCategory = "notcompleted";
           } else if(type === "tasks"){
-            vm.currTasks = vm.tasks;
+            //vm.currTasks = vm.tasks;
+            loadTasks();
             vm.selectedCategory = "tasks";
           }
 
