@@ -66,22 +66,13 @@
                     </md-button>
 
                     <md-menu-content width="3">
-                        <md-menu-item>
-                            <md-button ng-click="task.completed = !task.completed" aria-label="Toggle done"
-                                       translate-attr-aria-label="TODO.TOGGLE_DONE">
-                                <md-icon ng-class="task.completed === false ? 'grey-fg' : 'blue-fg'"
-                                         md-font-icon="icon-checkbox-marked-circle" class="s18"></md-icon>
-                                <span ng-show="!task.completed" translate="TODO.MARK_AS_DONE">Mark as done</span>
-                                <span ng-show="task.completed" translate="TODO.MARK_AS_UNDONE">Mark as undone</span>
-                            </md-button>
-                        </md-menu-item>
 
                         <md-menu-item>
-                            <md-button ng-click="task.completed = !task.completed" aria-label="Remove task"
+                            <md-button ng-click="vm.deleteTask(task)" aria-label="Remove task"
                                        translate-attr-aria-label="TODO.REMOVE_TASK">
-                                <md-icon ng-class="task.completed === false ? 'grey-fg' : 'blue-fg'"
-                                         md-font-icon="icon-checkbox-marked-circle" class="s18"></md-icon>
-                                <span ng-show="!task.completed" translate="TODO.REMOVE_TASK">Remove task</span>
+                                <md-icon ng-class="grey-fg"
+                                         md-font-icon="icon-delete" class="s18"></md-icon>
+                                <span translate="TODO.REMOVE_TASK">Remove task</span>
                             </md-button>
                         </md-menu-item>
 

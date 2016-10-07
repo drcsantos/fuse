@@ -14,24 +14,27 @@
                 <label translate="TODO.DESCRIPTION">Task description</label>
                 <textarea name="description" ng-model="vm.form.text" md-maxlength="1000" rows="3" require md-select-on-focus>
                 </textarea>
+                <div ng-messages>
+                  {{ vm.descriptionError }}
+                </div>
             </md-input-container>
 
 
             <div class="md-block">
              <label ng-switch on="vm.form.occurrence">
-                 <span ng-switch-when="0">Occurrence : every hour</span>
-                 <span ng-switch-when="1">Occurrence : twice a day</span>
-                 <span ng-switch-when="2">Occurrence : every day</span>
-                 <span ng-switch-when="3">Occurrence : every other day</span>
-                 <span ng-switch-when="4">Occurrence : twice a week</span>
-                 <span ng-switch-when="5">Occurrence : every week</span>
-                 <span ng-switch-when="6">Occurrence : every two weeks</span>
-                 <span ng-switch-when="7">Occurrence : twice a month</span>
-                 <span ng-switch-when="8">Occurrence : every month</span>
-                 <span ng-switch-when="9">Occurrence : every two months</span>
-                 <span ng-switch-when="10">Occurrence : every quarter</span>
-                 <span ng-switch-when="11">Occurrence : twice a year</span>
-                 <span ng-switch-when="12">Occurrence : every year</span>
+                 <span ng-switch-when="0">Occurrence : Every hour</span>
+                 <span ng-switch-when="1">Occurrence : Twice a day</span>
+                 <span ng-switch-when="2">Occurrence : Every day</span>
+                 <span ng-switch-when="3">Occurrence : Every other day</span>
+                 <span ng-switch-when="4">Occurrence : Twice a week</span>
+                 <span ng-switch-when="5">Occurrence : Every week</span>
+                 <span ng-switch-when="6">Occurrence : Every two weeks</span>
+                 <span ng-switch-when="7">Occurrence : Twice a month</span>
+                 <span ng-switch-when="8">Occurrence : Every month</span>
+                 <span ng-switch-when="9">Occurrence : Every two months</span>
+                 <span ng-switch-when="10">Occurrence : Every quarter</span>
+                 <span ng-switch-when="11">Occurrence : Twice a year</span>
+                 <span ng-switch-when="12">Occurrence : Every year</span>
                  <span ng-switch-default>Occurrence : </span>
              </label>
              <md-slider flex min="0" max="12" ng-model="vm.form.occurrence" aria-label="blue">
@@ -44,13 +47,13 @@
             <div layout="row" layout-align="start center">
 
                 <md-button type="submit" ng-if="vm.newTask" ng-click="vm.addNewTask()"
-                           class="send-button md-accent md-raised"
+                           class="send-button md-accent md-raised" ng-disabled="vm.form.text.length == 0"
                            aria-label="Add Task" translate="TODO.ADD_TASK" translate-attr-aria-label="TODO.ADD_TASK">
                     ADD TASK
                 </md-button>
 
                 <md-button type="submit" ng-if="!vm.newTask" ng-click="vm.updateTask()"
-                           class="send-button md-accent md-raised"
+                           class="send-button md-accent md-raised" ng-disabled="vm.form.text.length == 0"
                            aria-label="Add Task" translate="TODO.UPDATE_TASK" translate-attr-aria-label="TODO.UPDATE_TASK">
                     ADD TASK
                 </md-button>

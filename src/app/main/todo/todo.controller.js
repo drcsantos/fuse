@@ -71,6 +71,7 @@
         vm.filterByDueDate = filterByDueDate;
         vm.resetFilters = resetFilters;
         vm.setCurrentTasks = setCurrentTasks;
+        vm.deleteTask = deleteTask;
 
         init();
 
@@ -183,6 +184,15 @@
 
         }
 
+        function deleteTask(task) {
+          apilaData.deleteTask(vm.todoid, task._id)
+          .success(function(response) {
+            loadTasks();
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+        }
         //////////////////////// HELPER FUNCTINS ////////////////////////
 
         function updateTask(task) {

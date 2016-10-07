@@ -17,11 +17,18 @@
         vm.newTask = false;
         vm.tasks = Tasks;
 
+        vm.canSubmit = false;
+
         vm.todoid = authentication.currentUser().todoid;
 
         if ( !vm.task ) {
             vm.title = 'New Task';
             vm.newTask = true;
+            vm.form = {
+              "text" : "",
+              "occurrence" : 2
+            };
+
         } else {
           vm.newTask = false;
           vm.form = vm.task;
@@ -48,7 +55,6 @@
         }
 
         function updateTask() {
-
 
           apilaData.updateTask(vm.todoid, vm.task._id,  vm.form)
           .success(function(response) {
