@@ -7,7 +7,7 @@
         .controller('TaskDialogController', TaskDialogController);
 
     /** @ngInject */
-    function TaskDialogController($mdDialog, Task, Tasks, event, authentication, apilaData)
+    function TaskDialogController($mdDialog, Task, Tasks, event, $mdToast, authentication, apilaData)
     {
         var vm = this;
 
@@ -43,8 +43,10 @@
 
         function addNewTask()
         {
+
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(response) {
+              errorMessages();
               vm.tasks.push(response);
               closeDialog();
             })
@@ -58,6 +60,8 @@
 
           apilaData.updateTask(vm.todoid, vm.task._id,  vm.form)
           .success(function(response) {
+
+            errorMessages();
 
             // Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
@@ -76,6 +80,25 @@
 
         }
 
+        function errorMessages() {
+          var currDay = moment().isoWeekday();
+          if(currDay === 6 || currDay === 7) {
+            if(vm.form.occurrence > 0 && vm.form.occurrence <= 3) {
+                showToast("The task is created but will only be shown Monday - Friday");
+            } else if(vm.form.occurrence === 0) {
+              showToast("The task is created but will only be shown Monday - Friday from 8am-4pm");
+            }
+          }
+        }
+
+        function showToast(msg) {
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent(msg)
+            .position("top right")
+            .hideDelay(3000)
+          );
+        }
 
         function closeDialog()
         {
