@@ -22,7 +22,7 @@
 
       // export date
       doc.text("Exported On", 10, 24);
-      doc.text(10, 48, filteredExportDate + " ");
+      doc.text(10, 40, filteredExportDate + " ");
 
       // community logo
       doc.rect(110, 10, 100, 100);
@@ -63,16 +63,14 @@
       doc.text("Maiden Name", 220, 246);
       doc.line(297, 248, 590, 248);
 
-      //doc.text("Room", 220, 270);
-      doc.line(297, 272, 380, 272);
+      doc.text("Full Code", 220, 270);
+      doc.text("Yes", 225, 286);
+      doc.text("No", 265, 286);
 
       doc.text("Sex", 390, 270);
       doc.text("Male", 395, 286);
       doc.text("Female", 435, 286);
       doc.text("Other", 495, 286);
-
-      doc.text("Floor", 220, 270);
-      doc.line(297, 272, 380, 272);
 
       doc.text("Date of Birth", 220, 310);
       doc.line(297, 312, 380, 312);
@@ -80,40 +78,58 @@
       doc.text("Admission Date", 390, 310);
       doc.line(500, 312, 600, 312);
 
-      doc.text("Marital Status", 220, 318);
-      doc.text("Veteran", 390, 318);
+      doc.text("Moved From (Town)", 220, 336);
+      doc.line(320, 338, 590, 338);
 
-      doc.text("Full Code", 220, 342);
-      doc.text("Assessment Interval", 390, 342);
+      doc.text("Primary Doctor", 220, 362);
+      doc.line(320, 364, 590, 364);
 
-      doc.text("Moved From (Town)", 220, 366);
-      doc.line(320, 368, 590, 368);
+      doc.text("Pharmacy", 220, 388);
+      doc.line(320, 390, 590, 390);
 
-      doc.text("Primary Doctor", 220, 390);
-      doc.line(320, 392, 590, 392);
+      doc.text("Floor", 10, 482);
+      doc.line(60, 484, 160, 484);
 
-      doc.text("Pharmacy", 220, 414);
-      doc.line(320, 416, 590, 416);
+      doc.text("Room", 170, 482);
+      doc.line(230, 484, 330, 484);
 
-      doc.text("Long Term Care Insurance", 10, 438);
-      doc.text("Yes", 20, 454);
-      doc.text("No", 50, 454);
+      //doc.text("Veteran", 390, 334);
+      //doc.text("Yes", 395, 350);
+      //doc.text("No", 435, 350);
 
-      doc.text("Receiving Long Term Care Insurance", 300, 438);
-      doc.text("Yes", 320, 454);
-      doc.text("No", 350, 454);
+      doc.text("Assessment Interval", 10, 442);
+      doc.text("None", 20, 458);
+      doc.text("Weekly", 60, 458);
+      doc.text("Monthly", 110, 458);
+      doc.text("Quarterly", 160, 458);
+      doc.text("Yearly", 220, 458);
 
-      doc.text("Person who Handles Finances", 10, 474);
-      doc.line(200, 476, 590, 476);
+      doc.text("Marital Status", 260, 442);
+      doc.text("Single", 265, 458);
+      doc.text("Divorced", 305, 458);
+      doc.text("Widowed", 360, 458);
+      doc.text("Married", 420, 458);
+      doc.text("Single Never Married", 470, 458);
 
-      doc.text("Appointment Coordination", 10, 498);
-      doc.text("Self", 20, 514);
-      doc.text("Assist", 60, 514);
-      doc.text("Family", 100, 514);
+      doc.text("Handles Finances", 10, 482);
+      doc.line(110, 484, 590, 484);
 
-      doc.text("Administrative Notes", 10, 534);
-      doc.line(200, 536, 590, 536);
-      doc.line(10, 560, 590, 560);
+      doc.text("Long Term Care Insurance", 10, 538);
+      doc.text("Yes", 20, 554);
+      doc.text("No", 50, 554);
+
+      doc.text("Receiving Long Term Care Insurance", 300, 538);
+      doc.text("Yes", 320, 554);
+      doc.text("No", 350, 554);
+
+      doc.text("Appointment Coordination", 10, 598);
+      doc.text("Self", 20, 614);
+      doc.text("Assist", 60, 614);
+      doc.text("Family", 100, 614);
+
+      doc.text("Administrative Notes", 10, 634);
+      doc.line(200, 636, 590, 636);
+      doc.line(10, 660, 590, 660);
 
       doc.addPage();
 
