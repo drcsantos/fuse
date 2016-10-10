@@ -13,6 +13,7 @@
 
         // Data
         vm.tasks = [];
+        vm.allTasks = [];
 
         vm.completed = [];
         vm.overdue = [];
@@ -72,6 +73,8 @@
         vm.resetFilters = resetFilters;
         vm.setCurrentTasks = setCurrentTasks;
         vm.deleteTask = deleteTask;
+        vm.isActive = isActive;
+        vm.showActiveDays = showActiveDays;
 
         init();
 
@@ -87,6 +90,8 @@
             vm.notcompleted = [];
 
             vm.currTasks = [];
+
+            vm.allTasks = response;
 
             angular.forEach(vm.tasks, function(task) {
               if(task.current) {
@@ -135,8 +140,10 @@
                     Tasks: vm.tasks,
                     event: ev
                 }
-            }).then(function() {
-              loadTasks();
+            }).then(function(error) {
+              if(!error) {
+                loadTasks();
+              }
             });
         }
 
@@ -180,6 +187,9 @@
             //vm.currTasks = vm.tasks;
             loadTasks();
             vm.selectedCategory = "tasks";
+          } else if(type === "all-tasks") {
+            vm.selectedCategory = "all-tasks";
+            vm.currTasks = vm.allTasks;
           }
 
         }
@@ -193,6 +203,44 @@
             console.log(response);
           });
         }
+
+        function showActiveDays(task) {
+          var daysDesc = "( ";
+          var days = task.activeDays;
+          var count = 0;
+
+          var dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+          // if standard Monday - Friday work week is selected
+          if(days[0] === true && days[1] === true && days[2] === true && days[3] === true && days[4] === true)
+          {
+            if(!days[5] && !days[6]) {
+              return " ( Monday - Friday ) ";
+            }
+          }
+
+          // check each day
+          for(var i = 0; i < days.length; ++i) {
+            if(days[i] === true) {
+              daysDesc += " " + dayNames[i] + ",";
+              count++;
+            }
+          }
+
+          // if every day is selected
+          if(count === 7) {
+            return "( All week )";
+          }
+
+          // remove the last ,
+          if(daysDesc[daysDesc.length-1] === ',') {
+            daysDesc = daysDesc.slice(0, -1);
+          }
+
+          return daysDesc + " ) ";
+
+        }
+
         //////////////////////// HELPER FUNCTINS ////////////////////////
 
         function updateTask(task) {
@@ -213,6 +261,15 @@
             console.log(response);
           });
 
+        }
+
+        function isActive(task) {
+          if(task.occurrence === 2 ) {
+            var currDay = moment().isoWeekday();
+            return task.activeDays[currDay - 1];
+          } else {
+            return true;
+          }
         }
 
         // checks if the task is finished for the current interval

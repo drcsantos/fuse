@@ -22,7 +22,16 @@
     </div>
 
     <div class="navigation-simple" layout="column">
-        <md-button class="item" aria-label="All Tasks" translate translate-attr-aria-label="TODO.ONGOING_TASK"
+
+        <md-button class="item" aria-label="All Tasks" translate translate-attr-aria-label="TODO.ALL_TASK"
+                   ng-class="{'selected':vm.selectedCategory == 'all-tasks'}" ng-click="vm.setCurrentTasks('all-tasks')">
+            <div layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-view-headline" class="s16"></md-icon>
+                <span class="title" translate="TODO.ALL_TASKS">All Tasks</span>
+            </div>
+        </md-button>
+
+        <md-button class="item" aria-label="Ongoing Tasks" translate translate-attr-aria-label="TODO.ONGOING_TASK"
                    ng-class="{'selected':vm.selectedCategory == 'tasks'}" ng-click="vm.setCurrentTasks('tasks')">
             <div layout="row" layout-align="start center">
                 <md-icon md-font-icon="icon-view-headline" class="s16"></md-icon>

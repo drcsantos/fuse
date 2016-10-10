@@ -44,6 +44,7 @@
         vm.addNewTask = addNewTask;
         vm.updateTask = updateTask;
         vm.closeDialog = closeDialog;
+        vm.cancelDialog = cancelDialog;
 
         //////////
 
@@ -106,9 +107,13 @@
           );
         }
 
+        function cancelDialog() {
+          $mdDialog.hide(true);
+        }
+
         function closeDialog()
         {
-            $mdDialog.hide();
+            $mdDialog.hide(false);
         }
     }
 })();

@@ -32,6 +32,7 @@
         "SELECT_PROJECT": "Select Project",
         "ADD_TASK": "ADD TASK",
         "ONGOING_TASKS": "Ongoing Tasks",
+        "ALL_TASKS": "All tasks",
         "STARRED": "Starred",
         "PRIORITY": "Priority",
         "SCHEDULED": "Scheduled",

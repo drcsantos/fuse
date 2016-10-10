@@ -9,9 +9,8 @@
             <md-icon md-font-icon="icon-drag-vertical" class="icon"></md-icon>
         </div>
 
-
-        <!-- <md-button class="md-accent md-raised" ng-click="vm.toggleCompleted(task, $event)">Done</md-button> -->
         <md-button ng-if="vm.selectedCategory != 'completed'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
+                   ng-disabled="!vm.isActive(task)"
                    aria-label="Task Done">
             <md-icon md-font-icon="icon-check"></md-icon>
             <md-tooltip>
@@ -32,8 +31,8 @@
                         <span ng-switch-when="0">Every hour</span>
                         <span ng-switch-when="1">Twice a day</span>
                         <span ng-switch-when="2">
-                          Every day
-                          <!-- <span ng-repeat="day in task.activeDays track by $index"> {{ day }}</span> -->
+                          Every day {{ vm.showActiveDays(task) }}
+
                         </span>
                         <span ng-switch-when="3">Every other day</span>
                         <span ng-switch-when="4">Twice a week</span>
@@ -53,7 +52,7 @@
 
             <div class="buttons" layout="row" layout-align="start center">
 
-                <md-icon ng-if="vm.selectedCategory != 'tasks'" class="md-accent-bg unread-message-count">
+                <md-icon ng-if="vm.selectedCategory != 'tasks' && vm.selectedCategory != 'all-tasks'" class="md-accent-bg unread-message-count">
                   {{task.completed.length}}
                   <md-tooltip class="tt-multiline">
                     <span ng-repeat="t in task.completed">
