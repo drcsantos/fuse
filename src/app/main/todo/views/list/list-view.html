@@ -31,7 +31,10 @@
                       <div class="tag-label" ng-switch on="task.occurrence">
                         <span ng-switch-when="0">Every hour</span>
                         <span ng-switch-when="1">Twice a day</span>
-                        <span ng-switch-when="2">Every day</span>
+                        <span ng-switch-when="2">
+                          Every day
+                          <!-- <span ng-repeat="day in task.activeDays track by $index"> {{ day }}</span> -->
+                        </span>
                         <span ng-switch-when="3">Every other day</span>
                         <span ng-switch-when="4">Twice a week</span>
                         <span ng-switch-when="5">Every week</span>

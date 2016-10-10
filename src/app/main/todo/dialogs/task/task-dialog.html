@@ -41,6 +41,16 @@
              </md-slider>
            </div>
 
+           <div layout="row" layout-align="start" ng-if="vm.form.occurrence === 2">
+             <md-checkbox ng-model="vm.form.activeDays[0]" class="days">Monday</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[1]" class="days">Tuesday</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[2]" class="days">Wednesday</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[3]" class="days">Thursday</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[4]" class="days">Friday</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[5]" class="days">Saturday</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[6]" class="days">Sunday</md-checkbox>
+           </div>
+
         </md-dialog-content>
 
         <md-dialog-actions layout="row" layout-align="space-between center">

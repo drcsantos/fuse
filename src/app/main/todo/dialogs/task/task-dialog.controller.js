@@ -26,8 +26,14 @@
             vm.newTask = true;
             vm.form = {
               "text" : "",
-              "occurrence" : 2
+              "occurrence" : 2,
+              "activeDays" : []
             };
+
+            // Monday - Friday selected by default
+            for(var i = 0; i < 5; ++i) {
+              vm.form.activeDays[i] = true;
+            }
 
         } else {
           vm.newTask = false;
