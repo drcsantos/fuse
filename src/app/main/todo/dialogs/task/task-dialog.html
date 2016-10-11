@@ -17,9 +17,120 @@
                 rz-slider-options="vm.verticalSlider6.options"></rzslider>
             </md-input-container> -->
 
-<md-slider-container flex>
-       <md-slider ng-model="vm.test" min="0" max="100" aria-label="volume" id="volume-slider" md-vertical></md-slider>
-</md-slider-cointainer>
+            <div class="md-block">
+             <label ng-switch on="vm.form.occurrence">
+                 <span ng-switch-when="0">Occurrence : Hourly</span>
+                 <span ng-switch-when="1">Occurrence : Daily</span>
+                 <span ng-switch-when="2">Occurrence : Weekly</span>
+                 <span ng-switch-when="3">Occurrence : Monthly</span>
+                 <span ng-switch-default>Occurrence : </span>
+             </label>
+             <md-slider flex min="0" max="3" ng-model="vm.form.occurrence" aria-label="blue">
+             </md-slider>
+           </div>
+
+           <div layout="row" layout-align="start" ng-if="vm.form.occurrence == 0 || vm.form.occurrence == 1">
+             <md-checkbox ng-model="vm.form.activeDays[0]" class="days">Mon</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[1]" class="days">Tue</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[2]" class="days">Wed</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[3]" class="days">Thu</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[4]" class="days">Fri</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[5]" class="days">Sat</md-checkbox>
+             <md-checkbox ng-model="vm.form.activeDays[6]" class="days">Sun</md-checkbox>
+           </div>
+
+           <rzslider rz-slider-model="vm.slider.minValue"
+                rz-slider-high="vm.slider.maxValue" ng-if="vm.form.occurrence == 0"
+                rz-slider-options="vm.slider.options"></rzslider>
+
+             <div layout="column" ng-if="vm.form.occurrence === 2" flex>
+              <md-switch ng-model="vm.form.everyWeek" aria-label="Every Week" ng-if="vm.form.occurrence == 2">
+                Every Week
+              </md-switch>
+
+              <md-checkbox ng-model="vm.form.activeWeek[0]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
+               First Week of each Month
+             </md-checkbox>
+
+              <md-checkbox ng-model="vm.form.activeWeek[1]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
+               Second Week of each Month
+             </md-checkbox>
+
+             <md-checkbox ng-model="vm.form.activeWeek[2]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
+              Third Week of each Month
+            </md-checkbox>
+
+              <md-checkbox ng-model="vm.form.activeWeek[3]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
+               Fourth Week of each Month
+             </md-checkbox>
+
+               <md-checkbox ng-model="vm.form.activeWeek[4]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
+                Last Week of each Month
+              </md-checkbox>
+
+           </div>
+
+
+           <div layout="column" ng-if="vm.form.occurrence === 3" flex>
+
+           <div layout="row" layout-align="space-around center">
+                <md-checkbox ng-model="vm.form.activeWeek[0]" aria-label="Jan">
+                 Jan
+               </md-checkbox>
+
+                <md-checkbox ng-model="vm.form.activeWeek[1]" aria-label="Feb">
+                 Feb
+               </md-checkbox>
+
+               <md-checkbox ng-model="vm.form.activeWeek[2]" aria-label="Mar">
+                Mar
+              </md-checkbox>
+
+              <md-checkbox ng-model="vm.form.activeWeek[0]" aria-label="Apr">
+               Apr
+             </md-checkbox>
+
+              <md-checkbox ng-model="vm.form.activeWeek[1]" aria-label="May">
+               May
+             </md-checkbox>
+
+             <md-checkbox ng-model="vm.form.activeWeek[2]" aria-label="Jun">
+              Jun
+            </md-checkbox>
+          </div>
+
+          <div layout="row" layout-align="space-around center">
+             <md-checkbox ng-model="vm.form.activeWeek[0]" aria-label="Jul">
+              Jul
+            </md-checkbox>
+
+             <md-checkbox ng-model="vm.form.activeWeek[1]" aria-label="Aug">
+              Aug
+            </md-checkbox>
+
+            <md-checkbox ng-model="vm.form.activeWeek[2]" aria-label="Sept">
+             Sept
+           </md-checkbox>
+
+           <md-checkbox ng-model="vm.form.activeWeek[0]" aria-label="Oct">
+            Oct
+          </md-checkbox>
+
+           <md-checkbox ng-model="vm.form.activeWeek[1]" aria-label="Nov">
+            Nov
+          </md-checkbox>
+
+          <md-checkbox ng-model="vm.form.activeWeek[2]" aria-label="Dec">
+           Dec
+         </md-checkbox>
+         </div>
+
+         </div>
+
+              <br />
+              <br />
+
+
             <md-input-container class="md-block">
                 <label translate="TODO.DESCRIPTION">Task description</label>
                 <textarea name="description" ng-model="vm.form.text" md-maxlength="1000" rows="3" require md-select-on-focus>
@@ -28,42 +139,6 @@
                   {{ vm.descriptionError }}
                 </div>
             </md-input-container>
-
-
-            <!-- <div class="md-block">
-             <label ng-switch on="vm.form.occurrence">
-                 <span ng-switch-when="0">Occurrence : Every hour</span>
-                 <span ng-switch-when="1">Occurrence : Twice a day</span>
-                 <span ng-switch-when="2">Occurrence : Every day</span>
-                 <span ng-switch-when="3">Occurrence : Every other day</span>
-                 <span ng-switch-when="4">Occurrence : Twice a week</span>
-                 <span ng-switch-when="5">Occurrence : Every week</span>
-                 <span ng-switch-when="6">Occurrence : Every two weeks</span>
-                 <span ng-switch-when="7">Occurrence : Twice a month</span>
-                 <span ng-switch-when="8">Occurrence : Every month</span>
-                 <span ng-switch-when="9">Occurrence : Every two months</span>
-                 <span ng-switch-when="10">Occurrence : Every quarter</span>
-                 <span ng-switch-when="11">Occurrence : Twice a year</span>
-                 <span ng-switch-when="12">Occurrence : Every year</span>
-                 <span ng-switch-default>Occurrence : </span>
-             </label>
-             <md-slider flex min="0" max="12" ng-model="vm.form.occurrence" aria-label="blue">
-             </md-slider>
-           </div> -->
-
-           <!-- <div>
-              <rzslider rz-slider-model="priceSlider"></rzslider>
-           </div> -->
-
-           <div layout="row" layout-align="start">
-             <md-checkbox ng-model="vm.form.activeDays[0]" class="days">Monday</md-checkbox>
-             <md-checkbox ng-model="vm.form.activeDays[1]" class="days">Tuesday</md-checkbox>
-             <md-checkbox ng-model="vm.form.activeDays[2]" class="days">Wednesday</md-checkbox>
-             <md-checkbox ng-model="vm.form.activeDays[3]" class="days">Thursday</md-checkbox>
-             <md-checkbox ng-model="vm.form.activeDays[4]" class="days">Friday</md-checkbox>
-             <md-checkbox ng-model="vm.form.activeDays[5]" class="days">Saturday</md-checkbox>
-             <md-checkbox ng-model="vm.form.activeDays[6]" class="days">Sunday</md-checkbox>
-           </div>
 
         </md-dialog-content>
 

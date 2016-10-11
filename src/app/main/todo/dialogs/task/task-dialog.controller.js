@@ -21,13 +21,25 @@
 
         vm.test = 10;
 
-        vm.verticalSlider6 = {
-          minValue: 1,
-          maxValue: 5,
+        vm.slider = {
+          minValue: 8,
+          maxValue: 4,
           options: {
-            floor: 0,
-            ceil: 6,
-            vertical: true
+            showTicksValues: true,
+            stepsArray: [
+              {legend: '8 am', value: 8},
+              {legend: '9 am'},
+              {legend: '10 am'},
+              {legend: '11 am'},
+              {legend: '12 am'},
+              {legend: '1 pm'},
+              {legend: '2 pm'},
+              {legend: '3 pm'},
+              {legend: '4 pm', value: 4}
+            ],
+            translate: function(value) {
+              return "";
+            }
           }
         };
 
