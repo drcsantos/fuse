@@ -21,7 +21,7 @@
       doc.setLineWidth(1);
 
       // export date
-      doc.text("Exported On", 10, 24);
+      doc.text("Exported on", 10, 24);
       doc.text(10, 40, filteredExportDate + " ");
 
       // community logo
@@ -76,7 +76,7 @@
       doc.line(297, 312, 380, 312);
 
       doc.text("Admission Date", 390, 310);
-      doc.line(500, 312, 600, 312);
+      doc.line(500, 312, 590, 312);
 
       doc.text("Moved From (Town)", 220, 336);
       doc.line(320, 338, 590, 338);
@@ -87,15 +87,11 @@
       doc.text("Pharmacy", 220, 388);
       doc.line(320, 390, 590, 390);
 
-      doc.text("Floor", 10, 482);
-      doc.line(60, 484, 160, 484);
+      doc.text("Floor", 220, 414);
+      doc.line(297, 416, 380, 416);
 
-      doc.text("Room", 170, 482);
-      doc.line(230, 484, 330, 484);
-
-      //doc.text("Veteran", 390, 334);
-      //doc.text("Yes", 395, 350);
-      //doc.text("No", 435, 350);
+      doc.text("Room", 390, 414);
+      doc.line(500, 416, 590, 416);
 
       doc.text("Assessment Interval", 10, 442);
       doc.text("None", 20, 458);
@@ -114,18 +110,22 @@
       doc.text("Handles Finances", 10, 482);
       doc.line(110, 484, 590, 484);
 
-      doc.text("Long Term Care Insurance", 10, 538);
-      doc.text("Yes", 20, 554);
-      doc.text("No", 50, 554);
+      doc.text("Long Term Care Insurance", 10, 508);
+      doc.text("Yes", 20, 524);
+      doc.text("No", 50, 524);
 
-      doc.text("Receiving Long Term Care Insurance", 300, 538);
-      doc.text("Yes", 320, 554);
-      doc.text("No", 350, 554);
+      doc.text("Receiving Long Term Care Insurance", 300, 508);
+      doc.text("Yes", 320, 524);
+      doc.text("No", 350, 524);
 
-      doc.text("Appointment Coordination", 10, 598);
-      doc.text("Self", 20, 614);
-      doc.text("Assist", 60, 614);
-      doc.text("Family", 100, 614);
+      doc.text("Appointment Coordination", 10, 548);
+      doc.text("Self", 20, 564);
+      doc.text("Assist", 60, 564);
+      doc.text("Family", 100, 564);
+
+      doc.text("Veteran", 300, 548);
+      doc.text("Yes", 320, 564);
+      doc.text("No", 350, 564);
 
       doc.text("Administrative Notes", 10, 634);
       doc.line(200, 636, 590, 636);
@@ -297,6 +297,13 @@
       doc.text("Special Ambulation Needs", 15, 460);
       doc.line(100, 462, 580, 462);
       doc.line(100, 488, 580, 488);
+
+      doc.text("Mobility Equipment", 15, 512);
+      doc.text("Transfer Pole", 20, 528);
+      doc.text("Side Rails", 120, 528);
+      doc.text("Pivot Transfer", 220, 528);
+      doc.text("Lift Recliner Chair", 320, 528);
+      doc.text("Transfer Lift", 420, 528);
 
       doc.save("Blank Careplan.pdf");
     }
