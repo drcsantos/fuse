@@ -7,9 +7,19 @@
                     <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
                 </md-button>
             </div>
+
         </md-toolbar>
 
         <md-dialog-content ms-scroll>
+
+          <!-- <md-input-container class="md-block">
+                <rzslider rz-slider-model="vm.verticalSlider6.value"
+                rz-slider-options="vm.verticalSlider6.options"></rzslider>
+            </md-input-container> -->
+
+<md-slider-container flex>
+       <md-slider ng-model="vm.test" min="0" max="100" aria-label="volume" id="volume-slider" md-vertical></md-slider>
+</md-slider-cointainer>
             <md-input-container class="md-block">
                 <label translate="TODO.DESCRIPTION">Task description</label>
                 <textarea name="description" ng-model="vm.form.text" md-maxlength="1000" rows="3" require md-select-on-focus>
@@ -20,7 +30,7 @@
             </md-input-container>
 
 
-            <div class="md-block">
+            <!-- <div class="md-block">
              <label ng-switch on="vm.form.occurrence">
                  <span ng-switch-when="0">Occurrence : Every hour</span>
                  <span ng-switch-when="1">Occurrence : Twice a day</span>
@@ -39,9 +49,13 @@
              </label>
              <md-slider flex min="0" max="12" ng-model="vm.form.occurrence" aria-label="blue">
              </md-slider>
-           </div>
+           </div> -->
 
-           <div layout="row" layout-align="start" ng-if="vm.form.occurrence === 2">
+           <!-- <div>
+              <rzslider rz-slider-model="priceSlider"></rzslider>
+           </div> -->
+
+           <div layout="row" layout-align="start">
              <md-checkbox ng-model="vm.form.activeDays[0]" class="days">Monday</md-checkbox>
              <md-checkbox ng-model="vm.form.activeDays[1]" class="days">Tuesday</md-checkbox>
              <md-checkbox ng-model="vm.form.activeDays[2]" class="days">Wednesday</md-checkbox>

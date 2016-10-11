@@ -33,6 +33,7 @@
                 'stripe',
                 'credit-cards',
                 'ngIdle',
-                'angular-tour'
+                'angular-tour',
+                'rzModule'
             ]);
 })();

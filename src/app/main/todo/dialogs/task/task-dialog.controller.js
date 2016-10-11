@@ -19,6 +19,18 @@
 
         vm.canSubmit = false;
 
+        vm.test = 10;
+
+        vm.verticalSlider6 = {
+          minValue: 1,
+          maxValue: 5,
+          options: {
+            floor: 0,
+            ceil: 6,
+            vertical: true
+          }
+        };
+
         vm.todoid = authentication.currentUser().todoid;
 
         if ( !vm.task ) {
