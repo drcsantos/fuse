@@ -28,13 +28,13 @@
             showTicksValues: true,
             stepsArray: [
               {legend: '8 am', value: 8},
-              {legend: '9 am'},
-              {legend: '10 am'},
-              {legend: '11 am'},
-              {legend: '12 am'},
-              {legend: '1 pm'},
-              {legend: '2 pm'},
-              {legend: '3 pm'},
+              {legend: '9 am', value: 9},
+              {legend: '10 am', value: 10},
+              {legend: '11 am', value: 11},
+              {legend: '12 am', value: 12},
+              {legend: '1 pm', value: 1},
+              {legend: '2 pm', value: 2},
+              {legend: '3 pm', value: 3},
               {legend: '4 pm', value: 4}
             ],
             translate: function(value) {
@@ -62,6 +62,9 @@
         } else {
           vm.newTask = false;
           vm.form = vm.task;
+
+          vm.slider.minValue = vm.form.hourStart;
+          vm.slider.maxValue = vm.form.hourEnd;
         }
 
         // Methods
@@ -74,6 +77,11 @@
 
         function addNewTask()
         {
+
+          vm.form.hourStart = vm.slider.minValue;
+          vm.form.hourEnd = vm.slider.maxValue;
+
+          console.log(vm.form.hourStart + " " + vm.form.hourEnd);
 
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(response) {

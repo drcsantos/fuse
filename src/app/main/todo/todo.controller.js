@@ -264,7 +264,7 @@
         }
 
         function isActive(task) {
-          if(task.occurrence === 2 ) {
+          if(task.occurrence === 1 ) {
             var currDay = moment().isoWeekday();
             return task.activeDays[currDay - 1];
           } else {
@@ -277,7 +277,7 @@
           var currTime = moment();
 
           if(!task.complete) {
-            if(task.occurrence === utils.EVERY_DAY) {
+            if(task.occurrence === utils.DAILY) {
               //if it's past 12 pm it's overdue
               if(currTime.hour() >= 12) {
                 return 'overdue';
