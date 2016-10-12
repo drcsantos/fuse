@@ -127,17 +127,13 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
           </div>
         </md-input-container>
 
-        <!-- Cancel -->
-        <md-checkbox ng-model="vm.isCancel" ng-hide="vm.showCancel" ng-change="vm.updateIssue()" aria-label="Cancel Appointment">
-          Cancel Appointment
-        </md-checkbox>
       </div>
 
 
       <!-- Comments input -->
       <div ng-if="vm.inUpdate()">
 
-        <md-input-container flex class="md-block textarea-container">
+        <md-input-container class="md-block textarea-container">
           <label>Comment</label>
           <textarea ng-model="vm.formData.commentText"></textarea>
 
@@ -160,7 +156,7 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
         </md-list>
       </div>
 
-      <div class="comments">
+      <!-- <div class="comments">
 
         <div class="section-header" layout="row" layout-align="start center">
           <i class="icon-comment s18"></i>
@@ -192,7 +188,7 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
     </md-dialog-content>
 
@@ -200,6 +196,11 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
       <md-button ng-disabled="vm.isDisabled" ng-click="vm.saveEvent()" class="save-button md-accent md-raised" aria-label="SAVE" ng-disabled="eventForm.$invalid || eventForm.$pristine" translate="CALENDAR.SAVE" translate-attr-aria-label="CALENDAR.SAVE">
         SAVE
       </md-button>
+
+      <!-- Cancel -->
+      <md-checkbox ng-model="vm.isCancel" ng-hide="vm.showCancel" ng-change="vm.updateIssue()" aria-label="Cancel Appointment">
+        Cancel Appointment
+      </md-checkbox>
 
     </md-dialog-actions>
 

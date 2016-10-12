@@ -10,6 +10,8 @@
 
       doc.addImage(imageData.getImage('apila_form'), 'JPEG', 15, 15, 580, 760);
 
+      console.log(data);
+
       var appointmentDate = new Date(data._start);
 
       appointmentDate.setHours(data.hours);
@@ -20,7 +22,7 @@
       var residentBirthDate = new Date(data.residentGoing.birthDate);
 
       var dateFilter = $filter('date');
-      var appointmentFilteredTime = dateFilter(appointmentDate, 'h:mm a');
+      //var appointmentFilteredTime = dateFilter(data._start, 'h:mm a');
       var appointmentFilteredDate = dateFilter(appointmentDate, 'MMM d, yyyy');
       var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
 
@@ -45,7 +47,7 @@
       doc.text(415, 221, "Date:");
       doc.text(490, 221, appointmentFilteredDate);
       doc.text(415, 238, "Time:");
-      doc.text(490, 238, appointmentFilteredTime);
+      doc.text(490, 238, data._start.format("hh:mm A"));
 
       var leftofPoint = 0;
 

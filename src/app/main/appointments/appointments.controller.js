@@ -180,13 +180,17 @@
 
       var month = vm.calendar.getDate().format("MMMM");
 
+      //firt sort the events by date
       var sortedEvents = _.sortBy(vm.events[0], function(p) {
         return p.date;
       });
 
+      //fitler out just the events from the selected montg and then map to table
       var rows = _.map(_.filter(sortedEvents, function(o) {
         return moment(o.start).format("MM") === vm.calendar.getDate().format("MM") && o.cancel === false;
-      }), function(d) {
+      }),
+
+      function(d) {
         var arr = [];
 
         var name = "";
@@ -195,7 +199,7 @@
         }
 
         arr.push(name);
-        arr.push(moment.utc(d.start).format("MM/DD hh:mm A"));
+        arr.push(moment(d.start).format("MM/DD hh:mm A"));
         arr.push(d.reason);
         arr.push(d.locationName);
         arr.push(d.locationDoctor);
