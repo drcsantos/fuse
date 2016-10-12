@@ -31,7 +31,6 @@
             filter : 'Start Date',
             dueDate: 'Next 3 days'
         };
-        vm.selectedProject = 'creapond';
 
         // Tasks will be filtered against these models
         vm.taskFilters = {
@@ -75,6 +74,8 @@
         vm.deleteTask = deleteTask;
         vm.isActive = isActive;
         vm.showActiveDays = showActiveDays;
+        vm.showActiveMonths = showActiveMonths;
+        vm.showActiveWeeks = showActiveWeeks;
 
         init();
 
@@ -205,17 +206,23 @@
         }
 
         function showActiveDays(task) {
-          var daysDesc = "( ";
+          var daysDesc = "";
           var days = task.activeDays;
           var count = 0;
 
-          var dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          var dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+          if(task.occurrence === utils.HOURLY) {
+            daysDesc += " (" + task.hourStart + "am - " + task.hourEnd + "pm ) ";
+          }
+
+          daysDesc += " (";
 
           // if standard Monday - Friday work week is selected
           if(days[0] === true && days[1] === true && days[2] === true && days[3] === true && days[4] === true)
           {
             if(!days[5] && !days[6]) {
-              return " ( Monday - Friday ) ";
+              return daysDesc + " Mon - Fri ) ";
             }
           }
 
@@ -237,11 +244,71 @@
             daysDesc = daysDesc.slice(0, -1);
           }
 
+
           return daysDesc + " ) ";
 
         }
 
+        function showActiveWeeks(task) {
+          var weeksFormated = "( ";
+          var weeks = task.activeWeeks;
+
+          var weekNames = ["First", "Second", "Third", "Fourth", "Last"];
+
+          if(task.everyWeek === true) {
+            return "( Every Week )";
+          }
+
+          // check each day
+          for(var i = 0; i < weeks.length; ++i) {
+            if(weeks[i] === true) {
+              weeksFormated += " " + weekNames[i] + ",";
+            }
+          }
+
+          weeksFormated = removeLastComma(weeksFormated);
+
+          weeksFormated += " Week of Each Month";
+
+          return weeksFormated + " )";
+        }
+
+        function showActiveMonths(task) {
+          var monthsFormated = "(";
+          var months = task.activeMonths;
+          var count = 0;
+
+          var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
+          // check each day
+          for(var i = 0; i < months.length; ++i) {
+            if(months[i] === true) {
+              monthsFormated += " " + monthNames[i] + ",";
+              count++;
+            }
+          }
+
+          // if every day is selected
+          if(count === 12) {
+            return "( Every Month )";
+          }
+
+          // remove the last ,
+          monthsFormated = removeLastComma(monthsFormated);
+
+          return monthsFormated + ' )';
+        }
+
         //////////////////////// HELPER FUNCTINS ////////////////////////
+
+        //removes a comma if that is the last char in a string
+        function removeLastComma(str) {
+          if(str[str.length-1] === ',') {
+            return str.slice(0, -1);
+          } else {
+            return str;
+          }
+        }
 
         function updateTask(task) {
 

@@ -28,14 +28,19 @@
               <div class="tags" layout="row" layout-align="start center" layout-wrap>
                   <div class="tag" layout="row" layout-align="start center">
                       <div class="tag-label" ng-switch on="task.occurrence">
-                        <span ng-switch-when="0">Hourly</span>
+                        <span ng-switch-when="0">Hourly
+                          {{ vm.showActiveDays(task) }}
+                        </span>
                         <span ng-switch-when="1">Daily
                           {{ vm.showActiveDays(task) }}
                         </span>
                         <span ng-switch-when="2">
                           Weekly
+                          {{ vm.showActiveWeeks(task) }}
                         </span>
-                        <span ng-switch-when="3">Monthly</span>
+                        <span ng-switch-when="3">Monthly
+                          {{ vm.showActiveMonths(task) }}
+                        </span>
 
                       </div>
                   </div>
