@@ -26,7 +26,6 @@
           maxValue: 4,
           options: {
             showTicksValues: true,
-            vertical: true,
             stepsArray: [
               {legend: '8 am', value: 8},
               {legend: '9 am', value: 9},
