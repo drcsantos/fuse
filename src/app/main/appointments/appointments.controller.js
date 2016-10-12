@@ -182,7 +182,7 @@
 
       //firt sort the events by date
       var sortedEvents = _.sortBy(vm.events[0], function(p) {
-        return p.date;
+        return p.start;
       });
 
       //fitler out just the events from the selected montg and then map to table
