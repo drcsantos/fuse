@@ -249,7 +249,7 @@
       doc.text("Assist with Lotion", 400, 128);
       doc.text("Yes", 405, 144);
       doc.text("No", 445, 144);
-//
+
       doc.text("Layout Cloths", 15, 168);
       doc.text("Yes", 20, 184);
       doc.text("No", 60, 184);
@@ -261,7 +261,7 @@
       doc.text("Assist with Top", 400, 168);
       doc.text("Yes", 405, 184);
       doc.text("No", 445, 184);
-//
+
       doc.text("Assist with Bottom", 15, 208);
       doc.text("Yes", 20, 224);
       doc.text("No", 60, 224);
@@ -278,15 +278,15 @@
       doc.line(100, 250, 580, 250);
       doc.line(100, 274, 580, 274);
 
-      doc.rect(10, 308, 575, 288);
+      doc.rect(10, 308, 575, 600);
       doc.text("Mobility", 15, 322);
       doc.text("Inside Apartment", 15, 346);
 
       doc.text("Use of Assistive Device", 15, 370);
       doc.text("Walker", 20, 386);
-      doc.text("Cane", 120, 386);
-      doc.text("Wheelchair", 220, 386);
-      doc.text("Electric Wheelchair", 320, 386);
+      doc.text("Cane", 100, 386);
+      doc.text("Wheelchair", 200, 386);
+      doc.text("Electric Wheelchair", 300, 386);
       doc.text("No Device", 420, 386);
       doc.text("Other", 520, 386);
 
@@ -304,6 +304,133 @@
       doc.text("Pivot Transfer", 220, 528);
       doc.text("Lift Recliner Chair", 320, 528);
       doc.text("Transfer Lift", 420, 528);
+
+      doc.text("Outside Apartment", 15, 552);
+      doc.setDrawColor(181,181,181); // draw grey line
+      doc.line(100, 548, 580, 548);
+      doc.setDrawColor(0,0,0); // draw black line
+
+      doc.text("Use of Assistive Device", 15, 576);
+      doc.text("Walker", 20, 592);
+      doc.text("Cane", 100, 592);
+      doc.text("Wheelchair", 200, 592);
+      doc.text("Electric Wheelchair", 300, 592);
+      doc.text("No Device", 420, 592);
+      doc.text("Other", 520, 592);
+
+      doc.text("Assistance with Device", 15, 616);
+      doc.line(100, 618, 580, 618);
+      doc.line(100, 642, 580, 642);
+
+      doc.text("Special Ambulation Needs", 15, 666);
+      doc.line(100, 668, 580, 668);
+      doc.line(100, 692, 580, 692);
+
+      doc.text("Transfers", 15, 716);
+      doc.text("Independent", 20, 732);
+      doc.text("Standby", 100, 732);
+      doc.text("Full Assist", 200, 732);
+      doc.text("Transfer Pole", 300, 732);
+      doc.text("Gait Belt", 400, 732);
+
+      doc.text("Transfers Description", 15, 756);
+      doc.line(100, 758, 580, 758);
+      doc.line(100, 782, 580, 782);
+
+      doc.text("Fall Risk", 15, 806);
+      doc.text("Yes", 20, 822);
+      doc.text("No", 70, 822);
+
+      doc.text("Fall Risk Description", 200, 806);
+      doc.line(300, 808, 580, 808);
+      doc.line(300, 832, 580, 832);
+
+      doc.addPage();
+      doc.rect(10, 0, 575, 210);
+
+      doc.text("Bed Repositioning", 15, 24);
+      doc.text("Yes", 20, 40);
+      doc.text("No", 70, 40);
+
+      doc.text("Two Person Lift", 200, 24);
+      doc.text("Yes", 205, 40);
+      doc.text("No", 255, 40);
+
+      doc.text("Bed Reposition Description", 15, 64);
+      doc.line(100, 66, 580, 66);
+      doc.line(100, 90, 580, 90);
+
+      doc.text("Bed Reposition Outside Agency", 15, 114);
+      doc.line(100, 116, 580, 116);
+      doc.line(100, 140, 580, 140);
+
+      doc.text("Notes", 15, 164);
+      doc.line(100, 166, 580, 166);
+      doc.line(100, 188, 580, 188);
+
+      doc.rect(10, 220, 575, 270);
+      doc.text("Sleep", 15, 234);
+
+      doc.text("Usual Bedtime", 15, 258);
+      doc.line(100, 260, 580, 260);
+
+      doc.text("Usual Arising Time", 15, 284);
+      doc.line(100, 286, 580, 286);
+
+      doc.text("Naps", 15, 310);
+      doc.text("Yes", 20, 326);
+      doc.text("No", 70, 326);
+
+      doc.text("Nap Description", 200, 310);
+      doc.line(300, 312, 580, 312);
+      doc.line(300, 336, 580, 336);
+
+      doc.text("Assistance to Bed", 15, 360);
+      doc.text("Medication", 20, 376);
+      doc.text("Positioning", 90, 376);
+      doc.text("Pillows", 160, 376);
+      doc.text("Drink", 210, 376);
+      doc.text("Alcohol", 260, 376);
+      doc.text("Hot Tea", 330, 376);
+      doc.text("Warm Milk", 400, 376);
+      doc.text("Other", 470, 376);
+      doc.text("None", 540, 376);
+
+      doc.text("Sleeps through the Night", 15, 400);
+      doc.text("Yes", 20, 416);
+      doc.text("No", 70, 416);
+
+      doc.text("Can Call for Assistance", 250, 400);
+      doc.text("Yes", 255, 416);
+      doc.text("No", 325, 416);
+
+      doc.text("Notes", 15, 440);
+      doc.line(100, 442, 580, 442);
+      doc.line(100, 466, 580, 466);
+
+      doc.rect(10, 500, 575, 270);
+      doc.text("Nutrition", 15, 514);
+
+      doc.text("Overall Nutrition", 15, 538);
+      doc.text("Good", 20, 554);
+      doc.text("Poor", 70, 554);
+
+      doc.text("Poor Nutition Description", 200, 538);
+      doc.line(300, 540, 580, 540);
+      doc.line(300, 564, 580, 564);
+
+      doc.text("Diabetic", 15, 588);
+      doc.text("Yes", 20, 604);
+      doc.text("No", 70, 604);
+
+      doc.text("Diabetic Type", 200, 588);
+      doc.text("Diet Controlled", 205, 604);
+      doc.text("Medication Controlled", 305, 604);
+      doc.text("Insulin Controlled", 405, 604);
+
+      doc.text("Blood Sugar Monitoring", 500, 588);
+      doc.text("Yes", 505, 604);
+      doc.text("No", 555, 604);
 
       doc.save("Blank Careplan.pdf");
     }
