@@ -61,19 +61,19 @@
         <md-input-container ng-if="vm.form.tracksINR">
           <label>How Often</label>
           <md-select ng-model="vm.form.howOftenINR">
-            <md-option>Daily</md-option>
-            <md-option>Weekly</md-option>
-            <md-option>Monthly</md-option>
-            <md-option>Yearly</md-option>
+            <md-option value="Daily">Daily</md-option>
+            <md-option value="Weekly">Weekly</md-option>
+            <md-option value="Monthly">Monthly</md-option>
+            <md-option value="Yearly">Yearly</md-option>
           </md-select>
         </md-input-container>
 
         <md-input-container ng-if="vm.form.tracksINR">
           <label>By Whom</label>
           <md-select ng-model="vm.form.byWhomINR">
-            <md-option>Self</md-option>
-            <md-option>Clinic</md-option>
-            <md-option>Outside Agency</md-option>
+            <md-option value="Self">Self</md-option>
+            <md-option value="Clinic">Clinic</md-option>
+            <md-option value="Outside Agency">Outside Agency</md-option>
           </md-select>
         </md-input-container>
       </div>

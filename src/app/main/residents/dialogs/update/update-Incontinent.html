@@ -81,11 +81,11 @@
         <md-input-container>
           <label>Toileting Device</label>
           <md-select ng-model="vm.form.toiletingDevice">
-            <md-option>Urnal</md-option>
-            <md-option>Seat Riser</md-option>
-            <md-option>Bedside Commode</md-option>
-            <md-option>Bars around Toilet</md-option>
-            <md-option>None</md-option>
+            <md-option value="Urnal">Urnal</md-option>
+            <md-option value="Seat Riser">Seat Riser</md-option>
+            <md-option value="Bedside Commode">Bedside Commode</md-option>
+            <md-option value="Bars around Toilet">Bars around Toilet</md-option>
+            <md-option value="None">None</md-option>
           </md-select>
         </md-input-container>
       </div>
@@ -106,28 +106,28 @@
       <md-input-container ng-if="vm.form.incontinentApparel == true">
         <label>Incontinent Apparel Assist</label>
         <md-select ng-model="vm.form.incontinentApparelAssist">
-          <md-option>Independent</md-option>
-          <md-option>Full</md-option>
+          <md-option value="Independent">Independent</md-option>
+          <md-option value="Full">Full</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
         <label>Toilet Transfer</label>
         <md-select ng-model="vm.form.toiletTransfer">
-          <md-option>Independent</md-option>
-          <md-option>Standby</md-option>
-          <md-option>Partial assitance</md-option>
-          <md-option>Full assistance</md-option>
+          <md-option value="Independent">Independent</md-option>
+          <md-option value="Standby">Standby</md-option>
+          <md-option value="Partial assitance">Partial assitance</md-option>
+          <md-option value="Full assistance">Full assistance</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
         <label>Toileting Assist</label>
         <md-select ng-model="vm.form.toiletingAssist">
-          <md-option>Independent</md-option>
-          <md-option>Reminder</md-option>
-          <md-option>Partial assitance</md-option>
-          <md-option>Full assistance</md-option>
+          <md-option value="Independent">Independent</md-option>
+          <md-option value="Reminder">Reminder</md-option>
+          <md-option value="Partial assitance">Partial assitance</md-option>
+          <md-option value="Full assistance">Full assistance</md-option>
         </md-select>
       </md-input-container>
 

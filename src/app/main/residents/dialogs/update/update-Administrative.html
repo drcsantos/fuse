@@ -49,11 +49,11 @@
       <md-input-container class="md-block">
         <label>Marital Status</label>
         <md-select ng-model="vm.form.maritalStatus" required="">
-          <md-option>Single</md-option>
-          <md-option>Divorced</md-option>
-          <md-option>Widowed</md-option>
-          <md-option>Married</md-option>
-          <md-option>Single never married</md-option>
+          <md-option value="Single">Single</md-option>
+          <md-option value="Divorced">Divorced</md-option>
+          <md-option value="Widowed">Widowed</md-option>
+          <md-option value="Married">Married</md-option>
+          <md-option value="Single never married">Single never married</md-option>
         </md-select>
       </md-input-container>
 
@@ -83,9 +83,9 @@
         <md-input-container>
           <label>Sex</label>
           <md-select ng-model="vm.form.sex" required="">
-            <md-option>Male</md-option>
-            <md-option>Female</md-option>
-            <md-option>Other</md-option>
+            <md-option value="Male">Male</md-option>
+            <md-option value="Female">Female</md-option>
+            <md-option value="Other">Other</md-option>
           </md-select>
         </md-input-container>
 
@@ -97,31 +97,31 @@
         <md-input-container>
           <label>Building Status</label>
           <md-select ng-model="vm.form.buildingStatus" required="">
-            <md-option>In Building</md-option>
-            <md-option>Hospital</md-option>
-            <md-option>Rehab</md-option>
-            <md-option>Dead</md-option>
-            <md-option>Moved Out</md-option>
+            <md-option value="In Building">In Building</md-option>
+            <md-option value="Hospital">Hospital</md-option>
+            <md-option value="Rehab">Rehab</md-option>
+            <md-option value="Dead">Dead</md-option>
+            <md-option value="Moved Out">Moved Out</md-option>
           </md-select>
         </md-input-container>
 
         <md-input-container>
           <label>Admitted From</label>
           <md-select ng-model="vm.form.admittedFrom">
-            <md-option>Home</md-option>
-            <md-option>Hospital</md-option>
-            <md-option>Rehab</md-option>
-            <md-option>Other</md-option>
+            <md-option value="Home">Home</md-option>
+            <md-option value="Hospital">Hospital</md-option>
+            <md-option value="Rehab">Rehab</md-option>
+            <md-option value="Other">Other</md-option>
           </md-select>
         </md-input-container>
 
           <md-input-container ng-if="vm.form.buildingStatus == 'Moved Out'">
             <label>Moved Out To</label>
             <md-select ng-model="vm.form.movedOutTo">
-              <md-option>Nursing Home</md-option>
-              <md-option>Another Assited Living</md-option>
-              <md-option>Home</md-option>
-              <md-option>Other</md-option>
+              <md-option value="Nursing Home">Nursing Home</md-option>
+              <md-option value="Another Assited Living">Another Assited Living</md-option>
+              <md-option value="Home">Home</md-option>
+              <md-option value="Other">Other</md-option>
             </md-select>
           </md-input-container>
         </div>
@@ -183,9 +183,9 @@
        <md-input-container>
          <label>Appointment Coordination</label>
          <md-select ng-model="vm.form.appointmentCoordination">
-           <md-option>Self</md-option>
-           <md-option>Needs assistance</md-option>
-           <md-option>Family</md-option>
+           <md-option value="Self">Self</md-option>
+           <md-option value="Needs assistance">Needs assistance</md-option>
+           <md-option value="Family">Family</md-option>
          </md-select>
        </md-input-container>
 
