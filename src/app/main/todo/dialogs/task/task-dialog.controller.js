@@ -22,23 +22,23 @@
         vm.test = 10;
 
         vm.slider = {
-          minValue: 8,
-          maxValue: 4,
+          minValue: 0,
+          maxValue: 23,
           options: {
-            showTicksValues: true,
-            stepsArray: [
-              {legend: '8 am', value: 8},
-              {legend: '9 am', value: 9},
-              {legend: '10 am', value: 10},
-              {legend: '11 am', value: 11},
-              {legend: '12 am', value: 12},
-              {legend: '1 pm', value: 1},
-              {legend: '2 pm', value: 2},
-              {legend: '3 pm', value: 3},
-              {legend: '4 pm', value: 4}
-            ],
+            //pushRange: true,
+            noSwitching: true,
+            showTicks: true,
             translate: function(value) {
-              return "";
+
+              var americanTime = "";
+
+              americanTime = (value < 12) ? value + " am" :  (value - 12) + ' pm';
+
+              americanTime = (value === 0) ? "12 am" :  americanTime;
+              americanTime = (value === 12) ? "12 pm" :  americanTime;
+
+              return americanTime;
+
             }
           }
         };

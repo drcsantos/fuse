@@ -12,6 +12,7 @@
 
         <md-dialog-content ms-scroll>
 
+          <!-- <div layout="row" layout-align="start"> -->
 
             <div class="md-block">
              <label ng-switch on="vm.form.occurrence">
@@ -21,7 +22,7 @@
                  <span ng-switch-when="3">Occurrence : Monthly</span>
                  <span ng-switch-default>Occurrence : </span>
              </label>
-             <md-slider flex min="0" max="3" ng-model="vm.form.occurrence" aria-label="blue">
+             <md-slider flex min="0" max="3" ng-model="vm.form.occurrence" aria-label="blue" md-vertical>
              </md-slider>
            </div>
 
