@@ -95,7 +95,7 @@
             vm.allTasks = response;
 
             angular.forEach(vm.tasks, function(task) {
-              if(task.current) {
+              if(task.current && !task.overdue) {
                 vm.currTasks.push(task);
               }
 

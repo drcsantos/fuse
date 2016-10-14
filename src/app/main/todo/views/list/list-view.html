@@ -63,8 +63,8 @@
                   <span>{{task.notCompleted.length}}</span>
                   <md-tooltip class="multiline">
                     <span ng-repeat="t in task.notCompleted">
-                      Completed on: {{t.updatedOn | date}}
-                      
+                      Not Completed on: {{t.updatedOn | date}}
+
                     </span>
                   </md-tooltip>
                 </md-icon>
@@ -73,7 +73,7 @@
                   <span>{{task.overDue.length}}</span>
                   <md-tooltip class="multiline">
                     <span ng-repeat="t in task.overDue" >
-                      Completed on: {{t.updatedOn | date}}
+                      Overdue on: {{t.updatedOn | date}}
                     </span>
                   </md-tooltip>
                 </md-icon>
