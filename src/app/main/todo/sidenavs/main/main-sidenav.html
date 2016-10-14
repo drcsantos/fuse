@@ -53,14 +53,14 @@
         <md-button class="item" aria-label="Overdue" translate translate-attr-aria-label="TODO.OVERDUE"
                    ng-click="vm.setCurrentTasks('overdue')"
                    ng-class="{'selected':vm.selectedCategory == 'overdue'}">
-            <md-icon class="md-accent-bg unread-message-count" style="background-color: red">{{ vm.overdue.length }}</md-icon>
+            <md-icon class="md-accent-bg unread-message-count" style="background-color: red">{{ vm.overDue.length }}</md-icon>
             <span  translate="TODO.OVERDUE">Overdue</span>
         </md-button>
 
         <md-button class="item" aria-label="Not Completed" translate translate-attr-aria-label="TODO.NOTCOMPLETED"
                    ng-click="vm.setCurrentTasks('notcompleted')"
                    ng-class="{'selected':vm.selectedCategory == 'notcompleted'}">
-            <md-icon class="md-accent-bg unread-message-count" style="background-color: orange">{{ vm.notcompleted.length }}</md-icon>
+            <md-icon class="md-accent-bg unread-message-count" style="background-color: orange">{{ vm.notCompleted.length }}</md-icon>
             <span  translate="TODO.NOTCOMPLETED">Not Completed</span>
         </md-button>
 

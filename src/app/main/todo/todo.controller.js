@@ -16,8 +16,8 @@
         vm.allTasks = [];
 
         vm.completed = [];
-        vm.overdue = [];
-        vm.notcompleted = [];
+        vm.overDue = [];
+        vm.notCompleted = [];
 
         vm.currTasks = [];
 
@@ -87,8 +87,8 @@
             vm.tasks = response;
 
             vm.completed = [];
-            vm.overdue = [];
-            vm.notcompleted = [];
+            vm.overDue = [];
+            vm.notCompleted = [];
 
             vm.currTasks = [];
 
@@ -110,11 +110,11 @@
               }
 
               if(task.overDue.length > 0) {
-                vm.overdue.push(task);
+                vm.overDue.push(task);
               }
 
               if(task.notCompleted.length > 0) {
-                vm.notcompleted.push(task);
+                vm.notCompleted.push(task);
               }
             });
 
@@ -179,10 +179,10 @@
             vm.currTasks = vm.completed;
             vm.selectedCategory = "completed";
           } else if (type === "overdue") {
-            vm.currTasks = vm.overdue;
+            vm.currTasks = vm.overDue;
             vm.selectedCategory = "overdue";
           } else if(type === "notcompleted") {
-            vm.currTasks = vm.notcompleted;
+            vm.currTasks = vm.notCompleted;
             vm.selectedCategory = "notcompleted";
           } else if(type === "tasks"){
             //vm.currTasks = vm.tasks;

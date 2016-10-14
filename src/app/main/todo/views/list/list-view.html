@@ -50,8 +50,8 @@
 
             <div class="buttons" layout="row" layout-align="start center">
 
-                <md-icon ng-if="vm.selectedCategory != 'tasks' && vm.selectedCategory != 'all-tasks'" class="md-accent-bg unread-message-count">
-                  {{task.completed.length}}
+                <md-icon ng-if="vm.selectedCategory == 'completed'" class="md-accent-bg unread-message-count">
+                  <span>{{task.completed.length}}</span>
                   <md-tooltip class="tt-multiline">
                     <span ng-repeat="t in task.completed">
                       Completed on: {{t.updatedOn | date}}
@@ -59,7 +59,26 @@
                   </md-tooltip>
                 </md-icon>
 
-                <md-menu>
+                <md-icon ng-if="vm.selectedCategory == 'notcompleted'" class="md-accent-bg unread-message-count">
+                  <span>{{task.notCompleted.length}}</span>
+                  <md-tooltip class="multiline">
+                    <span ng-repeat="t in task.notCompleted">
+                      Completed on: {{t.updatedOn | date}}
+                      
+                    </span>
+                  </md-tooltip>
+                </md-icon>
+
+                <md-icon ng-if="vm.selectedCategory == 'overdue'" class="md-accent-bg unread-message-count">
+                  <span>{{task.overDue.length}}</span>
+                  <md-tooltip class="multiline">
+                    <span ng-repeat="t in task.overDue" >
+                      Completed on: {{t.updatedOn | date}}
+                    </span>
+                  </md-tooltip>
+                </md-icon>
+
+                <md-menu ng-if="vm.selectedCategory == 'tasks' || vm.selectedCategory == 'all-tasks'">
                     <md-button class="md-icon-button" aria-label="More" translate
                                translate-attr-aria-label="TODO.MORE">
                         <md-icon md-font-icon="icon-dots-vertical" ng-click="$mdOpenMenu($event)"></md-icon>
