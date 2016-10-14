@@ -74,54 +74,61 @@
 
            <div layout="column" ng-if="vm.form.occurrence === 3" flex>
 
+             <div layout="row" layout-align="space-around center" ng-if="vm.form.occurrence == 3">
+               <md-switch ng-model="vm.form.everyMonth" aria-label="Every Month" ng-change="vm.selectEveryMonth()">
+                 Every Month
+               </md-switch>
+             </div>
+
            <div layout="row" layout-align="space-around center">
-                <md-checkbox ng-model="vm.form.activeMonths[0]" aria-label="Jan">
+
+                <md-checkbox ng-model="vm.form.activeMonths[0]" ng-disabled="vm.form.everyMonth" aria-label="Jan">
                  Jan
                </md-checkbox>
 
-                <md-checkbox ng-model="vm.form.activeMonths[1]" aria-label="Feb">
+                <md-checkbox ng-model="  vm.form.activeMonths[1]" ng-disabled="vm.form.everyMonth" aria-label="Feb">
                  Feb
                </md-checkbox>
 
-               <md-checkbox ng-model="vm.form.activeMonths[2]" aria-label="Mar">
+               <md-checkbox ng-model="  vm.form.activeMonths[2]" ng-disabled="vm.form.everyMonth" aria-label="Mar">
                 Mar
               </md-checkbox>
 
-              <md-checkbox ng-model="vm.form.activeMonths[3]" aria-label="Apr">
+              <md-checkbox ng-model="  vm.form.activeMonths[3]" ng-disabled="vm.form.everyMonth" aria-label="Apr">
                Apr
              </md-checkbox>
 
-              <md-checkbox ng-model="vm.form.activeMonths[4]" aria-label="May">
+              <md-checkbox ng-model="  vm.form.activeMonths[4]" ng-disabled="vm.form.everyMonth" aria-label="May">
                May
              </md-checkbox>
 
-             <md-checkbox ng-model="vm.form.activeMonths[5]" aria-label="Jun">
+             <md-checkbox ng-model="  vm.form.activeMonths[5]" ng-disabled="vm.form.everyMonth" aria-label="Jun">
               Jun
             </md-checkbox>
           </div>
 
           <div layout="row" layout-align="space-around center">
-             <md-checkbox ng-model="vm.form.activeMonths[6]" aria-label="Jul">
+             <md-checkbox ng-model="  vm.form.activeMonths[6]" ng-disabled="vm.form.everyMonth" aria-label="Jul">
               Jul
             </md-checkbox>
 
-             <md-checkbox ng-model="vm.form.activeMonths[7]" aria-label="Aug">
+             <md-checkbox ng-model="  vm.form.activeMonths[7]" ng-disabled="vm.form.everyMonth" aria-label="Aug">
               Aug
             </md-checkbox>
 
-            <md-checkbox ng-model="vm.form.activeMonths[8]" aria-label="Sept">
+            <md-checkbox ng-model="  vm.form.activeMonths[8]" ng-disabled="vm.form.everyMonth" aria-label="Sept">
              Sept
            </md-checkbox>
 
-           <md-checkbox ng-model="vm.form.activeMonths[9]" aria-label="Oct">
+           <md-checkbox ng-model="  vm.form.activeMonths[9]" ng-disabled="vm.form.everyMonth" aria-label="Oct">
             Oct
           </md-checkbox>
 
-           <md-checkbox ng-model="vm.form.activeMonths[10]" aria-label="Nov">
+           <md-checkbox ng-model="  vm.form.activeMonths[10]" ng-disabled="vm.form.everyMonth" aria-label="Nov">
             Nov
           </md-checkbox>
 
-          <md-checkbox ng-model="vm.form.activeMonths[11]" aria-label="Dec">
+          <md-checkbox ng-model="  vm.form.activeMonths[11]" ng-disabled="vm.form.everyMonth" aria-label="Dec">
            Dec
          </md-checkbox>
          </div>
