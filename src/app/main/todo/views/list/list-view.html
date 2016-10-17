@@ -9,7 +9,7 @@
             <md-icon md-font-icon="icon-drag-vertical" class="icon"></md-icon>
         </div>
 
-        <md-button ng-if="vm.selectedCategory != 'completed'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
+        <md-button ng-if="vm.selectedCategory == 'tasks' || vm.selectedCategory == 'all-tasks'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
                    ng-disabled="!vm.isActive(task)"
                    aria-label="Task Done">
             <md-icon md-font-icon="icon-check"></md-icon>
