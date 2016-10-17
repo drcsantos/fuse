@@ -52,7 +52,8 @@
               "text" : "",
               "occurrence" : 2,
               "activeDays" : [],
-              "activeMonths" : [false, false, false, false, false, false, false, false, false, false, false, false ]
+              "activeMonths" : [false, false, false, false, false, false, false, false, false, false, false, false ],
+              "activeWeeks": [false, false, false, false, false]
             };
 
             // Monday - Friday selected by default
@@ -74,6 +75,7 @@
         vm.closeDialog = closeDialog;
         vm.cancelDialog = cancelDialog;
         vm.selectEveryMonth = selectEveryMonth;
+        vm.selectEveryWeek = selectEveryWeek;
 
         //////////
 
@@ -124,6 +126,12 @@
         function selectEveryMonth() {
             vm.form.activeMonths = _.map(vm.form.activeMonths, function(elem) {
               return vm.form.everyMonth;
+            });
+        }
+
+        function selectEveryWeek() {
+            vm.form.activeWeeks = _.map(vm.form.activeWeeks, function(elem) {
+              return vm.form.everyWeek;
             });
         }
 

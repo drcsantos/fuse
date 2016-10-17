@@ -45,7 +45,7 @@
             </div>
 
              <div layout="column" ng-if="vm.form.occurrence === 2">
-              <md-switch ng-model="vm.form.everyWeek" aria-label="Every Week" ng-if="vm.form.occurrence == 2">
+              <md-switch ng-model="vm.form.everyWeek" aria-label="Every Week" ng-change="vm.selectEveryWeek()" ng-if="vm.form.occurrence == 2">
                 Every Week
               </md-switch>
 
