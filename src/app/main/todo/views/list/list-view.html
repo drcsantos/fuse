@@ -10,7 +10,7 @@
         </div>
 
         <md-button ng-if="vm.selectedCategory != 'completed' && vm.selectedCategory != 'notcompleted'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
-                   ng-disabled="!vm.isActive(task)"
+                   ng-disabled="vm.isActive(task)"
                    aria-label="Task Done">
             <md-icon md-font-icon="icon-check"></md-icon>
             <md-tooltip>
