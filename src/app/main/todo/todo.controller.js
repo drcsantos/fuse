@@ -103,13 +103,11 @@
 
             angular.forEach(vm.tasks, function(task) {
 
-              //var category = taskCategory(task);
-
               if(task.completed.length > 0) {
                 vm.completed.push(task);
               }
 
-              if(task.overDue.length > 0) {
+              if(task.overDue.length > 0 && !task.complete) {
                 vm.overDue.push(task);
               }
 
@@ -337,25 +335,6 @@
           } else {
             return true;
           }
-        }
-
-        // checks if the task is finished for the current interval
-        function taskCategory(task) {
-          var currTime = moment();
-
-          if(!task.complete) {
-            if(task.occurrence === utils.DAILY) {
-              //if it's past 12 pm it's overdue
-              if(currTime.hour() >= 12) {
-                return 'overdue';
-              }
-            }
-          }
-
-        }
-
-        function isTaskOverdue(task) {
-
         }
 
         /////////////////////////// THEME CODE //////////////////////////
