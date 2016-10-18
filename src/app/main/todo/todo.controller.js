@@ -93,9 +93,10 @@
             vm.currTasks = [];
 
             vm.allTasks = response;
+            console.log(vm.tasks);
 
             angular.forEach(vm.tasks, function(task) {
-              if(task.current && !task.overdue) {
+              if(task.state === "current") {
                 vm.currTasks.push(task);
               }
 
@@ -107,7 +108,7 @@
                 vm.completed.push(task);
               }
 
-              if(task.overDue.length > 0 && !task.complete) {
+              if(task.overDue.length > 0) {
                 vm.overDue.push(task);
               }
 
@@ -150,7 +151,7 @@
         {
             event.stopPropagation();
 
-            task.complete = true;
+            task.state = "complete";
 
             //remove he task from array by id
             _.remove(vm.currTasks, {"_id" : task._id});
@@ -211,7 +212,8 @@
           var dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
           if(task.occurrence === utils.HOURLY) {
-            daysDesc += " (" + task.hourStart + "am - " + task.hourEnd + "pm ) ";
+            daysDesc += " (" +   ToDoUtilsService.convertToPm(task.hourStart ) +
+            " - " + ToDoUtilsService.convertToPm(task.hourEnd ) + " ) ";
           }
 
           daysDesc += " (";
@@ -316,7 +318,7 @@
             // Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
               if(vm.tasks[i]._id === task._id) {
-                vm.tasks[i].complete = task.complete;
+                vm.tasks[i].state = task.state;
                 vm.tasks[i].completed.push({"counter" : 0, updatedOn: new Date()});
                 break;
               }
@@ -330,8 +332,8 @@
 
         function isActive(task) {
           if(task.occurrence === 1 ) {
-            var currDay = moment().isoWeekday();
-            return task.activeDays[currDay - 1];
+            // var currDay = moment().isoWeekday();
+            // return task.activeDays[currDay - 1];
           } else {
             return true;
           }

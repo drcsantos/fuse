@@ -7,7 +7,7 @@
         .controller('TaskDialogController', TaskDialogController);
 
     /** @ngInject */
-    function TaskDialogController($mdDialog, Task, Tasks, event, $mdToast, authentication, apilaData)
+    function TaskDialogController($mdDialog, Task, Tasks, event, $mdToast, authentication, apilaData, ToDoUtilsService)
     {
         var vm = this;
 
@@ -29,19 +29,21 @@
             noSwitching: true,
             showTicks: true,
             translate: function(value) {
-
-              var americanTime = "";
-
-              americanTime = (value < 12) ? value + " am" :  (value - 12) + ' pm';
-
-              americanTime = (value === 0) ? "12 am" :  americanTime;
-              americanTime = (value === 12) ? "12 pm" :  americanTime;
-
-              return americanTime;
-
+              return ToDoUtilsService.convertToPm(value);
             }
           }
         };
+
+        function convertToPm(value) {
+          var americanTime = "";
+
+          americanTime = (value < 12) ? value + " am" :  (value - 12) + ' pm';
+
+          americanTime = (value === 0) ? "12 am" :  americanTime;
+          americanTime = (value === 12) ? "12 pm" :  americanTime;
+
+          return americanTime;
+        }
 
         vm.todoid = authentication.currentUser().todoid;
 
@@ -85,8 +87,6 @@
           vm.form.hourStart = vm.slider.minValue;
           vm.form.hourEnd = vm.slider.maxValue;
 
-          console.log(vm.form.hourStart + " " + vm.form.hourEnd);
-
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(response) {
               errorMessages();
@@ -100,6 +100,9 @@
         }
 
         function updateTask() {
+
+          vm.form.hourStart = vm.slider.minValue;
+          vm.form.hourEnd = vm.slider.maxValue;
 
           apilaData.updateTask(vm.todoid, vm.task._id,  vm.form)
           .success(function(response) {
