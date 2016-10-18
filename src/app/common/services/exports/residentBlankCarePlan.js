@@ -408,7 +408,7 @@
       doc.line(100, 442, 580, 442);
       doc.line(100, 466, 580, 466);
 
-      doc.rect(10, 500, 575, 270);
+      doc.rect(10, 500, 575, 400);
       doc.text("Nutrition", 15, 514);
 
       doc.text("Overall Nutrition", 15, 538);
@@ -426,11 +426,108 @@
       doc.text("Diabetic Type", 200, 588);
       doc.text("Diet Controlled", 205, 604);
       doc.text("Medication Controlled", 305, 604);
-      doc.text("Insulin Controlled", 405, 604);
+      doc.text("Insulin Controlled", 435, 604);
 
-      doc.text("Blood Sugar Monitoring", 500, 588);
-      doc.text("Yes", 505, 604);
-      doc.text("No", 555, 604);
+      doc.text("Blood Sugar Monitoring", 15, 628);
+      doc.text("Yes", 20, 644);
+      doc.text("No", 70, 644);
+
+      doc.text("Bedtime Snack", 200, 628);
+      doc.text("Yes", 205, 644);
+      doc.text("No", 255, 644);
+
+      doc.text("Adaptive Equipment", 15, 668);
+      doc.text("Plate Guard", 20, 684);
+      doc.text("Built Up Silverware", 120, 684);
+      doc.text("Special Cups", 270, 684);
+      doc.text("None", 370, 684);
+
+      doc.text("Type of Diet", 15, 708);
+      doc.text("BRAT", 20, 724);
+      doc.text("Gluten Free", 100, 724);
+      doc.text("Full Vegan", 180, 724);
+      doc.text("Partial Vegan", 260, 724);
+      doc.text("Lactose Free", 340, 724);
+      doc.text("Other", 420, 724);
+      doc.text("Regular", 500, 724);
+
+      doc.text("Special Diet", 15, 748);
+      doc.text("Pureed", 20, 764);
+      doc.text("Ground", 100, 764);
+      doc.text("Soft", 180, 764);
+      doc.text("Regular", 260, 764);
+
+      doc.text("Finger Foods", 15, 788);
+      doc.text("Yes", 20, 804);
+      doc.text("No", 70, 804);
+
+      doc.text("Food in Room", 200, 788);
+      doc.text("Yes", 205, 804);
+      doc.text("No", 255, 804);
+
+      doc.text("Drink in Room", 400, 788);
+      doc.text("Yes", 405, 804);
+      doc.text("No", 455, 804);
+
+      doc.addPage();
+      doc.rect(10, 0, 575, 116);
+
+      doc.text("Food Assistance", 15, 24);
+      doc.text("Independent", 20, 40);
+      doc.text("Reminder", 100, 40);
+      doc.text("Partial Assistance", 180, 40);
+      doc.text("Full Assistance", 290, 40);
+
+      doc.text("Notes", 15, 64);
+      doc.line(100, 66, 580, 66);
+      doc.line(100, 90, 580, 90);
+
+      doc.rect(10, 126, 575, 600);
+      doc.text("Physical Condition", 15, 140);
+      doc.text("Skin", 15, 164);
+
+      doc.text("Skin Condition", 15, 188);
+      doc.text("Average", 20, 204);
+      doc.text("Tears Easily", 80, 204);
+
+      doc.text("Wound that needs Dressing", 200, 188);
+      doc.text("Yes", 205, 204);
+      doc.text("No", 255, 204);
+
+      doc.text("Wound Amount", 400, 188);
+      doc.line(500, 190, 580, 190);
+
+      doc.text("At Risk for Skin Breakdown", 15, 228);
+      doc.text("Yes", 20, 244);
+      doc.text("No", 70, 244);
+
+      doc.text("Infection", 15, 268);
+
+      doc.text("UTI Risk", 15, 292);
+      doc.text("Yes", 20, 308);
+      doc.text("No", 70, 308);
+
+      doc.text("URI Risk", 200, 292);
+      doc.text("Yes", 205, 308);
+      doc.text("No", 255, 308);
+
+      doc.text("MRSA Risk", 400, 292);
+      doc.text("Yes", 405, 308);
+      doc.text("No", 455, 308);
+
+      doc.text("VRE Risk", 15, 332);
+      doc.text("Yes", 20, 348);
+      doc.text("No", 70, 348);
+
+      doc.text("Shingles Risk", 200, 332);
+      doc.text("Yes", 205, 348);
+      doc.text("No", 255, 348);
+
+      doc.text("Pneumonia Risk", 400, 332);
+      doc.text("Yes", 405, 348);
+      doc.text("No", 455, 348);
+
+      doc.text("Hearing", 15, 372);
 
       doc.save("Blank Careplan.pdf");
     }
