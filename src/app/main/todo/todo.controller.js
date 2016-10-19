@@ -72,7 +72,6 @@
         vm.resetFilters = resetFilters;
         vm.setCurrentTasks = setCurrentTasks;
         vm.deleteTask = deleteTask;
-        vm.isActive = isActive;
         vm.showActiveDays = showActiveDays;
         vm.showActiveMonths = showActiveMonths;
         vm.showActiveWeeks = showActiveWeeks;
@@ -153,21 +152,21 @@
 
             task.state = "complete";
 
-            //remove he task from array by id
+            //remove the task from array by id
             _.remove(vm.currTasks, {"_id" : task._id});
 
-            var found = false;
-            for(var i = 0; i < vm.completed.length; ++i) {
-              if(vm.completed[i]._id === task._id) {
-                vm.completed[i].completed.push({"counter" : 0, updatedOn: new Date()});
-                found = true;
-                break;
-              }
-            }
-
-            if(!found) {
-              vm.completed.push(task);
-            }
+            // var found = false;
+            // for(var i = 0; i < vm.completed.length; ++i) {
+            //   if(vm.completed[i]._id === task._id) {
+            //     vm.completed[i].completed.push({"counter" : 0, updatedOn: new Date()});
+            //     found = true;
+            //     break;
+            //   }
+            // }
+            //
+            // if(!found) {
+            //   vm.completed.push(task);
+            // }
 
             updateTask(task);
         }
@@ -315,11 +314,18 @@
           apilaData.updateTask(vm.todoid, task._id,  task)
           .success(function(response) {
 
-            // Update the correct tasks with new values
+            console.log(response);
+
+            //Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
               if(vm.tasks[i]._id === task._id) {
-                vm.tasks[i].state = task.state;
-                vm.tasks[i].completed.push({"counter" : 0, updatedOn: new Date()});
+                if(vm.tasks[i].completed.length !== response.completed.length) {
+                  vm.completed.push(response);
+                }
+
+                if(vm.tasks[i].overDue.length !== response.overDue.length) {
+                  vm.overDue.push(task);
+                }
                 break;
               }
             }
@@ -330,14 +336,6 @@
 
         }
 
-        function isActive(task) {
-          if(task.occurrence === 1 ) {
-            // var currDay = moment().isoWeekday();
-            // return task.activeDays[currDay - 1];
-          } else {
-            return true;
-          }
-        }
 
         /////////////////////////// THEME CODE //////////////////////////
 

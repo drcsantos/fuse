@@ -9,8 +9,8 @@
             <md-icon md-font-icon="icon-drag-vertical" class="icon"></md-icon>
         </div>
 
-        <md-button ng-if="vm.selectedCategory != 'completed' && vm.selectedCategory != 'notcompleted'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
-                   ng-disabled="vm.isActive(task)"
+        <md-button ng-if="vm.selectedCategory === 'tasks' || vm.selectedCategory === 'all-tasks'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
+                   ng-disabled="task.state === 'inactive' || task.state === 'complete'"
                    aria-label="Task Done">
             <md-icon md-font-icon="icon-check"></md-icon>
             <md-tooltip>
