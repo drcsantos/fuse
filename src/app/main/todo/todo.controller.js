@@ -60,6 +60,11 @@
             suppressScrollX: true
         };
 
+        vm.items = [];
+        for (var i = 0; i < 1000; i++) {
+          vm.items.push(i);
+        }
+
         // Functions
         vm.preventDefault = preventDefault;
         vm.openTaskDialog = openTaskDialog;
@@ -75,6 +80,7 @@
         vm.showActiveDays = showActiveDays;
         vm.showActiveMonths = showActiveMonths;
         vm.showActiveWeeks = showActiveWeeks;
+        vm.toggleHistory = toggleHistory;
 
         init();
 
@@ -296,6 +302,12 @@
           monthsFormated = removeLastComma(monthsFormated);
 
           return monthsFormated + ' )';
+        }
+
+        function toggleHistory(event, task) {
+          event.stopPropagation();
+
+          task.showHistory = !task.showHistory;
         }
 
         //////////////////////// HELPER FUNCTINS ////////////////////////

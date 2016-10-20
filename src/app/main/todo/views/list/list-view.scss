@@ -1,5 +1,15 @@
 #todo {
 
+  #vertical-container {
+  height: 80px;
+  width: 100%;
+  max-width: 300px; }
+
+  md-virtual-repeat-container {
+  border: solid 1px grey; }
+
+  md-virtual-repeat-container .md-virtual-repeat-offsetter div {
+  padding-left: 16px; }
     // Single scroll
     &.single-scroll {
 

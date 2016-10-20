@@ -48,6 +48,31 @@
 
             </div>
 
+            <md-virtual-repeat-container ng-if="vm.selectedCategory == 'notcompleted' && task.showHistory" id="vertical-container">
+              <div md-virtual-repeat="t in task.notCompleted" flex>
+                Not Completed on: {{t.updatedOn | date}}
+              </div>
+            </md-virtual-repeat-container>
+
+            <md-virtual-repeat-container ng-if="vm.selectedCategory == 'completed' && task.showHistory" id="vertical-container">
+              <div md-virtual-repeat="t in task.completed" flex>
+                Completed on: {{t.updatedOn | date}}
+              </div>
+            </md-virtual-repeat-container>
+
+            <md-virtual-repeat-container ng-if="vm.selectedCategory == 'overdue' && task.showHistory" id="vertical-container">
+              <div md-virtual-repeat="t in task.overDue" flex>
+                Overdue on: {{t.updatedOn | date}}
+              </div>
+            </md-virtual-repeat-container>
+
+            <md-button ng-if="vm.selectedCategory === 'completed' || vm.selectedCategory === 'notcompleted' || vm.selectedCategory === 'overdue'" class="md-fab md-accent md-mini" ng-click="vm.toggleHistory($event, task)">
+
+                <md-icon md-font-icon="icon-chevron-double-up" ng-if="task.showHistory"></md-icon>
+                <md-icon md-font-icon="icon-chevron-double-down" ng-if="!task.showHistory"></md-icon>
+
+            </md-button>
+
             <div class="buttons" layout="row" layout-align="start center">
 
                 <md-icon ng-if="vm.selectedCategory == 'completed'" class="md-accent-bg unread-message-count">
