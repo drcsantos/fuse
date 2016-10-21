@@ -67,9 +67,13 @@
           vm.newTask = false;
           vm.form = vm.task;
 
+          console.log(vm.form.hourStart + " : " + vm.form.hourEnd);
+
           vm.slider = {
             minValue: vm.form.hourStart,
             maxValue: vm.form.hourEnd,
+            minRange: 0,
+            maxRange: 23,
             options: {
               //pushRange: true,
               noSwitching: true,

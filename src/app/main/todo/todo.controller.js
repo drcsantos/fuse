@@ -94,12 +94,18 @@
 
             vm.allTasks = response;
 
-            angular.forEach(vm.tasks, function(task) {
-              if(task.state === "current") {
-                vm.currTasks.push(task);
-              }
+            //populate current tasks
+            if(vm.selectedCategory === 'all-tasks') {
 
-            });
+              angular.forEach(vm.tasks, function(task) {
+                if(task.state === "current") {
+                  vm.currTasks.push(task);
+                }
+              });
+
+            } else {
+              vm.currTasks = response;
+            }
 
             angular.forEach(vm.tasks, function(task) {
 
