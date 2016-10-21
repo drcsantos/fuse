@@ -9,7 +9,7 @@
             <md-icon md-font-icon="icon-drag-vertical" class="icon"></md-icon>
         </div>
 
-        <md-button ng-if="vm.selectedCategory === 'tasks' || vm.selectedCategory === 'all-tasks'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.toggleCompleted(task, $event)"
+        <md-button ng-if="vm.selectedCategory === 'tasks' || vm.selectedCategory === 'all-tasks'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.completeTask(task, $event)"
                    ng-disabled="task.state === 'inactive' || task.state === 'complete'"
                    aria-label="Task Done">
             <md-icon md-font-icon="icon-check"></md-icon>
@@ -71,37 +71,14 @@
                 <md-icon md-font-icon="icon-chevron-double-up" ng-if="task.showHistory"></md-icon>
                 <md-icon md-font-icon="icon-chevron-double-down" ng-if="!task.showHistory"></md-icon>
 
+                <md-tooltip ng-if="vm.selectedCategory === 'notcompleted'">{{ task.notCompleted.length }}</md-tooltip>
+                <md-tooltip ng-if="vm.selectedCategory === 'overdue'">{{ task.overDue.length }}</md-tooltip>
+                <md-tooltip ng-if="vm.selectedCategory === 'completed'">{{ task.completed.length }}</md-tooltip>
+
+
             </md-button>
 
             <div class="buttons" layout="row" layout-align="start center">
-
-                <md-icon ng-if="vm.selectedCategory == 'completed'" class="md-accent-bg unread-message-count">
-                  <span>{{task.completed.length}}</span>
-                  <md-tooltip class="tt-multiline">
-                    <span ng-repeat="t in task.completed">
-                      Completed on: {{t.updatedOn | date}}
-                    </span>
-                  </md-tooltip>
-                </md-icon>
-
-                <md-icon ng-if="vm.selectedCategory == 'notcompleted'" class="md-accent-bg unread-message-count">
-                  <span>{{task.notCompleted.length}}</span>
-                  <md-tooltip class="multiline">
-                    <span ng-repeat="t in task.notCompleted">
-                      Not Completed on: {{t.updatedOn | date}}
-
-                    </span>
-                  </md-tooltip>
-                </md-icon>
-
-                <md-icon ng-if="vm.selectedCategory == 'overdue'" class="md-accent-bg unread-message-count">
-                  <span>{{task.overDue.length}}</span>
-                  <md-tooltip class="multiline">
-                    <span ng-repeat="t in task.overDue" >
-                      Overdue on: {{t.updatedOn | date}}
-                    </span>
-                  </md-tooltip>
-                </md-icon>
 
                 <md-menu ng-if="vm.selectedCategory == 'tasks' || vm.selectedCategory == 'all-tasks'">
                     <md-button class="md-icon-button" aria-label="More" translate

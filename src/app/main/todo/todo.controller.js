@@ -60,15 +60,10 @@
             suppressScrollX: true
         };
 
-        vm.items = [];
-        for (var i = 0; i < 1000; i++) {
-          vm.items.push(i);
-        }
-
         // Functions
         vm.preventDefault = preventDefault;
         vm.openTaskDialog = openTaskDialog;
-        vm.toggleCompleted = toggleCompleted;
+        vm.completeTask = completeTask;
         vm.toggleSidenav = toggleSidenav;
         vm.toggleFilter = toggleFilter;
         vm.toggleFilterWithEmpty = toggleFilterWithEmpty;
@@ -98,7 +93,6 @@
             vm.currTasks = [];
 
             vm.allTasks = response;
-            console.log(vm.tasks);
 
             angular.forEach(vm.tasks, function(task) {
               if(task.state === "current") {
@@ -152,7 +146,7 @@
             });
         }
 
-        function toggleCompleted(task, event)
+        function completeTask(task, event)
         {
             event.stopPropagation();
 
@@ -160,19 +154,6 @@
 
             //remove the task from array by id
             _.remove(vm.currTasks, {"_id" : task._id});
-
-            // var found = false;
-            // for(var i = 0; i < vm.completed.length; ++i) {
-            //   if(vm.completed[i]._id === task._id) {
-            //     vm.completed[i].completed.push({"counter" : 0, updatedOn: new Date()});
-            //     found = true;
-            //     break;
-            //   }
-            // }
-            //
-            // if(!found) {
-            //   vm.completed.push(task);
-            // }
 
             updateTask(task);
         }
@@ -211,14 +192,17 @@
 
         function showActiveDays(task) {
           var daysDesc = "";
+          var hourTime = "";
           var days = task.activeDays;
           var count = 0;
 
           var dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
           if(task.occurrence === utils.HOURLY) {
-            daysDesc += " (" +   ToDoUtilsService.convertToPm(task.hourStart ) +
+            hourTime = " (" +   ToDoUtilsService.convertToPm(task.hourStart ) +
             " - " + ToDoUtilsService.convertToPm(task.hourEnd ) + " ) ";
+
+            daysDesc += hourTime;
           }
 
           daysDesc += " (";
@@ -241,7 +225,7 @@
 
           // if every day is selected
           if(count === 7) {
-            return "( All week )";
+            return (task.occurrence === utils.HOURLY) ? hourTime + "( All week )" : "( All week )";
           }
 
           // remove the last ,
@@ -326,17 +310,15 @@
           apilaData.updateTask(vm.todoid, task._id,  task)
           .success(function(response) {
 
-            console.log(response);
-
             //Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
               if(vm.tasks[i]._id === task._id) {
                 if(vm.tasks[i].completed.length !== response.completed.length) {
-                  vm.completed.push(response);
+                  updateHistory("completed", response);
                 }
 
                 if(vm.tasks[i].overDue.length !== response.overDue.length) {
-                  vm.overDue.push(task);
+                  updateHistory("overDue", response);
                 }
                 break;
               }
@@ -345,6 +327,23 @@
           .error(function(response) {
             console.log(response);
           });
+
+        }
+
+        function updateHistory(type, task) {
+
+          var found = false;
+          for(var i = 0; i < vm[type].length; ++i) {
+            if(vm[type][i]._id === task._id) {
+              vm[type][i][type].push({updatedOn: moment().toDate()});
+              found = true;
+              break;
+            }
+          }
+
+          if(!found) {
+            vm[type].push(task);
+          }
 
         }
 
