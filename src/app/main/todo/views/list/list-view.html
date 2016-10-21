@@ -50,19 +50,19 @@
 
             <md-virtual-repeat-container ng-if="vm.selectedCategory == 'notcompleted' && task.showHistory" id="vertical-container">
               <div md-virtual-repeat="t in task.notCompleted" flex>
-                Not Completed on: {{t.updatedOn | date}}
+                Not Completed on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
               </div>
             </md-virtual-repeat-container>
 
             <md-virtual-repeat-container ng-if="vm.selectedCategory == 'completed' && task.showHistory" id="vertical-container">
               <div md-virtual-repeat="t in task.completed" flex>
-                Completed on: {{t.updatedOn | date}}
+                Completed on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
               </div>
             </md-virtual-repeat-container>
 
             <md-virtual-repeat-container ng-if="vm.selectedCategory == 'overdue' && task.showHistory" id="vertical-container">
               <div md-virtual-repeat="t in task.overDue" flex>
-                Overdue on: {{t.updatedOn | date}}
+                Overdue on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
               </div>
             </md-virtual-repeat-container>
 

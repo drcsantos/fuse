@@ -21,19 +21,6 @@
 
         vm.test = 10;
 
-        vm.slider = {
-          minValue: 0,
-          maxValue: 23,
-          options: {
-            //pushRange: true,
-            noSwitching: true,
-            showTicks: true,
-            translate: function(value) {
-              return ToDoUtilsService.convertToPm(value);
-            }
-          }
-        };
-
         function convertToPm(value) {
           var americanTime = "";
 
@@ -58,6 +45,19 @@
               "activeWeeks": [false, false, false, false, false]
             };
 
+            vm.slider = {
+              minValue: 0,
+              maxValue: 23,
+              options: {
+                //pushRange: true,
+                noSwitching: true,
+                showTicks: true,
+                translate: function(value) {
+                  return ToDoUtilsService.convertToPm(value);
+                }
+              }
+            };
+
             // Monday - Friday selected by default
             for(var i = 0; i < 5; ++i) {
               vm.form.activeDays[i] = true;
@@ -67,8 +67,18 @@
           vm.newTask = false;
           vm.form = vm.task;
 
-          vm.slider.minValue = vm.form.hourStart;
-          vm.slider.maxValue = vm.form.hourEnd;
+          vm.slider = {
+            minValue: vm.form.hourStart,
+            maxValue: vm.form.hourEnd,
+            options: {
+              //pushRange: true,
+              noSwitching: true,
+              showTicks: true,
+              translate: function(value) {
+                return ToDoUtilsService.convertToPm(value);
+              }
+            }
+          };
         }
 
         // Methods
