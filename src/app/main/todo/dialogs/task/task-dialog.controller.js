@@ -67,8 +67,6 @@
           vm.newTask = false;
           vm.form = vm.task;
 
-          console.log(vm.form.hourStart + " : " + vm.form.hourEnd);
-
           vm.slider = {
             minValue: vm.form.hourStart,
             maxValue: vm.form.hourEnd,
@@ -102,9 +100,9 @@
           vm.form.hourEnd = vm.slider.maxValue;
 
             apilaData.addTask(vm.todoid, vm.form)
-            .success(function(response) {
-              errorMessages();
-              vm.tasks.push(response);
+            .success(function(task) {
+              errorMessages(task);
+              vm.tasks.push(task);
               closeDialog();
             })
             .error(function(response) {
@@ -119,9 +117,9 @@
           vm.form.hourEnd = vm.slider.maxValue;
 
           apilaData.updateTask(vm.todoid, vm.task._id,  vm.form)
-          .success(function(response) {
+          .success(function(task) {
 
-            errorMessages();
+            errorMessages(task);
 
             // Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
@@ -152,14 +150,9 @@
             });
         }
 
-        function errorMessages() {
-          var currDay = moment().isoWeekday();
-          if(currDay === 6 || currDay === 7) {
-            if(vm.form.occurrence > 0 && vm.form.occurrence <= 3) {
-                showToast("The task is created but will only be shown Monday - Friday");
-            } else if(vm.form.occurrence === 0) {
-              showToast("The task is created but will only be shown Monday - Friday from 8am-4pm");
-            }
+        function errorMessages(task) {
+          if(isInActiveCycle(task)) {
+            showToast("The task is created but it's not currently active");
           }
         }
 
@@ -170,6 +163,39 @@
             .position("top right")
             .hideDelay(3000)
           );
+        }
+
+        function isInActiveCycle(task) {
+
+          var currTime = moment();
+          var currHour = currTime.hour();
+          var currDay = currTime.isoWeekday();
+          var currWeek = weekOfMonth(currTime);
+          var currMonth = currTime.month();
+
+          var result = false;
+
+          if(task.occurrence === 0) {
+            result = (currHour >= task.hourStart && currHour <= task.hourEnd);
+          } else if(task.occurrence === 1) {
+            result = task.activeDays[currDay - 1];
+          } else if(task.occurrence === 2) {
+            result = task.activeWeeks[currWeek - 1];
+          } else if(task.occurrence === 3) {
+            result = task.activeMonths[currMonth];
+          }
+
+          //sometimes an array will be like activeDays will have less items
+          if(result === undefined) {
+            result = true;
+          }
+
+          return result;
+
+        }
+
+        function weekOfMonth(m) {
+          return m.week() - moment(m).startOf('month').week() + 1;
         }
 
         function cancelDialog() {
