@@ -15,15 +15,15 @@
       <md-input-container>
         <label>Use of Assistive Device</label>
         <md-select ng-model="vm.form.insideApartment.useOfAssistiveDevice">
-          <md-option>No Device</md-option>
-          <md-option>Walker</md-option>
-          <md-option>Cane</md-option>
-          <md-option>Wheelchair</md-option>
-          <md-option>Electric Wheelchair</md-option>
+          <md-option value="No Device">No Device</md-option>
+          <md-option value="Walker">Walker</md-option>
+          <md-option value="Cane">Cane</md-option>
+          <md-option value="Wheelchair">Wheelchair</md-option>
+          <md-option value="Electric Wheelchair">Electric Wheelchair</md-option>
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
+      <md-input-container class="md-block" ng-if="vm.form.insideApartment.useOfAssistiveDevice != 'No Device'">
         <label>Assitance with Device</label>
         <input ng-model="vm.form.insideApartment.assitanceWithDevice" type="text">
       </md-input-container>
@@ -33,19 +33,52 @@
         <input ng-model="vm.form.insideApartment.specialAmbulationNeeds" type="text">
       </md-input-container>
 
+      <!-- devices -->
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.insideApartment.transferPole" aria-label="Transfer Pole">
+          Transfer Pole
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.insideApartment.liftReclinerChair" aria-label="Lift Recliner Chair">
+          Lift Recliner Chair
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.insideApartment.transferLift" aria-label="Transfer Lift">
+          Transfer Lift
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.insideApartment.sideRails" aria-label="Side Rails">
+          Side Rails
+        </md-checkbox>
+      </md-input-container>
+
+
+      <md-input-container class="md-block">
+        <label>Mobility Safety Assessment</label>
+        <input ng-model="vm.form.insideApartment.mobilitySafetyAssessment" type="text">
+        <input ng-if="vm.form.sideRails == true || vm.form.transferLift == true || vm.form.liftReclinerChair == true"
+        ng-model="vm.form.insideApartment.mobilitySafetyAssessment" type="text" placeholder="Assessed for Safety">
+      </md-input-container>
+
       <h4>Outside Apartment</h4>
       <md-input-container>
         <label>Use of Assistive Device</label>
         <md-select ng-model="vm.form.outsideApartment.useOfAssistiveDevice">
-          <md-option>No Device</md-option>
-          <md-option>Walker</md-option>
-          <md-option>Cane</md-option>
-          <md-option>Wheelchair</md-option>
-          <md-option>Electric Wheelchair</md-option>
+          <md-option value="No Device">No Device</md-option>
+          <md-option value="Walker">Walker</md-option>
+          <md-option value="Cane">Cane</md-option>
+          <md-option value="Wheelchair">Wheelchair</md-option>
+          <md-option value="Electric Wheelchair">Electric Wheelchair</md-option>
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
+      <md-input-container class="md-block" ng-if="vm.form.outsideApartment.useOfAssistiveDevice != 'No Device'">
         <label>Assitance with Device</label>
         <input ng-model="vm.form.outsideApartment.assitanceWithDevice" type="text">
       </md-input-container>
@@ -58,11 +91,11 @@
       <md-input-container>
         <label>Transfers</label>
         <md-select ng-model="vm.form.transfers">
-          <md-option>Standby</md-option>
-          <md-option>Independent</md-option>
-          <md-option>Full Assist</md-option>
-          <md-option>Transfer Pole</md-option>
-          <md-option>Gait Belt</md-option>
+          <md-option value="Standby">Standby</md-option>
+          <md-option value="Independent">Independent</md-option>
+          <md-option value="Full Assist">Full Assist</md-option>
+          <md-option value="Transfer Pole">Transfer Pole</md-option>
+          <md-option value="Gait Belt">Gait Belt</md-option>
         </md-select>
       </md-input-container>
 
@@ -73,15 +106,38 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.fallRisk" ng-hide="vm.showCancel" aria-label="">
+        <md-checkbox ng-model="vm.form.fallRisk" aria-label="">
           Fall Risk
         </md-checkbox>
       </md-input-container>
 
-      <md-input-container class="md-block" ng-if="vm.form.fallRisk">
-        <label>Describe the Fall Risk</label>
-        <textarea ng-model="vm.form.fallRiskDescribe" rows="5"></textarea>
+      <md-input-container ng-if="vm.form.fallRisk == true">
+        <label>Fall Risk Desribe</label>
+        <md-select ng-model="vm.form.fallRiskDescribe">
+          <md-option value="Physical Limitations">Physical Limitations</md-option>
+          <md-option value="Medication Challenges">Medication Challenges</md-option>
+          <md-option value="Cognition"></md-option>
+          <md-option value="Choice">Choice</md-option>
+          <md-option value="Other">Other</md-option>
+        </md-select>
       </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Bed Reposition Explain</label>
+        <input ng-model="vm.form.bedRepositionExplain" type="text">
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Bed Reposition Outside Agency</label>
+        <input ng-model="vm.form.bedRepositionOutsideAgency" type="text">
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.twoPersonLift"  aria-label="">
+          Two Person Lift
+        </md-checkbox>
+      </md-input-container>
+
 
       <md-input-container flex class="md-block textarea-container">
         <label>Notes</label>
@@ -95,6 +151,9 @@
         <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
           UPDATE
         </md-button>
+      </div>
+
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
       </div>
     </md-dialog-actions>
   </form>

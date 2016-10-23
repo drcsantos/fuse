@@ -23,23 +23,40 @@
 
         var listCopy = null;
 
+        // Functions
+        vm.openCardDialog = DialogService.openCardDialog;
+        vm.cardFilter = cardFilter;
+        vm.isOverdue = isOverdue;
+
+        ////////////////////// PRELOAD DATA //////////////////////
+
+        //push the first list for cuurent User, so it's always the first one
+        vm.board.lists.push(  {
+              "id": msUtils.guidGenerator(),
+              "name": username,
+              "idCards": []
+          });
+
+          //get the current board we are on to load proper data
+          var status = "";
+
+          if($stateParams.uri === "open-issues" || $stateParams.uri === ""){
+            status="Open";
+          } else if($stateParams.uri === "shelved-issues") {
+            status = "Shelved";
+          } else if($stateParams.uri === "closed-issues") {
+            status = "Closed";
+          }
+
         apilaData.userCommunity(userid)
         .success(function(d) {
           vm.myCommunity = d;
 
-          issueList(vm.myCommunity._id);
+          populateCurrentUserList(vm.myCommunity._id);
+          populateLists(vm.myCommunity._id);
           issuesCount(vm.myCommunity._id);
-          listByUsername(vm.myCommunity._id);
 
-          if(vm.myCommunity.creator.name === vm.username) {
-            vm.userRole = "creator";
-          } else if(vm.myCommunity.boss.name === vm.username) {
-            vm.userRole = "boss";
-          } else if(vm.myCommunity.directors.indexOf(vm.username) !== -1) {
-            vm.userRole = "directors";
-          } else if(vm.myCommunity.minions.indexOf(vm.username) !== -1) {
-            vm.userRole = "minions";
-          }
+          setUserRole();
 
           listCopy = angular.copy(vm.board.lists);
 
@@ -48,20 +65,145 @@
 
           SearchService.setData(vm.board.cards, searchParams);
 
-
           SearchService.subscribe($scope, function() {
             vm.board.cards = SearchService.getResult();
           });
 
         });
 
-        function inCommunity(name){
-          var result = _.find(vm.myCommunity.communityMembers, function(v){
-            return v.name === name;
+    //add our first list of issues for our current user
+    function populateCurrentUserList(id)
+    {
+
+      apilaData.listIssueByUsername(username, status, id)
+          .success(function(issues) {
+
+            //add card to first list
+            var currUserIssues = _.filter(issues, {"responsibleParty" : userid});
+
+            vm.board.labels = vm.board.labels.concat(_.flatten(_.map(issues, "labels")));
+
+            addCardsToList(currUserIssues, vm.board.lists[0]);
+          })
+          .error(function(issues) {
+              console.log("Error while loading list of issues for: " + username);
+          });
+    }
+
+
+    function createEmptyLists() {
+
+      apilaData.usersList()
+        .success(function(users) {
+          //foreach user make them a list
+          angular.forEach(users, function(list, k) {
+            addList(list);
+          });
+        })
+        .error(function(response) {
+          console.log(response);
+        });
+    }
+
+      //add all the other issues assigned to users
+      function populateLists(id){
+          apilaData.issuesList(status, id)
+                .success(function(issues) {
+
+                angular.forEach(issues, function(v, k) {
+
+                  var currList = createList(v._id.name);
+
+                  //we don't want to add ourself to the list, we are already added
+                  if(currList.name !== username) {
+
+                     //add all the cards
+                      angular.forEach(v.issues, function(card, key) {
+                        currList.idCards.push(addCard(card).id);
+                      });
+
+                      vm.board.lists.push(currList);
+                    }
+                    });
+
+                    //add empty lists with users with no issues
+                    createEmptyLists();
+
+              })
+              .error(function(issues) {
+                  console.log("Error while loading list of issues for: " + username);
+              });
+
+        }
+
+        function addCard(card) {
+          card.id = msUtils.guidGenerator();
+          card.name = card.title;
+
+          var confidential = false;
+
+          // the issue is confidential and it's not from our user don't show it
+          if(card.confidential !== undefined) {
+            if(card.confidential === true && card.submitBy !== username) {
+              confidential = true;
+            }
+          }
+
+          if(confidential === false) {
+            card.due = card.due;
+
+            vm.board.cards.push(card);
+          }
+
+          return card;
+        }
+
+        // Adds an empty list of cards for each resident (except current)
+        function addList(list) {
+
+          if (inCommunity(list.name) !== undefined) {
+
+            //checks if the list with that name is already added
+            var isInList = (_.find(vm.board.lists, {"name" : list.name}) !== undefined);
+
+            if (isInList === false) {
+              var currList = createList(list.name);
+
+              // we already created our card list so dont add it
+              if (currList.name !== username) {
+                vm.board.lists.push(currList);
+              }
+            }
+
+          }
+        }
+
+        //adds a list of cards to a selected list
+        function addCardsToList(cards, list) {
+
+          angular.forEach(cards, function(v, key) {
+            v.id = v._id;
+            v.name = v.title;
+
+            var confidential = false;
+
+            // the issue is confidential and it's not from our user don't show it
+            if(v.confidential !== undefined) {
+              if(v.confidential === true && v.submitBy !== username) {
+                confidential = true;
+              }
+            }
+
+            if(confidential === false) {
+              vm.board.cards.push(v);
+              list.idCards.push(v.id);
+            }
+
           });
 
-          return result;
         }
+
+        ////////////////////////// HELPER FUNCTIONS //////////////////////////
 
         function issuesCount(id) {
           apilaData.openIssuesCount(userid, id)
@@ -77,13 +219,43 @@
             });
         }
 
-        vm.issueList = BoardService.getIssueByUsername(username);
+        function createList(name) {
+          var currList = {
+            id: msUtils.guidGenerator(),
+            name: name,
+            idCards: []
+          };
+
+          return currList;
+        }
+
+        function setUserRole() {
+          if(vm.myCommunity.creator.name === vm.username) {
+            vm.userRole = "creator";
+          } else if(vm.myCommunity.boss.name === vm.username) {
+            vm.userRole = "boss";
+          } else if(vm.myCommunity.directors.indexOf(vm.username) !== -1) {
+            vm.userRole = "directors";
+          } else if(vm.myCommunity.minions.indexOf(vm.username) !== -1) {
+            vm.userRole = "minions";
+          }
+        }
+
+        function inCommunity(name){
+          var result = _.find(vm.myCommunity.communityMembers, function(v){
+            return v.name === name;
+          });
+
+          return result;
+        }
+
+
+        ////////////////////////// THEME CODE ///////////////////////////////
 
         vm.boardList = BoardService.list.data;
         vm.cardFilters = CardFilters;
         vm.card = {};
         vm.cardOptions = {};
-        vm.newListName = '';
         vm.sortableListOptions = {
             axis       : 'x',
             delay      : 75,
@@ -173,161 +345,8 @@
             }
         };
 
-        // Methods
-        vm.openCardDialog = DialogService.openCardDialog;
-        vm.addNewList = addNewList;
-        vm.removeList = removeList;
-        vm.cardFilter = cardFilter;
-        vm.isOverdue = isOverdue;
-
-        //OUR DATA LOADING AD SETTING CODE
-
-        //push the first list for cuurent User, so it's always the first one
-        vm.board.lists.push(  {
-              "id": msUtils.guidGenerator(),
-              "name": username,
-              "idCards": []
-          });
-
-          //get the current board we are on to load proper data
-          var status = "";
-
-          if($stateParams.uri === "open-issues" || $stateParams.uri === ""){
-            status="Open";
-          } else if($stateParams.uri === "shelved-issues") {
-            status = "Shelved";
-          } else if($stateParams.uri === "closed-issues") {
-            status = "Closed";
-          }
-
-
-        function listByUsername(id)
+        (function init()
         {
-          //add our first list of issues for our current user
-          apilaData.listIssueByUsername(username, status, id)
-              .success(function(issues) {
-
-                //add card to first list
-                var currUserIssues = _.filter(issues, {"responsibleParty" : userid});
-
-                vm.board.labels = vm.board.labels.concat(_.flatten(_.map(issues, "labels")));
-
-                addCardsToList(currUserIssues, vm.board.lists[0]);
-              })
-              .error(function(issues) {
-                  console.log("Error while loading list of issues for: " + username);
-              });
-        }
-
-
-
-          function populateIssues() {
-            apilaData.usersList()
-              .success(function(d) {
-
-
-                //foreach user make them a list
-                angular.forEach(d, function(v, k) {
-
-                    if(inCommunity(v.name) !== undefined){
-                        var inList = false;
-                        angular.forEach(vm.board.lists, function(value, key) {
-                          if(value.name === v.name) {
-                            inList = true;
-                          }
-                        });
-                        if(inList === false) {
-                          console.log(v.name);
-                          var currList = {
-                            id: msUtils.guidGenerator(),
-                            name: v.name,
-                            idCards: []
-                          };
-
-                          if(currList.name !== username) {
-                              console.log(currList);
-                              vm.board.lists.push(currList);
-                            }
-                        }
-                  }
-
-
-                });
-
-              })
-              .error(function(d) {
-                console.log("error while loading users");
-              });
-            }
-
-
-            function issueList(id){
-              //add all the other issues assigned to users
-              apilaData.issuesList(status, id)
-                    .success(function(issues) {
-
-                    //  console.log(issues);
-
-                      angular.forEach(issues, function(v, k) {
-
-                        console.log(v._id.name);
-
-                        var currList = {
-                          id: msUtils.guidGenerator(),
-                          name: v._id.name,
-                          idCards: []
-                        };
-
-
-                        //we don't want to add ourself to the list, we are alreadt first
-                        if(currList.name !== username) {
-
-                           //add all the cards
-                            angular.forEach(v.issues, function(value, key) {
-                              value.id = msUtils.guidGenerator();
-                              value.name = value.title;
-
-                              var confidential = false;
-
-                              // the issue is confidential and it's not from our user don't show it
-                              if(value.confidential !== undefined) {
-                                if(value.confidential === true && value.submitBy !== username) {
-                                  confidential = true;
-                                }
-                              }
-
-                              if(confidential === false) {
-                                value.due = value.due;
-
-                                vm.board.cards.push(value);
-                                currList.idCards.push(value.id);
-                              }
-
-                            });
-                            console.log(currList);
-                              vm.board.lists.push(currList);
-                          }
-                          });
-
-                          //add empty lists with users with no issues
-                          populateIssues();
-
-                    })
-                    .error(function(issues) {
-                        console.log("Error while loading list of issues for: " + username);
-                    });
-
-            }
-
-
-        init();
-
-        /**
-         * Initialize
-         */
-        function init()
-        {
-
             $timeout(function ()
             {
                 // IE list-content max-height hack
@@ -344,11 +363,9 @@
                 }
             }, 0);
 
-        }
+        })();
 
         /**
-         * IE ONLY
-         * Calculate the list-content height
          * IE ONLY
          */
         function calculateListContentHeight()
@@ -371,87 +388,6 @@
             });
         }
 
-        /**
-         * Add new list
-         */
-        function addNewList()
-        {
-            if ( vm.newListName === '' )
-            {
-                return;
-            }
-
-            vm.board.lists.push({
-                id     : msUtils.guidGenerator(),
-                name   : vm.newListName,
-                idCards: []
-            });
-
-            vm.newListName = '';
-        }
-
-
-        /**
-         * Remove list
-         *
-         * @param ev
-         * @param list
-         */
-        function removeList(ev, list)
-        {
-            var confirm = $mdDialog.confirm({
-                title              : 'Remove List',
-                parent             : $document.find('#issues'),
-                textContent        : 'Are you sure want to remove list?',
-                ariaLabel          : 'remove list',
-                targetEvent        : ev,
-                clickOutsideToClose: true,
-                escapeToClose      : true,
-                ok                 : 'Remove',
-                cancel             : 'Cancel'
-            });
-            $mdDialog.show(confirm).then(function ()
-            {
-                vm.board.lists.splice(vm.board.lists.indexOf(list), 1);
-            }, function ()
-            {
-                // Canceled
-            });
-
-        }
-
-        //adds a list of cards to a selected list
-        function addCardsToList(cards, list) {
-
-          angular.forEach(cards, function(v, key) {
-            v.id = v._id;
-            v.name = v.title;
-
-            var confidential = false;
-
-            // the issue is confidential and it's not from our user don't show it
-            if(v.confidential !== undefined) {
-              if(v.confidential === true && v.submitBy !== username) {
-                confidential = true;
-              }
-            }
-
-            if(confidential === false) {
-              vm.board.cards.push(v);
-              list.idCards.push(v.id);
-            }
-
-          });
-
-
-        }
-
-        /**
-         * Card filter
-         *
-         * @param cardId
-         * @returns {*}
-         */
         function cardFilter(cardId)
         {
             var card = vm.board.cards.getById(cardId);
@@ -488,12 +424,6 @@
             return true;
         }
 
-        /**
-         * Is the card overdue?
-         *
-         * @param cardDate
-         * @returns {boolean}
-         */
         function isOverdue(cardDate)
         {
             return moment() > moment(cardDate, 'x');

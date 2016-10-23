@@ -60,7 +60,10 @@
             'app.dashboard',
 
             // Information
-            'app.information'
+            'app.information',
+
+           // To do
+            'app.todo'
 
         ]);
 })();

@@ -1,0 +1,106 @@
+<!-- TODO LIST ITEMS -->
+<div class="todo-items" ng-sortable="vm.sortableOptions" ng-model="vm.tasks" ng-class="{'sortable': vm.taskOrder === ''}">
+    <div class="todo-item" md-ink-ripple layout="row" layout-align="start center"
+         ng-click="vm.openTaskDialog($event, task)"
+         ng-repeat="task in vm.currTasks | orderBy:vm.taskOrder:vm.taskOrderDescending | filter:global.search | filter:vm.taskFilters.search | filter:vm.filterByStartDate | filter:vm.filterByDueDate track by $index"
+         ng-class="{'starred': task.starred, 'selected': task.selected, 'completed': task.completed}">
+
+        <div class="handle" ng-click="vm.preventDefault($event)">
+            <md-icon md-font-icon="icon-drag-vertical" class="icon"></md-icon>
+        </div>
+
+        <md-button ng-if="vm.selectedCategory === 'tasks' || vm.selectedCategory === 'all-tasks'" class="add-event-button md-fab md-accent md-mini" ng-click="vm.completeTask(task, $event)"
+                   ng-disabled="task.state === 'inactive' || task.state === 'complete'"
+                   aria-label="Task Done">
+            <md-icon md-font-icon="icon-check"></md-icon>
+            <md-tooltip>
+              Mark task as done
+            </md-tooltip>
+        </md-button>
+
+        <div layout="row" layout-align="start center" flex>
+
+            <div class="info" flex>
+                <div class="text">
+                    {{task.text}}
+                </div>
+
+              <div class="tags" layout="row" layout-align="start center" layout-wrap>
+                  <div class="tag" layout="row" layout-align="start center">
+                      <div class="tag-label" ng-switch on="task.occurrence">
+                        <span ng-switch-when="0">Hourly
+                          {{ vm.showActiveDays(task) }}
+                        </span>
+                        <span ng-switch-when="1">Daily
+                          {{ vm.showActiveDays(task) }}
+                        </span>
+                        <span ng-switch-when="2">
+                          Weekly
+                          {{ vm.showActiveWeeks(task) }}
+                        </span>
+                        <span ng-switch-when="3">Monthly
+                          {{ vm.showActiveMonths(task) }}
+                        </span>
+
+                      </div>
+                  </div>
+              </div>
+
+            </div>
+
+            <md-virtual-repeat-container ng-if="vm.selectedCategory == 'notcompleted' && task.showHistory" id="vertical-container">
+              <div md-virtual-repeat="t in task.notCompleted" flex>
+                Not Completed on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
+              </div>
+            </md-virtual-repeat-container>
+
+            <md-virtual-repeat-container ng-if="vm.selectedCategory == 'completed' && task.showHistory" id="vertical-container">
+              <div md-virtual-repeat="t in task.completed" flex>
+                Completed on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
+              </div>
+            </md-virtual-repeat-container>
+
+            <md-virtual-repeat-container ng-if="vm.selectedCategory == 'overdue' && task.showHistory" id="vertical-container">
+              <div md-virtual-repeat="t in task.overDue" flex>
+                Overdue on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
+              </div>
+            </md-virtual-repeat-container>
+
+            <md-button ng-if="vm.selectedCategory === 'completed' || vm.selectedCategory === 'notcompleted' || vm.selectedCategory === 'overdue'" class="md-fab md-accent md-mini" ng-click="vm.toggleHistory($event, task)">
+
+                <md-icon md-font-icon="icon-chevron-double-up" ng-if="task.showHistory"></md-icon>
+                <md-icon md-font-icon="icon-chevron-double-down" ng-if="!task.showHistory"></md-icon>
+
+                <md-tooltip ng-if="vm.selectedCategory === 'notcompleted'">{{ task.notCompleted.length }}</md-tooltip>
+                <md-tooltip ng-if="vm.selectedCategory === 'overdue'">{{ task.overDue.length }}</md-tooltip>
+                <md-tooltip ng-if="vm.selectedCategory === 'completed'">{{ task.completed.length }}</md-tooltip>
+
+
+            </md-button>
+
+            <div class="buttons" layout="row" layout-align="start center">
+
+                <md-menu ng-if="vm.selectedCategory == 'tasks' || vm.selectedCategory == 'all-tasks'">
+                    <md-button class="md-icon-button" aria-label="More" translate
+                               translate-attr-aria-label="TODO.MORE">
+                        <md-icon md-font-icon="icon-dots-vertical" ng-click="$mdOpenMenu($event)"></md-icon>
+                    </md-button>
+
+                    <md-menu-content width="3">
+
+                        <md-menu-item>
+                            <md-button ng-click="vm.deleteTask(task)" aria-label="Remove task"
+                                       translate-attr-aria-label="TODO.REMOVE_TASK">
+                                <md-icon ng-class="grey-fg"
+                                         md-font-icon="icon-delete" class="s18"></md-icon>
+                                <span translate="TODO.REMOVE_TASK">Remove task</span>
+                            </md-button>
+                        </md-menu-item>
+
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- / TODO LIST ITEMS -->

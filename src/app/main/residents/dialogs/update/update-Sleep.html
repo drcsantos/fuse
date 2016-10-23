@@ -15,22 +15,12 @@
 
         <md-input-container>
           <label>Usual Arising Time</label>
-          <md-select ng-model="vm.form.usualArisingTime">
-            <md-option>Early Morning</md-option>
-            <md-option>Mid Morning</md-option>
-            <md-option>Late Morning</md-option>
-            <md-option>Other</md-option>
-          </md-select>
+          <input ng-model="vm.form.usualArisingTime" type="text">
         </md-input-container>
 
         <md-input-container>
           <label>Usual Bedtime</label>
-          <md-select ng-model="vm.form.usualBedtime">
-            <md-option>Early Evening</md-option>
-            <md-option>Mid Morning</md-option>
-            <md-option>Late Evening</md-option>
-            <md-option>Other</md-option>
-          </md-select>
+          <input ng-model="vm.form.usualBedtime" type="text">
         </md-input-container>
       </div>
 
@@ -48,14 +38,14 @@
       <md-input-container>
         <label>Assistance to Bed</label>
         <md-select ng-model="vm.form.assistanceToBed">
-          <md-option>Medication</md-option>
-          <md-option>Positioning</md-option>
-          <md-option>Pillows</md-option>
-          <md-option>Drink</md-option>
-          <md-option>Alcohol</md-option>
-          <md-option>Hot Tea</md-option>
-          <md-option>Warm Milk</md-option>
-          <md-option>Other</md-option>
+          <md-option value="Medication">Medication</md-option>
+          <md-option value="Positioning">Positioning</md-option>
+          <md-option value="Pillows">Pillows</md-option>
+          <md-option value="Drink">Drink</md-option>
+          <md-option value="Alcohol">Alcohol</md-option>
+          <md-option value="Hot Tea">Hot Tea</md-option>
+          <md-option value="Warm Milk">Warm Milk</md-option>
+          <md-option value="Other">Other</md-option>
         </md-select>
       </md-input-container>
 
@@ -84,6 +74,10 @@
           UPDATE
         </md-button>
       </div>
+
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
+      </div>
+
     </md-dialog-actions>
   </form>
 </md-dialog>

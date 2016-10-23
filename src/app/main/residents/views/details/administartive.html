@@ -17,27 +17,46 @@
         <h4>Middle Name: {{ vm.selectedResident.middleName }} </h4>
         <h4>Maiden Name: {{ vm.selectedResident.maidenName }} </h4>
         <h4>Last Name: {{ vm.selectedResident.lastName }} </h4>
+        <h4>Room Number: {{ vm.selectedResident.room }}</h4>
+        <h4>Veteran: {{ vm.selectedResident.veteran }}</h4>
+        <h4>Social Security Number: {{ vm.selectedResident.socialSecurityNumber }}</h4>
+        <h4>Marital Status: {{ vm.selectedResident.maritalStatus }} </h4>
         <h4>Date of Birth: {{ vm.selectedResident.birthDate | date }} </h4>
         <h4>Admission Date: {{ vm.selectedResident.admissionDate | date }} </h4>
         <h4>Sex: {{ vm.selectedResident.sex }} </h4>
         <h4>Building Status: {{ vm.selectedResident.buildingStatus }} </h4>
+
+        <h4>Handles Finances: {{ vm.handlesFinances }} </h4>
+
+        <h4 ng-switch on="vm.selectedResident.assessmentInterval">
+          <span ng-switch-when="0">Assessment Interval : None</span>
+          <span ng-switch-when="1">Assessment Interval : Weekly</span>
+          <span ng-switch-when="2">Assessment Interval : Monthly</span>
+          <span ng-switch-when="3">Assessment Interval : Quarterly</span>
+          <span ng-switch-when="4">Assessment Interval : Yearly</span>
+          <span ng-switch-default>Assessment Interval :  </span>
+        </h4>
+
         <h4>Moved from: {{ vm.selectedResident.movedFrom.name }} </h4>
+        <h4>Admitted From: {{ vm.selectedResident.admittedFrom }} </h4>
+
+        <!-- Random -->
+        <h4>Full Code: {{vm.selectedResident.fullCode}}</h4>
+        <h4>Primary Doctor: {{vm.selectedResident.primaryDoctor}}</h4>
+        <h4>Pharmacy: {{vm.selectedResident.pharmacy}}</h4>
+        <h4>Long Term Care Insurance: {{vm.selectedResident.longTermCareInsurance}}</h4>
+        <h4>Receiveing Long Term Care Insurance: {{vm.selectedResident.receiveingLongTermCareInsurance}}</h4>
+        <h4>Appointment Coordination: {{vm.selectedResident.appointmentCoordination}}</h4>
+        <h4>Communicated With Resident: {{vm.selectedResident.communicatedWithResident}}</h4>
+        <h4>Communicated With Primary Contact: {{vm.selectedResident.communicatedWithPrimaryContact}}</h4>
+        <h4>Communicated With Trusted Person: {{vm.selectedResident.communicatedWithTrustedPerson}}</h4>
+
         <h4>Notes: {{ vm.selectedResident.administrativeNotes }} </h4>
 
         <ui-gmap-google-map center="vm.movedFromMap.center" zoom="vm.movedFromMap.zoom">
       <ui-gmap-marker coords="vm.movedFromMap.marker.coords"
                       idkey="vm.movedFromMap.marker.id"></ui-gmap-marker>
   </ui-gmap-google-map>
-
-        <!-- Update fields -->
-        <md-list>
-          <md-list-item class="md-3-line" ng-repeat="updateField in vm.updateInfoList track by $index">
-            <div class="md-list-item-text">
-              <span>{{updateField}}</span>
-            </div>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-        </md-list>
 
       </div>
     </div>

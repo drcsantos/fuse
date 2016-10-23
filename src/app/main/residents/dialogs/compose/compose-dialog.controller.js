@@ -24,7 +24,7 @@
 
         vm.autocompleteOptions = {
           componentRestrictions: { country: 'us' }
-        }
+        };
 
         apilaData.userCommunity(userid)
          .success(function(d) {
@@ -48,7 +48,7 @@
                 $mdDialog.hide();
           })
           .error(function(response) {
-            console.log("Error while adding resident");
+            console.log(response);
           });
         }
 

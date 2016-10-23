@@ -26,6 +26,107 @@
         <input ng-model="vm.form.occupation" type="text">
       </md-input-container>
 
+      <md-input-container class="md-block">
+        <label>Contribution</label>
+        <input ng-model="vm.form.contribution" type="text">
+      </md-input-container>
+
+      <div layout="column" layout-align="start start">
+          <h4>Shopping (check all that apply) </h4>
+
+          <md-checkbox ng-model="vm.shopping[0].active">
+            {{ vm.shopping[0].title}}
+          </md-checkbox>
+
+          <md-checkbox ng-model="vm.shopping[1].active">
+            {{ vm.shopping[1].title}}
+          </md-checkbox>
+
+          <md-checkbox ng-model="vm.shopping[2].active">
+            {{ vm.shopping[2].title}}
+          </md-checkbox>
+      </div>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.supportGroup" aria-label="Support Group">
+          Support Group
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Outside Agency</label>
+        <md-select ng-model="vm.form.outsideAgency">
+          <md-option value="Hospice">Hospice</md-option>
+          <md-option value="Home health">Home health</md-option>
+          <md-option value="Home care">Home care</md-option>
+          <md-option value="Social worker">Social worker</md-option>
+          <md-option value="Private duty">Private duty</md-option>
+          <md-option value="Other">Other</md-option>
+        </md-select>
+      </md-input-container>
+
+      <!-- outsideAgency fileupload -->
+      <md-input-container class="md-block">
+        <h4>Outside Agency</h4>
+        <md-button type="file" ngf-select="vm.uploadFiles($file, $invalidFiles)" class="add-attachment-button" aria-label="add attachment" accept="*" ngf-max-height="1000" ngf-max-size="3MB">
+
+          <div layout="row" layout-align="start center">
+            <i class="icon-plus s20"></i>
+            <span>Assessment</span>
+          </div>
+        </md-button>
+        <h4 ng-if="vm.fileUploaded ">The file has been uploaded</h4>
+      </md-input-container>
+
+      <!-- <label>Uploaded files</label>
+      <span ng-repeat="file in vm.form.outsideAgencyFile">
+        {{ file }},
+      <span> -->
+
+      <!-- Speech -->
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.easilyUnderstood" aria-label="Easily Understood">
+          Easily Understood
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.englishFirstLanguage" aria-label="English First Language">
+          English First Language
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Other Language</label>
+        <input ng-model="vm.form.otherLanguage" type="text">
+      </md-input-container>
+
+      <!-- accessories -->
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.heatingPad" aria-label="Heating Pad">
+          Heating Pad
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.microwave" aria-label="Microwave">
+          Microwave
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.extensionCord" aria-label="Extension Cord">
+          Extension Cord
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Accessory Safety Assessment</label>
+        <input ng-model="vm.form.accessorySafetyAssessment" type="text">
+        <!-- <input ng-if="vm.form.extensionCord == true || vm.form.microwave == true || vm.form.heatingPad == true"
+        ng-model="vm.form.accessorySafetyAssessment" type="text" placeholder="Assessed for Safety"> -->
+      </md-input-container>
+
       <md-input-container flex class="md-block textarea-container">
         <label>Notes</label>
         <textarea ng-model="vm.form.lifeNotes"></textarea>
@@ -38,6 +139,9 @@
         <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
           UPDATE
         </md-button>
+      </div>
+
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
       </div>
     </md-dialog-actions>
   </form>

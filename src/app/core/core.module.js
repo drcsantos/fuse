@@ -32,6 +32,8 @@
                 'google.places',
                 'stripe',
                 'credit-cards',
-                'ngIdle'
+                'ngIdle',
+                'angular-tour',
+                'rzModule'
             ]);
 })();

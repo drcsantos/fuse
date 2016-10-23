@@ -1,4 +1,4 @@
-<md-dialog class="compose-dialog" aria-label="Update">
+<md-dialog class="compose-dialog" aria-label="Update" id="update">
   <form class="md-inline-form">
     <md-toolbar class="md-accent md-hue-2">
       <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -30,6 +30,33 @@
         <input ng-model="vm.form.lastName" type="text" required="">
       </md-input-container>
 
+      <md-input-container class="md-block">
+        <label>Room number</label>
+        <input ng-model="vm.form.room" type="number" required="">
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.veteran" aria-label="Veteran">
+          Veteran
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Social Security Number</label>
+        <input ng-model="vm.form.socialSecurityNumber" type="number" required="">
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Marital Status</label>
+        <md-select ng-model="vm.form.maritalStatus" required="">
+          <md-option value="Single">Single</md-option>
+          <md-option value="Divorced">Divorced</md-option>
+          <md-option value="Widowed">Widowed</md-option>
+          <md-option value="Married">Married</md-option>
+          <md-option value="Single never married">Single never married</md-option>
+        </md-select>
+      </md-input-container>
+
       <div layout="row" layout-align="space-around start">
         <div>
           <h4>Date of Birth</h4>
@@ -42,13 +69,23 @@
         </div>
       </div>
       <br>
+
+      <md-input-container class="md-block">
+        <label>Handles Finances</label>
+        <md-select ng-model="vm.form.handlesFinances">
+          <md-option ng-repeat="contact in vm.form.residentContacts" ng-value="contact._id">
+            {{ contact.firstName }}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
       <div layout="row" layout-align="space-around end">
         <md-input-container>
           <label>Sex</label>
           <md-select ng-model="vm.form.sex" required="">
-            <md-option>Male</md-option>
-            <md-option>Female</md-option>
-            <md-option>Other</md-option>
+            <md-option value="Male">Male</md-option>
+            <md-option value="Female">Female</md-option>
+            <md-option value="Other">Other</md-option>
           </md-select>
         </md-input-container>
 
@@ -60,21 +97,31 @@
         <md-input-container>
           <label>Building Status</label>
           <md-select ng-model="vm.form.buildingStatus" required="">
-            <md-option>In the Building</md-option>
-            <md-option>Hospital</md-option>
-            <md-option>Rehab</md-option>
-            <md-option>Dead</md-option>
-            <md-option>Moved Out</md-option>
+            <md-option value="In Building">In Building</md-option>
+            <md-option value="Hospital">Hospital</md-option>
+            <md-option value="Rehab">Rehab</md-option>
+            <md-option value="Dead">Dead</md-option>
+            <md-option value="Moved Out">Moved Out</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Admitted From</label>
+          <md-select ng-model="vm.form.admittedFrom">
+            <md-option value="Home">Home</md-option>
+            <md-option value="Hospital">Hospital</md-option>
+            <md-option value="Rehab">Rehab</md-option>
+            <md-option value="Other">Other</md-option>
           </md-select>
         </md-input-container>
 
           <md-input-container ng-if="vm.form.buildingStatus == 'Moved Out'">
             <label>Moved Out To</label>
             <md-select ng-model="vm.form.movedOutTo">
-              <md-option>Nursing Home</md-option>
-              <md-option>Another Assited Living</md-option>
-              <md-option>Home</md-option>
-              <md-option>Other</md-option>
+              <md-option value="Nursing Home">Nursing Home</md-option>
+              <md-option value="Another Assited Living">Another Assited Living</md-option>
+              <md-option value="Home">Home</md-option>
+              <md-option value="Other">Other</md-option>
             </md-select>
           </md-input-container>
         </div>
@@ -89,6 +136,59 @@
           <input type="text" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.form.locationInfo" />
         </md-input-container>
 
+        <div class="md-block">
+         <label ng-switch on="vm.form.assessmentInterval">
+             <span ng-switch-when="0">Assessment Interval: None</span>
+             <span ng-switch-when="1">Assessment Interval: Weekly</span>
+             <span ng-switch-when="2">Assessment Interval: Monthly</span>
+             <span ng-switch-when="3">Assessment Interval: Quarterly</span>
+             <span ng-switch-when="4">Assessment Interval: Yearly</span>
+             <span ng-switch-default>Assessment Interval: </span>
+         </label>
+         <md-slider flex min="0" max="4" ng-model="vm.form.assessmentInterval" aria-label="blue">
+         </md-slider>
+       </div>
+
+       <!-- Random fields -->
+
+       <md-input-container class="md-block">
+         <md-checkbox ng-model="vm.form.fullCode" aria-label="Full Code">
+           Full Code
+         </md-checkbox>
+       </md-input-container>
+
+       <md-input-container class="md-block">
+         <label>Primary Doctor</label>
+         <input ng-model="vm.form.primaryDoctor" type="text">
+       </md-input-container>
+
+       <md-input-container class="md-block">
+         <label>Pharmacy</label>
+         <input ng-model="vm.form.pharmacy" type="text">
+       </md-input-container>
+
+       <md-input-container class="md-block">
+         <md-checkbox ng-model="vm.form.longTermCareInsurance" aria-label="Long Term Care Insurance">
+           Long Term Care Insurance
+         </md-checkbox>
+       </md-input-container>
+
+       <md-input-container class="md-block" ng-if="vm.form.longTermCareInsurance == true">
+         <md-checkbox ng-model="vm.form.receiveingLongTermCareInsurance" aria-label="Receiveing Long Term Care Insurance">
+           Receiveing Long Term Care Insurance
+         </md-checkbox>
+       </md-input-container>
+
+
+       <md-input-container>
+         <label>Appointment Coordination</label>
+         <md-select ng-model="vm.form.appointmentCoordination">
+           <md-option value="Self">Self</md-option>
+           <md-option value="Needs assistance">Needs assistance</md-option>
+           <md-option value="Family">Family</md-option>
+         </md-select>
+       </md-input-container>
+
         <md-input-container flex class="md-block textarea-container">
           <label>Notes</label>
           <textarea ng-model="vm.form.administrativeNotes"></textarea>
@@ -102,6 +202,11 @@
           UPDATE
         </md-button>
       </div>
-    </md-dialog-actions>
+
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
+      </div>
+
+  </md-dialog-actions>
+
   </form>
 </md-dialog>

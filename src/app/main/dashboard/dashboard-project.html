@@ -3,11 +3,15 @@
     <!-- CENTER -->
     <div class="center" flex ms-scroll>
 
+      <tour step="currentStep">
+        <virtual-step tourtip="tip 1" tourtip-element="#tip1"></virtual-step>
+      </tour>
+
         <!-- HEADER -->
         <div class="header md-accent-bg" layout="column" layout-align="space-between">
             <div layout="row" layout-align="space-between">
                 <div>
-                    <span class="md-display-1 font-weight-300">{{vm.title}}</span>
+                    <span class="md-display-1 font-weight-300" id="tip1" >{{vm.title}}</span>
                 </div>
 
                 <div class="toolbar">
@@ -20,26 +24,12 @@
 
             <div layout="row">
 
-              <md-button ng-if="vm.isTestCommunity" ng-click="vm.openCommunityModal()" class="selected-project">{{vm.selectedProject.name}}</md-button>
-              <md-button ng-if="vm.isTestCommunity" ng-click="vm.openJoinModal()" class="selected-project">Join a Community</md-button>
+              <md-button ng-if="vm.isTestCommunity" ng-click="vm.openCommunityModal()" id="join-community" class="selected-project">{{vm.selectedProject.name}}</md-button>
+              <md-button ng-if="vm.isTestCommunity" ng-click="vm.openJoinModal()" id="join-modal" class="selected-project">Join a Community</md-button>
 
-                <md-button ng-if="!vm.hasCommunity" ng-click="vm.openCommunityModal()" class="selected-project">{{vm.selectedProject.name}}</md-button>
-                <md-button ng-if="!vm.hasCommunity" ng-click="vm.openJoinModal()" class="selected-project">Join a Community</md-button>
+                <md-button ng-if="!vm.hasCommunity" ng-click="vm.openCommunityModal()"  id="join-community" class="selected-project">{{vm.selectedProject.name}}</md-button>
+                <md-button ng-if="!vm.hasCommunity" ng-click="vm.openJoinModal()" id="join-modal" class="selected-project">Join a Community</md-button>
 
-                <!-- <md-menu id="projects-menu" md-offset="0 48">
-                    <md-button class="md-icon-button project-selector" ng-click="$mdOpenMenu()"
-                               aria-label="Select project" md-menu-origin md-menu-align-target>
-                        <md-icon md-font-icon="icon-dots-horizontal"></md-icon>
-                    </md-button>
-
-                    <md-menu-content width="3" class="md-background-bg">
-                        <md-menu-item ng-repeat="project in vm.projects">
-                            <md-button ng-click="vm.selectProject(project)" aria-label="{{project.name}}">
-                                <span ng-class="{'secondary-text': vm.selectedProject == project}">{{project.name}}</span>
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu> -->
             </div>
         </div>
         <!-- / HEADER -->
@@ -54,10 +44,9 @@
                     <!-- WIDGET GROUP -->
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                        <!-- WIDGET 1 -->
+                        <!-- APPOINTMENTS TODAY INFO -->
                         <ms-widget flippable="true"  ui-sref="app.appointments" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
                                 <div class="ph-8 pv-16 h-55" layout="row" layout-align="space-between center">
 
@@ -72,33 +61,15 @@
                                 </div>
 
                             </ms-widget-front>
-                            <!-- / Front -->
-
-                            <!-- Back -->
-                            <!-- <ms-widget-back class="p-16 white-bg">
-                                <div class="flip-to-front">
-                                    <md-button class="md-icon-button" ng-click="flipWidget()"
-                                               aria-label="Flip widget">
-                                        <md-icon md-font-icon="icon-close" class="s16"></md-icon>
-                                    </md-button>
-                                </div>
-
-                                <div>
-                                    {{vm.widget1.detail}}
-                                </div>
-                            </ms-widget-back> -->
-                            <!-- / Back -->
 
                         </ms-widget>
-                        <!-- / WIDGET 1 -->
 
-                        <!-- WIDGET 2 -->
+                        <!-- RESIDENT COUNT INFO-->
                         <ms-widget flippable="true" ui-sref="app.residents" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
                                 <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
-                                    <div class="h3">In the building</div>
+                                    <div class="h3">In building</div>
                                 </div>
 
                                 <div class="pt-8 pb-32" layout="column" layout-align="center center">
@@ -108,30 +79,12 @@
                                     <div class="h3 secondary-text font-weight-500">RESIDENTS</div>
                                 </div>
                             </ms-widget-front>
-                            <!-- / Front -->
-
-                            <!-- Back -->
-                            <ms-widget-back class="p-16 white-bg">
-                                <div class="flip-to-front">
-                                    <md-button class="md-icon-button" ng-click="flipWidget()"
-                                               aria-label="Flip widget">
-                                        <md-icon md-font-icon="icon-close" class="s16"></md-icon>
-                                    </md-button>
-                                </div>
-
-                                <div>
-                                    {{vm.widget2.detail}}
-                                </div>
-                            </ms-widget-back>
-                            <!-- / Back -->
 
                         </ms-widget>
-                        <!-- / WIDGET 2 -->
 
-                        <!-- WIDGET 3 -->
+                        <!-- ISSUE COUNT INFO -->
                         <ms-widget flippable="true" ui-sref="app.issues.boards.board" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
                                 <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
                                     <div class="h3">Issue count</div>
@@ -146,27 +99,8 @@
 
 
                             </ms-widget-front>
-                            <!-- / Front -->
-
-                            <!-- Back -->
-                            <ms-widget-back class="p-16 white-bg">
-                                <div class="flip-to-front">
-                                    <md-button class="md-icon-button" ng-click="flipWidget()"
-                                               aria-label="Flip widget">
-                                        <md-icon md-font-icon="icon-close" class="s16"></md-icon>
-                                    </md-button>
-                                </div>
-
-                                <div>
-                                    {{vm.widget3.detail}}
-                                </div>
-                            </ms-widget-back>
-                            <!-- / Back -->
 
                         </ms-widget>
-                        <!-- / WIDGET 3 -->
-
-
 
                     </div>
                     <!-- / WIDGET GROUP -->
@@ -174,17 +108,13 @@
                     <!-- WIDGET GROUP -->
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                      <!-- WIDGET 11 -->
+                      <!-- RESIDENT STATS-->
                       <ms-widget layout="row" flex="100">
 
-                          <!-- Front -->
                           <ms-widget-front class="white-bg">
 
                               <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
                                   <div class="h2">Resident Statistics</div>
-                                  <!-- <div class="text-boxed red-bg white-fg m-0">{{vm.pendingMemberWidget.table.rows.length}}
-                                      members
-                                  </div> -->
                               </div>
 
                               <table class="row-border hover">
@@ -204,11 +134,8 @@
                               </table>
 
                           </ms-widget-front>
-                          <!-- / Front -->
 
                       </ms-widget>
-                      <!-- / WIDGET 11 -->
-
 
                     </div>
                     <!-- / WIDGET GROUP -->
@@ -244,6 +171,8 @@
 
                 </md-tab>
 
+
+                <!-- COMMUNITY MEMBER TABLES -->
                 <md-tab label="Community Members">
 
                   <div ng-switch on="vm.userRole">
@@ -278,20 +207,19 @@
                     <!-- WIDGET GROUP -->
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                        <!-- WIDGET 11 -->
+                        <!-- PENDING MEMBER TABLE -->
                         <ms-widget layout="row" flex="100">
 
-                            <!-- Front -->
                             <ms-widget-front class="white-bg">
 
                                 <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
-                                    <div class="h2">{{vm.pendingMemberWidget.title}}</div>
-                                    <div class="text-boxed red-bg white-fg m-0">{{vm.pendingMemberWidget.table.rows.length}}
+                                    <div class="h2">Pending Members</div>
+                                    <div class="text-boxed red-bg white-fg m-0">{{vm.pendingMemberTable.length}}
                                         members
                                     </div>
                                 </div>
 
-                                <table class="row-border hover" datatable="ng" dt-options="vm.pendingMemberWidget.dtOptions">
+                                <table class="row-border hover" datatable="ng">
                                     <thead>
                                         <tr>
                                           <th class="secondary-text">
@@ -340,10 +268,8 @@
                                 </table>
 
                             </ms-widget-front>
-                            <!-- / Front -->
 
                         </ms-widget>
-                        <!-- / WIDGET 11 -->
 
                     </div>
                     <!-- / WIDGET GROUP -->
@@ -477,95 +403,6 @@
             </ms-widget>
             <!-- / NOW WIDGET -->
 
-
-            <!-- WEATHER WIDGET -->
-            <!-- <ms-widget flippable="false" class="sidenav-widget">
-
-                <ms-widget-front>
-
-                    <div class="pl-16 pr-8 pv-16" layout="row" layout-align="space-between center">
-                        <div class="h4">
-                            <md-icon md-font-icon="icon-map-marker" class="icon mr-8"></md-icon>
-                            {{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].name}}
-                        </div>
-
-                        <md-menu>
-                            <md-button class="md-icon-button" ng-click="$mdOpenMenu()" md-menu-origin
-                                       md-menu-align-target
-                                       aria-label="Options">
-                                <md-icon md-font-icon="icon-dots-vertical" class="icon"></md-icon>
-                            </md-button>
-
-                            <md-menu-content width="3">
-                                <md-menu-item>
-                                    <md-button ng-click="vm.nowWidget.dummyFunction()">
-                                        <md-icon md-font-icon="icon-refresh" class="icon"></md-icon>
-                                        Refresh
-                                    </md-button>
-                                </md-menu-item>
-                                <md-menu-item>
-                                    <md-button ng-click="vm.nowWidget.dummyFunction()">
-                                        <md-icon md-font-icon="icon-cog" class="icon"></md-icon>
-                                        Settings
-                                    </md-button>
-                                </md-menu-item>
-                            </md-menu-content>
-                        </md-menu>
-                    </div>
-
-                    <div class="p-16 pb-32" layout="column" layout-align="center center">
-                        <div layout="row" layout-align="center center">
-                            <md-icon
-                                    md-font-icon="{{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].icon}}"
-                                    class="icon s40 mr-16"></md-icon>
-                            <span class="md-display-2 font-weight-300 secondary-text">
-                                {{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].temp[vm.weatherWidget.tempUnit]}}
-                            </span>
-                            <span class="font-size-48 font-weight-300 hint-text text-super ml-8">&deg;</span>
-                            <span class="md-display-2 font-weight-300 hint-text">{{vm.weatherWidget.tempUnit}}</span>
-                        </div>
-                    </div>
-
-                    <div class="grey-300-bg p-16" layout="row" layout-align="space-between center">
-                        <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-weather-windy" class="icon mr-8 s20"></md-icon>
-                            <span>
-                                {{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].windSpeed[vm.weatherWidget.speedUnit]}}
-                            </span>
-                            <span class="secondary-text ml-5">{{vm.weatherWidget.speedUnit}}</span>
-                        </div>
-
-                        <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-compass-outline" class="icon mr-8 s20"></md-icon>
-                            <span>{{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].windDirection}}</span>
-                        </div>
-
-                        <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-umbrella" class="icon mr-8 s20"></md-icon>
-                            <span>{{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].rainProbability}}</span>
-                        </div>
-                    </div>
-
-                    <div class="pv-16">
-                        <div class="pv-16 ph-24" layout="row" layout-align="space-between center"
-                             ng-repeat="day in vm.weatherWidget.locations[vm.weatherWidget.currentLocation].next3Days">
-                            <span class="h4">{{day.name}}</span>
-                            <div layout="row" layout-align="start center">
-                                <md-icon class="mr-16" md-font-icon="{{day.icon}}" class="icon"></md-icon>
-                                <span class="h2">{{day.temp[vm.weatherWidget.tempUnit]}}</span>
-                                <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
-                                <span class="h2 font-weight-300 secondary-text">{{vm.weatherWidget.tempUnit}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <md-divider></md-divider>
-
-                </ms-widget-front>
-
-
-            </ms-widget> -->
-            <!-- / WEATHER WIDGET -->
 
         </div>
         <!-- / WIDGET GROUP -->

@@ -18,7 +18,6 @@
         vm.boardList = BoardService.list.data;
         vm.boardSelectorVisible = false;
 
-
         if($stateParams.uri === "") {
           vm.boardName = "Open issues";
         } else {
@@ -32,22 +31,6 @@
         vm.clearFilters = CardFilters.clear;
         vm.filteringIsOn = CardFilters.isOn;
 
-        ////////
-
-        /**
-         * Update Board Uri
-         *
-         * Once you connect your app to your server,
-         * you would do this on your API server.
-         */
-        function updateBoardUri()
-        {
-            if ( vm.boardList.getById(vm.board.id) )
-            {
-                vm.boardList.getById(vm.board.id).name = vm.board.name;
-                vm.boardList.getById(vm.board.id).uri = vm.board.uri = encodeURIComponent(vm.board.name).replace(/%20/g, '-').toLowerCase();
-            }
-        }
 
         function addIssue(ev) {
           $mdDialog.show({
@@ -62,6 +45,24 @@
               targetEvent        : ev,
               clickOutsideToClose: true
           });
+        }
+
+
+        ////////////////////////// THEME CODE ///////////////////////////
+
+        /**
+         * Update Board Uri
+         *
+         * Once you connect your app to your server,
+         * you would do this on your API server.
+         */
+        function updateBoardUri()
+        {
+            if ( vm.boardList.getById(vm.board.id) )
+            {
+                vm.boardList.getById(vm.board.id).name = vm.board.name;
+                vm.boardList.getById(vm.board.id).uri = vm.board.uri = encodeURIComponent(vm.board.name).replace(/%20/g, '-').toLowerCase();
+            }
         }
 
         /**

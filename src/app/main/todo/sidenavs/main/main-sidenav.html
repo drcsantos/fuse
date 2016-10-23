@@ -1,0 +1,70 @@
+<!-- SIDENAV HEADER -->
+<div class="header" layout="column" layout-align="space-between">
+
+    <div class="logo" layout="row" layout-align="start center">
+        <span class="logo-icon">
+            <md-icon md-font-icon="icon-checkbox-marked" class="s24"></md-icon>
+        </span>
+        <span class="logo-text" translate="TODO.TO_DO">To-Do</span>
+    </div>
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="add-task-button">
+        <md-button class="md-accent md-raised" ng-click="vm.openTaskDialog($event)" aria-label="ADD TASK"
+                   translate="TODO.ADD_TASK" translate-attr-aria-label="TODO.ADD_TASK">
+            ADD TASK
+        </md-button>
+    </div>
+
+    <div class="navigation-simple" layout="column">
+
+        <md-button class="item" aria-label="All Tasks" translate translate-attr-aria-label="TODO.ALL_TASK"
+                   ng-class="{'selected':vm.selectedCategory == 'all-tasks'}" ng-click="vm.setCurrentTasks('all-tasks')">
+            <div layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-view-headline" class="s16"></md-icon>
+                <span class="title" translate="TODO.ALL_TASKS">All Tasks</span>
+            </div>
+        </md-button>
+
+        <md-button class="item" aria-label="Ongoing Tasks" translate translate-attr-aria-label="TODO.ONGOING_TASK"
+                   ng-class="{'selected':vm.selectedCategory == 'tasks'}" ng-click="vm.setCurrentTasks('tasks')">
+            <div layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-view-headline" class="s16"></md-icon>
+                <span class="title" translate="TODO.ONGOING_TASKS">Ongoing Tasks</span>
+            </div>
+        </md-button>
+
+        <div class="item subheader" translate="TODO.FILTERS">
+            Filters
+        </div>
+
+        <md-button class="item" aria-label="Completed" translate translate-attr-aria-label="TODO.COMPLETED"
+                   ng-click="vm.setCurrentTasks('completed')"
+                   ng-class="{'selected':vm.selectedCategory == 'completed'}">
+            <md-icon class="md-accent-bg unread-message-count">{{ vm.completed.length }}</md-icon>
+            <span  translate="TODO.COMPLETED">Completed</span>
+        </md-button>
+
+        <md-button class="item" aria-label="Overdue" translate translate-attr-aria-label="TODO.OVERDUE"
+                   ng-click="vm.setCurrentTasks('overdue')"
+                   ng-class="{'selected':vm.selectedCategory == 'overdue'}">
+            <md-icon class="md-accent-bg unread-message-count" style="background-color: red">{{ vm.overDue.length }}</md-icon>
+            <span  translate="TODO.OVERDUE">Overdue</span>
+        </md-button>
+
+        <md-button class="item" aria-label="Not Completed" translate translate-attr-aria-label="TODO.NOTCOMPLETED"
+                   ng-click="vm.setCurrentTasks('notcompleted')"
+                   ng-class="{'selected':vm.selectedCategory == 'notcompleted'}">
+            <md-icon class="md-accent-bg unread-message-count" style="background-color: orange">{{ vm.notCompleted.length }}</md-icon>
+            <span  translate="TODO.NOTCOMPLETED">Not Completed</span>
+        </md-button>
+
+    </div>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

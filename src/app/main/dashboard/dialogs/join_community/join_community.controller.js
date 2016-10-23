@@ -11,18 +11,18 @@
 
       var vm = this;
 
-      vm.searchText = "";
-
       // Data
       vm.username = authentication.currentUser().name;
+      vm.searchText = "";
 
       // Functions
       vm.closeDialog = closeDialog;
       vm.sendRequest = sendRequest;
+      vm.getMatches = getMatches;
 
+      // preload list of communities
       apilaData.communityList()
         .success(function(communityList) {
-          //console.log(communityList);
           vm.communityList = communityList.map(function(elem) {
             return {value: elem._id, display: elem.name};
           });
@@ -31,24 +31,7 @@
           console.log("Error retriving the list of residents");
         });
 
-
-        vm.getMatches = function (text) {
-          if(text === null) {
-            return vm.communityList;
-          }
-          var textLower = text.toLowerCase();
-
-            var ret = vm.communityList.filter(function (d) {
-                if(d.display != null)
-                return d.display.toLowerCase().indexOf(text) > -1;
-            });
-            return ret;
-        }
-
-      function closeDialog()
-      {
-          $mdDialog.hide();
-      }
+      //////////////////// PUBLIC FUNCTIONS /////////////////////////////
 
       function sendRequest()
       {
@@ -57,28 +40,62 @@
           return;
         }
 
-        $mdToast.show(
-          $mdToast.simple()
-            .textContent('Invite Request Sent to ' + vm.selectedItem.display)
-            .position("top right")
-            .hideDelay(3000)
-        );
-
+        // format pending data
         vm.communityId = vm.selectedItem.value;
 
-        var data = {};
-        data.pendingMember = vm.username;
+        var data = {
+          "pendingMember" : vm.username
+        };
 
         apilaData.addPendingMember(data, vm.communityId)
         .success(function(d) {
           vm.searchText = "";
+          showToastMsg('Invite Request Sent to ' + vm.selectedItem.display);
+
           closeDialog();
         })
         .error(function(d) {
+          console.log(d);
+
+          if(d.exists) {
+            showToastMsg("You have already sent a request to this community");
+          }
           closeDialog();
         });
       }
 
+      function getMatches(text) {
+
+        if(text === null) {
+          return vm.communityList;
+        }
+
+        var textLower = text.toLowerCase();
+
+        var ret = vm.communityList.filter(function (d) {
+          if(d.display) {
+            return d.display.toLowerCase().indexOf(textLower) > -1;
+          }
+        });
+
+          return ret;
+      }
+
+
+      function closeDialog()
+      {
+          $mdDialog.hide();
+      }
+
+      //////////////////// HELPER FUNCTIONS /////////////////////////////
+      function showToastMsg(text) {
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent(text)
+            .position("top right")
+            .hideDelay(3000)
+        );
+      }
 
     }
 

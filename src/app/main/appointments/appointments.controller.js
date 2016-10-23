@@ -25,6 +25,11 @@
     var username = authentication.currentUser().name;
     var userid = authentication.currentUser().id;
 
+    // Functions
+    vm.addEvent = addEvent;
+    vm.next = next;
+    vm.prev = prev;
+    vm.exportAppointments = exportAppoint;
 
     function openIssuesCount(id) {
       apilaData.openIssuesCount(userid, id)
@@ -109,7 +114,8 @@
     };
 
     var loadBirthdays = function(id) {
-      apilaData.residentBirthday(id)
+
+      apilaData.residentsList(id)
       .success(function(response) {
         angular.forEach(response, function(value, key) {
 
@@ -169,26 +175,22 @@
       }
     };
 
-    // Methods
-    vm.addEvent = addEvent;
-    vm.next = next;
-    vm.prev = prev;
-    vm.exportAppointments = exportAppoint;
-
-    //////////
-
     function exportAppoint() {
       var columns = ["Resident", "Date", "Reason", "Location", "Doctor", "Transportation"];
 
       var month = vm.calendar.getDate().format("MMMM");
 
+      //firt sort the events by date
       var sortedEvents = _.sortBy(vm.events[0], function(p) {
-        return p.date;
+        return p.start;
       });
 
+      //fitler out just the events from the selected montg and then map to table
       var rows = _.map(_.filter(sortedEvents, function(o) {
         return moment(o.start).format("MM") === vm.calendar.getDate().format("MM") && o.cancel === false;
-      }), function(d) {
+      }),
+
+      function(d) {
         var arr = [];
 
         var name = "";
@@ -197,7 +199,7 @@
         }
 
         arr.push(name);
-        arr.push(moment.utc(d.start).format("MM/DD hh:mm A"));
+        arr.push(moment(d.start).format("MM/DD hh:mm A"));
         arr.push(d.reason);
         arr.push(d.locationName);
         arr.push(d.locationDoctor);

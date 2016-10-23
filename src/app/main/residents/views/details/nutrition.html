@@ -13,7 +13,14 @@
       <div layout="column" layout-align="start start">
 
         <!-- Add details content here -->
-        <h4>Overall Nutrition: {{ vm.selectedResident.overallNutrition }}</h4>
+        <h4 ng-switch on="vm.selectedResident.overallNutrition">
+            <span ng-switch-when="0">Overall Nutrition : Not Eating</span>
+            <span ng-switch-when="1">Overall Nutrition : Poor</span>
+            <span ng-switch-when="2">Overall Nutrition : Good</span>
+            <span ng-switch-when="3">Overall Nutrition : Over Eating</span>
+            <span ng-switch-default>Overall Nutrition : </span>
+        </h4>
+
         <h4>Poor Nutrition Describtion: {{ vm.selectedResident.poorNutritionDescribe }}</h4>
         <h4>Diabetic: {{ vm.selectedResident.diabetic }}</h4>
         <h4>Diabetic Type: {{ vm.selectedResident.diabeticType }}</h4>
@@ -22,6 +29,7 @@
         <h4>Adaptive Equipment: {{ vm.selectedResident.adaptiveEquipment }}</h4>
         <h4>Needs Food in Small Peices: {{ vm.selectedResident.needsFoodInSmallPeices }}</h4>
         <h4>Type of Diet: {{ vm.selectedResident.typeOfDiet }}</h4>
+        <h4>Special Diet: {{  vm.selectedResident.specialDiet }}</h4>
         <h4>Finger Foods: {{ vm.selectedResident.fingerFoods }}</h4>
 
         <h4>Food Likes:
@@ -31,6 +39,10 @@
         <h4>Food Dislikes :
           <md-chips ng-model="vm.selectedResident.foodDislikes" readonly="true">
         </h4>
+
+        <h4>Feed Assist: {{vm.selectedResident.feedAssist}}</h4>
+        <h4>Food In Room: {{vm.selectedResident.foodInRoom}}</h4>
+        <h4>Drink In Room: {{vm.selectedResident.drinkInRoom}}</h4>
 
         <h4>Notes: {{ vm.selectedResident.nutritionNotes }} </h4>
 

@@ -12,7 +12,7 @@
 
       <div layout="column" layout-align="start start">
 
-        <!-- Add details content here -->
+        <!-- Skin and wound -->
         <h4>Skin Condition: {{ vm.selectedResident.skinCondition }}</h4>
         <h4>Has wound: {{ vm.selectedResident.hasWound }}</h4>
         <h4 ng-if="vm.selectedResident.hasWound">
@@ -21,6 +21,11 @@
         <h4 ng-if="vm.selectedResident.hasWound">
           Wound Amount: {{ vm.selectedResident.woundAmount }}
         </h4>
+
+        <h4>Skin Breakdown: {{vm.selectedResident.skinBreakdown}}</h4>
+
+        <!-- Hearing -->
+        <h4>Hearing Assist : {{vm.selectedResident.hearingAssist}}</h4>
         <h4>Wears Hearing Aid: {{ vm.selectedResident.wearsHearingAid }}</h4>
         <h4 ng-if="vm.selectedResident.wearsHearingAid">
           Help with Hearing Aid: {{ vm.selectedResident.helpWithHearingAid }}
@@ -30,22 +35,47 @@
         </h4>
         <h4>Hearing in Right Ear: {{ vm.selectedResident.rightEar }}</h4>
         <h4>Hearing in Left Ear: {{ vm.selectedResident.leftEar }}</h4>
+        <h4>Hearing Ability: {{ vm.selectedResident.hearingAbility }}</h4>
         <h4>Hearing Notes: {{ vm.selectedResident.hearingNotes }}</h4>
+
+        <!-- Vision -->
+        <h4>Vision Device: {{vm.selectedResident.visionDevice}}</h4>
         <h4>Vision in Right Eye: {{ vm.selectedResident.rightEye }}</h4>
         <h4>Vision in Left Eye: {{ vm.selectedResident.leftEye }}</h4>
+        <h4>Vision Ability: {{ vm.selectedResident.visionAbility }}</h4>
+        <h4>Vision Assist: {{ vm.selectedResident.visionAssist }}</h4>
         <h4>Vision Notes: {{ vm.selectedResident.visionNotes }}</h4>
+
+        <!-- Teeth -->
+        <h4>Teeth Assist: {{vm.selectedResident.teethAssist}}</h4>
         <h4>Dentist's Name: {{ vm.selectedResident.dentistName }}</h4>
-        <h4>Upper Denture Does Not Fit: {{ vm.selectedResident.upperDentureFit }}</h4>
-        <h4 ng-if="vm.selectedResident.upperDentureFit">
-          Why Doesn't Upper Denture Fit: {{ vm.selectedResident.upperDentureFitDescribe }}
-        </h4>
         <h4>Upper Teeth Status: {{ vm.selectedResident.upperTeeth }}</h4>
-        <h4>Lower Denture Fit: {{ vm.selectedResident.lowerDentureFit }}</h4>
-        <h4 ng-if="vm.selectedResident.lowerDentureFit">
-          Why Doesn't Lower Denture Fit: {{ vm.selectedResident.lowerDentureFitDescribe }}
-        </h4>
         <h4>Lower Teeth Status: {{ vm.selectedResident.lowerTeeth }}</h4>
         <h4>Teeth Condition: {{ vm.selectedResident.teethCondition }}</h4>
+        <h4>Teeth Notes: {{ vm.selectedResident.teethNotes }}</h4>
+
+        <!-- Oxygen -->
+        <h4>Oxygen: {{ vm.selectedResident.oxygen }}</h4>
+        <h4>Oxygen Type: {{ vm.selectedResident.oxygenType }}</h4>
+        <h4>Oxygen Flow: {{ vm.selectedResident.oxygenFlow }}</h4>
+
+        <!-- Infection -->
+        <h4>Urinary Tract Infection Risk: {{vm.selectedResident.urinaryTractInfectionRisk}}</h4>
+        <h4>Upper Respiratory Infection Risk: {{vm.selectedResident.upperRespiratoryInfectionRisk}}</h4>
+        <h4>Methicillin Resistant Staphylococcus Aureus Risk: {{vm.selectedResident.methicillinResistantStaphylococcusAureusRisk}}</h4>
+        <h4>Vancomycin Resistant Enterococcus Risk: {{vm.selectedResident.vancomycinResistantEnterococcusRisk}}</h4>
+        <h4>Shingles Risk: {{vm.selectedResident.shinglesRisk}}</h4>
+        <h4>Pneumonia Risk: {{vm.selectedResident.pneumoniaRisk}}</h4>
+
+        <!-- Medication -->
+        <h4>Meds At Bedside: {{vm.selectedResident.medsAtBedside}}</h4>
+        <h4>Self Meds: {{vm.selectedResident.selfMeds}}</h4>
+        <h4>Meds: {{vm.selectedResident.meds}}</h4>
+        <h4>Swallow Assist: {{vm.selectedResident.swallowAssist}}</h4>
+        <h4>Chemotherapy: {{vm.selectedResident.chemotherapy}}</h4>
+        <h4>Dialysis: {{vm.selectedResident.dialysis}}</h4>
+        <h4>Marijuana: {{vm.selectedResident.marijuana}}</h4>
+
         <h4>Notes: {{ vm.selectedResident.physicalNotes }} </h4>
 
       </div>

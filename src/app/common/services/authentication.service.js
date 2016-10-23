@@ -11,6 +11,7 @@
        var apiUrl="http://localhost:3300";
 
        var changedUsername = "";
+       var community = {};
 
        var userImage = "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
 
@@ -18,7 +19,6 @@
         var saveToken = function(token) {
             $window.localStorage['apila-token'] = token;
             var name = JSON.parse($window.atob(token.split('.')[1])).name;
-            console.log("COOKIE: " + name);
             $window.localStorage['apila-username'] = $window.btoa(name);
         };
 
@@ -48,16 +48,19 @@
 
                 var name = $window.atob(encodedName);
 
+                getCommunity(payload._id);
+
                 return {
                     email: payload.email,
                     name: name,
-                    id: payload._id
+                    id: payload._id,
+                    community: community,
+                    todoid: payload.todoid
                 };
             }
         };
 
         var changeUsername = function(username) {
-          console.log(username);
           $window.localStorage['apila-username'] = $window.btoa(username);
 
         };
@@ -84,7 +87,7 @@
         var login = function(user) {
             return $http.post(apiUrl + '/api/login', user).success(function(data) {
                 saveToken(data.token);
-
+                //getCommunity();
             });
         };
 
@@ -93,6 +96,21 @@
             $window.localStorage.removeItem('apila-username');
         };
 
+        function getCommunity(id) {
+          $http.get(apiUrl + '/api/users/community/' + id, {"headers": {
+            Authorization: 'Bearer ' + getToken()
+          }})
+          .success(function(response) {
+            community = response;
+          })
+          .error(function(response) {
+            console.log(response);
+          });
+        }
+
+        function getCommunity() {
+          return community;
+        }
 
         if (isLoggedIn()) {
           $http.get(apiUrl + '/api/users/' + currentUser().id + "/image")
@@ -115,7 +133,8 @@
             logout: logout,
             getUserImage: getUserImage,
             setUserImage: setUserImage,
-            changeUsername : changeUsername
+            changeUsername : changeUsername,
+            getCommunity : getCommunity
         };
     }
 

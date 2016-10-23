@@ -5,11 +5,12 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, apilaData, authentication, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, apilaData, authentication, $window, $mdToast, exportAppointDetail) {
     var vm = this;
 
     // Data
     vm.dialogData = dialogData;
+    vm.isDisabled = false;
 
   //  vm.calendarEvent.date = dialogData.start;
     var userid = authentication.currentUser().id;
@@ -185,19 +186,11 @@
       //set up the date to proper fields before sending to the api
       vm.calendarEvent.transportation = vm.transportation;
       vm.calendarEvent.residentId = vm.selectedItem.value;
-      console.log(vm.selectedItem.display);
       vm.calendarEvent.date = vm.date;
 
       vm.calendarEvent.cancel = vm.isCancel;
 
       var parseDate = new Date(vm.calendarEvent.date);
-
-      //setting timeSwith stuff
-      // if (vm.dayTimeSwitch === false || vm.dayTimeSwitch === "PM") {
-      //   vm.calendarEvent.isAm = false;
-      // } else {
-      //   vm.calendarEvent.isAm = true;
-      // }
 
       //converting date to am/pm format
       if (vm.dayTimeSwitch === false || vm.dayTimeSwitch === "PM") {
@@ -210,16 +203,17 @@
 
       setTime();
 
-
-      console.log("The current date is:" + parseDate);
-
       //this is sent to db as the appointments date/time
       vm.calendarEvent.time = parseDate;
+
+      vm.isDisabled = true;
 
       // Update
       if (vm.dialogData.calendarEvent) {
 
         vm.calendarEvent.appointmentDate = vm.date;
+        vm.calendarEvent.appointmentDate.setHours(0,0,0,0);
+
         vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
         //update info
@@ -265,17 +259,19 @@
 
           })
           .error(function(appoint) {
+            $mdDialog.hide();
             console.log("Something went wrong while updating the appointments");
           });
 
       } else { // Add
 
-        console.log("Time added " + vm.calendarEvent.time);
 
        vm.calendarEvent.date = vm.calendarEvent.time;
        vm.calendarEvent.community = vm.community;
 
        vm.calendarEvent.appointmentDate = vm.date;
+       vm.calendarEvent.appointmentDate.setHours(0,0,0,0);
+  
        vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
 
@@ -291,9 +287,18 @@
             };
 
             $mdDialog.hide(response);
+
+
           })
           .error(function(appoint) {
-            console.log("Something went wrong with the appointment, try again");
+
+            if(appoint.error_list) {
+              showToast("Appointment is created but there was an error showing it");
+              $window.location.reload();
+            }
+
+            $mdDialog.hide();
+            console.log("Unable to create the appointment, contact the administrator");
           });
       }
 
@@ -339,35 +344,21 @@
 
 
     function submitComment() {
-
-          // var tmpText = '';
-          // for(var i = 0; i < vm.formData.commentText.length;++i) {
-          //   if(i % 40 == 0) {
-          //     tmpText += '\n';
-          //   }
-          //   tmpText += vm.formData.commentText[i];
-          // }
-          //
-          // console.log(tmpText);
-          //
-          // vm.formData.commentText = tmpText;
-
-            apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
-                .success(function(data) {
-                    console.log("Comment has been aded");
-                    vm.calendarEvent.appointmentComment.push(data);
-                      vm.dialogData.calendarEvent.appointmentComment.push(data);
-                    vm.formData.commentText = "";
-                })
-                .error(function(data) {
-                    console.log("Error while adding comments");
-                });
-          }
+      apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
+          .success(function(data) {
+              console.log("Comment has been aded");
+              vm.calendarEvent.appointmentComment.push(data);
+              vm.dialogData.calendarEvent.appointmentComment.push(data);
+              vm.formData.commentText = "";
+          })
+          .error(function(data) {
+              console.log("Error while adding comments");
+          });
+    }
 
 
     function exportAppointment() {
       var name = vm.calendarEvent.residentGoing.firstName + " to " + vm.calendarEvent.locationName;
-      //exportPdf.exportAppointmentDetail(name, vm.calendarEvent);
       exportAppointDetail.exportPdf(name, vm.calendarEvent);
     }
 
@@ -399,6 +390,15 @@
       else {
         return true;
       }
+    }
+
+    function showToast(msg) {
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent(msg)
+        .position("top right")
+        .hideDelay(2000)
+      );
     }
 
 

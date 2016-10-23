@@ -49,6 +49,10 @@
       return $http.put(apiUrl + '/api/issues/' + issueid, data, getAuth());
     };
 
+    var addIssueLabelById = function(issueid, data) {
+      return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/new', data, getAuth());
+    };
+
     var deleteIssueLabelById = function(issueid, labelid) {
       return $http.delete(apiUrl + '/api/issues/' + issueid + '/labels/' + labelid, getAuth());
     };
@@ -61,8 +65,8 @@
       return $http.post(apiUrl + '/api/issues/' + issueid + '/comments/new', data, getAuth());
     };
 
-    var addIssueLabelById = function(issueid, data) {
-      return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/new', data, getAuth());
+    var issueCommentsList = function(issueid) {
+      return $http.get(apiUrl + '/api/issues/' + issueid + '/comments/', getAuth());
     };
 
     var addCheckList = function(issueid, data) {
@@ -82,6 +86,10 @@
       return $http.delete(apiUrl + '/api/issues/' + issueid + '/attachments/' + attachmentid, getAuth());
     };
 
+    var addFinalPlan = function(issueid, data) {
+      return $http.put(apiUrl + '/api/issues/' + issueid + '/finalplan', data, getAuth());
+    };
+
     var openIssuesCount = function(username, communityId) {
       return $http.get(apiUrl + '/api/issues/count/' + username + '/id/' + communityId, getAuth());
     };
@@ -96,6 +104,10 @@
 
     var dueIssuesList = function(communityId) {
       return $http.get(apiUrl + '/api/issues/due/' + communityId, getAuth());
+    };
+
+    var issueUpdateInfo = function(issueid) {
+      return $http.get(apiUrl + '/api/issues/' + issueid + '/updateinfo', getAuth());
     };
 
     var createIssueRecovery = function(data, communityid) {
@@ -161,10 +173,6 @@
 
     };
 
-    var residentBirthday = function(communityId) {
-      return $http.get(apiUrl + "/api/residents/birthday/" + communityId, getAuth());
-    };
-
     var residentCount = function(communityid) {
       return $http.get(apiUrl + '/api/residents/count/' + communityid, getAuth());
     };
@@ -183,6 +191,10 @@
 
     var updateListItem = function(residentid, data) {
       return $http.put(apiUrl + '/api/residents/' + residentid + '/listitem', data, getAuth());
+    };
+
+    var addContact = function(residentid, data) {
+      return $http.post(apiUrl + '/api/residents/' + residentid + '/contact', data, getAuth());
     };
 
     /**************************************************************/
@@ -271,6 +283,25 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + '/restore/' + userid, {}, getAuth());
     };
 
+
+    ////////////////////////// TODOS RESOURCES /////////////////////////////
+
+    var listTasks = function(todoId) {
+      return $http.get(apiUrl + '/api/todos/' + todoId, getAuth());
+    };
+
+    var addTask = function(todoId, data) {
+      return $http.post(apiUrl + '/api/todos/' + todoId, data, getAuth());
+    };
+
+    var updateTask = function(todoId, taskid, data) {
+      return $http.put(apiUrl + '/api/todos/' + todoId + '/task/' + taskid, data, getAuth());
+    };
+
+    var deleteTask = function(todoId, taskid) {
+      return $http.delete(apiUrl + '/api/todos/'+ todoId + '/task/' + taskid, getAuth());
+    };
+
     return {
       //appointments
       appointmentsList: appointmentsList,
@@ -294,11 +325,14 @@
       addCheckList: addCheckList,
       updateCheckList: updateCheckList,
       deleteCheckList: deleteCheckList,
+      addFinalPlan: addFinalPlan,
       deleteAttachment: deleteAttachment,
       openIssuesCount: openIssuesCount,
       deleteIssue: deleteIssue,
       issuesCount: issuesCount,
+      issueCommentsList : issueCommentsList,
       dueIssuesList: dueIssuesList,
+      issueUpdateInfo: issueUpdateInfo,
       createIssueRecovery: createIssueRecovery,
       verifyPassword: verifyPassword,
 
@@ -308,11 +342,11 @@
       residentById: residentById,
       updateResident: updateResident,
       residentCount: residentCount,
-      residentBirthday: residentBirthday,
       averageAge: averageAge,
       averageStayTime: averageStayTime,
       getLocations: getLocations,
       updateListItem: updateListItem,
+      addContact: addContact,
 
       //api url
       getApiUrl: getApiUrl,
@@ -340,6 +374,12 @@
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
+
+      //todos
+      listTasks:  listTasks,
+      addTask: addTask,
+      updateTask: updateTask,
+      deleteTask: deleteTask
     };
   }
 

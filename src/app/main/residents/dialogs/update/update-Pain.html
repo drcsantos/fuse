@@ -27,6 +27,12 @@
         <input ng-model="vm.form.painDescription" type="text">
       </md-input-container>
 
+      <div class="md-block" ng-if="vm.form.hasPain">
+       <label>Pain Severity: {{ vm.form.painSeverity }}</label>
+       <md-slider flex min="0" max="10" ng-model="vm.form.painSeverity" aria-label="blue">
+       </md-slider>
+     </div>
+
       <md-input-container class="md-block" ng-if="vm.form.hasPain">
         <label>Time of Max Pain</label>
         <input ng-model="vm.form.maxPainTime" type="text">
@@ -42,23 +48,23 @@
         <input ng-model="vm.form.painDecreasedBy" type="text">
       </md-input-container>
 
+      <md-input-container ng-if="vm.form.hasPain">
+
+        <h4>Manage Pain By (check all that apply) </h4>
+
+        <md-checkbox ng-repeat="cure in vm.painManagedBy" ng-model="cure.active">
+          {{ cure.title}}
+        </md-checkbox>
+
+      </md-input-container>
+
       <div layout="row" layout-align="space-around center">
-        <md-input-container ng-if="vm.form.hasPain">
-          <label>Pain Managed By</label>
-          <md-select ng-model="vm.form.painManagedBy">
-            <md-option>Medication</md-option>
-            <md-option>Hot Pack</md-option>
-            <md-option>Cold Pack</md-option>
-            <md-option>Positioning</md-option>
-            <md-option>Topicals</md-option>
-          </md-select>
-        </md-input-container>
 
         <md-input-container ng-if="vm.form.hasPain">
           <label>How Long Endured Pain</label>
           <md-select ng-model="vm.form.painLength">
-            <md-option>New Onset</md-option>
-            <md-option>Chronic</md-option>
+            <md-option value="New Onset">New Onset</md-option>
+            <md-option value="Chronic">Chronic</md-option>
           </md-select>
         </md-input-container>
       </div>
@@ -75,6 +81,9 @@
         <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
           UPDATE
         </md-button>
+      </div>
+
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
       </div>
     </md-dialog-actions>
   </form>

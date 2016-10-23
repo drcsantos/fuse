@@ -10,8 +10,6 @@
     function ImageUploadService(apilaData, Upload, authentication, $timeout) {
 
       var uploadFiles = function(file, errFiles, card, setUpdateInfo) {
-        console.log(file);
-
 
         var uploadUrl = apilaData.getApiUrl() + '/api/issues/'+ card._id + '/attachments/new';
 
@@ -30,7 +28,6 @@
                 $timeout(function () {
                     file.result = response.data;
                     card.attachments.push(response.data);
-                    console.log(response.data);
                     card.updateInfo.push(updateInfo);
                 });
             }, function (response) {
@@ -40,11 +37,11 @@
                                          evt.loaded / evt.total));
             });
         }
-      }
+      };
 
       return {
         uploadFiles : uploadFiles
-      }
+      };
     }
 
 

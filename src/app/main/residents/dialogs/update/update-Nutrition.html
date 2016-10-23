@@ -11,20 +11,32 @@
 
     <md-dialog-content ms-scroll>
 
+      <div class="md-block">
+       <label ng-switch on="vm.form.overallNutrition">
+           <span ng-switch-when="0">Overall Nutrition : Not Eating</span>
+           <span ng-switch-when="1">Overall Nutrition : Poor</span>
+           <span ng-switch-when="2">Overall Nutrition : Good</span>
+           <span ng-switch-when="3">Overall Nutrition : Over Eating</span>
+           <span ng-switch-default>Overall Nutrition : </span>
+       </label>
+       <md-slider flex min="0" max="3" ng-model="vm.form.overallNutrition" aria-label="blue">
+       </md-slider>
+     </div>
+
       <md-input-container>
         <label>Overall Nutrition</label>
         <md-select ng-model="vm.form.overallNutrition">
-          <md-option>Good</md-option>
-          <md-option>Poor</md-option>
+          <md-option value="Good">Good</md-option>
+          <md-option value="Poor">Poor</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container ng-if="vm.form.overallNutrition == 'Poor'">
         <label>Poor Nutrition Describtion</label>
         <md-select ng-model="vm.form.poorNutritionDescribe">
-          <md-option>Shake</md-option>
-          <md-option>Bedtime Snack</md-option>
-          <md-option>Resident's Choice</md-option>
+          <md-option value="Shake">Shake</md-option>
+          <md-option value="Bedtime Snack">Bedtime Snack</md-option>
+          <md-option value="Resident's Choice">Resident's Choice</md-option>
         </md-select>
       </md-input-container>
 
@@ -37,9 +49,9 @@
       <md-input-container ng-if="vm.form.diabetic">
         <label>Diabetic Type</label>
         <md-select ng-model="vm.form.diabeticType">
-          <md-option>Diet Controlled</md-option>
-          <md-option>Medication Controlled</md-option>
-          <md-option>Insulin Controlled</md-option>
+          <md-option value="Diet Controlled">Diet Controlled</md-option>
+          <md-option value="Medication Controlled">Medication Controlled</md-option>
+          <md-option value="Insulin Controlled">Insulin Controlled</md-option>
         </md-select>
       </md-input-container>
 
@@ -58,26 +70,33 @@
       <md-input-container>
         <label>Adaptive Equipment</label>
         <md-select ng-model="vm.form.adaptiveEquipment">
-          <md-option>Plate Guard</md-option>
-          <md-option>Builtup Silverware</md-option>
-          <md-option>Special Cups</md-option>
-          <md-option>None</md-option>
+          <md-option value="Plate Guard">Plate Guard</md-option>
+          <md-option value="Builtup Silverware">Builtup Silverware</md-option>
+          <md-option value="Special Cups">Special Cups</md-option>
+          <md-option value="None">None</md-option>
         </md-select>
       </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.needsFoodInSmallPeices" ng-hide="vm.showCancel" aria-label="Needs Food In Small Peices">
-          Needs Food In Small Peices
-        </md-checkbox>
-      </md-input-container>
-
-      <md-input-container ng-if="vm.form.diabetic">
+      <md-input-container>
         <label>Type of Diet</label>
         <md-select ng-model="vm.form.typeOfDiet">
-          <md-option>Pureed</md-option>
-          <md-option>Ground</md-option>
-          <md-option>Regular</md-option>
-          <md-option>Soft</md-option>
+          <md-option value="BRAT">BRAT</md-option>
+          <md-option value="Gluten free">Gluten free</md-option>
+          <md-option value="Full vegan">Full vegan</md-option>
+          <md-option value="Partial vegan">Partial vegan</md-option>
+          <md-option value="Lactose free">Lactose free</md-option>
+          <md-option value="Other">Other</md-option>
+          <md-option value="Regular">Regular</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Special Diet</label>
+        <md-select ng-model="vm.form.specialDiet">
+          <md-option value="Pureed">Pureed</md-option>
+          <md-option value="Ground">Ground</md-option>
+          <md-option value="Regular">Regular</md-option>
+          <md-option value="Soft">Soft</md-option>
         </md-select>
       </md-input-container>
 
@@ -97,6 +116,28 @@
         </md-checkbox>
       </md-input-container>
 
+      <md-input-container>
+        <label>Feed Assist</label>
+        <md-select ng-model="vm.form.feedAssist">
+          <md-option value="Independent">Independent</md-option>
+          <md-option value="Reminder">Reminder</md-option>
+          <md-option value="Partial assistance">Partial assistance</md-option>
+          <md-option value="Full assistance">Full assistance</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.foodInRoom" aria-label="Food In Room">
+          Food In Room
+        </md-checkbox>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="vm.form.drinkInRoom" aria-label="Drink In Room">
+          Drink In Room
+        </md-checkbox>
+      </md-input-container>
+
       <md-input-container flex class="md-block textarea-container">
         <label>Notes</label>
         <textarea ng-model="vm.form.nutritionNotes"></textarea>
@@ -110,6 +151,10 @@
           UPDATE
         </md-button>
       </div>
+
+      <div ng-include="'app/main/residents/dialogs/update/footer.html'">
+      </div>
+
     </md-dialog-actions>
   </form>
 </md-dialog>

@@ -21,25 +21,6 @@
                     <span>{{list.name}}</span>
                 </div>
 
-                <!-- <md-menu md-offset="0 48px" class="options list-header-option-button">
-
-                     <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Options"
-                               translate translate-attr-aria-label="SB.OPTIONS">
-                        <md-icon md-menu-origin md-font-icon="icon-dots-vertical"></md-icon>
-                    </md-button>
-
-                    <md-menu-content class="options-menu-content" width="4">
-                         <md-menu-item>
-                            <md-button ng-click="vm.removeList($event,list)" aria-label="Remove List"
-                                       translate translate-attr-aria-label="SB.REMOVE_LIST">
-                                <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
-                                <span translate="SB.REMOVE_LIST">Remove List</span>
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-
-                </md-menu> -->
-
             </div>
             <!-- / LIST HEADER -->
 
@@ -162,10 +143,11 @@
 
                             <div layout="row" layout-align="start center">
 
-                              <!-- <md-button class="md-icon-button" ng-click="vm.openWordCloud(vm.board.cards.getById(cardId), $event)" aria-label="Options"
-                                         translate translate-attr-aria-label="SB.OPTIONS">
-                                  <md-icon md-menu-origin md-font-icon="icon-dots-vertical"></md-icon>
-                              </md-button> -->
+                              <md-icon ng-if="vm.board.cards.getById(cardId).confidential" md-menu-origin md-font-icon="icon-lock">
+                                <md-tooltip>
+                                  Confidential
+                                </md-tooltip>
+                              </md-icon>
 
                             </div>
 

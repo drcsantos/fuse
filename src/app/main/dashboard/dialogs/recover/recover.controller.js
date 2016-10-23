@@ -18,10 +18,7 @@
       vm.closeDialog = closeDialog;
       vm.verifyPassword = verifyPassword;
 
-      function closeDialog()
-      {
-          $mdDialog.hide();
-      }
+      //////////////////// PUBLIC FUNCTIONS /////////////////////////////
 
       function verifyPassword() {
 
@@ -34,24 +31,27 @@
         .success(function(response) {
           closeDialog();
 
-          $mdToast.show(
-            $mdToast.simple()
-              .textContent("Your password has been verified")
-              .position("top right")
-              .hideDelay(2000)
-          );
+          showToast("Your password has been verified");
         })
         .error(function(response) {
-
-          console.log(response);
-
-          $mdToast.show(
-            $mdToast.simple()
-              .textContent("Your password doesn't match!")
-              .position("top right")
-              .hideDelay(2000)
-          );
+          showToast("Your password doesn't match!");
         });
+      }
+
+      function closeDialog()
+      {
+          $mdDialog.hide();
+      }
+
+      //////////////////// HELPER FUNCTIONS /////////////////////////////
+
+      function showToast(msg) {
+        $mdToast.show(
+          $mdToast.simple()
+          .textContent(msg)
+          .position("top right")
+          .hideDelay(2000)
+        );
       }
 
     }

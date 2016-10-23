@@ -5,28 +5,38 @@
     .controller('UpdateController', UpdateController);
 
   /** @ngInject */
-  function UpdateController($mdDialog, $mdConstant, currResident, apilaData, authentication) {
+  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, currResident, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
 
-    //filling in old data for the update
+    //DATA
     vm.form = currResident;
+    vm.form.contact = {};
+    vm.selctedTab = "";
 
-    vm.status = [];
-    vm.status.push({active: false, title:"Alert"});
-    vm.status.push({active: false, title:"Friendly"});
-    vm.status.push({active: false, title:"Disoriented"});
-    vm.status.push({active: false, title:"Withdrawn"});
-    vm.status.push({active: false, title:"Lonely"});
-    vm.status.push({active: false, title:"Happy"});
-    vm.status.push({active: false, title:"Confused"});
-    vm.status.push({active: false, title:"Uncooperative"});
+    vm.form.communicatedWithResident = false;
+    vm.form.communicatedWithPrimaryContact = false;
+    vm.form.communicatedWithTrustedPerson = false;
+
+    vm.status = createMultiSelect(["Alert", "Friendly", "Disoriented",
+      "Withdrawn", "Lonely", "Happy", "Confused", "Uncooperative",
+      "At times angry", "Sad", "Emotional outbursts", "Feel like a burden"
+    ]);
+
+    vm.shopping = createMultiSelect(["Family", "Self", "Friend"]);
+
+    vm.painManagedBy = createMultiSelect(['Medication', 'Hot pack', 'Cold pack', 'Positioning', 'Topicals']);
+
+    setSelectedStatuses(currResident.psychosocialStatus);
+    setSelectedShopping(currResident.shopping);
+    setSelectedPainManagedBy(currResident.painManagedBy);
 
     vm.foodAllergies = currResident.foodAllergies;
     vm.medicationAllergies = currResident.medicationAllergies;
 
     vm.foodLikes = currResident.foodLikes;
     vm.foodDislikes = currResident.foodDislikes;
+    vm.bathingDays = currResident.bathingDays;
 
     //needed unchanged values to compare for updateField
     vm.copyResident = angular.copy(currResident);
@@ -34,10 +44,13 @@
     vm.seperators = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
     vm.autocompleteOptions = {
-      componentRestrictions: { country: 'us' }
+      componentRestrictions: {
+        country: 'us'
+      }
     };
 
-    setSelectedStatuses(currResident.psychosocialStatus);
+    vm.hasPrimaryContact = (_.find(currResident.residentContacts, {"primaryContact": true}) !== undefined);
+    vm.hasTrustedPerson = (_.find(currResident.residentContacts, {"trustedPerson": true}) !== undefined);
 
     vm.form.birthDate = new Date(currResident.birthDate);
     vm.form.admissionDate = new Date(currResident.admissionDate);
@@ -47,6 +60,8 @@
     vm.closeDialog = closeDialog;
     vm.updateResident = updateResident;
     vm.updateChip = updateChip;
+    vm.uploadFiles = uploadFiles;
+    vm.addContact = addContact;
 
     function closeDialog() {
       $mdDialog.hide();
@@ -55,15 +70,18 @@
     //before sending to server set all the fields and format them correctly
     function formatData() {
 
-      vm.form.modifiedBy = authentication.currentUser().name;
+      vm.form.modifiedBy = authentication.currentUser().id;
       vm.form.modifiedDate = new Date();
 
       var changedFields =
-        checkChangedFields(vm.copyResident, vm.form);
+        ResidentUpdateInfoService.checkChangedFields(vm.copyResident, vm.form);
 
       addToStatusArray();
+      addToShoppingArray();
 
-      if(vm.form.locationInfo.geometry !== undefined) {
+      addToPainManagedBy();
+
+      if (vm.form.locationInfo.geometry !== undefined) {
         vm.form.movedFrom.name = vm.form.locationInfo.formatted_address;
         vm.form.movedFrom.latitude = vm.form.locationInfo.geometry.location.lat();
         vm.form.movedFrom.longitude = vm.form.locationInfo.geometry.location.lng();
@@ -89,10 +107,11 @@
       //important to set updateInfo when adding/removing chips because they will generate updateInfo
       vm.form.updateInfo = currResident.updateInfo;
 
+      userObjectsToIds();
+
       apilaData.updateResident(currResident._id, vm.form)
         .success(function(resident) {
 
-          //currResident.updateInfo.push(resident.updateInfo[resident.updateInfo.length - 1]);
           currResident.updateInfo = resident.updateInfo;
 
           pushNewValues();
@@ -100,303 +119,165 @@
 
           closeDialog();
         })
-        .error(function(appoint) {
-          console.log("Error while updating resident");
+        .error(function(response) {
+          console.log(response);
         });
-      return false;
+
     }
 
-    function addToStatusArray()
-    {
-      vm.form.newpsychosocialStatus = [];
-
-      for(var i  = 0; i < vm.status.length; ++i)
-      {
-        if(vm.status[i].active == true) {
-          vm.form.newpsychosocialStatus.push(vm.status[i].title);
-        }
-
-      }
-    }
-
-    function setSelectedStatuses(arr)
-    {
-
-      for(var i  = 0; i < vm.status.length; ++i)
-      {
-         var checkedElem = _.find(vm.status, function(d) {
-            if(d.title == arr[i]){
-              return d;
-            }});
-
-        if(checkedElem != undefined) {
-          checkedElem.active = true;
-        }
-      }
-    }
 
     function updateChip(list, type, chip, operation) {
 
       var data = {
-        "operation" : operation,
-        "list" : list,
-        "type" : type,
-        "selectedItem" : chip,
-        "updateBy" : authentication.currentUser().name
+        "operation": operation,
+        "list": list,
+        "type": type,
+        "selectedItem": chip,
+        "updateBy": authentication.currentUser().name
       };
 
       apilaData.updateListItem(vm.copyResident._id, data)
+        .success(function(response) {
+          currResident = response;
+        })
+        .error(function(response) {
+          console.log(response);
+        });
+    }
+
+    function addContact() {
+
+      vm.form.contact.submitBy = authentication.currentUser().id;
+
+      apilaData.addContact(currResident._id, vm.form.contact)
       .success(function(response) {
-        console.log(response);
-        currResident = response;
-        console.log(currResident);
+        currResident.residentContacts = response;
+        closeDialog();
       })
       .error(function(response) {
         console.log(response);
       });
     }
 
-    //checks what fields changed in the updates
-    function checkChangedFields(oldData, newData) {
+    function uploadFiles(file, errFiles) {
 
-      var diff = [];
-      var attributeArr = [
+      var uploadUrl = apilaData.getApiUrl() + '/api/residents/' + currResident._id + '/upload';
 
-        // administrative
-        "firstName",
-        "aliasName",
-        "lastName",
-        "middleName",
-        "maidenName",
-        "sex",
-        "buildingStatus",
-        "administrativeNotes",
-
-        // bathing
-        "typeOfBathing",
-        "timeOfBathing",
-        "frequencyOfBathing",
-        "acceptanceOfBathing",
-        "dislikesBathingDescribe",
-
-        // continent
-        "bowelContinent",
-        "constipated",
-        "laxative",
-        "bladderContinent",
-        "dribbles",
-        "catheter",
-        "toiletingDevice",
-        "catheterDescribe",
-
-        // life
-        "religion",
-        "education",
-        "occupation",
-
-        "transfers",
-        "fallRisk",
-        "bedReposition",
-        "overallNutrition",
-        "poorNutritionIntervention",
-        "diabetic",
-        "diabeticType",
-        "regularBloodSugarMonitoring",
-        "bedtimeSnack",
-        "adaptiveEquipment",
-        "needsFoodInSmallPeices",
-        "typeOfDiet",
-        "havePain",
-        "painLocation",
-        "painDescription",
-        "maxPainTime",
-        "painIncreasedBy",
-        "painDecreasedBy",
-        "height",
-        "skinCondition",
-        "wearsHearingAid",
-        "teethCondition",
-        "psychosocialResponsiveness",
-        "mood",
-        "comprehension",
-        "generalActivityParticipation",
-        "diningRoomParticipation",
-        "busRideParticipation",
-        "fitnessClassParticipation",
-        "timeInRoom",
-        "preferedActivites",
-        "useFitnessEquipmentIndependently",
-        "familyInvolvement",
-        "usualBedtime",
-        "usualArisingTime",
-        "nap",
-        "assistanceToBed",
-        "sleepsThroughNight",
-        "sleepDisturbance"
-      ];
-
-      var arrayFields = [
-        "newbloodPressureSystolic",
-        "newbloodPressureDiastolic",
-        "newoxygenSaturation",
-        "newpulse",
-        "newweight",
-        "newvitalsPain",
-        "newrespiration",
-      //  "newpsychosocialStatus",
-        "newtemperature",
-        "newinternationalNormalizedRatio"
-      ];
-
-      for (var i = 0; i < arrayFields.length; ++i) {
-
-        if (oldData[arrayFields[i]] !== newData[arrayFields[i]]) {
-
-          //handeling when the value is an object with a data field
-          var newValue = newData[arrayFields[i]];
-          if(newValue.data != undefined) {
-            newValue = newData[arrayFields[i]].data;
+      if (file) {
+        file.upload = Upload.upload({
+          url: uploadUrl,
+          data: {
+            file: file
+          },
+          headers: {
+            Authorization: 'Bearer ' + authentication.getToken()
           }
+        });
 
-          diff.push({
-            "field": arrayFields[i],
-            "new": newValue
+        file.upload.then(function(response) {
+          $timeout(function() {
+            file.result = response.data;
+            vm.fileUploaded = true;
           });
-        }
+
+        });
       }
-
-      for (var i = 0; i < attributeArr.length; ++i) {
-
-        if (oldData[attributeArr[i]] !== newData[attributeArr[i]]) {
-
-          diff.push({
-            "field": attributeArr[i],
-            "old": oldData[attributeArr[i]],
-            "new": newData[attributeArr[i]]
-          });
-        }
-      }
-
-      //handling for date fields
-      var dateAttributes = ["admissionDate", "birthDate"];
-
-      for (var i = 0; i < dateAttributes.length; ++i) {
-
-        if (new Date(oldData[dateAttributes[i]]).toDateString() !== new Date(newData[dateAttributes[i]]).toDateString()) {
-
-          diff.push({
-            "field": dateAttributes[i],
-            "old": oldData[dateAttributes[i]],
-            "new": newData[dateAttributes[i]]
-          });
-        }
-      }
-
-      //handling of nested strings
-      var nestedAtributes = [{
-        f: "personalHabits",
-        s: "smokes"
-      }, {
-        f: "personalHabits",
-        s: "alcohol"
-      }, {
-        f: "personalHabits",
-        s: "other"
-      }, {
-        f: "hearing",
-        s: "rightEar"
-      }, {
-        f: "hearing",
-        s: "leftEar"
-      }, {
-        f: "vision",
-        s: "rightEye"
-      }, {
-        f: "vision",
-        s: "leftEye"
-      }, {
-        f: "teeth",
-        s: "upperDentureFit"
-      }, {
-        f: "teeth",
-        s: "lowerDentureFit"
-      }, {
-        f: "teeth",
-        s: "upperTeeth"
-      }, {
-        f: "teeth",
-        s: "lowerTeeth"
-      }, {
-        f: "insideApartment",
-        s: "useOfAssistiveDevice"
-      }, {
-        f: "insideApartment",
-        s: "assitanceWithDevice"
-      }, {
-        f: "insideApartment",
-        s: "specialAmbulationNeeds"
-      }, {
-        f: "outsideApartment",
-        s: "useOfAssistiveDevice"
-      }, {
-        f: "outsideApartment",
-        s: "assitanceWithDevice"
-      }, {
-        f: "outsideApartment",
-        s: "specialAmbulationNeeds"
-      }];
-
-      for (var i = 0; i < nestedAtributes.length; ++i) {
-
-        var oldValue = nestedArguments(oldData, nestedAtributes[i].f + "." + nestedAtributes[i].s);
-
-        var newValue = nestedArguments(newData, nestedAtributes[i].f + "." + nestedAtributes[i].s);
-
-        if (oldValue == undefined || newValue == undefined) {
-          continue;
-        }
-
-        console.log(oldData[nestedAtributes[i].f]);
-
-        if (oldValue !== newValue) {
-
-          diff.push({
-            "field": oldData[nestedAtributes[i].f] + " " + [nestedAtributes[i].s],
-            "old": oldValue,
-            "new": newValue
-          });
-        }
-      }
-
-      // handlng movedFrom updateInfo check if name are diff
-      if (vm.form.locationInfo.formatted_address) {
-        if (oldData['movedFrom'].name !== vm.form.locationInfo.formatted_address) {
-          diff.push({
-            "field": 'movedFrom',
-            "old": oldData['movedFrom'].name,
-            "new": vm.form.locationInfo.formatted_address
-          });
-        }
-      }
-
-
-      return diff;
     }
 
-    var nestedArguments = function(o, s) {
-      s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-      s = s.replace(/^\./, ''); // strip a leading dot
-      var a = s.split('.');
-      for (var i = 0, n = a.length; i < n; ++i) {
-        var k = a[i];
-        if (k in o) {
-          o = o[k];
-        } else {
-          return;
+
+    //////////////////////// HELPER FUNCTIONS //////////////////////////////////
+
+    // Goes through updateInfo each UpdateBy field and switches an user object with an userid
+    function userObjectsToIds() {
+      _.map(vm.form.updateInfo, function(updateField) {
+        if(updateField.updateBy) {
+          updateField.updateBy = updateField.updateBy._id;
+        }
+
+        return updateField;
+      });
+    }
+
+    function addToShoppingArray() {
+      vm.form.newShoppingStatus = [];
+
+      for (var i = 0; i < vm.shopping.length; ++i) {
+        if (vm.shopping[i].active == true) {
+          vm.form.newShoppingStatus.push(vm.shopping[i].title);
         }
       }
-      return o;
-    };
+    }
+
+    function setSelectedPainManagedBy(arr) {
+      for (var i = 0; i < vm.painManagedBy.length; ++i) {
+        var checkedElem = _.find(vm.painManagedBy, function(d) {
+          if (d.title == arr[i]) {
+            return d;
+          }
+        });
+
+        if (checkedElem != undefined) {
+          checkedElem.active = true;
+        }
+      }
+    }
+
+    // sets which psychosocialStatus is checked
+    function setSelectedShopping(arr) {
+
+      for (var i = 0; i < vm.shopping.length; ++i) {
+        var checkedElem = _.find(vm.shopping, function(d) {
+          if (d.title == arr[i]) {
+            return d;
+          }
+        });
+
+        if (checkedElem != undefined) {
+          checkedElem.active = true;
+        }
+      }
+    }
+
+    function addToStatusArray() {
+      vm.form.newpsychosocialStatus = [];
+
+      for (var i = 0; i < vm.status.length; ++i) {
+        if (vm.status[i].active === true) {
+          vm.form.newpsychosocialStatus.push(vm.status[i].title);
+        }
+
+      }
+    }
+
+
+    function addToPainManagedBy() {
+      vm.form.newPainManagedBy = [];
+
+      for (var i = 0; i < vm.painManagedBy.length; ++i) {
+        if (vm.painManagedBy[i].active === true) {
+          vm.form.newPainManagedBy.push(vm.painManagedBy[i].title);
+        }
+
+      }
+    }
+
+    // sets which psychosocialStatus is checked
+    function setSelectedStatuses(arr) {
+
+      for (var i = 0; i < vm.status.length; ++i) {
+        var checkedElem = _.find(vm.status, function(d) {
+          if (d.title == arr[i]) {
+            return d;
+          }
+        });
+
+        if (checkedElem != undefined) {
+          checkedElem.active = true;
+        }
+      }
+    }
+
+
 
     var resetFields = function() {
       vm.form.newrespiration = "";
@@ -431,6 +312,8 @@
 
       //addToArray(vm.form.psychosocialStatus, vm.form.newpsychosocialStatus);
       vm.form.psychosocialStatus = vm.form.newpsychosocialStatus;
+      vm.form.shopping = vm.form.newShoppingStatus;
+      vm.form.painManagedBy = vm.form.newPainManagedBy;
 
       vm.form.foodLikes = vm.form.newfoodLikes;
       vm.form.foodDislikes = vm.form.newfoodDislikes;
@@ -449,6 +332,26 @@
       }
 
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    // Builds up proper array of object for multi select fields like psyho status
+    function createMultiSelect(titleArray) {
+
+      var selectArr = [];
+
+      for (var i = 0; i < titleArray.length; ++i) {
+        selectArr.push({
+          active: false,
+          title: titleArray[i]
+        });
+      }
+
+      return selectArr;
+    }
+
 
   }
 

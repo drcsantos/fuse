@@ -18,7 +18,20 @@ function runProtractor(done)
     var params = process.argv;
     var args = params.length > 3 ? [params[3], params[4]] : [];
 
-    gulp.src(path.join(conf.paths.e2e, '/**/*.js'))
+    // order of tests is important
+    var specTests = [
+        'e2e/register.spec.js',
+  //      'e2e/homepage.spec.js',
+        'e2e/login.spec.js',
+        'e2e/create_community.spec.js',
+        'e2e/community_request.spec.js',
+        'e2e/accept_resident.spec.js',
+  //      'e2e/add_issue.spec.js',
+  //      'e2e/add_resident.spec.js',
+  //      'e2e/add_appointment.spec.js'
+    ];
+
+    gulp.src(specTests)
         .pipe($.protractor.protractor({
             configFile: 'protractor.conf.js',
             args      : args

@@ -37,19 +37,19 @@
 
           <md-input-container class="md-block">
               <md-select ng-model="vm.form.sex" placeholder="Sex">
-                <md-option>Male</md-option>
-                <md-option>Female</md-option>
-                <md-option>Other</md-option>
+                <md-option value="Male">Male</md-option>
+                <md-option value="Female">Female</md-option>
+                <md-option value="Other">Other</md-option>
               </md-select>
           </md-input-container>
 
           <md-input-container class="md-block">
               <md-select ng-model="vm.form.buildingStatus" placeholder="Building Status">
-                <md-option>In Building</md-option>
-                <md-option>Hospital</md-option>
-                <md-option>Rehab</md-option>
-                <md-option>Dead</md-option>
-                <md-option>Moved Out</md-option>
+                <md-option value="In Building">In Building</md-option>
+                <md-option value="Hospital">Hospital</md-option>
+                <md-option value="Rehab">Rehab</md-option>
+                <md-option value="Dead">Dead</md-option>
+                <md-option value="Moved Out">Moved Out</md-option>
               </md-select>
           </md-input-container>
 
@@ -67,7 +67,7 @@
 
         <md-dialog-actions layout="row" layout-align="space-between center">
             <div layout="row" layout-align="start center">
-                <md-button ng-click="vm.addResident()" class="send-button md-accent md-raised" aria-label="Add">
+                <md-button ng-click="vm.addResident()" id="add-resident-btn" class="send-button md-accent md-raised" aria-label="Add">
                     ADD
                 </md-button>
             </div>

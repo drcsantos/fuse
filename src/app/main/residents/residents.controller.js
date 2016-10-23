@@ -7,8 +7,9 @@
 
   /** @ngInject */
   function MailController($scope, $document, $timeout, $mdDialog, $mdMedia,
-    $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
+    $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
+
 
     // Data
     vm.checked = [];
@@ -21,6 +22,8 @@
     vm.responsiveReadPane = undefined;
     vm.activeMailPaneIndex = 0;
     vm.dynamicHeight = false;
+
+    vm.selectedCategory = "Administrative";
 
     vm.latitude = 40.77627;
     vm.longitude = -73.910964;
@@ -35,8 +38,9 @@
     vm.categoryList = [
       "Administrative",
       "Allergy",
+      "Assistance",
       "Bathing",
-      "Continent",
+      "Incontinent",
       "Life",
       "Mobility",
       "Nutrition",
@@ -44,34 +48,41 @@
       "Physical condition",
       "Psychosocial",
       "Sleep",
-      "Vitals"
+      "Vitals",
+      "Contacts",
+      "Activity"
     ];
 
     // Methods
-    vm.checkAll = checkAll;
-    vm.closeReadPane = closeReadPane;
-    vm.composeDialog = composeDialog;
-    vm.isChecked = isChecked;
-    vm.replyDialog = replyDialog;
     vm.selectResident = selectResident;
-    vm.toggleStarred = toggleStarred;
-    vm.toggleCheck = toggleCheck;
     vm.updateResident = updateResident;
     vm.exportCarePlan = exportResident;
+    vm.exportCensus = exportCensus;
+    vm.exportResidentFaceSheet = exportResidentFaceSheet;
+    vm.exportBlankPlan = exportBlankPlan;
+    vm.replyDialog = replyDialog;
+    vm.composeDialog = composeDialog;
 
-    vm.selectedCategory = "Administrative";
-    vm.switchCategory = function(category) {vm.selectedCategory = category;};
+    vm.checkAll = checkAll;
+    vm.closeReadPane = closeReadPane;
+    vm.isChecked = isChecked;
+    vm.toggleStarred = toggleStarred;
+    vm.toggleCheck = toggleCheck;
+
+    vm.switchCategory = function(category) {
+      vm.selectedCategory = category;
+    };
 
 
+    //// INITIAL LOADING  ////
     apilaData.userCommunity(vm.userid)
       .success(function(d) {
         vm.community = d;
         residentList(vm.community._id);
       });
 
-
+    //loading the list of residents
     function residentList(id) {
-      //loading the list of residents
       apilaData.residentsList(id)
         .success(function(d) {
           vm.residentList = d;
@@ -82,54 +93,46 @@
     }
 
 
-
-    //////////
-
-    // Watch screen size to activate responsive read pane
-    $scope.$watch(function() {
-      return $mdMedia('gt-md');
-    }, function(current) {
-      vm.responsiveReadPane = !current;
-    });
-
-    // Watch screen size to activate dynamic height on tabs
-    $scope.$watch(function() {
-      return $mdMedia('xs');
-    }, function(current) {
-      vm.dynamicHeight = current;
-    });
-
-    /**
-     * Select resident
-     *
-     * @param resident
-     */
     function selectResident(resident) {
       vm.selectedResident = resident;
 
+      var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
+        if(v._id === resident.handlesFinances) {
+          return true;
+        }
+      });
+
+      if(contact.length > 0) {
+        vm.handlesFinances = contact[0].firstName + " " + contact[0].lastName;
+      } else {
+        vm.handlesFinances = "";
+      }
+
+      vm.shownContact = resident.residentContacts[0];
+
       drawGraphs(vm.selectedResident);
 
-      vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo);
+      vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
 
-      if(vm.selectedResident.movedFrom) {
+      if (vm.selectedResident.movedFrom) {
         vm.latitude = vm.selectedResident.movedFrom.latitude;
         vm.longitude = vm.selectedResident.movedFrom.longitude;
       }
 
       vm.movedFromMap = {
-                  center: {
-                    latitude : vm.latitude,
-                    longitude: vm.longitude
-                  },
-                  zoom  : 8,
-                  marker: {
-                      id    : 0,
-                      coords: {
-                        latitude : vm.latitude,
-                        longitude: vm.longitude
-                      }
-                  }
-              };
+        center: {
+          latitude: vm.latitude,
+          longitude: vm.longitude
+        },
+        zoom: 8,
+        marker: {
+          id: 0,
+          coords: {
+            latitude: vm.latitude,
+            longitude: vm.longitude
+          }
+        }
+      };
 
 
       $timeout(function() {
@@ -146,6 +149,160 @@
         vm.scrollEl.scrollTop(0);
       });
     }
+
+    function selectedResidentToast() {
+      if (vm.selectedResident === null) {
+        $mdToast.show(
+          $mdToast.simple()
+          .textContent("Please select a resident to export a care plan")
+          .position("top right")
+          .hideDelay(2000)
+        );
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    function exportResident() {
+
+      if(!selectedResidentToast()){
+        return;
+      }
+
+      vm.selectedCategory = "Vitals";
+
+      $timeout(function() {
+        var tempCanvas = angular.element("#temperaturecanvas")[0];
+        var bloodCanvas = angular.element("#bloodPressureCanvas")[0];
+        var oxygenCanvas = angular.element("#oxygenSaturationCanvas")[0];
+        var pulseCanvas = angular.element("#plusCanvas")[0];
+        var vitalsCanvas = angular.element("#vitalsPainCanvas")[0];
+        var respCanvas = angular.element("#respirationCanvas")[0];
+        //var weightCanvas = angular.element("#weightCanvas")[0];
+
+        var carePlanData = {};
+
+        // setting all the properties from selectedResident to carePlanData to export
+        for (var prop in vm.selectedResident) {
+          if (vm.selectedResident.hasOwnProperty(prop)) {
+            carePlanData[prop] = vm.selectedResident[prop];
+          }
+        }
+
+        // vitals graphing
+        carePlanData.temperature = tempCanvas.toDataURL();
+        carePlanData.bloodCanvas = bloodCanvas.toDataURL();
+        carePlanData.oxygen = oxygenCanvas.toDataURL();
+        carePlanData.pulse = pulseCanvas.toDataURL();
+        carePlanData.vitals = vitalsCanvas.toDataURL();
+        carePlanData.resp = respCanvas.toDataURL();
+        //carePlanData.weight = weightCanvas.toDataURL();
+
+        // community
+        carePlanData.communityName = vm.community.name;
+
+        exportCarePlan.exportPdf(carePlanData);
+      }, 500);
+    }
+
+    function exportCensus() {
+
+      var inBuildingResidents = _.filter(vm.residentList, ['buildingStatus', 'In Building']);
+
+      exportResidentCensus.exportPdf(inBuildingResidents);
+    }
+
+    function exportResidentFaceSheet() {
+
+      if(!selectedResidentToast()){
+        return;
+      }
+
+      exportFaceSheet.exportPdf(vm.selectedResident);
+    }
+
+    function exportBlankPlan() {
+      if(!selectedResidentToast()){
+        return;
+      }
+
+      exportBlankCarePlan.exportPdf(vm.selectedResident);
+    }
+
+    function updateResident(ev) {
+      //switch form based on category selected
+      var cat = vm.selectedCategory;
+
+      if (vm.selectedCategory === "Physical condition") {
+        cat = "PhysicalCondition";
+      }
+
+      if (vm.selectedCategory === "Activity") {
+        $mdToast.show(
+          $mdToast.simple()
+          .textContent("Activity category is not availbe to update")
+          .position("top right")
+          .hideDelay(2000)
+        );
+        return;
+      }
+
+      var templateUrl = 'app/main/residents/dialogs/update/update-' +
+        cat + '.html';
+
+      $mdDialog.show({
+          controller: 'UpdateController',
+          controllerAs: 'vm',
+          locals: {
+            currResident: ev
+          },
+          templateUrl: templateUrl,
+          parent: angular.element($document.body),
+          targetEvent: ev,
+          clickOutsideToClose: true
+        })
+        .then(function() {
+          vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+        });
+
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //// DIALOGS ////
+
+    function composeDialog(ev) {
+      $mdDialog.show({
+        controller: 'ComposeDialogController',
+        controllerAs: 'vm',
+        locals: {
+          resList: vm.residentList
+        },
+        templateUrl: 'app/main/residents/dialogs/compose/compose-dialog.html',
+        parent: angular.element($document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true
+      });
+    }
+
+    function replyDialog(ev) {
+      $mdDialog.show({
+        controller: 'ComposeDialogController',
+        controllerAs: 'vm',
+        locals: {
+          selectedResident: vm.selectedResident
+        },
+        templateUrl: 'app/main/residents/dialogs/compose/compose-dialog.html',
+        parent: angular.element($document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true
+      });
+    }
+
+    /////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////
+    //// HELPER FUNCTIONS ////
 
     function createGraphData(vitalType, name) {
       var dataValues = _.map(vitalType, "data")
@@ -192,57 +349,36 @@
       vm.vitalsCharts.push(createGraphData(resident.respiration, 'Respiration'));
       vm.vitalsCharts.push(createGraphData(resident.weight, 'Weight'));
 
-      console.log(vm.vitalsCharts[7]);
-
     }
 
-    function exportResident() {
+    ///////////////////////////////////////////////////////////////////
 
-      if (vm.selectedResident === null) {
-        $mdToast.show(
-          $mdToast.simple()
-          .textContent("Please select a resident to export a care plan")
-          .position("top right")
-          .hideDelay(2000)
-        );
-        return;
-      }
+    /////////////////////////////////////////////////////////////////
+    //// FUSE UI FUNCTIONS ////
 
-      vm.selectedCategory = "Vitals";
+    // Watch screen size to activate responsive read pane
+    $scope.$watch(function() {
+      return $mdMedia('gt-md');
+    }, function(current) {
+      vm.responsiveReadPane = !current;
+    });
 
-      $timeout(function() {
-        var tempCanvas = angular.element("#temperaturecanvas")[0];
-        var bloodCanvas = angular.element("#bloodPressureCanvas")[0];
-        var oxygenCanvas = angular.element("#oxygenSaturationCanvas")[0];
-        var pulseCanvas = angular.element("#plusCanvas")[0];
-        var vitalsCanvas = angular.element("#vitalsPainCanvas")[0];
-        var respCanvas = angular.element("#respirationCanvas")[0];
-        //var weightCanvas = angular.element("#weightCanvas")[0];
+    // Watch screen size to activate dynamic height on tabs
+    $scope.$watch(function() {
+      return $mdMedia('xs');
+    }, function(current) {
+      vm.dynamicHeight = current;
+    });
 
-        var carePlanData = {};
-
-        // setting all the properties from selectedResident to carePlanData to export
-        for (var prop in vm.selectedResident) {
-            if (vm.selectedResident.hasOwnProperty(prop)) {
-                carePlanData[prop] = vm.selectedResident[prop];
-            }
-        }
-
-        // vitals graphing
-        carePlanData.temperature = tempCanvas.toDataURL();
-        carePlanData.bloodCanvas = bloodCanvas.toDataURL();
-        carePlanData.oxygen = oxygenCanvas.toDataURL();
-        carePlanData.pulse = pulseCanvas.toDataURL();
-        carePlanData.vitals = vitalsCanvas.toDataURL();
-        carePlanData.resp = respCanvas.toDataURL();
-        //carePlanData.weight = weightCanvas.toDataURL();
-
-        // community
-        carePlanData.communityName = vm.community.name;
-
-        exportCarePlan.exportPdf(carePlanData);
-      }, 500);
+    /**
+     * Toggle sidenav
+     *
+     * @param sidenavId
+     */
+    function toggleSidenav(sidenavId) {
+      $mdSidenav(sidenavId).toggle();
     }
+
 
     /**
      * Close read pane
@@ -268,12 +404,6 @@
       mail.starred = !mail.starred;
     }
 
-    /**
-     * Toggle checked status of the mail
-     *
-     * @param mail
-     * @param event
-     */
     function toggleCheck(mail, event) {
       if (event) {
         event.stopPropagation();
@@ -315,83 +445,6 @@
 
         vm.allChecked = true;
       }
-    }
-
-    /**
-     * Open compose dialog
-     *
-     * @param ev
-     */
-    function composeDialog(ev) {
-      $mdDialog.show({
-        controller: 'ComposeDialogController',
-        controllerAs: 'vm',
-        locals: {
-          resList: vm.residentList
-        },
-        templateUrl: 'app/main/residents/dialogs/compose/compose-dialog.html',
-        parent: angular.element($document.body),
-        targetEvent: ev,
-        clickOutsideToClose: true
-      });
-    }
-
-    /**
-     * Open reply dialog
-     *
-     * @param ev
-     */
-    function replyDialog(ev) {
-      $mdDialog.show({
-        controller: 'ComposeDialogController',
-        controllerAs: 'vm',
-        locals: {
-          selectedResident: vm.selectedResident
-        },
-        templateUrl: 'app/main/residents/dialogs/compose/compose-dialog.html',
-        parent: angular.element($document.body),
-        targetEvent: ev,
-        clickOutsideToClose: true
-      });
-    }
-
-
-    function updateResident(ev) {
-      //switch form based on category selected
-      var cat = vm.selectedCategory;
-
-      if (vm.selectedCategory === "Physical condition") {
-        cat = "PhysicalCondition";
-      }
-
-      var templateUrl = 'app/main/residents/dialogs/update/update-' +
-        cat + '.html';
-
-      $mdDialog.show({
-        controller: 'UpdateController',
-        controllerAs: 'vm',
-        locals: {
-          currResident: ev
-        },
-        templateUrl: templateUrl,
-        parent: angular.element($document.body),
-        targetEvent: ev,
-        clickOutsideToClose: true
-      })
-      .then(function() {
-        console.log(vm.selectResident.updateInfo);
-        vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo);
-      });
-
-    }
-
-    /**
-     * Toggle sidenav
-     *
-     * @param sidenavId
-     */
-    function toggleSidenav(sidenavId) {
-      $mdSidenav(sidenavId).toggle();
     }
   }
 })();

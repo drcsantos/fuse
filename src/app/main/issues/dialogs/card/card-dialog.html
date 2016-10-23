@@ -30,7 +30,7 @@
           </md-menu-item>
 
           <md-menu-item class="member" ng-repeat="member in vm.members  | filter: vm.filterMember">
-            <md-button ng-click="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
+            <md-button ng-fclick="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
               <div layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                   <img class="avatar" alt="{{member.name}}" ng-src="http://a3.mzstatic.com/us/r30/Purple6/v4/75/87/fe/7587fe05-83c5-4127-48ce-2a213151d321/icon175x175.png" />
@@ -203,6 +203,12 @@
         </md-button>
       <!-- / WORD CLOUD -->
 
+      <md-icon ng-if="vm.card.confidential" md-menu-origin md-font-icon="icon-lock">
+        <md-tooltip>
+          Confidential
+        </md-tooltip>
+      </md-icon>
+
       <span flex></span>
 
       <!-- CLOSE DIALOG BUTTON -->
@@ -265,10 +271,10 @@
           <label>Resolution Time Frame</label>
           <md-icon md-font-icon="icon-timetable s18" class="name"></md-icon>
           <md-select ng-disabled="vm.username !== vm.card.submitBy" ng-model="vm.card.resolutionTimeframe" ng-change="vm.updateIssue()" placeholder="Time Frame" required>
-            <md-option>Hours</md-option>
-            <md-option>Days</md-option>
-            <md-option>Weeks</md-option>
-            <md-option>Months</md-option>
+            <md-option value="Hours">Hours</md-option>
+            <md-option value="Days">Days</md-option>
+            <md-option value="Weeks">Weeks</md-option>
+            <md-option value="Months">Months</md-option>
           </md-select>
         </md-input-container>
 
@@ -277,9 +283,14 @@
           <label>Status</label>
           <md-icon md-font-icon="icon-clipboard-check s18" class="name"></md-icon>
           <md-select ng-disabled="vm.userRole !== 'directors' && vm.userRole !== 'boss' && vm.userRole !== 'creator'" ng-model="vm.card.status" ng-change="vm.changeStatus()" placeholder="Issue Status" required>
-            <md-option>Open</md-option>
-            <md-option>Shelved</md-option>
-            <md-option>Closed</md-option>
+            <md-option value="Open">Open</md-option>
+            <md-option value="Shelved">Shelved</md-option>
+            <md-option value="Closed">
+              <span ng-if="vm.card.finalPlan.length <= 0" style="color: lightgrey">
+              Closed
+              </span>
+              <span ng-if="vm.card.finalPlan.length > 0">Closed</span>
+            </md-option>
           </md-select>
         </md-input-container>
 
@@ -374,17 +385,6 @@
                       </md-button>
 
                       <md-menu-content>
-
-                        <!-- <md-menu-item>
-                                               <md-button ng-click="vm.toggleCoverImage(item.id)"
-                                                          aria-label="Toggle Cover Image"
-                                                          translate translate-attr-aria-label="SB.TOGGLE_COVER_IMAGE">
-                                                   <span ng-if="vm.card.idAttachmentCover !== item.id"
-                                                         translate translate="SB.MAKE_COVER">Make Cover</span>
-                                                   <span ng-if="vm.card.idAttachmentCover === item.id"
-                                                         translate translate="SB.REMOVE_COVER">Remove Cover</span>
-                                               </md-button>
-                                           </md-menu-item> -->
 
                         <md-menu-item>
 
@@ -519,7 +519,7 @@
                 </div>
               </form>
 
-              <div class="comment" layout="row" ng-repeat="comment in vm.card.comments">
+              <!-- <div class="comment" layout="row" ng-repeat="comment in vm.card.comments">
                 <img class="comment-member-avatar" ng-src="{{vm.board.members.getById(comment.idMember).avatar}}">
 
                 <div layout="column">
@@ -528,11 +528,73 @@
                   </div>
                   <div class="comment-bubble" ng-bind-html="comment.commentText | addHtmlLineBreaks"></div>
                 </div>
+              </div> -->
+
+              <div class="comment" layout="row" ng-repeat="comment in vm.card.comments.slice().reverse()">
+
+              <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+
+              <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+
+              <div layout="column">
+                <div class="comment-member-name">
+                  {{comment.author.name}}
+                </div>
+                <div class="comment-bubble">{{comment.commentText}}</div>
+                <div class="comment-time secondary-text">{{vm.UpdateInfoService.timeDiff(comment.createdOn)}}</div>
               </div>
+            </div>
+
             </div>
           </div>
         </div>
         <!-- / COMMENTS SECTION -->
+
+        <!-- FINAL PLAN -->
+
+        <div class="section">
+          <div class="final-plan">
+
+          <div class="section-header" layout="row" layout-align="start center">
+            <i class="icon-clipboard-check s18"></i>
+            <span class="section-title">Plan</span>
+          </div>
+
+          <div class="section-content">
+            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="final-plan final-plan-new" layout="column" layout-align="start" no-validate>
+
+                <md-input-container flex md-no-float>
+                  <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newFinalPlanText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
+                </md-input-container>
+
+              <div layout="row" layout-align="end center">
+
+                <span ng-if="vm.finalPlanChecklist">Finshed Item   </span>
+                <span ng-if="!vm.finalPlanChecklist">Add to checklist   </span>
+
+                <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
+                </md-switch>
+
+                <md-button type="submit" class="md-raised md-accent" aria-label="Add Item">
+                  <span translate="SB.FINAL_PLAN_ADD">Add Item</span>
+                </md-button>
+              </div>
+            </form>
+          </div>
+
+          <span ng-repeat="plan in vm.card.finalPlan" ng-if="plan.checklist == true">
+            <h3>The plan to solve the issue: </h3>
+            <div class="comment" layout="row">
+              <div layout="column">
+                <div class="final-plan-bubble">{{plan.text}}</div>
+              </div>
+           </div>
+         </span>
+
+        </div>
+        </div>
+
+        <!-- / FINAL PLAN -->
 
         <!-- UPDATES SECTION -->
         <div class="section">
@@ -553,7 +615,15 @@
                 <ul>
 
                   <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) ">
-                    <span>{{ f.infoFormated }} </span>
+                    <img class="activity-member-avatar"
+                                 ng-src="{{f.userImage}}">
+                    <span class="activity-member-name"> {{ f.userName }} </span>
+                    <span>{{ f.infoFormated }}
+                      <md-tooltip ng-if="f.tooltip" md-direction="top">
+                        {{ f.tooltip }}
+                      </md-tooltip>
+                    </span>
+                    <span class="activity-time secondary-text">{{ f.timeDiff }} </span>
                   </li>
 
                 </ul>
