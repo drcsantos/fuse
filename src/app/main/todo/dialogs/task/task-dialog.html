@@ -38,8 +38,8 @@
                  <md-checkbox ng-model="vm.form.activeDays[6]" class="days">Sun</md-checkbox>
                </div>
 
-               <rzslider rz-slider-model="vm.slider.minValue"
-                    rz-slider-high="vm.slider.maxValue" ng-if="vm.form.occurrence == 0"
+               <rzslider ng-if="vm.form.occurrence == 0" rz-slider-model="vm.form.hourStart"
+                    rz-slider-high="vm.form.hourEnd"
                     rz-slider-options="vm.slider.options"></rzslider>
 
             </div>

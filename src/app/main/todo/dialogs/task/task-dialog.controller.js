@@ -19,19 +19,6 @@
 
         vm.canSubmit = false;
 
-        vm.test = 10;
-
-        function convertToPm(value) {
-          var americanTime = "";
-
-          americanTime = (value < 12) ? value + " am" :  (value - 12) + ' pm';
-
-          americanTime = (value === 0) ? "12 am" :  americanTime;
-          americanTime = (value === 12) ? "12 pm" :  americanTime;
-
-          return americanTime;
-        }
-
         vm.todoid = authentication.currentUser().todoid;
 
         if ( !vm.task ) {
@@ -39,23 +26,12 @@
             vm.newTask = true;
             vm.form = {
               "text" : "",
-              "occurrence" : 2,
+              "occurrence" : 1,
               "activeDays" : [],
               "activeMonths" : [false, false, false, false, false, false, false, false, false, false, false, false ],
-              "activeWeeks": [false, false, false, false, false]
-            };
-
-            vm.slider = {
-              minValue: 0,
-              maxValue: 23,
-              options: {
-                //pushRange: true,
-                noSwitching: true,
-                showTicks: true,
-                translate: function(value) {
-                  return ToDoUtilsService.convertToPm(value);
-                }
-              }
+              "activeWeeks": [false, false, false, false, false],
+              hourStart: 0,
+              hourEnd: 23,
             };
 
             // Monday - Friday selected by default
@@ -66,21 +42,6 @@
         } else {
           vm.newTask = false;
           vm.form = vm.task;
-
-          vm.slider = {
-            minValue: vm.form.hourStart,
-            maxValue: vm.form.hourEnd,
-            minRange: 0,
-            maxRange: 23,
-            options: {
-              //pushRange: true,
-              noSwitching: true,
-              showTicks: true,
-              translate: function(value) {
-                return ToDoUtilsService.convertToPm(value);
-              }
-            }
-          };
         }
 
         // Methods
@@ -96,9 +57,6 @@
         function addNewTask()
         {
 
-          vm.form.hourStart = vm.slider.minValue;
-          vm.form.hourEnd = vm.slider.maxValue;
-
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(task) {
               errorMessages(task, "created");
@@ -112,9 +70,6 @@
         }
 
         function updateTask() {
-
-          vm.form.hourStart = vm.slider.minValue;
-          vm.form.hourEnd = vm.slider.maxValue;
 
           apilaData.updateTask(vm.todoid, vm.task._id,  vm.form)
           .success(function(task) {
@@ -165,6 +120,17 @@
           );
         }
 
+        function convertToPm(value) {
+          var americanTime = "";
+
+          americanTime = (value < 12) ? value + " am" :  (value - 12) + ' pm';
+
+          americanTime = (value === 0) ? "12 am" :  americanTime;
+          americanTime = (value === 12) ? "12 pm" :  americanTime;
+
+          return americanTime;
+        }
+
         function isInActiveCycle(task) {
 
           var currTime = moment();
@@ -206,5 +172,19 @@
         {
             $mdDialog.hide(false);
         }
+
+        setTimeout(function() {
+          vm.slider = {
+              options: {
+                floor: 0,
+                ceil: 23,
+                noSwitching: true,
+                showTicks: true,
+                translate: function(value) {
+                  return ToDoUtilsService.convertToPm(value);
+                }
+              }
+            };
+        }, 200);
     }
 })();
