@@ -101,7 +101,7 @@
 
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(task) {
-              errorMessages(task);
+              errorMessages(task, "created");
               vm.tasks.push(task);
               closeDialog();
             })
@@ -119,7 +119,7 @@
           apilaData.updateTask(vm.todoid, vm.task._id,  vm.form)
           .success(function(task) {
 
-            errorMessages(task);
+            errorMessages(task, "updated");
 
             // Update the correct tasks with new values
             for(var i = 0; i < vm.tasks.length; ++i) {
@@ -150,9 +150,9 @@
             });
         }
 
-        function errorMessages(task) {
-          if(isInActiveCycle(task)) {
-            showToast("The task is created but it's not currently active");
+        function errorMessages(task, action) {
+          if(!isInActiveCycle(task)) {
+            showToast("The task is " + action +" but it's not currently active");
           }
         }
 
@@ -187,7 +187,7 @@
 
           //sometimes an array will be like activeDays will have less items
           if(result === undefined) {
-            result = true;
+            result = false;
           }
 
           return result;

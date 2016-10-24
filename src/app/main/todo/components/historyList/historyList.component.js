@@ -8,11 +8,17 @@
         controller: function() {
           var vm = this;
 
-          console.log(vm);
+          vm.dateFormat = "MMM dd, yyyy";
+          //if it's a hourly task
+          if(vm.task.occurrence === 0) {
+            vm.dateFormat = "MMM dd, yyyy 'at' h:mma";
+          }
 
+          console.log(vm.dateFormat);
         },
         bindings: {
           list: '<',
+          task: '<',
           listName: '@name'
         }
 

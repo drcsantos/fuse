@@ -1,3 +1,9 @@
 <div ng-repeat="t in $ctrl.list" flex>
-  {{ $ctrl.listName }} on: {{t.updatedOn | date:'MMM dd, yyyy h a'}}
+  <span ng-if="$ctrl.task.occurrence === 0">
+    {{ $ctrl.listName }} on: {{t.updatedOn | date:"MMM dd, yyyy 'at' h:mma"}}
+  </span>
+
+  <span ng-if="$ctrl.task.occurrence !== 0">
+    {{ $ctrl.listName }} on: {{t.updatedOn | date:"MMM dd, yyyy "}}
+  </span>
 </div>

@@ -49,15 +49,15 @@
             </div>
 
             <md-virtual-repeat-container ng-if="vm.selectedCategory == 'notcompleted' && task.showHistory" id="vertical-container">
-              <history-list list="task.notCompleted" name="Not Completed"></history-list>
+              <history-list task="task" list="task.notCompleted" name="Not Completed"></history-list>
             </md-virtual-repeat-container>
 
             <md-virtual-repeat-container ng-if="vm.selectedCategory == 'completed' && task.showHistory" id="vertical-container">
-              <history-list list="task.completed" name="Completed"></history-list>
+              <history-list task="task" list="task.completed" name="Completed"></history-list>
             </md-virtual-repeat-container>
 
             <md-virtual-repeat-container ng-if="vm.selectedCategory == 'overdue' && task.showHistory" id="vertical-container">
-              <history-list list="task.overDue" name="Overdue"></history-list>
+              <history-list task="task" list="task.overDue" name="Overdue"></history-list>
             </md-virtual-repeat-container>
 
             <!-- <md-virtual-repeat-container ng-if="vm.selectedCategory == 'notcompleted' && task.showHistory" id="vertical-container">
