@@ -529,6 +529,18 @@
 
       doc.text("Hearing", 15, 372);
 
+      doc.text("Left Ear", 15, 396);
+      doc.text("Adequate", 20, 412);
+      doc.text("Adequate with Aid", 85, 412);
+      doc.text("Poor", 195, 412);
+      doc.text("None", 230, 412);
+
+      doc.text("Right Ear", 300, 396);
+      doc.text("Adequate", 305, 412);
+      doc.text("Adequate with Aid", 370, 412);
+      doc.text("Poor", 480, 412);
+      doc.text("None", 515, 412);
+
       doc.save("Blank Careplan.pdf");
     }
 
