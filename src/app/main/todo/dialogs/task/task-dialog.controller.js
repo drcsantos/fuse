@@ -52,11 +52,8 @@
         vm.selectEveryMonth = selectEveryMonth;
         vm.selectEveryWeek = selectEveryWeek;
 
-        //////////
-
         function addNewTask()
         {
-
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(task) {
               errorMessages(task, "created");
@@ -185,6 +182,6 @@
                 }
               }
             };
-        }, 200);
+        }, 350);
     }
 })();

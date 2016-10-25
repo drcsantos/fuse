@@ -83,42 +83,15 @@
 
         function loadTasks() {
           apilaData.listTasks(vm.todoid)
-          .success(function(response) {
-            vm.tasks = response;
+          .success(function(tasks) {
+            vm.tasks = tasks;
 
             vm.completed = [];
             vm.overDue = [];
             vm.notCompleted = [];
-
             vm.currTasks = [];
 
-            vm.allTasks = response;
-
-            //populate current tasks
-            if(vm.selectedCategory === 'all-tasks') {
-              vm.currTasks = response;
-            } else {
-              angular.forEach(vm.tasks, function(task) {
-                if(task.state === "current") {
-                  vm.currTasks.push(task);
-                }
-              });
-            }
-
-            angular.forEach(vm.tasks, function(task) {
-
-              if(task.completed.length > 0) {
-                vm.completed.push(task);
-              }
-
-              if(task.overDue.length > 0) {
-                vm.overDue.push(task);
-              }
-
-              if(task.notCompleted.length > 0) {
-                vm.notCompleted.push(task);
-              }
-            });
+            setTasksInCategories(tasks);
 
           })
           .error(function(response) {
@@ -299,6 +272,37 @@
         }
 
         //////////////////////// HELPER FUNCTINS ////////////////////////
+
+        function setTasksInCategories(tasks) {
+          vm.allTasks = tasks;
+
+          //populate current tasks
+          if(vm.selectedCategory === 'all-tasks') {
+            vm.currTasks = tasks;
+          } else {
+            angular.forEach(vm.tasks, function(task) {
+              if(task.state === "current") {
+                vm.currTasks.push(task);
+              }
+            });
+          }
+
+          angular.forEach(vm.tasks, function(task) {
+
+            if(task.completed.length > 0) {
+              vm.completed.push(task);
+            }
+
+            if(task.overDue.length > 0) {
+              vm.overDue.push(task);
+            }
+
+            if(task.notCompleted.length > 0) {
+              vm.notCompleted.push(task);
+            }
+          });
+        }
+
 
         //removes a comma if that is the last char in a string
         function removeLastComma(str) {
