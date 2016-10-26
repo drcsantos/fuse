@@ -34,6 +34,7 @@
                 'credit-cards',
                 'ngIdle',
                 'angular-tour',
-                'rzModule'
+                'rzModule',
+                'btford.socket-io'
             ]);
 })();

@@ -7,7 +7,7 @@
         .controller('QuickPanelController', QuickPanelController);
 
     /** @ngInject */
-    function QuickPanelController(msApi)
+    function QuickPanelController(msApi, socket)
     {
         var vm = this;
 
@@ -19,33 +19,19 @@
             retro : true
         };
 
-      /*  msApi.request('quickPanel.activities@get', {},
-            // Success
-            function (response)
-            {
-                vm.activities = response.data;
-            }
-        );
+        socket.on('new-activity', function(data) {
+          console.log(data);
+        });
 
-        msApi.request('quickPanel.events@get', {},
-            // Success
-            function (response)
-            {
-                vm.events = response.data;
-            }
-        );
+        vm.activities = [];
 
-        msApi.request('quickPanel.notes@get', {},
-            // Success
-            function (response)
-            {
-                vm.notes = response.data;
-            }
-        );*/
+        vm.activities.push({
+          "text": "Created a Resident bla bla",
+          "date": moment().toDate(),
+          "author": "shone",
+          "type": "resident create"
+        });
 
-        // Methods
-
-        //////////
     }
 
 })();

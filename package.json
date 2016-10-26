@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "angular-stripe": "^4.2.12",
+    "socket.io": "^1.5.1",
     "user-home": "^2.0.0"
   },
   "scripts": {
