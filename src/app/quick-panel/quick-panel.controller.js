@@ -19,18 +19,12 @@
             retro : true
         };
 
-        socket.on('new-activity', function(data) {
-          console.log(data);
+        socket.on('add-activity', function(activity) {
+          vm.activities.push(activity);
         });
 
         vm.activities = [];
 
-        vm.activities.push({
-          "text": "Created a Resident bla bla",
-          "date": moment().toDate(),
-          "author": "shone",
-          "type": "resident create"
-        });
 
     }
 
