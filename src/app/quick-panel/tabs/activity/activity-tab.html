@@ -3,15 +3,8 @@
         <span translate="QUICKPANEL.ACTIVITIES">Activities</span>
     </md-subheader>
 
-    <md-list-item  class="md-whiteframe-6dp friend md-3-line" ng-repeat="activity in vm.activities">
-      <img ng-src="{{activity.avatar}}" class="md-avatar" alt="{{activity.author}}"/>
-
-      <div ng-if="contact.unread" class="md-accent-bg unread-message-count">{{contact.unread}}</div>
-
-      <div class="md-list-item-text">
-          <h3 class="message">{{activity.text}}</h3>
-          <p class="time">{{activity.date | date:'m'}}</p>
-      </div>
+    <md-list-item ng-style="vm.getColor(activity.type)" class="md-whiteframe-6dp friend md-3-line" ng-repeat="activity in vm.activities">
+      <activity-box activity="activity"></activity-box>
     </md-list-item>
 
 </md-list>
