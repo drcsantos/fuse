@@ -24,6 +24,16 @@
         // Funtions
         vm.getColor = getColor;
 
+        socket.on('connect', function() {
+          socket.emit('get-activities', {"pls":"pls"});
+          console.log("you fuking w8 m8");
+        });
+
+        socket.on('recent-activities', function(activities) {
+          console.log(activities);
+          vm.activities = activities;
+        });
+
         socket.on('add-activity', function(activity) {
           vm.activities.push(activity);
         });
@@ -39,7 +49,7 @@
             case "appointment-create":
               return {'background-color': '#FFCDD2'};
 
-            case "join-community":
+            case "community - join":
               return {'background-color': '#FOF4C3'};
 
             case "task-create":
