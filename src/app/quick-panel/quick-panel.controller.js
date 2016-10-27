@@ -7,7 +7,7 @@
         .controller('QuickPanelController', QuickPanelController);
 
     /** @ngInject */
-    function QuickPanelController(msApi, socket)
+    function QuickPanelController(msApi, socket, authentication)
     {
         var vm = this;
 
@@ -25,15 +25,20 @@
         vm.getColor = getColor;
 
         socket.on('connect', function() {
-          socket.emit('get-activities', {"pls":"pls"});
-        });
+          var userCommunity = authentication.currentUser().community;
 
-        socket.on('recent-activities', function(activities) {
-          vm.activities = activities;
-        });
+          console.log(userCommunity);
 
-        socket.on('add-activity', function(activity) {
-          vm.activities.push(activity);
+          socket.emit('join-community', userCommunity);
+          socket.emit('get-activities', userCommunity);
+
+          socket.on('recent-activities', function(activities) {
+            vm.activities = activities;
+          });
+
+          socket.on('add-activity', function(activity) {
+            vm.activities.push(activity);
+          });
         });
 
         function getColor(type) {

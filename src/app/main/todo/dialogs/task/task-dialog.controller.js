@@ -54,6 +54,8 @@
 
         function addNewTask()
         {
+            vm.form.communityId = authentication.currentUser().community._id;
+
             apilaData.addTask(vm.todoid, vm.form)
             .success(function(task) {
               errorMessages(task, "created");
