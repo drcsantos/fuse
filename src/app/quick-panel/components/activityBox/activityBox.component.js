@@ -15,7 +15,11 @@
       module('app.quick-panel').controller('activityBoxController', activityBoxController);
 
     function activityBoxController() {
+      var vm = this;
 
+      if(!vm.activity.userId.userImage) {
+        vm.activity.userId.userImage = "assets/images/avatars/userDefaultProfile.png";
+      }
     }
 
 })();

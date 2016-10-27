@@ -26,11 +26,9 @@
 
         socket.on('connect', function() {
           socket.emit('get-activities', {"pls":"pls"});
-          console.log("you fuking w8 m8");
         });
 
         socket.on('recent-activities', function(activities) {
-          console.log(activities);
           vm.activities = activities;
         });
 

@@ -13,7 +13,7 @@
        var changedUsername = "";
        var community = {};
 
-       var userImage = "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
+       var userImage = "assets/images/avatars/userDefaultProfile.png";
 
         // create a saveToken method to read a value from localStorage
         var saveToken = function(token) {
@@ -67,7 +67,7 @@
 
         var getUserImage = function() {
           if(userImage === "") {
-            return "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
+            return "assets/images/avatars/userDefaultProfile.png";
           } else {
             return userImage;
           }
@@ -106,10 +106,6 @@
           .error(function(response) {
             console.log(response);
           });
-        }
-
-        function getCommunity() {
-          return community;
         }
 
         if (isLoggedIn()) {
