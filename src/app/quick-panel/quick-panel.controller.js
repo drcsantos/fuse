@@ -52,7 +52,7 @@
             case "appointment-create":
               return {'background-color': '#FFCDD2'};
 
-            case "community - join":
+            case "community-join":
               return {'background-color': '#FOF4C3'};
 
             case "task-create":

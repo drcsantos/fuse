@@ -3,7 +3,7 @@
         <span translate="QUICKPANEL.ACTIVITIES">Activities</span>
     </md-subheader>
 
-    <md-list-item ng-style="vm.getColor(activity.type)" class="md-whiteframe-6dp friend md-3-line" ng-repeat="activity in vm.activities | orderBy:'-createdOn' track by $index">
+    <md-list-item ng-style="vm.getColor(activity.type)" class="md-whiteframe-6dp friend md-3-line" ng-repeat="activity in vm.activities | orderBy:'-createdOn' track by activity._id">
       <activity-box activity="activity"></activity-box>
     </md-list-item>
 
