@@ -10,7 +10,7 @@
 
     ////////////////////////////////////////////////
 
-    var apiUrl = "http://localhost:3300";
+    var apiUrl = "";
 
     function getAuth() {
       return {
