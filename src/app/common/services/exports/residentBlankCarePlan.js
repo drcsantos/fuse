@@ -482,7 +482,7 @@
       doc.line(100, 66, 580, 66);
       doc.line(100, 90, 580, 90);
 
-      doc.rect(10, 126, 575, 600);
+      doc.rect(10, 126, 575, 800);
       doc.text("Physical Condition", 15, 140);
       doc.text("Skin", 15, 164);
 
@@ -540,6 +540,134 @@
       doc.text("Adequate with Aid", 370, 412);
       doc.text("Poor", 480, 412);
       doc.text("None", 515, 412);
+
+      doc.text("Hearing Ability", 15, 436);
+      doc.line(55, 448, 245, 448);
+      doc.text("None", 15, 452);
+      doc.setFillColor(255,255,255);
+      doc.circle(60, 448, 5, 'FD');
+      doc.circle(80, 448, 5, 'FD');
+      doc.circle(100, 448, 5, 'FD');
+      doc.circle(120, 448, 5, 'FD');
+      doc.circle(140, 448, 5, 'FD');
+      doc.circle(160, 448, 5, 'FD');
+      doc.circle(180, 448, 5, 'FD');
+      doc.circle(200, 448, 5, 'FD');
+      doc.circle(220, 448, 5, 'FD');
+      doc.circle(240, 448, 5, 'FD');
+      doc.text("Perfect", 256, 452);
+
+      doc.text("Wears Hearing Aid", 15, 476);
+      doc.text("Yes", 20, 492);
+      doc.text("No", 70, 492);
+
+      doc.text("Help with Hearing Aids", 300, 476);
+      doc.text("Yes", 305, 492);
+      doc.text("No", 355, 492);
+
+      doc.text("Hearing Notes", 15, 516);
+      doc.line(100, 518, 580, 518);
+      doc.line(100, 542, 580, 542);
+
+      doc.text("Vision", 15, 566);
+
+      doc.text("Vision Device", 15, 590);
+      doc.text("Glasses", 20, 606);
+      doc.text("Contacts", 80, 606);
+      doc.text("None", 150, 606);
+
+      doc.text("Vision Assist", 300, 590);
+      doc.text("Full", 305, 606);
+      doc.text("Independent", 345, 606);
+      doc.text("Reminder", 435, 606);
+      doc.text("None", 505, 606);
+
+      doc.text("Left Eye", 15, 630);
+      doc.text("Adequate", 20, 646);
+      doc.text("Adequate with Aid", 80, 646);
+      doc.text("Poor", 190, 646);
+      doc.text("None", 230, 646);
+
+      doc.text("Right Eye", 300, 630);
+      doc.text("Adequate", 305, 646);
+      doc.text("Adequate with Aid", 365, 646);
+      doc.text("Poor", 475, 646);
+      doc.text("None", 515, 646);
+
+      doc.text("Vision", 15, 670);
+      doc.line(55, 682, 245, 682);
+      doc.text("None", 15, 686);
+      doc.setFillColor(255,255,255);
+      doc.circle(60, 682, 5, 'FD');
+      doc.circle(80, 682, 5, 'FD');
+      doc.circle(100, 682, 5, 'FD');
+      doc.circle(120, 682, 5, 'FD');
+      doc.circle(140, 682, 5, 'FD');
+      doc.circle(160, 682, 5, 'FD');
+      doc.circle(180, 682, 5, 'FD');
+      doc.circle(200, 682, 5, 'FD');
+      doc.circle(220, 682, 5, 'FD');
+      doc.circle(240, 682, 5, 'FD');
+      doc.text("Perfect", 256, 686);
+
+      doc.text("Vision Notes", 15, 710);
+      doc.line(100, 712, 580, 712);
+      doc.line(100, 736, 580, 736);
+
+      doc.text("Teeth", 15, 760);
+
+      doc.text("Dentist", 15, 784);
+      doc.line(100, 786, 580, 786);
+
+      doc.addPage();
+      doc.rect(10, 0, 575, 500);
+
+      doc.text("Teeth Care", 15, 24);
+      doc.text("Great", 20, 40);
+      doc.text("Good", 70, 40);
+      doc.text("Decent", 120, 40);
+      doc.text("Lacking", 170, 40);
+      doc.text("None", 220, 40);
+
+      doc.text("Teeth Assistance", 300, 24);
+      doc.text("Full", 305, 40);
+      doc.text("Reminder", 355, 40);
+      doc.text("Independent", 435, 40);
+
+      doc.text("Teeth Care Description", 15, 64);
+      doc.line(100, 66, 580, 66);
+      doc.line(100, 90, 580, 90);
+
+      doc.text("Upper Teeth", 15, 114);
+      doc.text("Own", 20, 130);
+      doc.text("Dentures", 70, 130);
+      doc.text("Partial", 150, 130);
+
+      doc.text("Lower Teeth", 300, 114);
+      doc.text("Own", 305, 130);
+      doc.text("Dentures", 355, 130);
+      doc.text("Partial", 435, 130);
+
+      doc.text("Teeth Condition", 15, 154);
+      doc.line(55, 166, 245, 166);
+      doc.text("None", 15, 170);
+      doc.setFillColor(255,255,255);
+      doc.circle(60, 166, 5, 'FD');
+      doc.circle(80, 166, 5, 'FD');
+      doc.circle(100, 166, 5, 'FD');
+      doc.circle(120, 166, 5, 'FD');
+      doc.circle(140, 166, 5, 'FD');
+      doc.circle(160, 166, 5, 'FD');
+      doc.circle(180, 166, 5, 'FD');
+      doc.circle(200, 166, 5, 'FD');
+      doc.circle(220, 166, 5, 'FD');
+      doc.circle(240, 166, 5, 'FD');
+      doc.text("Perfect", 256, 170);
+
+      doc.text("Teeth Notes", 15, 194);
+      doc.line(100, 196, 580, 196);
+      doc.line(100, 220, 580, 220);
+
 
       doc.save("Blank Careplan.pdf");
     }
