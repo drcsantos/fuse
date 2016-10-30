@@ -620,7 +620,7 @@
       doc.line(100, 786, 580, 786);
 
       doc.addPage();
-      doc.rect(10, 0, 575, 500);
+      doc.rect(10, 0, 575, 416);
 
       doc.text("Teeth Care", 15, 24);
       doc.text("Great", 20, 40);
@@ -667,6 +667,73 @@
       doc.text("Teeth Notes", 15, 194);
       doc.line(100, 196, 580, 196);
       doc.line(100, 220, 580, 220);
+
+      doc.text("Oxygen", 15, 244);
+      doc.text("Yes", 20, 260);
+      doc.text("No", 70, 260);
+
+      doc.text("Oxygen Type", 200, 244);
+      doc.text("Liquid", 205, 260);
+      doc.text("Concentrate", 255, 260);
+
+      doc.text("Oxygen Flow", 400, 244);
+      doc.text("Continuous", 405, 260);
+      doc.text("Helios", 485, 260);
+
+      doc.text("Medication", 15, 284);
+      doc.text("Yes", 20, 300);
+      doc.text("No", 70, 300);
+
+      doc.text("Self Meds", 200, 284);
+      doc.text("Yes", 205, 300);
+      doc.text("No", 255, 300);
+
+      doc.text("Meds at Bedside", 400, 284);
+      doc.text("Yes", 405, 300);
+      doc.text("No", 455, 300);
+
+      doc.text("Chemotherapy", 15, 324);
+      doc.text("Yes", 20, 340);
+      doc.text("No", 70, 340);
+
+      doc.text("Swallow Assist", 200, 324);
+      doc.text("Yes", 205, 340);
+      doc.text("No", 255, 340);
+
+      doc.text("Dialysis", 400, 324);
+      doc.text("Yes", 405, 340);
+      doc.text("No", 455, 340);
+
+      doc.text("Marijuana", 15, 364);
+      doc.text("Yes", 20, 380);
+      doc.text("No", 70, 380);
+
+      doc.text("Notes", 200, 364);
+      doc.line(290, 366, 580, 366);
+      doc.line(200, 390, 580, 390);
+
+      doc.rect(10, 426, 575, 300);
+      doc.text("Psychosocial", 15, 440);
+
+      doc.text("Psychosocial Status", 15, 464);
+      doc.text("Alert", 20, 480);
+      doc.text("Friendly", 70, 480);
+      doc.text("Disoriented", 130, 480);
+      doc.text("Withdrawn", 200, 480);
+      doc.text("Talkative", 300, 480);
+      doc.text("Lonely", 400, 480);
+      doc.text("Happy", 500, 480);
+
+      doc.text("Confused", 20, 496);
+      doc.text("Uncooperative", 100, 496);
+      doc.text("At Times Angry", 200, 496);
+      doc.text("Sad", 300, 496);
+      doc.text("Emotional Outbursts", 350, 496);
+      doc.text("Feel Like a Burden", 480, 496);
+
+      doc.text("Psychosocial Description", 200, 520);
+      doc.line(290, 522, 580, 522);
+      doc.line(200, 546, 580, 546);
 
 
       doc.save("Blank Careplan.pdf");
