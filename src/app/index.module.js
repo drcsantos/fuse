@@ -63,7 +63,7 @@
             'app.information',
 
            // To do
-            'app.todo'
+            'app.todo',
 
         ]);
 })();

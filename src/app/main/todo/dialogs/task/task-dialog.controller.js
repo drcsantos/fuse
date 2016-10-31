@@ -19,6 +19,8 @@
 
         vm.canSubmit = false;
 
+        console.log("Task dialog opened");
+
         vm.todoid = authentication.currentUser().todoid;
 
         if ( !vm.task ) {
