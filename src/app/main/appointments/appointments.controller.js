@@ -61,8 +61,6 @@
         SearchService.subscribe($scope, function() {
 
           vm.events[0] = SearchService.getResult();
-
-          console.log(vm.events[0]);
         });
 
       });
@@ -150,17 +148,10 @@
         dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         viewRender: function(view) {
-          console.log(view);
-
-          if(view.name === "agendaDay") {
-            //$document.scrollTop(1000, 1000);;
-          }
 
           vm.calendarView = view;
           vm.calendar = vm.calendarView.calendar;
           vm.currentMonthShort = vm.calendar.getDate().format('MMM');
-
-
 
         },
         columnFormat: {
@@ -285,9 +276,14 @@
       startDate.setHours(appointment.hours);
       startDate.setMinutes(appointment.minutes);
 
+      var resident = appointment.residentGoing;
+
+      var name = resident.aliasName ? resident.aliasName : resident.firstName;
+
+      var title = name + " " + resident.lastName + " to " + appointment.locationName;
+
       var calEvent = {
-        title: appointment.residentGoing.firstName + " " + appointment.residentGoing.lastName +
-          " to " + appointment.locationName,
+        title: title,
         start: startDate,
         end: null,
         transportation: appointment.transportation,
@@ -299,11 +295,11 @@
         locationDoctor: appointment.locationDoctor,
         locationName: appointment.locationName,
         date: appointment.time,
-        currentUser: appointment.residentGoing,
+        currentUser: resident,
         appointId: appointment._id,
         cancel: appointment.cancel,
         appointmentComment: appointment.appointmentComment,
-        residentGoing: appointment.residentGoing,
+        residentGoing: resident,
         stick: true,
       };
 

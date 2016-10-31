@@ -1,31 +1,31 @@
-<!-- MAIL LIST ITEMS -->
-<div class="mail-list-item" ng-repeat="mail in vm.residentList | filter: vm.search "
+<!-- resident LIST ITEMS -->
+<div class="mail-list-item" ng-repeat="resident in vm.residentList | filter: vm.search "
      md-ink-ripple
-     ng-click="vm.selectResident(mail)"
-     ng-class="{'starred': mail.starred, 'selected': vm.selectedResident === mail, 'checked': vm.isChecked(mail)}">
+     ng-click="vm.selectResident(resident)"
+     ng-class="{'starred': resident.starred, 'selected': vm.selectedResident === resident, 'checked': vm.isChecked(resident)}">
 
     <div layout="row" layout-align="start center">
 
 
         <div class="info" flex layout="column">
             <div class="name" layout="row" layout-align="start center">
-                <img class="avatar" ng-if="mail.from.avatar" alt="{{mail.firstName}}" ng-src="{{mail.firstName}}"/>
+                <img class="avatar" ng-if="resident.from.avatar" alt="{{resident.firstName}}" ng-src="{{resident.firstName}}"/>
 
-                <div class="avatar" ng-if="!mail.from.avatar" ms-random-class="vm.colors">
-                    {{mail.firstName}}
+                <div class="avatar" ng-if="!resident.from.avatar" ms-random-class="vm.colors">
+                    {{resident.firstName}}
                 </div>
 
-                <span class="text-truncate">{{mail.firstName + " " + mail.lastName}}</span>
+                <span class="text-truncate">{{resident.firstName + " " + resident.aliasName + " " + resident.lastName}}</span>
 
-                <md-icon md-font-icon="icon-paperclip" class="has-attachment s16" ng-if="mail.hasAttachments"></md-icon>
+                <md-icon md-font-icon="icon-paperclip" class="has-attachment s16" ng-if="resident.hasAttachments"></md-icon>
             </div>
         </div>
 
         <div layout="column" layout-align="space-between end">
-            <div class="time">{{mail.time}}</div>
+            <div class="time">{{resident.time}}</div>
 
-             <md-button class="md-accent md-raised" ng-click="vm.updateResident(mail)">Update</md-button>
+             <md-button class="md-accent md-raised" ng-click="vm.updateResident(resident)">Update</md-button>
         </div>
     </div>
 </div>
-<!-- / MAIL LIST ITEMS -->
+<!-- / resident LIST ITEMS -->
