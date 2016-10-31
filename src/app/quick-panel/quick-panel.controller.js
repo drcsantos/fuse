@@ -27,18 +27,21 @@
         socket.on('connect', function() {
           var userCommunity = authentication.currentUser().community;
 
-          console.log(userCommunity);
+          socket
+          .emit('authenticate', {token: authentication.getToken()})
+          .on('authenticated', function () {
+            socket.emit('join-community', userCommunity);
+            socket.emit('get-activities', userCommunity);
 
-          socket.emit('join-community', userCommunity);
-          socket.emit('get-activities', userCommunity);
+            socket.on('recent-activities', function(activities) {
+              vm.activities = activities;
+            });
 
-          socket.on('recent-activities', function(activities) {
-            vm.activities = activities;
+            socket.on('add-activity', function(activity) {
+              vm.activities.push(activity);
+            });
           });
 
-          socket.on('add-activity', function(activity) {
-            vm.activities.push(activity);
-          });
         });
 
         function getColor(type) {
