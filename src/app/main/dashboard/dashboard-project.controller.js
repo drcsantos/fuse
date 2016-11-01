@@ -236,15 +236,18 @@
         (function getCustomerData() {
           apilaData.getCustomer(vm.userid)
           .success(function(response) {
-            vm.customerData = response;
+            if(response.status) {
+              vm.customerData = response;
 
-            if(vm.customerData.customer.subscriptions.data.length > 0) {
-              vm.subscriptionCanceled = false;
-              vm.billingDate = moment(vm.customerData.customer.subscriptions.data[0].current_period_end * 1000).format('MMMM Do YYYY');
-              vm.trialEndDate = moment(vm.customerData.customer.subscriptions.data[0].trial_end * 1000).format('MMMM Do YYYY');
-            } else {
-              vm.subscriptionCanceled = true;
+              if(vm.customerData.customer.subscriptions.data.length > 0) {
+                vm.subscriptionCanceled = false;
+                vm.billingDate = moment(vm.customerData.customer.subscriptions.data[0].current_period_end * 1000).format('MMMM Do YYYY');
+                vm.trialEndDate = moment(vm.customerData.customer.subscriptions.data[0].trial_end * 1000).format('MMMM Do YYYY');
+              } else {
+                vm.subscriptionCanceled = true;
+              }
             }
+
           })
           .error(function(response) {
             //dont show an error if the user didnt create stripe customer info
