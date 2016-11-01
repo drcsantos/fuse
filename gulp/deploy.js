@@ -14,7 +14,7 @@ var servicesPath = 'src/app/common/services/';
 var stripDebug = require('gulp-strip-debug');
 
 gulp.task('change-url', function(cb) {
-  gulp.src([servicesPath + 'apilaData.service.js', servicesPath + 'authentication.service.js'])
+  gulp.src([servicesPath + 'apilaData.service.js', servicesPath + 'authentication.service.js', servicesPath + 'socket.service.js'])
   .pipe(replace({
     patterns: [
       {
@@ -58,7 +58,30 @@ gulp.task('deploy', ['run-build'], function(cb) {
   gulp.src(['../api/package.json'])
       .pipe(gulp.dest(userHome + '/deploy/'));
 
-  gulp.src([servicesPath + 'apilaData.service.js', servicesPath + 'authentication.service.js'])
+
+      gulp.src([servicesPath + 'apilaData.service.js', servicesPath + 'authentication.service.js', servicesPath + 'socket.service.js'])
+          .pipe(replace({
+            patterns: [
+              {
+                match: /apiUrl=\"/g,
+                replacement: function () {
+                  return 'apiUrl="http://localhost:3300';
+                }
+              },
+              {
+                match: /io.connect\(''\)/g,
+                replacement: function () {
+                  return "io.connect('http://localhost:3300')";
+                }
+              }
+            ]
+          }))
+          .pipe(gulp.dest(servicesPath));
+
+});
+
+gulp.task('replace-url', function() {
+  gulp.src([servicesPath + 'apilaData.service.js', servicesPath + 'authentication.service.js', servicesPath + 'socket.service.js'])
       .pipe(replace({
         patterns: [
           {
@@ -66,10 +89,14 @@ gulp.task('deploy', ['run-build'], function(cb) {
             replacement: function () {
               return 'apiUrl="http://localhost:3300';
             }
+          },
+          {
+            match: /io.connect\(''\)/g,
+            replacement: function () {
+              return "io.connect('http://localhost:3300')";
+            }
           }
         ]
       }))
       .pipe(gulp.dest(servicesPath));
-
-
 });
