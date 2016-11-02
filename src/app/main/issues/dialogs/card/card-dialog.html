@@ -470,20 +470,20 @@
                   <md-checkbox ng-model="checkItem.checked" ng-change="vm.updateCheckedCount(checklist, checkItem)" aria-label="{{checkItem.name}}">
                   </md-checkbox>
 
-                  <a ng-if="checkItem.checked" href="#" style="text-decoration: line-through;" editable-text="checkItem.name" onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}</a>
+                  <a ng-if="checkItem.checked" href="#" style="text-decoration: line-through;" editable-textarea="checkItem.name" e-rows="7" e-cols="40" onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}</a>
 
-                  <a ng-if="!checkItem.checked" href="#" editable-text="checkItem.name" onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}</a>
+                  <a ng-if="!checkItem.checked" href="#" editable-textarea="checkItem.name" e-rows="3" e-cols="60" onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}</a>
                 </div>
               </div>
 
-              <form name="newCheckItemForm" class="new-check-item-form" ng-submit="vm.addCheckItem(vm[checklist.id].newCheckItem, checklist);vm[checklist.id].newCheckItem = ''" layout="row" layout-align="start center">
+              <form name="newCheckItemForm" class="new-check-item-form" ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);vm[checklist.id].newCheckItem = ''" layout="row" layout-align="start center">
 
                 <md-input-container class="no-errors-spacer" flex>
                   <label layout="row" layout-align="center">
                     <i class="icon-plus s18"></i>
                     <span translate="SB.ADD_AN_ITEM">Add an item</span>
                   </label>
-                  <input type="text" autocomplete="off" ng-model="vm[checklist.id].newCheckItem">
+                  <input type="text" autocomplete="off" ng-model="checklist.newCheckItem">
                 </md-input-container>
 
                 <md-button type="submit" class="md-raised md-accent" aria-label="Add" translate translate-attr-aria-label="SB.ADD">
@@ -513,7 +513,7 @@
                   </md-input-container>
 
                 <div layout="row" layout-align="end center">
-                  <md-button type="submit" class="md-raised md-accent" ng-disabled="cardCommentForm.$invalid || cardCommentForm.$pristine" aria-label="Add">
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Add">
                     <span translate="SB.ADD">Add</span>
                   </md-button>
                 </div>

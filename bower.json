@@ -67,7 +67,9 @@
   "resolutions": {
     "angular": "1.5.5",
     "d3": "3.5.14",
-    "moment": "2.13.0"
+    "moment": "2.13.0",
+    "angular-material": "1.1.0",
+    "jquery": ">=1.6"
   },
   "overrides": {
     "angular-material": {
