@@ -129,8 +129,8 @@
               vm.card.updateInfo.push(transformUpdateInfo(data.updateInfo));
               vm.newCheckListTitle = "Checklist";
           })
-          .error(function(d) {
-            console.log("Error while adding checklist");
+          .error(function(err) {
+            console.log(err);
           });
       }
 

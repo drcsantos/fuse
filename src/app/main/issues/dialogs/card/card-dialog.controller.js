@@ -34,13 +34,16 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
-        vm.createdIssue = vm.card.submitBy + " created " + vm.card.title + " " +
+        console.log(vm.card.submitBy);
+
+        vm.createdIssue = vm.card.submitBy.name + " created " + vm.card.title + " " +
                            UpdateInfoService.timeDiff(vm.card.submitDate);
 
         vm.newCheckListTitle = "Checklist";
 
         vm.username = authentication.currentUser().name;
         var userid = authentication.currentUser().id;
+        vm.userid = authentication.currentUser().id;
 
         vm.now = new Date();
 
