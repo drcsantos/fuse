@@ -12,7 +12,8 @@
 
         <md-dialog-content ms-scroll>
 
-          <div layout="row" layout-align="space-around">
+        <div layout="column">
+          <div layout="row" flex="70" style="height: 100%" layout-fill layout-align="space-around">
 
             <div class="md-block">
              <label ng-switch on="vm.form.occurrence">
@@ -44,33 +45,35 @@
 
             </div>
 
-             <div layout="column" ng-if="vm.form.occurrence === 2">
-              <md-switch ng-model="vm.form.everyWeek" aria-label="Every Week" ng-change="vm.selectEveryWeek()" ng-if="vm.form.occurrence == 2">
-                Every Week
-              </md-switch>
+              <div layout="column">
+               <div layout="row" ng-if="vm.form.occurrence === 2">
+                <md-switch ng-model="vm.form.everyWeek" aria-label="Every Week" ng-change="vm.selectEveryWeek()" ng-if="vm.form.occurrence == 2">
+                  Every Week
+                </md-switch>
+              </div>
 
-              <md-checkbox ng-model="vm.form.activeWeeks[0]" aria-label="First Week of each Month" ng-disabled="vm.form.everyWeek">
-               First Week of each Month
-             </md-checkbox>
+              <div layout="row"  ng-if="vm.form.occurrence === 2">
+                <md-checkbox ng-model="vm.form.activeWeeks[0]" aria-label="First Week of each Month" ng-disabled="vm.form.everyWeek">
+                 <span>First Week</span>
+               </md-checkbox>
 
-              <md-checkbox ng-model="vm.form.activeWeeks[1]" aria-label="Second Week of each Month" ng-disabled="vm.form.everyWeek">
-               Second Week of each Month
-             </md-checkbox>
+                <md-checkbox ng-model="vm.form.activeWeeks[1]" aria-label="Second Week of each Month" ng-disabled="vm.form.everyWeek">
+                 Second Week
+               </md-checkbox>
 
-             <md-checkbox ng-model="vm.form.activeWeeks[2]" aria-label="Third Week of each Month" ng-disabled="vm.form.everyWeek">
-              Third Week of each Month
-            </md-checkbox>
-
-              <md-checkbox ng-model="vm.form.activeWeeks[3]" aria-label="Fourth Week of each Month" ng-disabled="vm.form.everyWeek">
-               Fourth Week of each Month
-             </md-checkbox>
-
-               <md-checkbox ng-model="vm.form.activeWeeks[4]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
-                Last Week of each Month
+               <md-checkbox ng-model="vm.form.activeWeeks[2]" aria-label="Third Week of each Month" ng-disabled="vm.form.everyWeek">
+                Third Week
               </md-checkbox>
 
-           </div>
+                <md-checkbox ng-model="vm.form.activeWeeks[3]" aria-label="Fourth Week of each Month" ng-disabled="vm.form.everyWeek">
+                 Fourth Week
+               </md-checkbox>
 
+                 <md-checkbox ng-model="vm.form.activeWeeks[4]" aria-label="Checkbox 1" ng-disabled="vm.form.everyWeek">
+                  Last Week
+                </md-checkbox>
+              </div>
+            </div>
 
            <div layout="column" ng-if="vm.form.occurrence === 3" flex>
 
@@ -135,13 +138,13 @@
 
          </div>
 
-            </div>
+      </div>
 
               <br />
               <br />
 
 
-            <md-input-container class="md-block">
+            <md-input-container class="md-block" flex="30">
                 <label translate="TODO.DESCRIPTION">Task description</label>
                 <textarea name="description" ng-model="vm.form.text" require md-select-on-focus>
                 </textarea>
@@ -150,6 +153,7 @@
                 </div>
             </md-input-container>
 
+      </div>
         </md-dialog-content>
 
         <md-dialog-actions layout="row" layout-align="space-between center">
