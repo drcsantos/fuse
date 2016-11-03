@@ -540,7 +540,7 @@
                 <div class="comment-member-name">
                   {{comment.author.name}}
                 </div>
-                <div class="comment-bubble">{{comment.commentText}}</div>
+                <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" e-rows="7" e-cols="50">{{comment.commentText}}</div>
                 <div class="comment-time secondary-text">{{vm.UpdateInfoService.timeDiff(comment.createdOn)}}</div>
               </div>
             </div>

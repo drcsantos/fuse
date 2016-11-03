@@ -34,8 +34,6 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
-        console.log(vm.card.submitBy);
-
         vm.createdIssue = vm.card.submitBy.name + " created " + vm.card.title + " " +
                            UpdateInfoService.timeDiff(vm.card.submitDate);
 
@@ -80,6 +78,7 @@
         vm.updateCheckItem = ChecklistsService.updateCheckItem;
 
         vm.addNewComment = addNewComment;
+        vm.updateComment = updateComment;
         vm.updateIssue = updateIssue;
 
         // Main field update
@@ -235,7 +234,12 @@
             updateField : vm.card.updateField
           });
 
-          apilaData.updateIssue(vm.card._id, vm.card);
+          vm.card.submitBy = vm.card.submitBy._id;
+
+          apilaData.updateIssue(vm.card._id, vm.card)
+          .error(function(err) {
+            console.log(err);
+          });
         }
 
         ///////////////////////// UPDATE MAIN FIELDS //////////////////////////
@@ -420,6 +424,16 @@
            })
            .error(function(response) {
              console.log(response);
+           });
+         }
+
+         function updateComment(comment) {
+
+           comment.author = comment.author._id;
+
+           apilaData.issueCommentsUpdate(vm.card._id, comment)
+           .error(function(err) {
+             console.log(err);
            });
          }
 
