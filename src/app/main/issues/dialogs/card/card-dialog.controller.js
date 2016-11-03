@@ -414,13 +414,19 @@
            var data = {
              "text" : vm.newFinalPlanText,
              "checklist" : vm.finalPlanChecklist,
-             "author" : userid
+             "author" : userid,
+             "todoid": authentication.currentUser().todoid,
+             "issueName": vm.card.name
            };
 
            apilaData.addFinalPlan(vm.card._id, data)
            .success(function(response) {
              vm.card.finalPlan.push(response);
              vm.newFinalPlanText = "";
+
+             if(!vm.finalPlanChecklist) {
+               showToast("Created a new task in the todo section");
+             }
            })
            .error(function(response) {
              console.log(response);
