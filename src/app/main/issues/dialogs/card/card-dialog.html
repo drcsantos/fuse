@@ -254,7 +254,7 @@
         <md-input-container class="md-block">
           <label>Title</label>
           <md-icon md-font-icon="icon-tag-text-outline" class="name"></md-icon>
-          <input ng-disabled="vm.userid !== vm.card.submitBy" ng-model="vm.card.name" type="text" ng-blur="vm.updateIssue()" focus>
+          <input ng-disabled="vm.userid !== vm.card.submitBy._id" ng-model="vm.card.name" type="text" ng-blur="vm.updateIssue()" focus>
         </md-input-container>
 
 
@@ -262,7 +262,7 @@
         <md-input-container class="md-block">
           <label translate="SB.DESCRIPTION">Description</label>
           <md-icon md-font-icon="icon-note-text s18" class="name"></md-icon>
-          <textarea ng-disabled="vm.userid !== vm.card.submitBy" ng-model="vm.card.description" ng-blur="vm.updateIssue()" columns="1" max-rows="4"></textarea>
+          <textarea ng-disabled="vm.userid !== vm.card.submitBy._id" ng-model="vm.card.description" ng-blur="vm.updateIssue()" columns="1" max-rows="4"></textarea>
         </md-input-container>
         <!-- / DESCRIPTION -->
 
@@ -270,7 +270,7 @@
         <md-input-container class="md-block">
           <label>Resolution Time Frame</label>
           <md-icon md-font-icon="icon-timetable s18" class="name"></md-icon>
-          <md-select ng-disabled="vm.userid !== vm.card.submitBy" ng-model="vm.card.resolutionTimeframe" ng-change="vm.updateIssue()" placeholder="Time Frame" required>
+          <md-select ng-disabled="vm.userid !== vm.card.submitBy._id" ng-model="vm.card.resolutionTimeframe" ng-change="vm.updateIssue()" placeholder="Time Frame" required>
             <md-option value="Hours">Hours</md-option>
             <md-option value="Days">Days</md-option>
             <md-option value="Weeks">Weeks</md-option>

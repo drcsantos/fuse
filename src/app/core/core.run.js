@@ -35,8 +35,8 @@
 
         editableOptions.theme = 'default';
         //editableOptions.theme = 'default';
-        editableThemes['default'].cancelTpl = '<button type="submit" ng-click="vm.removeCheckItem(checklist, $index)">Remove</button>';
-        editableThemes['default'].submitTpl = '<button type="submit">Save</button>';
+        editableThemes['default'].cancelTpl = '<button type="submit" style="background-color: #F44336; border-radius: 4px;color: white;padding:6px;" ng-click="vm.removeCheckItem(checklist, $index)">Remove</button>';
+        editableThemes['default'].submitTpl = '<button type="submit" style="background-color: #0091ea; border-radius: 4px;color: white;padding:6px;">Save</button>';
 
         /**
          * Put browser information to the html as a class
