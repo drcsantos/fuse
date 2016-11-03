@@ -31,7 +31,7 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <label>Room number</label>
+        <label>Room Number</label>
         <input ng-model="vm.form.room" type="number" required="">
       </md-input-container>
 
@@ -135,19 +135,6 @@
           <label>Moved from</label>
           <input type="text" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.form.locationInfo" />
         </md-input-container>
-
-        <div class="md-block">
-         <label ng-switch on="vm.form.assessmentInterval">
-             <span ng-switch-when="0">Assessment Interval: None</span>
-             <span ng-switch-when="1">Assessment Interval: Weekly</span>
-             <span ng-switch-when="2">Assessment Interval: Monthly</span>
-             <span ng-switch-when="3">Assessment Interval: Quarterly</span>
-             <span ng-switch-when="4">Assessment Interval: Yearly</span>
-             <span ng-switch-default>Assessment Interval: </span>
-         </label>
-         <md-slider flex min="0" max="4" ng-model="vm.form.assessmentInterval" aria-label="blue">
-         </md-slider>
-       </div>
 
        <!-- Random fields -->
 

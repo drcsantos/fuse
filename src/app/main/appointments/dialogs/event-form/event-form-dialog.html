@@ -18,12 +18,7 @@
       <!-- Reason -->
       <md-input-container class="md-block">
         <label translate="CALENDAR.REASON">Reason</label>
-        <input name="reason" ng-model="vm.calendarEvent.reason" ng-blur="vm.updateIssue()" required>
-        <div ng-messages="eventForm.reason.$error" ng-show="eventForm.reason.$touched" role="alert">
-          <div ng-message="required">
-            <span translate="CALENDAR.ERRORS.REASON_REQUIRED">Reason field is required</span>
-          </div>
-        </div>
+        <input name="reason" ng-model="vm.calendarEvent.reason" ng-blur="vm.updateIssue()">
       </md-input-container>
 
 
