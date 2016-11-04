@@ -77,6 +77,7 @@
 
               vm.card.updateInfo.push(transformUpdateInfo(checkList.updateInfo));
               updateCheckedCount(checkList);
+              text = "";
 
           })
           .error(function() {

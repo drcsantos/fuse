@@ -476,7 +476,7 @@
                 </div>
               </div>
 
-              <form name="newCheckItemForm" class="new-check-item-form" ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);vm[checklist.id].newCheckItem = ''" layout="row" layout-align="start center">
+              <form name="newCheckItemForm" class="new-check-item-form" ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);checklist.newCheckItem = ''" layout="row" layout-align="start center">
 
                 <md-input-container class="no-errors-spacer" flex>
                   <label layout="row" layout-align="center">
