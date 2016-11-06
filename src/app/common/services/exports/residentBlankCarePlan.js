@@ -712,7 +712,7 @@
       doc.line(290, 366, 580, 366);
       doc.line(200, 390, 580, 390);
 
-      doc.rect(10, 426, 575, 300);
+      doc.rect(10, 426, 575, 500);
       doc.text("Psychosocial", 15, 440);
 
       doc.text("Psychosocial Status", 15, 464);
@@ -731,10 +731,182 @@
       doc.text("Emotional Outbursts", 350, 496);
       doc.text("Feel Like a Burden", 480, 496);
 
-      doc.text("Psychosocial Description", 200, 520);
-      doc.line(290, 522, 580, 522);
-      doc.line(200, 546, 580, 546);
+      doc.text("Psychosocial Description", 15, 520);
+      doc.line(100, 522, 580, 522);
+      doc.line(100, 546, 580, 546);
 
+      doc.text("Comprehension", 15, 570);
+      doc.text("Slow", 20, 586);
+      doc.text("Moderate", 70, 586);
+      doc.text("Quick", 140, 586);
+
+      doc.text("Dementia", 300, 570);
+      doc.text("None", 305, 586);
+      doc.text("Mild", 355, 586);
+      doc.text("Moderate", 405, 586);
+      doc.text("Severe", 475, 586);
+
+      doc.text("Sundowner", 15, 610);
+      doc.text("Yes", 20, 626);
+      doc.text("No", 70, 626);
+
+      doc.text("Sundowner Description", 200, 610);
+      doc.line(300, 612, 580, 612);
+      doc.line(300, 636, 580, 636);
+
+      doc.text("Leaves without Intention", 15, 660);
+      doc.text("Yes", 20, 676);
+      doc.text("No", 70, 676);
+
+      doc.text("High Maintenance", 200, 660);
+      doc.line(240, 672, 430, 672);
+      doc.text("Easy", 200, 676);
+      doc.setFillColor(255,255,255);
+      doc.circle(245, 672, 5, 'FD');
+      doc.circle(265, 672, 5, 'FD');
+      doc.circle(285, 672, 5, 'FD');
+      doc.circle(305, 672, 5, 'FD');
+      doc.circle(325, 672, 5, 'FD');
+      doc.circle(345, 672, 5, 'FD');
+      doc.circle(365, 672, 5, 'FD');
+      doc.circle(385, 672, 5, 'FD');
+      doc.circle(405, 672, 5, 'FD');
+      doc.circle(425, 672, 5, 'FD');
+      doc.text("Difficult", 441, 676);
+
+      doc.text("High Maintenance Description", 15, 700);
+      doc.line(100, 702, 580, 702);
+      doc.line(100, 726, 580, 726);
+
+      doc.text("Anxiety", 15, 750);
+      doc.text("Yes", 20, 766);
+      doc.text("No", 70, 766);
+
+      doc.text("Antipsychotic Medication", 300, 750);
+      doc.text("Yes", 305, 766);
+      doc.text("No", 355, 766);
+
+      doc.text("Smokes", 15, 790);
+      doc.text("Yes", 20, 806);
+      doc.text("No", 70, 806);
+
+      doc.text("Smoke Description", 200, 790);
+      doc.line(300, 792, 580, 792);
+      doc.line(300, 816, 580, 816);
+
+      doc.addPage();
+      doc.rect(10, 0, 575, 626);
+
+      doc.text("Alcohol", 15, 24);
+      doc.text("Yes", 20, 40);
+      doc.text("No", 70, 40);
+
+      doc.text("Alcohol in Room", 300, 24);
+      doc.text("Yes", 305, 40);
+      doc.text("No", 355, 40);
+
+      doc.text("Alcohol Description", 15, 64);
+      doc.line(100, 66, 580, 66);
+      doc.line(100, 90, 580, 90);
+
+      doc.text("Sexually Active", 15, 114);
+      doc.text("Yes", 20, 130);
+      doc.text("No", 70, 130);
+
+      doc.text("Sexually Active Description", 200, 114);
+      doc.line(300, 116, 580, 116);
+      doc.line(300, 140, 580, 140);
+
+      doc.text("Other Habits", 15, 164);
+      doc.line(100, 166, 580, 166);
+      doc.line(100, 190, 580, 190);
+
+      doc.text("Participation", 15, 214);
+
+      doc.text("General Activity Participation", 15, 238);
+      doc.text("Never", 20, 254);
+      doc.text("Sometimes", 70, 254);
+      doc.text("Good", 150, 254);
+      doc.text("Amazing", 200, 254);
+
+      doc.text("Dining Room Participation", 300, 238);
+      doc.text("Never", 305, 254);
+      doc.text("Sometimes", 355, 254);
+      doc.text("Good", 435, 254);
+      doc.text("Amazing", 485, 254);
+
+      doc.text("Bus Ride Participation", 15, 278);
+      doc.text("Never", 20, 294);
+      doc.text("Sometimes", 70, 294);
+      doc.text("Good", 150, 294);
+      doc.text("Amazing", 200, 294);
+
+      doc.text("Fitness Participation", 300, 278);
+      doc.text("Never", 305, 294);
+      doc.text("Sometimes", 355, 294);
+      doc.text("Good", 435, 294);
+      doc.text("Amazing", 485, 294);
+
+      doc.text("Bingo Participation", 15, 318);
+      doc.text("Never", 20, 334);
+      doc.text("Sometimes", 70, 334);
+      doc.text("Good", 150, 334);
+      doc.text("Amazing", 200, 334);
+
+      doc.text("Community Participation", 300, 318);
+      doc.text("Never", 305, 334);
+      doc.text("Sometimes", 355, 334);
+      doc.text("Good", 435, 334);
+      doc.text("Amazing", 485, 334);
+
+      doc.text("Time in Room", 15, 358);
+      doc.text("Reading", 20, 374);
+      doc.text("TV", 90, 374);
+      doc.text("Game", 130, 374);
+      doc.text("Hobby", 190, 374);
+      doc.text("Computer", 260, 374);
+      doc.text("Radio", 340, 374);
+      doc.text("Audio Books", 410, 374);
+
+      doc.text("Volunteer", 15, 398);
+      doc.text("Yes", 20, 414);
+      doc.text("No", 70, 414);
+
+      doc.text("Prefered Activites", 200, 398);
+      doc.line(300, 400, 580, 400);
+      doc.line(300, 424, 580, 424);
+
+      doc.text("Drives a Car", 15, 448);
+      doc.text("Yes", 20, 464);
+      doc.text("No", 70, 464);
+
+      doc.text("License Plate Number", 200, 448);
+      doc.line(300, 450, 580, 450);
+
+      doc.text("Spare Key Location", 15, 484);
+      doc.line(100, 486, 280, 486);
+      doc.line(100, 510, 280, 510);
+
+      doc.text("Spare Key Location", 300, 484);
+      doc.line(400, 486, 580, 486);
+      doc.line(400, 510, 580, 510);
+
+      doc.text("Uses Fitness Equipment Independently", 15, 534);
+      doc.text("Yes", 20, 550);
+      doc.text("No", 70, 550);
+
+      doc.text("Family Involvement", 300, 534);
+      doc.text("None", 305, 550);
+      doc.text("Some", 365, 550);
+      doc.text("Frequent", 425, 550);
+
+      doc.text("Notes", 15, 574);
+      doc.line(100, 576, 580, 576);
+      doc.line(100, 600, 580, 600);
+
+      doc.rect(10, 636, 575, 626);
+
+      doc.text("Pain", 15, 650);
 
       doc.save("Blank Careplan.pdf");
     }
