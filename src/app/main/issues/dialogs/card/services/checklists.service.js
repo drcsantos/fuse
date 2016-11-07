@@ -76,7 +76,7 @@
           .success(function(d) {
 
               vm.card.updateInfo.push(transformUpdateInfo(checkList.updateInfo));
-              updateCheckedCount(checkList);
+              updateCheckedCount(checkList, newCheckItem);
               text = "";
 
           })
