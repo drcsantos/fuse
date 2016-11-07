@@ -16,7 +16,6 @@
 
       var dateFilter = $filter('date');
       var filteredSubmitDate = dateFilter(data.submitDate, 'MMMM d, yyyy');
-      var filteredCommentSubmitDate = dateFilter(data.comments.createdOn, 'MMMM d, yyyy');
 
       if (data.due) {
         var dueDate = dateFilter(new Date(data.due), 'MMM d, yyyy');
@@ -32,7 +31,7 @@
 
       doc.text(40, 40, data.title);
       doc.setFontSize(12);
-      doc.text(40, 60, "Created by " + data.submitBy + " on " + filteredSubmitDate);
+      doc.text(40, 60, "Created by " + data.submitBy.name + " on " + filteredSubmitDate);
       doc.text(40, 72, "Status: " + data.status);
       doc.text(40, 84, "Timeframe: " + data.resolutionTimeframe);
 
@@ -47,41 +46,29 @@
         7, 7, // rounded corners
         'F'); // F filled | FD filled with borders
 
-      doc.ellipse(580, 109, 2, 2, 'F');
-      doc.ellipse(570, 109, 2, 2, 'F');
-      doc.ellipse(560, 109, 2, 2, 'F');
-      doc.ellipse(550, 109, 2, 2, 'F');
-      doc.ellipse(540, 109, 2, 2, 'F');
-      doc.ellipse(530, 109, 2, 2, 'F');
-      doc.ellipse(520, 109, 2, 2, 'F');
-      doc.ellipse(510, 109, 2, 2, 'F');
-      doc.ellipse(500, 109, 2, 2, 'F');
-      doc.ellipse(490, 109, 2, 2, 'F');
-      doc.ellipse(480, 109, 2, 2, 'F');
-      doc.ellipse(470, 109, 2, 2, 'F');
-      doc.ellipse(460, 109, 2, 2, 'F');
-      doc.ellipse(450, 109, 2, 2, 'F');
-      doc.ellipse(440, 109, 2, 2, 'F');
-      doc.ellipse(430, 109, 2, 2, 'F');
-      doc.ellipse(420, 109, 2, 2, 'F');
+
+      createDots(580, 109, 420, doc, offset);
+      // doc.ellipse(580, 109, 2, 2, 'F');
+      // doc.ellipse(570, 109, 2, 2, 'F');
+      // doc.ellipse(560, 109, 2, 2, 'F');
+      // doc.ellipse(550, 109, 2, 2, 'F');
+      // doc.ellipse(540, 109, 2, 2, 'F');
+      // doc.ellipse(530, 109, 2, 2, 'F');
+      // doc.ellipse(520, 109, 2, 2, 'F');
+      // doc.ellipse(510, 109, 2, 2, 'F');
+      // doc.ellipse(500, 109, 2, 2, 'F');
+      // doc.ellipse(490, 109, 2, 2, 'F');
+      // doc.ellipse(480, 109, 2, 2, 'F');
+      // doc.ellipse(470, 109, 2, 2, 'F');
+      // doc.ellipse(460, 109, 2, 2, 'F');
+      // doc.ellipse(450, 109, 2, 2, 'F');
+      // doc.ellipse(440, 109, 2, 2, 'F');
+      // doc.ellipse(430, 109, 2, 2, 'F');
+      // doc.ellipse(420, 109, 2, 2, 'F');
+
       // center
-      doc.ellipse(180, 109, 2, 2, 'F');
-      doc.ellipse(170, 109, 2, 2, 'F');
-      doc.ellipse(160, 109, 2, 2, 'F');
-      doc.ellipse(150, 109, 2, 2, 'F');
-      doc.ellipse(140, 109, 2, 2, 'F');
-      doc.ellipse(130, 109, 2, 2, 'F');
-      doc.ellipse(120, 109, 2, 2, 'F');
-      doc.ellipse(110, 109, 2, 2, 'F');
-      doc.ellipse(100, 109, 2, 2, 'F');
-      doc.ellipse(90,  109, 2, 2, 'F');
-      doc.ellipse(80, 109, 2, 2, 'F');
-      doc.ellipse(70, 109, 2, 2, 'F');
-      doc.ellipse(60, 109, 2, 2, 'F');
-      doc.ellipse(50, 109, 2, 2, 'F');
-      doc.ellipse(40, 109, 2, 2, 'F');
-      doc.ellipse(30, 109, 2, 2, 'F');
-      doc.ellipse(20, 109, 2, 2, 'F');
+      createDots(180, 109, 20, doc, offset);
+
       doc.text(260, 112, "Description");
 
       var descriptionLength = 78; // characters per line
@@ -119,41 +106,12 @@
         7, 7, // rounded corners
         'F'); // F filled | FD filled with borders
 
-      doc.ellipse(580, 145 + offset, 2, 2, 'F');
-      doc.ellipse(570, 145 + offset, 2, 2, 'F');
-      doc.ellipse(560, 145 + offset, 2, 2, 'F');
-      doc.ellipse(550, 145 + offset, 2, 2, 'F');
-      doc.ellipse(540, 145 + offset, 2, 2, 'F');
-      doc.ellipse(530, 145 + offset, 2, 2, 'F');
-      doc.ellipse(520, 145 + offset, 2, 2, 'F');
-      doc.ellipse(510, 145 + offset, 2, 2, 'F');
-      doc.ellipse(500, 145 + offset, 2, 2, 'F');
-      doc.ellipse(490, 145 + offset, 2, 2, 'F');
-      doc.ellipse(480, 145 + offset, 2, 2, 'F');
-      doc.ellipse(470, 145 + offset, 2, 2, 'F');
-      doc.ellipse(460, 145 + offset, 2, 2, 'F');
-      doc.ellipse(450, 145 + offset, 2, 2, 'F');
-      doc.ellipse(440, 145 + offset, 2, 2, 'F');
-      doc.ellipse(430, 145 + offset, 2, 2, 'F');
-      doc.ellipse(420, 145 + offset, 2, 2, 'F');
+
+      createDots(580, 145, 420, doc, offset);
+
       // center
-      doc.ellipse(180, 145 + offset, 2, 2, 'F');
-      doc.ellipse(170, 145 + offset, 2, 2, 'F');
-      doc.ellipse(160, 145 + offset, 2, 2, 'F');
-      doc.ellipse(150, 145 + offset, 2, 2, 'F');
-      doc.ellipse(140, 145 + offset, 2, 2, 'F');
-      doc.ellipse(130, 145 + offset, 2, 2, 'F');
-      doc.ellipse(120, 145 + offset, 2, 2, 'F');
-      doc.ellipse(110, 145 + offset, 2, 2, 'F');
-      doc.ellipse(100, 145 + offset, 2, 2, 'F');
-      doc.ellipse(90,  145 + offset, 2, 2, 'F');
-      doc.ellipse(80, 145 + offset, 2, 2, 'F');
-      doc.ellipse(70, 145 + offset, 2, 2, 'F');
-      doc.ellipse(60, 145 + offset, 2, 2, 'F');
-      doc.ellipse(50, 145 + offset, 2, 2, 'F');
-      doc.ellipse(40, 145 + offset, 2, 2, 'F');
-      doc.ellipse(30, 145 + offset, 2, 2, 'F');
-      doc.ellipse(20, 145 + offset, 2, 2, 'F');
+      createDots(180, 145, 20, doc, offset);
+
       doc.text(268, 148 + offset, "Comments");
 
 
@@ -164,7 +122,9 @@
       for (var i = 0; i < data.comments.length; ++i) {
         var comment = data.comments[i];
 
-        doc.text(20, 166 + offset + i * 36 + leftofPoint, comment.author + " on " + filteredCommentSubmitDate);
+        console.log(comment);
+
+        doc.text(20, 166 + offset + i * 36 + leftofPoint, comment.author.name + " on " + dateFilter(comment.createdOn, 'MMMM d, yyyy'));
 
         // if statement to determine if long
         if (comment.commentText.length > commentLength) {
@@ -184,6 +144,24 @@
       }
 
       doc.save(fileName);
+
+    }
+
+    // Helper functions to make blue dots
+    function createDots(x, y, end, doc, offset) {
+
+      var dots = [];
+      var step = 10;
+
+      if(end < x) {
+        dots = _.range(end - step, x + step, step);
+      } else {
+        dots = _.range(x - step, end + step, step);
+      }
+
+      dots.forEach(function(pos) {
+        doc.ellipse(pos, y + offset, 2, 2, 'F');
+      });
 
     }
 
