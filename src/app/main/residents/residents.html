@@ -59,17 +59,22 @@
         <div layout="row" layout-align="start center" translate-attr-aria-label="MAIL.REFRESH">
 
           <!-- SETTINGS MENU -->
+          <md-button class="md-icon-button"
+                     ng-click="vm.exportBlankPlan()">
+                     <md-tooltip>
+                      Blank Care Plan
+                    </md-tooltip>
+              <md-icon md-font-icon="icon-document"></md-icon>
+          </md-button>
         <md-menu class="settings-menu">
             <md-button class="md-icon-button"
                        ng-click="$mdOpenMenu($event)">
+                       <md-tooltip>
+                          Exports
+                        </md-tooltip>
                 <md-icon md-font-icon="icon-export"></md-icon>
             </md-button>
             <md-menu-content width="3">
-              <md-menu-item>
-                  <md-button ng-click="vm.exportBlankPlan()">
-                      <span>Blank Care Plan</span>
-                  </md-button>
-              </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="vm.exportCarePlan()">
                         <span>Care Plan</span>

@@ -904,9 +904,62 @@
       doc.line(100, 576, 580, 576);
       doc.line(100, 600, 580, 600);
 
-      doc.rect(10, 636, 575, 626);
+      doc.rect(10, 636, 575, 220);
 
       doc.text("Pain", 15, 650);
+
+      doc.text("Has Pain", 15, 674);
+      doc.text("Yes", 20, 690);
+      doc.text("No", 70, 690);
+
+      doc.text("Pain Severity", 200, 674);
+      doc.line(240, 686, 430, 686);
+      doc.text("None", 200, 690);
+      doc.setFillColor(255,255,255);
+      doc.circle(245, 686, 5, 'FD');
+      doc.circle(265, 686, 5, 'FD');
+      doc.circle(285, 686, 5, 'FD');
+      doc.circle(305, 686, 5, 'FD');
+      doc.circle(325, 686, 5, 'FD');
+      doc.circle(345, 686, 5, 'FD');
+      doc.circle(365, 686, 5, 'FD');
+      doc.circle(385, 686, 5, 'FD');
+      doc.circle(405, 686, 5, 'FD');
+      doc.circle(425, 686, 5, 'FD');
+      doc.text("Extreme", 441, 690);
+
+      doc.text("Pain Location", 15, 714);
+      doc.line(100, 716, 580, 716);
+
+      doc.text("Pain Description", 15, 740);
+      doc.line(100, 742, 580, 742);
+
+      doc.text("Maximum Pain Time of Day", 15, 766);
+      doc.line(100, 768, 580, 768);
+
+      doc.text("Pain Increased By", 15, 792);
+      doc.line(100, 794, 580, 794);
+
+      doc.text("Pain Decreased By", 15, 818);
+      doc.line(100, 820, 580, 820);
+
+      doc.addPage();
+      doc.rect(10, 0, 575, 158);
+
+      doc.text("Pain Managed By", 15, 28);
+      doc.text("Medication", 20, 44);
+      doc.text("Hot Pack", 90, 44);
+      doc.text("Cold Pack", 160, 44);
+      doc.text("Positioning", 230, 44);
+      doc.text("Topicals", 300, 44);
+
+      doc.text("Pain Length", 15, 68);
+      doc.text("New Onset", 20, 84);
+      doc.text("Chronic", 90, 84);
+
+      doc.text("Notes", 15, 108);
+      doc.line(100, 110, 580, 110);
+      doc.line(100, 134, 580, 134);
 
       doc.save("Blank Careplan.pdf");
     }

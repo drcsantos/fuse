@@ -12,7 +12,7 @@
       doc.text("First name: " + resident.firstName, 100, 50);
       doc.text("Last name: " + resident.lastName, 100, 75);
 
-      doc.save(resident.firstName + " " + resident.lastName + ".pdf");
+      doc.save(resident.firstName + " " + resident.lastName + " Face Sheet.pdf");
 
     }
 

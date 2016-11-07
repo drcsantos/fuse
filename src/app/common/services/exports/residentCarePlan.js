@@ -6,9 +6,9 @@
   function exportCarePlan($filter, imageData) {
 
     function exportPdf(data) {
-      
+
       var doc = new jsPDF('p', 'pt', 'letter');
-      var fileName = data.firstName + ' ' + data.lastName + '.pdf';
+      var fileName = data.firstName + ' ' + data.lastName + ' Care Plan.pdf';
 
       // date config
       var residentBirthDate = new Date(data.birthDate);

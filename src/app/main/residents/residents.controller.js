@@ -88,7 +88,7 @@
           vm.residentList = d;
         })
         .error(function(d) {
-          console.log("Error retriving the list of residents");
+          console.log("Error Retrieving the List of Residents");
         });
     }
 
@@ -154,7 +154,7 @@
       if (vm.selectedResident === null) {
         $mdToast.show(
           $mdToast.simple()
-          .textContent("Please select a resident to export a care plan")
+          .textContent("Please Select a Resident to Export")
           .position("top right")
           .hideDelay(2000)
         );
