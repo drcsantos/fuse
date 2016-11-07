@@ -234,7 +234,10 @@
             updateField : vm.card.updateField
           });
 
-          vm.card.submitBy = vm.card.submitBy._id;
+          if(vm.card.submitBy._id) {
+            vm.card.submitBy = vm.card.submitBy._id;
+          }
+
 
           apilaData.updateIssue(vm.card._id, vm.card)
           .error(function(err) {

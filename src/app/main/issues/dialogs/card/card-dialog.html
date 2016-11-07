@@ -8,7 +8,7 @@
 
       <!-- DUE DATE -->
       <div class="due-date">
-        <div ng-if="!vm.card.currdue" moment-picker="vm.card.currdue" format="x" min-view="year" max-view="hour" start-view="month">
+        <div ng-if="!vm.card.currdue" moment-picker="vm.card.currdue" format="x" min-view="year" max-view="month" start-view="month">
           <md-button class="md-icon-button" aria-label="Due date" translate translate-attr-aria-label="SB.DUE_DATE" ng-click="$mdOpenMenu($event)">
             <md-icon md-font-icon="icon-calendar"></md-icon>
           </md-button>
@@ -234,12 +234,7 @@
       <div ng-if="vm.card.currdue" class="due-date" layout="row" layout-align="end center">
         <div layout="row" layout-align="start center">
           <i class="s18 icon icon-calendar"></i>
-          <span>{{vm.card.currdue | date:'mediumDate'}}</span>
-        </div>
-
-        <div layout="row" layout-align="start center">
-          <i class="s18 icon icon-clock"></i>
-          <span>{{vm.card.currdue | date:'shortTime'}}</span>
+          <span>{{vm.card.currdue | date}}</span>
         </div>
 
         <div class="remove-due-date" layout="row" layout-align="center center" ng-click="vm.removeDueDate()">

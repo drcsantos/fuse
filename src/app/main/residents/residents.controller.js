@@ -210,7 +210,18 @@
 
       var inBuildingResidents = _.filter(vm.residentList, ['buildingStatus', 'In Building']);
 
-      exportResidentCensus.exportPdf(inBuildingResidents);
+      if(inBuildingResidents.length === 0) {
+        $mdToast.show(
+          $mdToast.simple()
+          .textContent("There are not In Building Residents")
+          .position("top right")
+          .hideDelay(2000)
+        );
+      } else {
+        exportResidentCensus.exportPdf(inBuildingResidents);
+      }
+
+
     }
 
     function exportResidentFaceSheet() {
@@ -223,10 +234,6 @@
     }
 
     function exportBlankPlan() {
-      if(!selectedResidentToast()){
-        return;
-      }
-
       exportBlankCarePlan.exportPdf(vm.selectedResident);
     }
 
