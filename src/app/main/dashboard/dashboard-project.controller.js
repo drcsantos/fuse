@@ -40,6 +40,8 @@
         vm.pendingMemberTable = [];
         vm.communityMemberTable = [];
 
+        vm.currentStep = 0;
+
         // Functions
         vm.acceptMember = MemberService.acceptMember;
         vm.declineMember = MemberService.declineMember;
