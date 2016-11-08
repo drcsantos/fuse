@@ -7,12 +7,15 @@
         .controller('IndexController', IndexController);
 
     /** @ngInject */
-    function IndexController(fuseTheming, Idle, $scope, $mdDialog, authentication, $state, $window)
+    function IndexController(fuseTheming, Idle, $scope, $mdDialog, authentication, apilaData, $state, $window, msNavigationService)
     {
         var vm = this;
 
         // Data
         vm.themes = fuseTheming.themes;
+
+        var communityid = authentication.currentUser().community;
+        var userid = authentication.currentUser().id;
 
         // Fuctions
 
@@ -21,12 +24,6 @@
         if(authentication.isLoggedIn()) {
             Idle.watch();
         }
-
-        // $window.onbeforeunload = function() {
-        //
-        //   authentication.logout();
-        //
-        // };
 
         $scope.$on('IdleStart', function() {
 

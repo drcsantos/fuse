@@ -7,7 +7,7 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast,
+    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService,
                         $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
@@ -76,6 +76,18 @@
           formatMembersData();
 
           MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
+
+
+          apilaData.openIssuesCount(vm.userid, vm.myCommunity._id)
+            .success(function(count) {
+              msNavigationService.saveItem('fuse.issues', {
+                badge: {
+                  content: count,
+                  color: '#F44336'
+                }
+              });
+            })
+            .error(function(count) {});
         })
         .error(function(d) {
 
