@@ -35,6 +35,6 @@
                 'ngIdle',
                 'angular-tour',
                 'rzModule',
-                'btford.socket-io'
+                'btford.socket-io',
             ]);
 })();

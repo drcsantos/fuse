@@ -38,6 +38,11 @@
     vm.dayTimeSwitch = "AM";
     vm.showCancel = false;
 
+    vm.autocompleteOptions = {
+       componentRestrictions: { country: 'us' },
+       types: ['establishment']
+    };
+
     //If we are in the add dialog
     if (!inUpdate()) {
           vm.transportation = "We are transporting";
@@ -241,7 +246,6 @@
 
             var calId = vm.dialogData.calendarEvent._id;
 
-            console.log(appoint);
             vm.calendarEvent = appoint;
             vm.calendarEvent.source = srcEvents;
             vm.calendarEvent.residentGoing = appoint.residentGoing;
@@ -271,7 +275,7 @@
 
        vm.calendarEvent.appointmentDate = vm.date;
        vm.calendarEvent.appointmentDate.setHours(0,0,0,0);
-  
+
        vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
 
@@ -298,7 +302,7 @@
             }
 
             $mdDialog.hide();
-            console.log("Unable to create the appointment, contact the administrator");
+            console.log(appoint);
           });
       }
 
@@ -358,7 +362,7 @@
 
 
     function exportAppointment() {
-      var name = vm.calendarEvent.residentGoing.firstName + " to " + vm.calendarEvent.locationName;
+      var name = vm.calendarEvent.residentGoing.firstName + " to " + vm.calendarEvent.locationName.formatted_address;
       exportAppointDetail.exportPdf(name, vm.calendarEvent);
     }
 

@@ -54,13 +54,15 @@
       <!-- Location name -->
       <md-input-container class="md-block">
         <label translate="CALENDAR.LOCATION">Location</label>
-        <input name="location" ng-model="vm.calendarEvent.locationName" ng-blur="vm.updateIssue()" required>
+        <!-- <input name="location" ng-model="vm.calendarEvent.locationName" ng-blur="vm.updateIssue()" required> -->
+         <input class="form-control" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.calendarEvent.locationName"/>
         <div ng-messages="eventForm.location.$error" ng-show="eventForm.location.$touched" role="alert">
           <div ng-message="required">
             <span translate="CALENDAR.ERRORS.LOCATION_REQUIRED">Location field is required</span>
           </div>
         </div>
       </md-input-container>
+
 
       <!-- Doctor -->
       <md-input-container class="md-block">
