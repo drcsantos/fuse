@@ -577,11 +577,17 @@
             </form>
           </div>
 
-          <span ng-repeat="plan in vm.card.finalPlan" ng-if="plan.checklist == true">
-            <h3>The plan to solve the issue: </h3>
+          <span ng-repeat="plan in vm.card.finalPlan">
+            <h3 ng-if="plan.checklist == true">The plan to solve the issue: </h3>
+
             <div class="comment" layout="row">
               <div layout="column">
-                <div class="final-plan-bubble">{{plan.text}}</div>
+                <div class="final-plan-bubble">
+                  <md-tooltip ng-if="plan.checklist != true" md-direction="top">
+                    Added to To-Dos
+                  </md-tooltip>
+                  {{plan.text}}
+                </div>
               </div>
            </div>
          </span>
