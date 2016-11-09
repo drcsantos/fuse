@@ -109,8 +109,9 @@
           vm.dayTimeSwitch = "AM";
         }
 
-        var fullName = vm.calendarEvent.currentUser.firstName + " " +
-                       vm.calendarEvent.currentUser.lastName;
+        var firstName = vm.calendarEvent.currentUser.aliasName || vm.calendarEvent.currentUser.firstName;
+
+        var fullName = firstName + " " + vm.calendarEvent.currentUser.lastName;
 
         vm.selectedItem = {value: vm.calendarEvent.currentUser._id,
                            display: fullName
