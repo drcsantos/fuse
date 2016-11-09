@@ -350,7 +350,6 @@
     function submitComment() {
       apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
           .success(function(data) {
-              console.log("Comment has been aded");
               vm.calendarEvent.appointmentComment.push(data);
               vm.dialogData.calendarEvent.appointmentComment.push(data);
               vm.formData.commentText = "";
@@ -362,7 +361,9 @@
 
 
     function exportAppointment() {
-      var name = vm.calendarEvent.residentGoing.firstName + " to " + vm.calendarEvent.locationName.formatted_address;
+      var name = vm.calendarEvent.residentGoing.firstName + " to " +
+               (vm.calendarEvent.locationName.formatted_address || vm.calendarEvent.locationName);
+
       exportAppointDetail.exportPdf(name, vm.calendarEvent);
     }
 
