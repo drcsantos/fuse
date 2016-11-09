@@ -31,8 +31,8 @@
         vm.canceledCommunity = response;
         vm.hasCanceledCommunity = true;
       })
-      .error(function(response) {
-        console.log(response);
+      .error(function(err) {
+        console.log(err);
       });
 
     ///////////////////// PUBLIC FUNCTIONS /////////////////////////////////
@@ -68,7 +68,7 @@
           if (status !== 200) {
             processErrors(response.error);
           } else {
-            restoreCommunity();
+            restoreCommunity(response);
           }
 
         });
@@ -91,7 +91,6 @@
               showToast("Community has been created!");
 
               $window.location.reload();
-
             })
             .error(function(d) {
               console.log(d);
@@ -102,7 +101,7 @@
         });
     }
 
-    function restoreCommunity() {
+    function restoreCommunity(response) {
       apilaData.saveCreditCard(vm.userid, response)
         .success(function(response) {
 
@@ -112,6 +111,8 @@
 
               closeDialog();
               showToast("Community has been restored!");
+
+              $window.location.reload();
 
             })
             .error(function(response) {

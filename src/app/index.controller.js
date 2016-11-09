@@ -14,8 +14,6 @@
         // Data
         vm.themes = fuseTheming.themes;
 
-        var communityid = authentication.currentUser().community;
-        var userid = authentication.currentUser().id;
 
         // Fuctions
 
