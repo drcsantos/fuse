@@ -12,6 +12,8 @@
 
       var appointmentDate = new Date(data._start);
 
+      var currDay = moment().isoWeekday() - 1;
+
       appointmentDate.setHours(data.hours);
       appointmentDate.setMinutes(data.minutes);
 
@@ -42,6 +44,18 @@
 
       doc.text(415, 156, "Date of Birth:");
       doc.text(490, 156, residentFilteredBirthDate);
+
+      if(data.locationName.formatted_phone_number) {
+        doc.text(415, 176, "Phone number:");
+        doc.text(490, 176, data.locationName.formatted_phone_number);
+      }
+
+      if(data.locationName.opening_hours) {
+         if(data.locationName.opening_hours.weekday_text[currDay]) {
+           doc.text(415, 190, "Working hours:");
+           doc.text(490, 190, data.locationName.opening_hours.weekday_text[currDay]);
+         }
+      }
 
       doc.text(415, 204, "Appointment");
       doc.text(415, 221, "Date:");

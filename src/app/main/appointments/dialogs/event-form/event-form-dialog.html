@@ -21,25 +21,6 @@
         <input name="reason" ng-model="vm.calendarEvent.reason" ng-blur="vm.updateIssue()">
       </md-input-container>
 
-
-      <!-- Reason -->
-      <!-- <md-autocomplete flex="" required="" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="18" md-no-cache="ctrl.noCache" md-selected-item="vm.selectedItem" md-search-text="searchText" md-items="item in vm.getMatches(searchText)"
-          md-item-text="item.display" md-floating-label="Resident">
-        <md-item-template>
-          <span md-highlight-text="searchText">{{item.display}}</span>
-        </md-item-template>
-        <md-not-found>
-          No residents found.
-        </md-not-found>
-        <div ng-messages="eventForm.residentGoing.$error" ng-show="eventForm.residentGoing.$touched" role="alert">
-          <div ng-message="required">
-            <span translate="CALENDAR.ERRORS.RESIDENT_GOING_REQUIRED">Resident field is required</span>
-          </div>
-          <div ng-message="minlength">Your entry is not long enough.</div>
-          <div ng-message="maxlength">Your entry is too long.</div>
-        </div>
-      </md-autocomplete> -->
-
       <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.display" md-selected-item-change="vm.updateIssue()" md-min-length="0" placeholder="Select a resident">
         <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
 
@@ -63,6 +44,16 @@
         </div>
       </md-input-container>
 
+      <!-- Extra location info -->
+      <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.formatted_phone_number">
+        <label translate="CALENDAR.PHONE_NUMBER">Phone number</label>
+         <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.formatted_phone_number"/>
+      </md-input-container>
+
+      <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.opening_hours.weekday_text">
+        <label translate="CALENDAR.WORKING_HOURS">Working hours</label>
+         <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.opening_hours.weekday_text[vm.currDay-1]"/>
+      </md-input-container>
 
       <!-- Doctor -->
       <md-input-container class="md-block">
@@ -89,27 +80,7 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
 
 
         <mdp-time-picker ng-model="vm.currentTime" ng-change="vm.updateIssue()"></mdp-time-picker>
-        <!-- Hours -->
-        <!-- <md-input-container class="md-block">
-          <label>Hours: </label>
-          <input name="hours" ng-model="vm.calendarEvent.hours" ng-blur="vm.updateIssue()" required>
-          <div ng-messages="eventForm.hours.$error" ng-show="eventForm.hours.$touched" role="alert">
-            <div ng-message="required">
-              <span translate="CALENDAR.ERRORS.HOURS_REQUIRED">Doctor field is required</span>
-            </div>
-          </div>
-        </md-input-container> -->
 
-        <!-- Minutes -->
-        <!-- <md-input-container class="md-block">
-          <label>Minutes: </label>
-          <input name="minutes" ng-model="vm.calendarEvent.minutes" ng-blur="vm.updateIssue()" required>
-        </md-input-container> -->
-
-        <!-- AM/PM -->
-        <!-- <md-switch ng-model="vm.dayTimeSwitch" ng-true-value="'AM'" ng-change="vm.updateIssue()" ng-false-value="'PM'">
-          {{ vm.dayTimeSwitch }}
-        </md-switch> -->
       </div>
 
       <!-- Transportation -->

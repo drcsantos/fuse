@@ -119,6 +119,8 @@
 
         vm.selectedUser = vm.calendarEvent.currentUser;
 
+        vm.currDay = moment().isoWeekday();
+
       }
 
     function updateIssue()
