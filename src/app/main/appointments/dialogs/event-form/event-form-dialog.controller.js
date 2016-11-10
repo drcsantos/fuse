@@ -91,8 +91,6 @@
 
         vm.dayTimeSwitch = vm.calendarEvent.isAm;
 
-        console.log(vm.calendarEvent);
-
         vm.currentTime = new Date();
 
         if(vm.calendarEvent.isAm) {
@@ -147,12 +145,8 @@
 
         vm.calendarEvent = angular.copy(vm.dialogData.calendarEvent);
 
-        console.log(vm.calendarEvent);
-
         vm.calendarEvent.reason = vm.calendarEvent.reason;
         vm.isCancel = vm.calendarEvent.cancel;
-
-        console.log(vm.calendarEvent.date);
 
         vm.date = new Date(vm.calendarEvent.start);
 
@@ -365,7 +359,7 @@
 
     function exportAppointment() {
       var name = vm.calendarEvent.residentGoing.firstName + " to " +
-               (vm.calendarEvent.locationName.formatted_address || vm.calendarEvent.locationName);
+               (vm.calendarEvent.locationName.name || vm.calendarEvent.locationName);
 
       exportAppointDetail.exportPdf(name, vm.calendarEvent);
     }

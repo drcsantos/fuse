@@ -192,7 +192,7 @@
         arr.push(name);
         arr.push(moment(d.start).format("MM/DD hh:mm A"));
         arr.push(d.reason);
-        arr.push(d.locationName.formatted_address || d.locationName);
+        arr.push(d.locationName.name || d.locationName);
         arr.push(d.locationDoctor);
         arr.push(d.transportation);
 
@@ -281,7 +281,7 @@
       var name = resident.aliasName ? resident.aliasName : resident.firstName;
 
       var title = name + " " + resident.lastName + " to " +
-                (appointment.locationName.formatted_address || appointment.locationName);
+                (appointment.locationName.name || appointment.locationName);
 
       var calEvent = {
         title: title,

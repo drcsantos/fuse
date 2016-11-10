@@ -45,15 +45,26 @@
       </md-input-container>
 
       <!-- Extra location info -->
-      <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.formatted_phone_number">
-        <label translate="CALENDAR.PHONE_NUMBER">Phone number</label>
-         <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.formatted_phone_number"/>
-      </md-input-container>
 
-      <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.opening_hours.weekday_text">
-        <label translate="CALENDAR.WORKING_HOURS">Working hours</label>
-         <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.opening_hours.weekday_text[vm.currDay-1]"/>
-      </md-input-container>
+      <md-card>
+
+        <!-- <md-card-title ng-if="vm.calendarEvent.locationName.name"> Location Information: </md-card-title> -->
+
+        <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.name">
+          <label translate="CALENDAR.LOCATION_NAME">Location Name</label>
+           <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.name"/>
+        </md-input-container>
+
+        <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.formatted_phone_number">
+          <label translate="CALENDAR.PHONE_NUMBER">Phone number</label>
+           <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.formatted_phone_number"/>
+        </md-input-container>
+
+        <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.opening_hours.weekday_text">
+          <label translate="CALENDAR.WORKING_HOURS">Working hours</label>
+           <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.opening_hours.weekday_text[vm.currDay-1]"/>
+        </md-input-container>
+      </md-card>
 
       <!-- Doctor -->
       <md-input-container class="md-block">

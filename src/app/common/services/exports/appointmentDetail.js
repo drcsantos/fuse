@@ -26,7 +26,7 @@
       var appointmentFilteredDate = dateFilter(appointmentDate, 'MMM d, yyyy');
       var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
 
-      var location = data.locationName.formatted_address || data.locationName;
+      var location = data.locationName.name || data.locationName;
 
       doc.setFont("times");
       doc.setFontSize(12);
