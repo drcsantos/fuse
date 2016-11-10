@@ -577,8 +577,9 @@
             </form>
           </div>
 
-          <span ng-repeat="plan in vm.card.finalPlan">
-            <h3 ng-if="plan.checklist == true">The plan to solve the issue: </h3>
+          <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
+
+          <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
 
             <div class="comment" layout="row">
               <div layout="column">
