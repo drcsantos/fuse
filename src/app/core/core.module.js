@@ -36,5 +36,6 @@
                 'angular-tour',
                 'rzModule',
                 'btford.socket-io',
+                'input-ssn'
             ]);
 })();

@@ -10,6 +10,8 @@
     </md-toolbar>
 
     <md-dialog-content ms-scroll>
+      <form name="projectForm">
+
       <md-input-container class="md-block">
         <label>First Name</label>
         <input ng-model="vm.form.firstName" type="text" required="">
@@ -33,6 +35,11 @@
       <md-input-container class="md-block">
         <label>Room Number</label>
         <input ng-model="vm.form.room" type="number" required="">
+        <div ng-messages="vm.form.room.$error">
+            <div ng-if="vm.form.room > 9 || vm.form.room < 0">
+              Must be a Number (0 through 9)
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -43,7 +50,7 @@
 
       <md-input-container class="md-block">
         <label>Social Security Number</label>
-        <input ng-model="vm.form.socialSecurityNumber" type="number" required="">
+        <input ng-model="vm.form.socialSecurityNumber" ssn required="">
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -166,6 +173,7 @@
           <textarea ng-model="vm.form.administrativeNotes"></textarea>
         </md-input-container>
 
+      </form>
     </md-dialog-content>
 
     <md-dialog-actions layout="row" layout-align="space-between center">
