@@ -6,7 +6,7 @@
     .controller('CreateCommunityController', CreateCommunityController);
 
   /** @ngInject */
-  function CreateCommunityController($mdDialog, apilaData, authentication, $mdToast, $window) {
+  function CreateCommunityController($mdDialog, apilaData, authentication, $mdToast, $window, activeEmail) {
 
     var vm = this;
 
@@ -14,6 +14,8 @@
     vm.form = {};
 
     vm.hasCanceledCommunity = false;
+
+    console.log(activeEmail);
 
     vm.username = authentication.currentUser().name;
     vm.userid = authentication.currentUser().id;

@@ -271,28 +271,59 @@
           });
         })();
 
+        apilaData.getUser(vm.userid)
+        .success(function(response) {
+          vm.activeEmail = response.active;
+        })
+        .error(function(err) {
+          console.log(err);
+        })
+
         function openCommunityModal(ev)
         {
-          $mdDialog.show({
-              controller         : 'CreateCommunityController',
-              controllerAs       : 'vm',
-              templateUrl        : 'app/main/dashboard/dialogs/create/createCommunity.html',
-              parent             : angular.element($document.body),
-              targetEvent        : ev,
-              clickOutsideToClose: true
-          });
+          if(!vm.activeEmail) {
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent("Please verify your email before creating a community")
+                .position("top right")
+                .hideDelay(2000)
+            );
+          } else {
+            $mdDialog.show({
+                controller         : 'CreateCommunityController',
+                controllerAs       : 'vm',
+                templateUrl        : 'app/main/dashboard/dialogs/create/createCommunity.html',
+                parent             : angular.element($document.body),
+                targetEvent        : ev,
+                locals: {
+                  activeEmail: vm.activeEmail
+                },
+                clickOutsideToClose: true
+            });
+          }
+
         }
 
         function openJoinModal(ev)
         {
-          $mdDialog.show({
-              controller         : 'JoinCommunityController',
-              controllerAs       : 'vm',
-              templateUrl        : 'app/main/dashboard/dialogs/join_community/join_community.html',
-              parent             : angular.element($document.body),
-              targetEvent        : ev,
-              clickOutsideToClose: true
-          });
+          if(!vm.activeEmail) {
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent("Please verify your email before joining a community")
+                .position("top right")
+                .hideDelay(2000)
+            );
+          } else {
+
+            $mdDialog.show({
+                controller         : 'JoinCommunityController',
+                controllerAs       : 'vm',
+                templateUrl        : 'app/main/dashboard/dialogs/join_community/join_community.html',
+                parent             : angular.element($document.body),
+                targetEvent        : ev,
+                clickOutsideToClose: true
+            });
+          }
         }
 
 
