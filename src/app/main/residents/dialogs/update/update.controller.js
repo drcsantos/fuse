@@ -23,6 +23,11 @@
       "At times angry", "Sad", "Emotional outbursts", "Feel like a burden"
     ]);
 
+    vm.isNumber = function(n) {
+      if(n === "" || n === undefined) {return true;}
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    };
+
     vm.shopping = createMultiSelect(["Family", "Self", "Friend"]);
 
     vm.painManagedBy = createMultiSelect(['Medication', 'Hot pack', 'Cold pack', 'Positioning', 'Topicals']);

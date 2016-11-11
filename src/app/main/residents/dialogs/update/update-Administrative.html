@@ -32,10 +32,10 @@
 
       <md-input-container class="md-block">
         <label>Room Number</label>
-        <input ng-model="vm.form.room" type="number" required="">
-        <div ng-messages="vm.form.room.$error">
-            <div ng-if="vm.form.room > 9 || vm.form.room < 0 ">
-              Must be a Number (0 through 9)
+        <input ng-model="vm.form.room" required="">
+        <div ng-messages="">
+            <div ng-if="!vm.isNumber(vm.form.room)">
+              Must be a Number
             </div>
         </div>
       </md-input-container>
@@ -190,7 +190,7 @@
 
     <md-dialog-actions layout="row" layout-align="space-between center">
       <div layout="row" layout-align="start center">
-        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
+        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" ng-disabled="!vm.isNumber(vm.form.room)" aria-label="Update">
           UPDATE
         </md-button>
       </div>
