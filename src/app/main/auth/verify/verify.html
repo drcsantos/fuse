@@ -1,0 +1,23 @@
+<div id="maintenance" class="flex-scrollable" layout="column" ms-scroll>
+    <div id="maintenance-form-wrapper" layout="column" layout-align="center center">
+        <div id="maintenance-form" class="md-whiteframe-8dp">
+            <div class="logo md-accent-bg">
+                <span>A</span>
+            </div>
+            <span ng-if="vm.verifiedEmail">
+              <div class="title">Thank you for confirming your email address</div>
+              <div class="subtitle">
+                You can start using the site and create new communities <br>
+                <a ui-sref="app.pages_auth_login">Login </a>
+              </div>
+           </span>
+
+           <span ng-if="!vm.verifiedEmail">
+             <div class="title">Invalid confirmation token</div>
+             <div class="subtitle">
+               Please check if you have entered the correct link <br>
+             </div>
+          </span>
+        </div>
+    </div>
+</div>

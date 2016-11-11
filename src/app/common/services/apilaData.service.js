@@ -229,6 +229,10 @@
       return $http.post(apiUrl + '/api/users/reset/' + token, data);
     };
 
+    var verifyEmail = function(token) {
+      return $http.post(apiUrl + '/api/users/verify/' + token);
+    };
+
     var getUser = function(userid) {
       return $http.get(apiUrl + '/api/users/getuser/' + userid, getAuth());
     };
@@ -363,6 +367,7 @@
       userCommunity: userCommunity,
       forgotPassword: forgotPassword,
       resetPassword: resetPassword,
+      verifyEmail: verifyEmail,
       getUser: getUser,
       saveCreditCard: saveCreditCard,
       getCustomer: getCustomer,
