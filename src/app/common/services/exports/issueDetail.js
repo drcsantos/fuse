@@ -48,25 +48,6 @@
 
 
       createDots(580, 109, 420, doc, offset);
-      // doc.ellipse(580, 109, 2, 2, 'F');
-      // doc.ellipse(570, 109, 2, 2, 'F');
-      // doc.ellipse(560, 109, 2, 2, 'F');
-      // doc.ellipse(550, 109, 2, 2, 'F');
-      // doc.ellipse(540, 109, 2, 2, 'F');
-      // doc.ellipse(530, 109, 2, 2, 'F');
-      // doc.ellipse(520, 109, 2, 2, 'F');
-      // doc.ellipse(510, 109, 2, 2, 'F');
-      // doc.ellipse(500, 109, 2, 2, 'F');
-      // doc.ellipse(490, 109, 2, 2, 'F');
-      // doc.ellipse(480, 109, 2, 2, 'F');
-      // doc.ellipse(470, 109, 2, 2, 'F');
-      // doc.ellipse(460, 109, 2, 2, 'F');
-      // doc.ellipse(450, 109, 2, 2, 'F');
-      // doc.ellipse(440, 109, 2, 2, 'F');
-      // doc.ellipse(430, 109, 2, 2, 'F');
-      // doc.ellipse(420, 109, 2, 2, 'F');
-
-      // center
       createDots(180, 109, 20, doc, offset);
 
       doc.text(260, 112, "Description");
@@ -106,11 +87,9 @@
         7, 7, // rounded corners
         'F'); // F filled | FD filled with borders
 
-
-      createDots(580, 145, 420, doc, offset);
-
-      // center
-      createDots(180, 145, 20, doc, offset);
+      createDots(580, 145, 420, doc, offset); // right side dots
+      createDots(180, 145, 30, doc, offset); // left side dots (x, y, end, doc, offset)
+      // (how far to extend to the right X, how far down to start Y, how far to extend to the left X)
 
       doc.text(268, 148 + offset, "Comments");
 
@@ -138,10 +117,13 @@
             doc.text(20, 178 + offset + i * 36 + j * 12 + leftofPoint, txt + comment.commentText.substr(j * (commentLength), commentLength));
           }
           leftofPoint = numTimes * 12;
+          offset = numTimes * 12;
         } else {
           doc.text(20, 178 + offset + i * 36 + leftofPoint, comment.commentText);
         }
       }
+
+//////////////////////////////////////////////////// final plans
 
       doc.save(fileName);
 
