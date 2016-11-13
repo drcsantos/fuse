@@ -76,7 +76,8 @@
           .success(function(d) {
 
               vm.card.updateInfo.push(transformUpdateInfo(checkList.updateInfo));
-              updateCheckedCount(checkList);
+              updateCheckedCount(checkList, newCheckItem);
+              text = "";
 
           })
           .error(function() {
@@ -129,8 +130,8 @@
               vm.card.updateInfo.push(transformUpdateInfo(data.updateInfo));
               vm.newCheckListTitle = "Checklist";
           })
-          .error(function(d) {
-            console.log("Error while adding checklist");
+          .error(function(err) {
+            console.log(err);
           });
       }
 

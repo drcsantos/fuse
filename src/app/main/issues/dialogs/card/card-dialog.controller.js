@@ -34,13 +34,14 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
-        vm.createdIssue = vm.card.submitBy + " created " + vm.card.title + " " +
+        vm.createdIssue = vm.card.submitBy.name + " created " + vm.card.title + " " +
                            UpdateInfoService.timeDiff(vm.card.submitDate);
 
         vm.newCheckListTitle = "Checklist";
 
         vm.username = authentication.currentUser().name;
         var userid = authentication.currentUser().id;
+        vm.userid = authentication.currentUser().id;
 
         vm.now = new Date();
 
@@ -77,6 +78,7 @@
         vm.updateCheckItem = ChecklistsService.updateCheckItem;
 
         vm.addNewComment = addNewComment;
+        vm.updateComment = updateComment;
         vm.updateIssue = updateIssue;
 
         // Main field update
@@ -232,7 +234,15 @@
             updateField : vm.card.updateField
           });
 
-          apilaData.updateIssue(vm.card._id, vm.card);
+          if(vm.card.submitBy._id) {
+            vm.card.submitBy = vm.card.submitBy._id;
+          }
+
+
+          apilaData.updateIssue(vm.card._id, vm.card)
+          .error(function(err) {
+            console.log(err);
+          });
         }
 
         ///////////////////////// UPDATE MAIN FIELDS //////////////////////////
@@ -407,16 +417,32 @@
            var data = {
              "text" : vm.newFinalPlanText,
              "checklist" : vm.finalPlanChecklist,
-             "author" : userid
+             "author" : userid,
+             "todoid": authentication.currentUser().todoid,
+             "issueName": vm.card.name
            };
 
            apilaData.addFinalPlan(vm.card._id, data)
            .success(function(response) {
              vm.card.finalPlan.push(response);
              vm.newFinalPlanText = "";
+
+             if(!vm.finalPlanChecklist) {
+               showToast("Created a new task in the todo section");
+             }
            })
            .error(function(response) {
              console.log(response);
+           });
+         }
+
+         function updateComment(comment) {
+
+           comment.author = comment.author._id;
+
+           apilaData.issueCommentsUpdate(vm.card._id, comment)
+           .error(function(err) {
+             console.log(err);
            });
          }
 

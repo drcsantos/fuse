@@ -69,6 +69,10 @@
       return $http.get(apiUrl + '/api/issues/' + issueid + '/comments/', getAuth());
     };
 
+    var issueCommentsUpdate = function(issueid, comment) {
+      return $http.put(apiUrl + '/api/issues/' + issueid + '/comments/update',comment, getAuth());
+    };
+
     var addCheckList = function(issueid, data) {
       return $http.post(apiUrl + '/api/issues/' + issueid + '/checklists/new', data, getAuth());
     };
@@ -225,6 +229,10 @@
       return $http.post(apiUrl + '/api/users/reset/' + token, data);
     };
 
+    var verifyEmail = function(token) {
+      return $http.post(apiUrl + '/api/users/verify/' + token);
+    };
+
     var getUser = function(userid) {
       return $http.get(apiUrl + '/api/users/getuser/' + userid, getAuth());
     };
@@ -324,6 +332,7 @@
       updateIssueLabelById: updateIssueLabelById,
       addCheckList: addCheckList,
       updateCheckList: updateCheckList,
+      issueCommentsUpdate: issueCommentsUpdate,
       deleteCheckList: deleteCheckList,
       addFinalPlan: addFinalPlan,
       deleteAttachment: deleteAttachment,
@@ -358,6 +367,7 @@
       userCommunity: userCommunity,
       forgotPassword: forgotPassword,
       resetPassword: resetPassword,
+      verifyEmail: verifyEmail,
       getUser: getUser,
       saveCreditCard: saveCreditCard,
       getCustomer: getCustomer,

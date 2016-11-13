@@ -15,9 +15,15 @@
         vm.closeDialog = closeDialog;
         vm.addResident = addResident;
 
+        vm.isNumber = function(n) {
+          if(n === "") {return true;}
+          return !isNaN(parseFloat(n)) && isFinite(n);
+        };
+
         // Data
         vm.residentList = resList;
         vm.form = {};
+        vm.form.room = "";
         vm.form.movedFrom = "Denver, CO, USA";
 
         var userid = authentication.currentUser().id;

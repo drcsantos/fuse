@@ -35,9 +35,10 @@
 
     vm.exportAppointment = function() {
 
-        console.log(vm.calendarEvent);
+         var name = vm.calendarEvent.residentGoing.firstName + " to " +
+              (vm.calendarEvent.locationName.formatted_address || vm.calendarEvent.locationName);
 
-         var name = vm.calendarEvent.residentGoing.firstName + " to " + vm.calendarEvent.locationName;
+        console.log(vm.calendarEvent.locationName);
          //vm.calendarEvent.appointment = vm.calendarEvent;
          exportPdf.exportAppointmentDetail(name, vm.calendarEvent);
      }

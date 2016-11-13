@@ -38,6 +38,11 @@
     vm.dayTimeSwitch = "AM";
     vm.showCancel = false;
 
+    vm.autocompleteOptions = {
+       componentRestrictions: { country: 'us' },
+       types: ['establishment']
+    };
+
     //If we are in the add dialog
     if (!inUpdate()) {
           vm.transportation = "We are transporting";
@@ -86,8 +91,6 @@
 
         vm.dayTimeSwitch = vm.calendarEvent.isAm;
 
-        console.log(vm.calendarEvent);
-
         vm.currentTime = new Date();
 
         if(vm.calendarEvent.isAm) {
@@ -104,14 +107,17 @@
           vm.dayTimeSwitch = "AM";
         }
 
-        var fullName = vm.calendarEvent.currentUser.firstName + " " +
-                       vm.calendarEvent.currentUser.lastName;
+        var firstName = vm.calendarEvent.currentUser.aliasName || vm.calendarEvent.currentUser.firstName;
+
+        var fullName = firstName + " " + vm.calendarEvent.currentUser.lastName;
 
         vm.selectedItem = {value: vm.calendarEvent.currentUser._id,
                            display: fullName
                              };
 
         vm.selectedUser = vm.calendarEvent.currentUser;
+
+        vm.currDay = moment().isoWeekday();
 
       }
 
@@ -139,12 +145,8 @@
 
         vm.calendarEvent = angular.copy(vm.dialogData.calendarEvent);
 
-        console.log(vm.calendarEvent);
-
         vm.calendarEvent.reason = vm.calendarEvent.reason;
         vm.isCancel = vm.calendarEvent.cancel;
-
-        console.log(vm.calendarEvent.date);
 
         vm.date = new Date(vm.calendarEvent.start);
 
@@ -241,7 +243,6 @@
 
             var calId = vm.dialogData.calendarEvent._id;
 
-            console.log(appoint);
             vm.calendarEvent = appoint;
             vm.calendarEvent.source = srcEvents;
             vm.calendarEvent.residentGoing = appoint.residentGoing;
@@ -271,7 +272,7 @@
 
        vm.calendarEvent.appointmentDate = vm.date;
        vm.calendarEvent.appointmentDate.setHours(0,0,0,0);
-  
+
        vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
 
@@ -298,7 +299,7 @@
             }
 
             $mdDialog.hide();
-            console.log("Unable to create the appointment, contact the administrator");
+            console.log(appoint);
           });
       }
 
@@ -346,7 +347,6 @@
     function submitComment() {
       apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
           .success(function(data) {
-              console.log("Comment has been aded");
               vm.calendarEvent.appointmentComment.push(data);
               vm.dialogData.calendarEvent.appointmentComment.push(data);
               vm.formData.commentText = "";
@@ -358,7 +358,9 @@
 
 
     function exportAppointment() {
-      var name = vm.calendarEvent.residentGoing.firstName + " to " + vm.calendarEvent.locationName;
+      var name = vm.calendarEvent.residentGoing.firstName + " to " +
+               (vm.calendarEvent.locationName.name || vm.calendarEvent.locationName);
+
       exportAppointDetail.exportPdf(name, vm.calendarEvent);
     }
 

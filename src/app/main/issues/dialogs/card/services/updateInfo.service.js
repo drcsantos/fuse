@@ -67,7 +67,8 @@
                             " from " + v.old + " to " + v.new;
 
           v.userName = updatedBy.name;
-          v.userImage = updatedBy.userImage;
+
+          v.userImage = updatedBy.userImage || authentication.getUserImage();
 
          //formating for members
          if(v.field === "idMembers") {

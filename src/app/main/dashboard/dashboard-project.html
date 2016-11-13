@@ -3,15 +3,25 @@
     <!-- CENTER -->
     <div class="center" flex ms-scroll>
 
-      <tour step="currentStep">
-        <virtual-step tourtip="tip 1" tourtip-element="#tip1"></virtual-step>
-      </tour>
+      <!-- <tour step="vm.currentStep">
+        <virtual-step
+            tourtip="This is some example"
+            tourtip-element="#tip1"
+            tourtip-placement="bottom">
+        </virtual-step>
+
+        <virtual-step
+            tourtip="This is some example"
+            tourtip-element="#tip2"
+            tourtip-placement="top">
+        </virtual-step>
+      </tour> -->
 
         <!-- HEADER -->
         <div class="header md-accent-bg" layout="column" layout-align="space-between">
             <div layout="row" layout-align="space-between">
-                <div>
-                    <span class="md-display-1 font-weight-300" id="tip1" >{{vm.title}}</span>
+                <div id="tip1">
+                    <span class="md-display-1 font-weight-300">{{vm.title}}</span>
                 </div>
 
                 <div class="toolbar">
@@ -50,7 +60,7 @@
                             <ms-widget-front class="white-bg">
                                 <div class="ph-8 pv-16 h-55" layout="row" layout-align="space-between center">
 
-                                  <div class="h3">Today</div>
+                                  <div class="h3" id="tip2">Today</div>
                                 </div>
 
                                 <div class="pt-8 pb-32" layout="column" layout-align="center center">

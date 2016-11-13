@@ -41,6 +41,8 @@
             // Reset password
             'app.pages.auth.reset-password',
 
+            'app.pages.auth.verify',
+
             // Homepage
             'app.homepage',
 

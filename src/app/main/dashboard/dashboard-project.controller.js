@@ -7,7 +7,7 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast,
+    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService,
                         $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
@@ -39,6 +39,8 @@
 
         vm.pendingMemberTable = [];
         vm.communityMemberTable = [];
+
+        vm.currentStep = 0;
 
         // Functions
         vm.acceptMember = MemberService.acceptMember;
@@ -74,6 +76,18 @@
           formatMembersData();
 
           MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
+
+
+          apilaData.openIssuesCount(vm.userid, vm.myCommunity._id)
+            .success(function(count) {
+              msNavigationService.saveItem('fuse.issues', {
+                badge: {
+                  content: count,
+                  color: '#F44336'
+                }
+              });
+            })
+            .error(function(count) {});
         })
         .error(function(d) {
 
@@ -257,28 +271,59 @@
           });
         })();
 
+        apilaData.getUser(vm.userid)
+        .success(function(response) {
+          vm.activeEmail = response.active;
+        })
+        .error(function(err) {
+          console.log(err);
+        })
+
         function openCommunityModal(ev)
         {
-          $mdDialog.show({
-              controller         : 'CreateCommunityController',
-              controllerAs       : 'vm',
-              templateUrl        : 'app/main/dashboard/dialogs/create/createCommunity.html',
-              parent             : angular.element($document.body),
-              targetEvent        : ev,
-              clickOutsideToClose: true
-          });
+          if(!vm.activeEmail) {
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent("Please verify your email before creating a community")
+                .position("top right")
+                .hideDelay(2000)
+            );
+          } else {
+            $mdDialog.show({
+                controller         : 'CreateCommunityController',
+                controllerAs       : 'vm',
+                templateUrl        : 'app/main/dashboard/dialogs/create/createCommunity.html',
+                parent             : angular.element($document.body),
+                targetEvent        : ev,
+                locals: {
+                  activeEmail: vm.activeEmail
+                },
+                clickOutsideToClose: true
+            });
+          }
+
         }
 
         function openJoinModal(ev)
         {
-          $mdDialog.show({
-              controller         : 'JoinCommunityController',
-              controllerAs       : 'vm',
-              templateUrl        : 'app/main/dashboard/dialogs/join_community/join_community.html',
-              parent             : angular.element($document.body),
-              targetEvent        : ev,
-              clickOutsideToClose: true
-          });
+          if(!vm.activeEmail) {
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent("Please verify your email before joining a community")
+                .position("top right")
+                .hideDelay(2000)
+            );
+          } else {
+
+            $mdDialog.show({
+                controller         : 'JoinCommunityController',
+                controllerAs       : 'vm',
+                templateUrl        : 'app/main/dashboard/dialogs/join_community/join_community.html',
+                parent             : angular.element($document.body),
+                targetEvent        : ev,
+                clickOutsideToClose: true
+            });
+          }
         }
 
 

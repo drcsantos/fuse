@@ -17,7 +17,7 @@
 
       <md-input-container class="md-block">
         <label>Prefered Name</label>
-        <input ng-model="vm.form.aliasName" type="text" required="">
+        <input ng-model="vm.form.aliasName" type="text">
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -31,8 +31,13 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <label>Room number</label>
-        <input ng-model="vm.form.room" type="number" required="">
+        <label>Room Number</label>
+        <input ng-model="vm.form.room" required="">
+        <div ng-messages="">
+            <div ng-if="!vm.isNumber(vm.form.room)">
+              Must be a Number
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -43,7 +48,7 @@
 
       <md-input-container class="md-block">
         <label>Social Security Number</label>
-        <input ng-model="vm.form.socialSecurityNumber" type="number" required="">
+        <input ng-model="vm.form.socialSecurityNumber" ssn required="">
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -136,19 +141,6 @@
           <input type="text" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.form.locationInfo" />
         </md-input-container>
 
-        <div class="md-block">
-         <label ng-switch on="vm.form.assessmentInterval">
-             <span ng-switch-when="0">Assessment Interval: None</span>
-             <span ng-switch-when="1">Assessment Interval: Weekly</span>
-             <span ng-switch-when="2">Assessment Interval: Monthly</span>
-             <span ng-switch-when="3">Assessment Interval: Quarterly</span>
-             <span ng-switch-when="4">Assessment Interval: Yearly</span>
-             <span ng-switch-default>Assessment Interval: </span>
-         </label>
-         <md-slider flex min="0" max="4" ng-model="vm.form.assessmentInterval" aria-label="blue">
-         </md-slider>
-       </div>
-
        <!-- Random fields -->
 
        <md-input-container class="md-block">
@@ -198,7 +190,7 @@
 
     <md-dialog-actions layout="row" layout-align="space-between center">
       <div layout="row" layout-align="start center">
-        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
+        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" ng-disabled="!vm.isNumber(vm.form.room)" aria-label="Update">
           UPDATE
         </md-button>
       </div>
