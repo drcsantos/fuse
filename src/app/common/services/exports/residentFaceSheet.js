@@ -9,13 +9,22 @@
 
       var doc = new jsPDF('p', 'pt');
 
+      // export config
       doc.setFont("courier");
       doc.setFontType("normal");
       doc.setFontSize(12);
 
-      doc.text("First name: " + resident.firstName, 100, 50);
-      doc.text("Last name: " + resident.lastName, 100, 75);
+      // config variables
+      var startX = 0;
+      var startY = 0;
+      var spaceBetweenLines = 12;
 
+      doc.text(resident.firstName, 100, 50);
+      doc.text(resident.lastName, 100, 75);
+
+      doc.addPage();
+
+      // used for calculating the coordinates per letter
       doc.text(" 0         1         2         3          4        5         6         7         8", 0, 180);
       doc.text("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", 0, 200);
       doc.text("550", 550, 220);
