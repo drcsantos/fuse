@@ -35,6 +35,9 @@
             var field = currField.field;
 
             formatEntry.username = entry.updateBy;
+            if(!formatEntry.username.userImage) {
+              formatEntry.username.userImage = "assets/images/avatars/userDefaultProfile.png";
+            }
 
             // format the date values proper
             if (field === 'admissionDate' || field === 'birthDate') {

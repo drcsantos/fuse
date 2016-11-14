@@ -219,7 +219,7 @@
         vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
         //update info
-        vm.calendarEvent.modifiedBy = authentication.currentUser().name;
+        vm.calendarEvent.modifiedBy = authentication.currentUser().id;
         vm.calendarEvent.modifiedDate = new Date();
 
         var changedFields = checkChangedFields(vm.dialogData.calendarEvent, vm.calendarEvent);
