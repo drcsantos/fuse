@@ -12,12 +12,16 @@
       var doc = new jsPDF('p', 'pt');
 
       var dateFilter = $filter('date');
-      // var filteredbirthDate = dateFilter(resident.birthDate, 'MMMM d, yyyy');
+
+      var filteredbirthDate = "";
 
       // export config
       doc.setFont("courier");
       doc.setFontType("normal");
       doc.setFontSize(12);
+
+      //sort by room number
+      inBuildingResidents = _.sortBy(inBuildingResidents, ['room']);
 
       // config variables
       var startX = 14;
@@ -33,19 +37,25 @@
       // loop for all the residents
       angular.forEach(inBuildingResidents, function(resident, i) {
 
+       filteredbirthDate = dateFilter(resident.birthDate, 'MMMM d, yyyy');
+
         doc.text(resident.firstName,
           startX,
           startY + (i*spaceBetweenResidents));
 
-        doc.text(resident.aliasName,
-          startX + (resident.firstName.length * coordsPerLetter) + spaceBetweenWords,
-          startY + (i*spaceBetweenResidents));
+        if(resident.aliasName) {
+          doc.text(resident.aliasName,
+            startX + (resident.firstName.length * coordsPerLetter) + spaceBetweenWords,
+            startY + (i*spaceBetweenResidents));
+        } else {
+          resident.aliasName = "";
+        }
 
         doc.text(resident.lastName,
           startX + ((resident.firstName.length * coordsPerLetter) + (resident.aliasName.length * coordsPerLetter)) + (spaceBetweenWords * 2),
           startY + (i*spaceBetweenResidents));
 
-        doc.text(resident.room + " ",
+        doc.text(resident.room.toString(),
           roomX,
           startY + (i*spaceBetweenResidents));
       });
