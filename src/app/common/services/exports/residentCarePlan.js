@@ -17,9 +17,6 @@
       var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
       var residentFilteredAdmissionDate = dateFilter(residentAdmissionDate, 'MMM d, yyyy');
 
-      var arrayLengthOffset = 0;
-      var adminOffset = 250;
-
       if (data.insideApartment === undefined) {
         data.insideApartment = {};
       }
@@ -28,65 +25,19 @@
         data.outApartment = {};
       }
 
-      // doc.addImage(imageData.getApilaLogo(), 'JPEG', logoPosX, logoPosY, logoPosX + logoWidth, logoPosY + logoHeight);
-
-      /* rounded box attempt
-      doc.text(200, 80, data.communityName + " - Care Plan");
-
-      doc.setFontSize(10);
-      doc.text(200, 30, "3407 Carroll St");
-      doc.text(200, 42, "Alamosa CO, 81101");
-      doc.text(200, 54, "AlamosaBridge.com");
-
-      doc.text(350, 30, "Phone:");
-      doc.text(350, 42, "Fax:");
-      doc.text(350, 54, "Clinical Services Fax:");
-
-      doc.text(450, 30, "(719) 587-3514");
-      doc.text(450, 42, "(719) 589-3614");
-      doc.text(450, 54, "(719) 589-7424");
-
-      doc.roundedRect(30, 90, 550, 200, 7, 7);
-      doc.text(35, 102, "Name: " + data.firstName + " " + data.middleName + " " + data.lastName);
-      doc.text(35, 114, "Maiden Name: " + data.maidenName);
-      */
-
-      // font setup
-      doc.setFontSize(10);
-      doc.setTextColor(33, 33, 33);
+      // export config
+      doc.setFontSize(12);
       doc.setFont("courier");
-      doc.setFontType("bold");
-      doc.setLineWidth(25);
+      doc.setFontType("normal");
 
-      // address line
-      doc.setDrawColor(236, 239, 241);
-      doc.line(0, 25, 650, 25);
-      doc.text(14, 28, "ADDRESS");
-      doc.text(300, 28, "3407 Carroll St Alamosa CO, 81101");
+      // config variables
+      var offset = 0;
+      var spaceBetweenLines = 12;
+      var coordsPerLetter = 7.2439; // amount of page coordinates per letter in .length items
+      var spaceBetweenWords = 10; // horizontal spacing between the words
 
-      // phone line
-      doc.setDrawColor(207, 216, 220);
-      doc.line(0, 50, 650, 50);
-      doc.text(25, 53, "PHONE");
-      doc.text(300, 53, "(719) 587-3514");
 
-      // fax line
-      doc.setDrawColor(176, 190, 197);
-      doc.line(0, 75, 650, 75);
-      doc.text(36, 78, "FAX");
-      doc.text(300, 78, "(719) 589-3614");
-
-      // web line
-      doc.setDrawColor(144, 164, 174);
-      doc.line(0, 100, 650, 100);
-      doc.text(37, 103, "WEB");
-      doc.text(300, 103, "AlamosaBridge.com");
-
-      // allergy
-      doc.setDrawColor(0, 150, 136);
-      doc.line(0, 150, 650, 150);
-      doc.text(300, 153, "ALLERGY");
-
+/*
       if (data.hasFoodAllergies === true || data.hasMedicationAllergies === true) {
 
         arrayLengthOffset = 174;
@@ -228,11 +179,11 @@
       doc.text(164, 235, "for");
       doc.text(75, adminOffset, data.firstName);
 
-/*
+
       if (data.middleName !== "" || data.middleName === undefined) {
         adminOffset = adminOffset + 15;
         doc.text(75, adminOffset, data.middleName + " ");
-      } */
+      }
 
       doc.text(75, adminOffset + 15, data.lastName);
 
@@ -561,6 +512,8 @@
 
       doc.text(410, 300, "Pain");
       doc.addImage(data.vitals, 'PNG', 410, 320, 150, 150);
+
+*/
 
       doc.save(fileName);
     }

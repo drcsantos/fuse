@@ -16,13 +16,25 @@
 
       var doc = new jsPDF('p', 'pt');
 
-      doc.setFont("helvetica");
+      // export config
+      doc.setFont("courier");
+      doc.setFontType("normal");
       doc.setFontSize(12);
       doc.setLineWidth(1);
 
+      // config variables
+      var spaceBetweenLines = 24;
+      var coordsPerLetter = 7.2439; // amount of page coordinates per letter in .length items
+      var spaceBetweenOptionsHorizontal = 24; // horizontal spacing between the multiple choice options
+      var spaceBetweenOptionsVertical = 16; // vertical spacing between the question and multiple choice options
+      var adminStartX = 215;
+      var adminStartY = 24;
+      var adminMid = 394;
+      var endX = 590;
+
       // export date
-      doc.text("Exported on", 10, 24);
-      doc.text(10, 40, filteredExportDate + " ");
+      doc.text("Exported on", 10, adminStartY);
+      doc.text(filteredExportDate + " ", 10, adminStartY + spaceBetweenOptionsVertical);
 
       // community logo
       doc.rect(110, 10, 100, 100);
@@ -30,17 +42,17 @@
       doc.text("for logo", 120, 62);
 
       // community info
-      doc.text("Phone", 215, 24);
-      doc.text("(719) 587-3514", 275, 24);
+      doc.text("Phone", adminStartX, adminStartY);
+      doc.text("(719) 587-3514", 275, adminStartY);
 
-      doc.text("Fax", 215, 48);
-      doc.text("(719) 589-3614", 275, 48);
+      doc.text("Fax", adminStartX, adminStartY * 2);
+      doc.text("(719) 589-3614", 275, adminStartY * 2);
 
-      doc.text("Address", 215, 72);
-      doc.text("3407 Carroll St Alamoa CO, 81101", 275, 72);
+      doc.text("Address", adminStartX, adminStartY * 3);
+      doc.text("3407 Carroll St Alamoa CO, 81101", 275, adminStartY * 3);
 
-      doc.text("Website", 215, 96);
-      doc.text("AlamosaBridge.com", 275, 96);
+      doc.text("Website", adminStartX, adminStartY * 4);
+      doc.text("AlamosaBridge.com", 275, adminStartY * 4);
 
       // resident picture
       doc.rect(10, 120, 200, 300);
@@ -48,22 +60,104 @@
       doc.text("for resident picture", 60, 262);
 
       // resident admin info
-      doc.text("First Name", 220, 150);
-      doc.line(280, 152, 590, 152);
+      doc.text("First Name", adminStartX, adminStartY * 6);
+      doc.line(
+        adminStartX + ("First Name".length * coordsPerLetter),
+        adminStartY * 6,
+        endX,
+        adminStartY * 6
+      );
 
-      doc.text("Preferred Name", 220, 174);
-      doc.line(306, 176, 590, 176);
+      doc.text("Preferred Name", adminStartX, adminStartY * 7);
+      doc.line(
+        adminStartX + ("Preferred Name".length * coordsPerLetter),
+        adminStartY * 7,
+        endX,
+        adminStartY * 7
+      );
 
-      doc.text("Middle Name", 220, 198);
-      doc.line(291, 200, 590, 200);
+      doc.text("Middle Name", adminStartX, adminStartY * 8);
+      doc.line(
+        adminStartX + ("Middle Name".length * coordsPerLetter),
+        adminStartY * 8,
+        endX,
+        adminStartY * 8
+      );
 
-      doc.text("Last Name", 220, 222);
-      doc.line(280, 224, 590, 224);
+      doc.text("Last Name", adminStartX, adminStartY * 9);
+      doc.line(
+        adminStartX + ("Last Name".length * coordsPerLetter),
+        adminStartY * 9,
+        endX,
+        adminStartY * 9
+      );
 
-      doc.text("Maiden Name", 220, 246);
-      doc.line(297, 248, 590, 248);
+      doc.text("Maiden Name", adminStartX, adminStartY * 10);
+      doc.line(
+        adminStartX + ("Maiden Name".length * coordsPerLetter),
+        adminStartY * 10,
+        endX,
+        adminStartY * 10
+      );
 
-      doc.text("Full Code", 220, 270);
+      doc.text("Moved From (Town)", adminStartX, adminStartY * 11);
+      doc.line(
+        adminStartX + ("Moved From (Town)".length * coordsPerLetter),
+        adminStartY * 11,
+        endX,
+        adminStartY * 11
+      );
+
+      doc.text("Primary Doctor", adminStartX, adminStartY * 12);
+      doc.line(
+        adminStartX + ("Primary Doctor".length * coordsPerLetter),
+        adminStartY * 12,
+        endX,
+        adminStartY * 12
+      );
+
+      doc.text("Pharmacy", adminStartX, adminStartY * 13);
+      doc.line(
+        adminStartX + ("Pharmacy".length * coordsPerLetter),
+        adminStartY * 13,
+        endX,
+        adminStartY * 13
+      );
+
+      doc.text("Date of Birth", adminStartX, adminStartY * 14);
+      doc.line(
+        adminStartX + ("Date of Birth".length * coordsPerLetter),
+        adminStartY * 14,
+        adminMid - 2,
+        adminStartY * 14
+      );
+
+      doc.text("Admission Date", adminMid, adminStartY * 14);
+      doc.line(
+        adminMid + ("Admission Date".length * coordsPerLetter),
+        adminStartY * 14,
+        endX,
+        adminStartY * 14
+      );
+
+      doc.text("Floor", adminStartX, adminStartY * 15);
+      doc.line(
+        adminStartX + ("Floor".length * coordsPerLetter),
+        adminStartY * 15,
+        adminMid - 2,
+        adminStartY * 15
+      );
+
+      doc.text("Room", adminMid, adminStartY * 15);
+      doc.line(
+        adminMid + ("Room".length * coordsPerLetter),
+        adminStartY * 15,
+        endX,
+        adminStartY * 15
+      );
+
+/*
+      doc.text("Full Code", adminStartX, 270); // x = 215
       doc.text("Yes", 225, 286);
       doc.text("No", 265, 286);
 
@@ -72,26 +166,12 @@
       doc.text("Female", 435, 286);
       doc.text("Other", 495, 286);
 
-      doc.text("Date of Birth", 220, 310);
+      doc.text("Date of Birth", adminStartX, 310);
       doc.line(297, 312, 380, 312);
 
       doc.text("Admission Date", 390, 310);
       doc.line(500, 312, 590, 312);
-
-      doc.text("Moved From (Town)", 220, 336);
-      doc.line(320, 338, 590, 338);
-
-      doc.text("Primary Doctor", 220, 362);
-      doc.line(320, 364, 590, 364);
-
-      doc.text("Pharmacy", 220, 388);
-      doc.line(320, 390, 590, 390);
-
-      doc.text("Floor", 220, 414);
-      doc.line(297, 416, 380, 416);
-
-      doc.text("Room", 390, 414);
-      doc.line(500, 416, 590, 416);
+*/
 
       doc.text("Assessment Interval", 10, 442);
       doc.text("None", 20, 458);
