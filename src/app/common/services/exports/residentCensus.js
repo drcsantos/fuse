@@ -38,6 +38,11 @@
       var roomX = 350; // horizontal position of the room numbers row
       var birthDateX = 450; // horizontal position of the date of birth row
 
+      //number of resident rows before new page is created
+      var newPageRows = 16;
+
+      var increment = 0;
+
       // export date
       doc.text("Exported on", 10, metaStartY);
       doc.text(filteredExportDate + " ", 10, metaStartY + 16);
@@ -69,14 +74,25 @@
 
        filteredbirthDate = dateFilter(resident.birthDate, 'MMMM d, yyyy');
 
+        //creates a new page after newPageRows (first time it's 15 later 20)
+        if(((increment+1) % newPageRows === 0)) {
+          newPageRows = 20;
+          listStartX = 14;
+          listStartY = 20;
+
+          increment = 0;
+
+          doc.addPage();
+        }
+
         doc.text(resident.firstName,
           listStartX,
-          listStartY + (i*spaceBetweenResidents));
+          listStartY + (increment*spaceBetweenResidents));
 
         if(resident.aliasName) {
           doc.text("\"" + resident.aliasName + "\"",
             listStartX + ((resident.firstName.length) * coordsPerLetter) + spaceBetweenWords,
-            listStartY + (i*spaceBetweenResidents));
+            listStartY + (increment*spaceBetweenResidents));
           numberOfWords = 2;
           aliasLength = (resident.aliasName.length + 2);
         } else {
@@ -87,15 +103,23 @@
 
         doc.text(resident.lastName,
           listStartX + ((resident.firstName.length * coordsPerLetter) + (aliasLength * coordsPerLetter)) + (spaceBetweenWords * numberOfWords),
-          listStartY + (i*spaceBetweenResidents));
+          listStartY + (increment*spaceBetweenResidents));
 
         doc.text(resident.room.toString(),
           roomX,
-          listStartY + (i*spaceBetweenResidents));
+          listStartY + (increment*spaceBetweenResidents));
 
         doc.text(filteredbirthDate,
           birthDateX,
-          listStartY + (i*spaceBetweenResidents));
+          listStartY + (increment*spaceBetweenResidents));
+
+        //draw line on every third resident
+        if((i+1) % 3 === 0) {
+          doc.line(10, listStartY+5 + (increment*spaceBetweenResidents), 580, listStartY+5 + (increment*spaceBetweenResidents));
+        }
+
+        increment++;
+
       });
 
       doc.save("ResidentCensus.pdf");
