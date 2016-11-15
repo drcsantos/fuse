@@ -24,17 +24,21 @@
 
       // config variables
       var spaceBetweenLines = 24;
-      var coordsPerLetter = 7.2439; // amount of page coordinates per letter in .length items
+      var coordsPerLetter = (594/82); // amount of page coordinates per letter in .length items
       var spaceBetweenOptionsHorizontal = 24; // horizontal spacing between the multiple choice options
       var spaceBetweenOptionsVertical = 16; // vertical spacing between the question and multiple choice options
+      var numberOfOptionSpaces = 0;
+      var optionsOffset = 5;
       var adminStartX = 215;
-      var adminStartY = 24;
+      var startY = 24;
       var adminMid = 394;
+      var startX = 15;
+      var startY = 24;
       var endX = 590;
 
       // export date
-      doc.text("Exported on", 10, adminStartY);
-      doc.text(filteredExportDate + " ", 10, adminStartY + spaceBetweenOptionsVertical);
+      doc.text("Exported on", startX, startY);
+      doc.text(filteredExportDate.toString(), startX, startY + spaceBetweenOptionsVertical);
 
       // community logo
       doc.rect(110, 10, 100, 100);
@@ -42,151 +46,154 @@
       doc.text("for logo", 120, 62);
 
       // community info
-      doc.text("Phone", adminStartX, adminStartY);
-      doc.text("(719) 587-3514", 275, adminStartY);
+      doc.text("Phone", adminStartX, startY);
+      doc.text("(719) 587-3514", 275, startY);
 
-      doc.text("Fax", adminStartX, adminStartY * 2);
-      doc.text("(719) 589-3614", 275, adminStartY * 2);
+      doc.text("Fax", adminStartX, startY * 2);
+      doc.text("(719) 589-3614", 275, startY * 2);
 
-      doc.text("Address", adminStartX, adminStartY * 3);
-      doc.text("3407 Carroll St Alamoa CO, 81101", 275, adminStartY * 3);
+      doc.text("Address", adminStartX, startY * 3);
+      doc.text("3407 Carroll St Alamoa CO, 81101", 275, startY * 3);
 
-      doc.text("Website", adminStartX, adminStartY * 4);
-      doc.text("AlamosaBridge.com", 275, adminStartY * 4);
+      doc.text("Website", adminStartX, startY * 4);
+      doc.text("AlamosaBridge.com", 275, startY * 4);
 
       // resident picture
-      doc.rect(10, 120, 200, 300);
+      doc.rect(10, 120, 200, 280);
       doc.text("place holder", 60, 250);
       doc.text("for resident picture", 60, 262);
 
       // resident admin info
-      doc.text("First Name", adminStartX, adminStartY * 6);
+      doc.text("First Name", adminStartX, startY * 6);
       doc.line(
         adminStartX + ("First Name".length * coordsPerLetter),
-        adminStartY * 6,
+        startY * 6,
         endX,
-        adminStartY * 6
+        startY * 6
       );
 
-      doc.text("Preferred Name", adminStartX, adminStartY * 7);
+      doc.text("Preferred Name", adminStartX, startY * 7);
       doc.line(
         adminStartX + ("Preferred Name".length * coordsPerLetter),
-        adminStartY * 7,
+        startY * 7,
         endX,
-        adminStartY * 7
+        startY * 7
       );
 
-      doc.text("Middle Name", adminStartX, adminStartY * 8);
+      doc.text("Middle Name", adminStartX, startY * 8);
       doc.line(
         adminStartX + ("Middle Name".length * coordsPerLetter),
-        adminStartY * 8,
+        startY * 8,
         endX,
-        adminStartY * 8
+        startY * 8
       );
 
-      doc.text("Last Name", adminStartX, adminStartY * 9);
+      doc.text("Last Name", adminStartX, startY * 9);
       doc.line(
         adminStartX + ("Last Name".length * coordsPerLetter),
-        adminStartY * 9,
+        startY * 9,
         endX,
-        adminStartY * 9
+        startY * 9
       );
 
-      doc.text("Maiden Name", adminStartX, adminStartY * 10);
+      doc.text("Maiden Name", adminStartX, startY * 10);
       doc.line(
         adminStartX + ("Maiden Name".length * coordsPerLetter),
-        adminStartY * 10,
+        startY * 10,
         endX,
-        adminStartY * 10
+        startY * 10
       );
 
-      doc.text("Moved From (Town)", adminStartX, adminStartY * 11);
+      doc.text("Moved From (Town)", adminStartX, startY * 11);
       doc.line(
         adminStartX + ("Moved From (Town)".length * coordsPerLetter),
-        adminStartY * 11,
+        startY * 11,
         endX,
-        adminStartY * 11
+        startY * 11
       );
 
-      doc.text("Primary Doctor", adminStartX, adminStartY * 12);
+      doc.text("Primary Doctor", adminStartX, startY * 12);
       doc.line(
         adminStartX + ("Primary Doctor".length * coordsPerLetter),
-        adminStartY * 12,
+        startY * 12,
         endX,
-        adminStartY * 12
+        startY * 12
       );
 
-      doc.text("Pharmacy", adminStartX, adminStartY * 13);
+      doc.text("Pharmacy", adminStartX, startY * 13);
       doc.line(
         adminStartX + ("Pharmacy".length * coordsPerLetter),
-        adminStartY * 13,
+        startY * 13,
         endX,
-        adminStartY * 13
+        startY * 13
       );
 
-      doc.text("Date of Birth", adminStartX, adminStartY * 14);
+      doc.text("Date of Birth", adminStartX, startY * 14);
       doc.line(
         adminStartX + ("Date of Birth".length * coordsPerLetter),
-        adminStartY * 14,
+        startY * 14,
         adminMid - 2,
-        adminStartY * 14
+        startY * 14
       );
 
-      doc.text("Admission Date", adminMid, adminStartY * 14);
+      doc.text("Admission Date", adminMid, startY * 14);
       doc.line(
         adminMid + ("Admission Date".length * coordsPerLetter),
-        adminStartY * 14,
+        startY * 14,
         endX,
-        adminStartY * 14
+        startY * 14
       );
 
-      doc.text("Floor", adminStartX, adminStartY * 15);
+      doc.text("Floor", adminStartX, startY * 15);
       doc.line(
         adminStartX + ("Floor".length * coordsPerLetter),
-        adminStartY * 15,
+        startY * 15,
         adminMid - 2,
-        adminStartY * 15
+        startY * 15
       );
 
-      doc.text("Room", adminMid, adminStartY * 15);
+      doc.text("Room", adminMid, startY * 15);
       doc.line(
         adminMid + ("Room".length * coordsPerLetter),
-        adminStartY * 15,
+        startY * 15,
         endX,
-        adminStartY * 15
+        startY * 15
       );
 
-/*
-      doc.text("Full Code", adminStartX, 270); // x = 215
-      doc.text("Yes", 225, 286);
-      doc.text("No", 265, 286);
+      doc.text("Full Code", adminStartX, startY * 16);
+      doc.text("Yes", adminStartX + 5, startY * 16 + spaceBetweenOptionsVertical);
+      doc.text("No",
+        adminStartX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY * 16 + spaceBetweenOptionsVertical);
 
-      doc.text("Sex", 390, 270);
-      doc.text("Male", 395, 286);
-      doc.text("Female", 435, 286);
-      doc.text("Other", 495, 286);
+      doc.text("Sex", adminMid, startY * 16);
+      doc.text("Male", adminMid + optionsOffset, startY * 16 + spaceBetweenOptionsVertical);
+      doc.text("Female",
+        adminMid + optionsOffset + ("Male".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY * 16 + spaceBetweenOptionsVertical);
+      doc.text("Other",
+        adminMid + optionsOffset + ("Female".length * coordsPerLetter) + ("Male".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY * 16 + spaceBetweenOptionsVertical);
 
-      doc.text("Date of Birth", adminStartX, 310);
-      doc.line(297, 312, 380, 312);
-
-      doc.text("Admission Date", 390, 310);
-      doc.line(500, 312, 590, 312);
-*/
-
-      doc.text("Assessment Interval", 10, 442);
-      doc.text("None", 20, 458);
-      doc.text("Weekly", 60, 458);
+      doc.text("Assessment Interval", startX, (startY * 17) + (spaceBetweenOptionsVertical * 1));
+      doc.text("None",
+        startX + optionsOffset,
+        (startY * 17) + (spaceBetweenOptionsVertical * 2));
+      doc.text("Weekly",
+        60,
+        458);
       doc.text("Monthly", 110, 458);
       doc.text("Quarterly", 160, 458);
       doc.text("Yearly", 220, 458);
 
+/*
       doc.text("Marital Status", 260, 442);
       doc.text("Single", 265, 458);
       doc.text("Divorced", 305, 458);
       doc.text("Widowed", 360, 458);
       doc.text("Married", 420, 458);
       doc.text("Single Never Married", 470, 458);
-
+*/
       doc.text("Handles Finances", 10, 482);
       doc.line(110, 484, 590, 484);
 
