@@ -21,6 +21,8 @@
       doc.setFont("courier");
       doc.setFontType("normal");
       doc.setFontSize(12);
+      doc.setLineWidth(1);
+      doc.setDrawColor(33,33,33);
 
       //sort by room number
       inBuildingResidents = _.sortBy(inBuildingResidents, ['room']);
@@ -74,6 +76,16 @@
 
        filteredbirthDate = dateFilter(resident.birthDate, 'MMMM d, yyyy');
 
+       //draw line on every third resident
+       if((i+1) % 3 === 0) {
+         doc.setLineWidth(16);
+         doc.setDrawColor(224,224,224);
+         doc.line(10,
+           listStartY - 3 + (increment*spaceBetweenResidents),
+           570,
+           listStartY - 3 + (increment*spaceBetweenResidents));
+       }
+
         //creates a new page after newPageRows (first time it's 15 later 20)
         if(((increment+1) % newPageRows === 0)) {
           newPageRows = 20;
@@ -112,11 +124,6 @@
         doc.text(filteredbirthDate,
           birthDateX,
           listStartY + (increment*spaceBetweenResidents));
-
-        //draw line on every third resident
-        if((i+1) % 3 === 0) {
-          doc.line(10, listStartY+5 + (increment*spaceBetweenResidents), 580, listStartY+5 + (increment*spaceBetweenResidents));
-        }
 
         increment++;
 
