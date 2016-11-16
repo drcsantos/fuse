@@ -15,6 +15,11 @@
       <md-input-container class="md-block">
         <label>First Name</label>
         <input ng-model="vm.form.firstName" type="text" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.firstName">
+              First Name is required
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -30,6 +35,11 @@
       <md-input-container class="md-block">
         <label>Last Name</label>
         <input ng-model="vm.form.lastName" type="text" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.lastName">
+              Last Name is required
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -38,6 +48,9 @@
         <div ng-messages="">
             <div ng-if="!vm.isNumber(vm.form.room)">
               Must be a Number
+            </div>
+            <div ng-if="vm.error.room">
+              Room number is required
             </div>
         </div>
       </md-input-container>
@@ -51,6 +64,11 @@
       <md-input-container class="md-block">
         <label>Social Security Number</label>
         <input ng-model="vm.form.socialSecurityNumber" ssn required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.socialSecurityNumber">
+              Social Security Number is required
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -62,18 +80,28 @@
           <md-option value="Married">Married</md-option>
           <md-option value="Single never married">Single never married</md-option>
         </md-select>
+        <div ng-messages="">
+            <div ng-if="vm.error.maritalStatus">
+              Marital Status is required
+            </div>
+        </div>
       </md-input-container>
 
       <div layout="row" layout-align="space-around start">
-        <div>
+        <md-input-container class="md-block">
           <h4>Date of Birth</h4>
           <md-datepicker ng-model="vm.form.birthDate" md-placeholder="Birth Date" required=""></md-datepicker>
-        </div>
+          <div ng-messages="">
+              <div ng-if="vm.error.birthDate">
+                Date of Birth is required
+              </div>
+          </div>
+        </md-input-container>
 
-        <div>
+        <md-input-container class="md-block">
           <h4>Admission Date</h4>
           <md-datepicker ng-model="vm.form.admissionDate" md-placeholder="Admission Date"></md-datepicker>
-        </div>
+        </md-input-container>
       </div>
       <br>
 
@@ -94,6 +122,11 @@
             <md-option value="Female">Female</md-option>
             <md-option value="Other">Other</md-option>
           </md-select>
+          <div ng-messages="">
+              <div ng-if="vm.error.sex">
+                Sex is required
+              </div>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block" ng-if="vm.form.sex == 'Female'">
@@ -110,6 +143,11 @@
             <md-option value="Dead">Dead</md-option>
             <md-option value="Moved Out">Moved Out</md-option>
           </md-select>
+          <div ng-messages="">
+              <div ng-if="vm.error.buildingStatus">
+                Building Status is required
+              </div>
+          </div>
         </md-input-container>
 
         <md-input-container>
@@ -178,7 +216,7 @@
 
     <md-dialog-actions layout="row" layout-align="space-between center">
             <div layout="row" layout-align="start center">
-                <md-button ng-click="vm.addResident()" id="add-resident-btn" class="send-button md-accent md-raised" aria-label="Add">
+                <md-button ng-click="vm.addResident()" ng-disabled="!vm.isNumber(vm.form.room)" id="add-resident-btn" class="send-button md-accent md-raised" aria-label="Add">
                     ADD
                 </md-button>
             </div>

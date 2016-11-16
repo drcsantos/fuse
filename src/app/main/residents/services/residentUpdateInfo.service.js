@@ -480,15 +480,21 @@
         }
       }
 
+      if (!newData.locationInfo) {
+        newData.locationInfo = {};
+      }
       // handlng movedFrom updateInfo check if name are diff
       if (newData.locationInfo.formatted_address) {
-        if (oldData['movedFrom'].name !== newData.locationInfo.formatted_address) {
-          diff.push({
-            "field": 'movedFrom',
-            "old": oldData['movedFrom'].name,
-            "new": newData.locationInfo.formatted_address
-          });
+        if(oldData['movedFrom']) {
+          if (oldData['movedFrom'].name !== newData.locationInfo.formatted_address) {
+            diff.push({
+              "field": 'movedFrom',
+              "old": oldData['movedFrom'].name,
+              "new": newData.locationInfo.formatted_address
+            });
+          }
         }
+
       }
 
       //checking contacts

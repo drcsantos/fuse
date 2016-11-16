@@ -5,7 +5,8 @@
     .controller('UpdateController', UpdateController);
 
   /** @ngInject */
-  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, currResident, apilaData, authentication, ResidentUpdateInfoService) {
+  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck,
+                            currResident, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
 
@@ -17,6 +18,9 @@
     vm.form.communicatedWithResident = false;
     vm.form.communicatedWithPrimaryContact = false;
     vm.form.communicatedWithTrustedPerson = false;
+
+    var requiredArray = ["firstName", "lastName", "room", "birthDate", "sex",
+                        "socialSecurityNumber", "maritalStatus", "buildingStatus"];
 
     vm.status = createMultiSelect(["Alert", "Friendly", "Disoriented",
       "Withdrawn", "Lonely", "Happy", "Confused", "Uncooperative",
@@ -54,12 +58,17 @@
       }
     };
 
+    vm.error = {};
+
     vm.hasPrimaryContact = (_.find(currResident.residentContacts, {"primaryContact": true}) !== undefined);
     vm.hasTrustedPerson = (_.find(currResident.residentContacts, {"trustedPerson": true}) !== undefined);
 
     vm.form.birthDate = new Date(currResident.birthDate);
     vm.form.admissionDate = new Date(currResident.admissionDate);
-    vm.form.locationInfo = vm.form.movedFrom.name;
+
+    if(vm.form.movedFrom) {
+      vm.form.locationInfo = vm.form.movedFrom.name;
+    }
 
     //Functions
     vm.closeDialog = closeDialog;
@@ -86,7 +95,11 @@
 
       addToPainManagedBy();
 
-      if (vm.form.locationInfo.geometry !== undefined) {
+      if(!vm.form.movedFrom) {
+        vm.form.movedFrom = {};
+      }
+
+      if (vm.form.locationInfo.geometry) {
         vm.form.movedFrom.name = vm.form.locationInfo.formatted_address;
         vm.form.movedFrom.latitude = vm.form.locationInfo.geometry.location.lat();
         vm.form.movedFrom.longitude = vm.form.locationInfo.geometry.location.lng();
@@ -100,6 +113,10 @@
 
 
     function updateResident() {
+
+      if(errorCheck.requiredFields(vm.form, vm.error, requiredArray)) {
+        return;
+      }
 
       formatData();
 
