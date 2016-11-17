@@ -41,7 +41,7 @@
       var boxStartX = 10;
       var boxStartY = 10;
       var boxWidth = 575;
-      var boxHeight = 14;
+      var boxHeight = 8;
 
       // export date
       doc.text("Exported on", startX, startY);
@@ -277,7 +277,7 @@
       doc.addPage();
 
       doc.text("Life", startX, startY + (spaceBetweenLines * 0));
-      boxHeight += startY;
+      boxHeight += (spaceBetweenLines * 1);
 
       doc.text("Religion", startX, startY + (spaceBetweenLines * 1));
       doc.line(
@@ -290,24 +290,21 @@
         startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0),
         endX,
         startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
-      boxHeight += (spaceBetweenLines * 2);
-
-      doc.text("Education", startX, startY + (spaceBetweenLines * 3));
       doc.line(
-        startX + ("Education".length * coordsPerLetter),
+        startX,
         startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 0),
         endX,
         startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 0));
+      boxHeight += (spaceBetweenLines * 3);
+
+      doc.text("Education", startX, startY + (spaceBetweenLines * 4));
       doc.line(
-        startX,
+        startX + ("Education".length * coordsPerLetter),
         startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 0),
         endX,
         startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 0));
-      boxHeight += (spaceBetweenLines * 2);
-
-      doc.text("Occupation", startX, startY + (spaceBetweenLines * 5));
       doc.line(
-        startX + ("Occupation".length * coordsPerLetter),
+        startX,
         startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 0),
         endX,
         startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 0));
@@ -316,127 +313,229 @@
         startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 0),
         endX,
         startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 0));
-      boxHeight += (spaceBetweenLines * 2);
+      boxHeight += (spaceBetweenLines * 3);
 
-      doc.text("Outside Agency", startX, startY + (spaceBetweenLines * 7));
+      doc.text("Occupation", startX, startY + (spaceBetweenLines * 7));
       doc.line(
-        startX + ("Outside Agency".length * coordsPerLetter),
+        startX + ("Occupation".length * coordsPerLetter),
         startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 0),
         endX,
         startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 0));
-      boxHeight += (spaceBetweenLines * 1);
-
-      doc.text("Speech", startX, startY + (spaceBetweenLines * 8));
-      boxHeight += (spaceBetweenLines * 1);
-
-      doc.text("Easily Understood", startX, startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 0));
-      doc.text("Yes",
-        startX + optionsOffset,
-        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 1));
-      doc.text("No",
-        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
-        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 1));
-
-      doc.text("English as Primary Language", midPoint, startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 0));
-      doc.text("Yes",
-        midPoint + optionsOffset,
-        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 1));
-      doc.text("No",
-        midPoint + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
-        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 1));
-      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
-
-      doc.text("Other Languages", startX, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 1));
-      doc.line(
-        startX + ("Other Languages".length * coordsPerLetter),
-        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 1),
-        endX,
-        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 1));
-      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
-
-      doc.text("Items", startX, startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 1));
-      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
-
-      doc.text("Heating Pad", startX, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
-      doc.text("Yes",
-        startX + optionsOffset,
-        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 2));
-      doc.text("No",
-        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
-        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 2));
-
-      doc.text("Microwave", oneThird, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
-      doc.text("Yes",
-        oneThird + optionsOffset,
-        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 2));
-      doc.text("No",
-        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
-        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 2));
-
-      doc.text("Extension Cord", twoThirds, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
-      doc.text("Yes",
-        twoThirds + optionsOffset,
-        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 2));
-      doc.text("No",
-        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
-        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 2));
-      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
-
-      doc.text("Notes", startX, startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 2));
-      doc.line(
-        startX + ("Notes".length * coordsPerLetter),
-        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2),
-        endX,
-        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2));
       doc.line(
         startX,
-        startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2),
+        startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 0),
         endX,
-        startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2));
-      boxHeight += (spaceBetweenLines * 2);
+        startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 0));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 0),
+        endX,
+        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 0));
+      boxHeight += (spaceBetweenLines * 3);
+
+      doc.text("Outside Agency", startX, startY + (spaceBetweenLines * 10));
+      doc.line(
+        startX + ("Outside Agency".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 0),
+        endX,
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 0));
+      boxHeight += (spaceBetweenLines * 1);
+
+      doc.text("Speech", startX, startY + (spaceBetweenLines * 11));
+      boxHeight += (spaceBetweenLines * 1);
+
+      doc.text("Easily Understood", startX, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
+
+      doc.text("English as Primary Language", midPoint, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Yes",
+        midPoint + optionsOffset,
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        midPoint + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+
+      doc.text("Other Languages", startX, startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX + ("Other Languages".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
+
+      doc.text("Items", startX, startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
+
+      doc.text("Heating Pad", startX, startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 2));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 2));
+
+      doc.text("Microwave", oneThird, startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 2));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 2));
+
+      doc.text("Extension Cord", twoThirds, startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 2));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 2));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+
+      doc.text("Notes", startX, startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 2));
+      doc.line(
+        startX + ("Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2),
+        endX,
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 2),
+        endX,
+        startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 2));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 2),
+        endX,
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 2));
+      boxHeight += (spaceBetweenLines * 3);
 
       doc.rect(boxStartX, boxStartY, boxWidth, boxHeight);
-      doc.rect(10, 420, 575, 268);
-      doc.text("Allergies", 15, 434);
 
-      doc.text("Medication Allergies", 15, 458);
-      doc.line(15, 484, 180, 484);
-      doc.line(15, 510, 180, 510);
-      doc.line(15, 534, 180, 534);
-      doc.line(15, 558, 180, 558);
-      doc.line(15, 582, 180, 582);
-      doc.line(15, 606, 180, 606);
+      boxHeight = 0;
+      doc.text("Allergies", startX, startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 2));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Food Allergies", 200, 458);
-      doc.line(200, 484, 380, 484);
-      doc.line(200, 510, 380, 510);
-      doc.line(200, 534, 380, 534);
-      doc.line(200, 558, 380, 558);
-      doc.line(200, 582, 380, 582);
-      doc.line(200, 606, 380, 606);
+      doc.text("Medication Allergies", startX, startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 2));
+      doc.line(startX,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 2),
+        180,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 2));
+      doc.line(startX,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 2),
+        180,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 2));
+      doc.line(startX,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 2),
+        180,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 2));
+      doc.line(startX,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 2),
+        180,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 2));
+      doc.line(startX,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 2),
+        180,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 2));
+      doc.line(startX,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 2),
+        180,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 2));
 
-      doc.text("Other Allergies", 400, 458);
-      doc.line(400, 484, 580, 484);
-      doc.line(400, 510, 580, 510);
-      doc.line(400, 534, 580, 534);
-      doc.line(400, 558, 580, 558);
-      doc.line(400, 582, 580, 582);
-      doc.line(400, 606, 580, 606);
+      doc.text("Food Allergies", oneThird, startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 2));
+      doc.line(oneThird,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 2),
+        380,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 2));
+      doc.line(oneThird,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 2),
+        380,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 2));
+      doc.line(oneThird,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 2),
+        380,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 2));
+      doc.line(oneThird,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 2),
+        380,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 2));
+      doc.line(oneThird,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 2),
+        380,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 2));
+      doc.line(oneThird,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 2),
+        380,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 2));
 
-      doc.text("Notes", 15, 636);
-      doc.line(100, 638, 580, 638);
-      doc.line(100, 662, 580, 662);
+      doc.text("Other Allergies", twoThirds, startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 2));
+      doc.line(twoThirds,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 2),
+        580,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 2));
+      doc.line(twoThirds,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 2),
+        580,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 2));
+      doc.line(twoThirds,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 2),
+        580,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 2));
+      doc.line(twoThirds,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 2),
+        580,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 2));
+      doc.line(twoThirds,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 2),
+        580,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 2));
+      doc.line(twoThirds,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 2),
+        580,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 2));
+      boxHeight += ((spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 0));
+
+      doc.text("Notes", startX, startY + (spaceBetweenLines * 28) + (spaceBetweenOptionsVertical * 2));
+      doc.line(
+        startX + ("Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 28) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2),
+        endX,
+        startY + (spaceBetweenLines * 28) + (spaceBetweenOptionsVertical * 0) + (spaceBetweenOptionsVertical * 2));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 29) + (spaceBetweenOptionsVertical * 2),
+        endX,
+        startY + (spaceBetweenLines * 29) + (spaceBetweenOptionsVertical * 2));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 30) + (spaceBetweenOptionsVertical * 2),
+        endX,
+        startY + (spaceBetweenLines * 30) + (spaceBetweenOptionsVertical * 2));
+      boxHeight += ((spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 1));
+
+      doc.rect(boxStartX,
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 1),
+        boxWidth, boxHeight);
 
       doc.addPage();
+      boxHeight = 0;
 
-      doc.rect(10, 10, 575, 288);
-      doc.text("Assistance", 15, 24);
+      doc.text("Assistance", startX, startY);
 
-      doc.text("Assist with Hair", 15, 48);
-      doc.text("Yes", 20, 64);
-      doc.text("No", 60, 64);
+      doc.text("Assist with Hair", startX, startY + (spaceBetweenLines * 1));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1) + (spaceBetweenOptionsHorizontal * 1));
 
-      doc.text("Has Barber", 200, 48);
+      doc.text("Has Barber", oneThird, startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
       doc.text("Yes", 205, 64);
       doc.text("No", 245, 64);
 
