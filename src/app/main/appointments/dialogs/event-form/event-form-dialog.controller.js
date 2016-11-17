@@ -10,6 +10,9 @@
 
     // Data
     vm.dialogData = dialogData;
+
+    console.log(dialogData);
+
     vm.isDisabled = false;
 
   //  vm.calendarEvent.date = dialogData.start;
@@ -347,9 +350,15 @@
     function submitComment() {
       apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
           .success(function(data) {
-              vm.calendarEvent.appointmentComment.push(data);
-              vm.dialogData.calendarEvent.appointmentComment.push(data);
-              vm.formData.commentText = "";
+
+            data.author = {
+              _id : userid,
+              name : authentication.currentUser().name
+            };
+
+            vm.calendarEvent.appointmentComment.push(data);
+            vm.dialogData.calendarEvent.appointmentComment.push(data);
+            vm.formData.commentText = "";
           })
           .error(function(data) {
               console.log("Error while adding comments");

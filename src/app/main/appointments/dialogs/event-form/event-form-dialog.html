@@ -125,9 +125,9 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
 
         <!-- Comments list -->
         <md-list>
-          <md-list-item class="md-3-line" ng-repeat="item in vm.calendarEvent.appointmentComment" layout-wrap>
+          <md-list-item class="md-3-line" ng-repeat="item in vm.calendarEvent.appointmentComment.slice().reverse()" layout-wrap>
             <div class="md-list-item-text" layout="column">
-              <h4>{{ item.author}}</h4>
+              <h4>{{ item.author.name}}</h4>
               <p ng-bind-html="item.commentText | addHtmlLineBreaks"></p>
             </div>
           </md-list-item>
