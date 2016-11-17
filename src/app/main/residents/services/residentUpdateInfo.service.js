@@ -34,8 +34,9 @@
             var newValue = currField.new;
             var field = currField.field;
 
-            formatEntry.username = entry.updateBy;
-            if(!formatEntry.username.userImage) {
+            formatEntry.username = entry.updateBy || {};
+
+            if(formatEntry.username.userImage) {
               formatEntry.username.userImage = "assets/images/avatars/userDefaultProfile.png";
             }
 
@@ -57,7 +58,7 @@
 
             //handling of array fields
             if (_.includes(arrayFields, field)) {
-              if (newValue !== "") {
+              if (newValue != "") {
                 formatEntry.text = " has added " + newValue + " to " +
                   _.startCase(field);
               } else {
@@ -374,18 +375,22 @@
 
           //handling when the value is an object with a data field
           var newValue = newData[arrayFields[i]];
-          if (newValue.data != undefined) {
+          if (newValue.data) {
             newValue = newData[arrayFields[i]].data;
           }
 
-          diff.push({
-            "field": arrayFields[i],
-            "new": newValue
-          });
+          if(newValue) {
+            console.log("updated");
+            diff.push({
+              "field": arrayFields[i],
+              "new": newValue
+            });
+          }
+
         }
       }
 
-      for (var i = 0; i < attributeArr.length; ++i) {
+      for (i = 0; i < attributeArr.length; ++i) {
 
         if (oldData[attributeArr[i]] !== newData[attributeArr[i]]) {
 
@@ -400,7 +405,7 @@
       //handling for date fields
       var dateAttributes = ["admissionDate", "birthDate"];
 
-      for (var i = 0; i < dateAttributes.length; ++i) {
+      for (i = 0; i < dateAttributes.length; ++i) {
 
         if (new Date(oldData[dateAttributes[i]]).toDateString() !== new Date(newData[dateAttributes[i]]).toDateString()) {
 
@@ -460,13 +465,13 @@
         s: "specialAmbulationNeeds"
       }];
 
-      for (var i = 0; i < nestedAtributes.length; ++i) {
+      for (i = 0; i < nestedAtributes.length; ++i) {
 
         var oldValue = nestedArguments(oldData, nestedAtributes[i].f + "." + nestedAtributes[i].s);
 
         var newValue = nestedArguments(newData, nestedAtributes[i].f + "." + nestedAtributes[i].s);
 
-        if (newValue == undefined) {
+        if (newValue === undefined) {
           continue;
         }
 
@@ -498,7 +503,7 @@
       }
 
       //checking contacts
-      for(var i = 0; i < oldData.residentContacts.length; ++i) {
+      for(i = 0; i < oldData.residentContacts.length; ++i) {
         var contact = oldData.residentContacts[i];
 
         for(var property in contact) {

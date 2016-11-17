@@ -127,7 +127,9 @@
       vm.form.newfoodDislikes = vm.foodDislikes;
 
       //important to set updateInfo when adding/removing chips because they will generate updateInfo
-      vm.form.updateInfo = currResident.updateInfo;
+      //vm.form.updateInfo = currResident.updateInfo;
+
+      console.log(vm.form.updateInfo);
 
       userObjectsToIds();
 
@@ -136,8 +138,6 @@
 
           currResident.updateInfo = resident.updateInfo;
           currResident.carePoints = resident.carePoints;
-
-          console.log(resident.carePoints);
 
           pushNewValues();
           resetFields();
@@ -158,12 +158,13 @@
         "list": list,
         "type": type,
         "selectedItem": chip,
-        "updateBy": authentication.currentUser().name
+        "updateBy": authentication.currentUser().id
       };
 
       apilaData.updateListItem(vm.copyResident._id, data)
         .success(function(response) {
           currResident = response;
+          console.log(currResident);
         })
         .error(function(response) {
           console.log(response);
@@ -333,6 +334,7 @@
       addToArray(vm.form.internationalNormalizedRatio, vm.form.newinternationalNormalizedRatio);
 
       vm.form.foodAllergies = vm.form.newfoodAllergies;
+
       vm.form.medicationAllergies = vm.form.newmedicationAllergies;
 
       //addToArray(vm.form.psychosocialStatus, vm.form.newpsychosocialStatus);
