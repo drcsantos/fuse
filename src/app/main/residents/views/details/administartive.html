@@ -12,6 +12,7 @@
     <div class="info" layout="row" layout-align="space-between start">
 
       <div layout="column" layout-align="start start">
+
         <h4>First Name: {{ vm.selectedResident.firstName }} </h4>
         <h4>Prefered Name: {{ vm.selectedResident.aliasName }} </h4>
         <h4>Middle Name: {{ vm.selectedResident.middleName }} </h4>
@@ -25,6 +26,8 @@
         <h4>Admission Date: {{ vm.selectedResident.admissionDate | date }} </h4>
         <h4>Sex: {{ vm.selectedResident.sex }} </h4>
         <h4>Building Status: {{ vm.selectedResident.buildingStatus }} </h4>
+
+        <h4>Care Points: {{ vm.selectedResident.carePoints }}</h4>
 
         <h4>Handles Finances: {{ vm.handlesFinances }} </h4>
 

@@ -135,6 +135,9 @@
         .success(function(resident) {
 
           currResident.updateInfo = resident.updateInfo;
+          currResident.carePoints = resident.carePoints;
+
+          console.log(resident.carePoints);
 
           pushNewValues();
           resetFields();
