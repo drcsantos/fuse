@@ -56,11 +56,17 @@
         var searchParams = ["title", "transportation", "locationDoctor", "reason", "locationName",
                             "cancel", "appointmentDate"];
 
+        console.log(appointList);
+
         SearchService.setData(appointList, searchParams);
 
         SearchService.subscribe($scope, function() {
 
-          vm.events[0] = SearchService.getResult();
+        //console.log(vm.events[0].length);
+
+        vm.events[0] = SearchService.getResult();
+
+        //console.log(vm.events[0]);
         });
 
       });
@@ -129,7 +135,7 @@
             color: "#9C27B0"
           };
 
-          appointList.push(calEvent);
+          vm.events[0].push(calEvent);
 
         });
       })

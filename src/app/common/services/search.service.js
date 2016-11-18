@@ -62,13 +62,10 @@
                     }
                   }
 
-                //  unfiltered.push(item.id);
-
-
               });
 
-              console.log(resultData);
-              
+              resultData = _.uniqBy(resultData, "_id");
+
           } else if(query === "") {
 
             resultData = removeDueDate();
