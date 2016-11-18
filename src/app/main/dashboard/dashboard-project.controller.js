@@ -111,16 +111,22 @@
           apilaData.getLocations(id)
           .success(function(response) {
 
+            console.log(response);
+
             var markers = [];
 
             for(var i = 0; i < response.length; ++i) {
-              markers.push({
-                'id' : i,
-                'coords' : {
-                  latitude : response[i].movedFrom.latitude,
-                  longitude: response[i].movedFrom.longitude
-                }
-              });
+
+              if(response[i].movedFrom) {
+                markers.push({
+                  'id' : i,
+                  'coords' : {
+                    latitude : response[i].movedFrom.latitude,
+                    longitude: response[i].movedFrom.longitude
+                  }
+                });
+              }
+
             }
 
             vm.locationsMap = {

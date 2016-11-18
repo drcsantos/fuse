@@ -5,18 +5,20 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, apilaData, authentication, $window, $mdToast, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, apilaData, errorCheck, authentication, $window, $mdToast, exportAppointDetail) {
     var vm = this;
 
     // Data
     vm.dialogData = dialogData;
 
-    console.log(dialogData);
-
     vm.isDisabled = false;
 
   //  vm.calendarEvent.date = dialogData.start;
     var userid = authentication.currentUser().id;
+
+    var requiredArray = ['reason', 'locationName', 'locationDoctor'];
+
+    vm.error = {};
 
     // Methods
     vm.saveEvent = saveEvent;
@@ -54,7 +56,7 @@
       }
 
     function getMatches(text) {
-       if(text === null) {
+      if(!text) {
          return vm.residentList;
        }
 
@@ -186,7 +188,12 @@
       }
     }
 
+
     function saveEvent() {
+
+      if(checkFields()) {
+        return;
+      }
 
       //set up the date to proper fields before sending to the api
       vm.calendarEvent.transportation = vm.transportation;
@@ -391,6 +398,37 @@
       vm.calendarEvent.hours = hours;
       vm.calendarEvent.minutes = minutes;
       vm.calendarEvent.isAm = isAm;
+    }
+
+    function checkFields() {
+      var error = false;
+
+      if(errorCheck.requiredFields(vm.calendarEvent, vm.error, requiredArray)) {
+        error = true;
+      }
+
+      if(!vm.date) {
+        vm.error.date = true;
+        error = true;
+      } else {
+        vm.error.date = false;
+      }
+
+      if(!vm.currentTime) {
+        vm.error.currentTime = true;
+        error = true;
+      } else {
+        vm.error.currentTime = false;
+      }
+
+      if(!vm.selectedItem) {
+        vm.error.selectedItem = true;
+        error = true;
+      } else {
+        vm.error.selectedItem = false;
+      }
+
+      return error;
     }
 
     function inUpdate()

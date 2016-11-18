@@ -18,79 +18,94 @@
       <!-- Reason -->
       <md-input-container class="md-block">
         <label translate="CALENDAR.REASON">Reason</label>
-        <input name="reason" ng-model="vm.calendarEvent.reason" ng-blur="vm.updateIssue()">
+        <input name="reason" ng-model="vm.calendarEvent.reason" ng-blur="vm.updateIssue()" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.reason">
+              Reason is required
+            </div>
+        </div>
       </md-input-container>
 
-      <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.display" md-selected-item-change="vm.updateIssue()" md-min-length="0" placeholder="Select a resident">
+      <md-autocomplete md-selected-item="vm.selectedItem" required="" md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.display" md-selected-item-change="vm.updateIssue()" md-min-length="0" placeholder="Select a resident">
         <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
 
         </md-item-template>
         <md-not-found>
           No Resident found.
         </md-not-found>
+        <div ng-messages="">
+            <div ng-if="vm.error.selectedItem">
+              Resident is required
+            </div>
+        </div>
       </md-autocomplete>
 
-
+      <div ng-if="vm.error.selectedItem" style="color:red; padding-top:5px;">
+        Resident is required
+      </div>
 
       <!-- Location name -->
       <md-input-container class="md-block">
         <label translate="CALENDAR.LOCATION">Location</label>
-        <!-- <input name="location" ng-model="vm.calendarEvent.locationName" ng-blur="vm.updateIssue()" required> -->
-         <input class="form-control" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.calendarEvent.locationName"/>
-        <div ng-messages="eventForm.location.$error" ng-show="eventForm.location.$touched" role="alert">
-          <div ng-message="required">
-            <span translate="CALENDAR.ERRORS.LOCATION_REQUIRED">Location field is required</span>
-          </div>
-        </div>
+         <input class="form-control" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.calendarEvent.locationName" required="" />
+         <div ng-messages="">
+             <div ng-if="vm.error.locationName">
+               Location is required
+             </div>
+         </div>
       </md-input-container>
 
-      <!-- Extra location info -->
+        <!-- Extra location info -->
+        <md-card>
+          <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.name">
+            <label translate="CALENDAR.LOCATION_NAME">Location Name</label>
+             <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.name"/>
+          </md-input-container>
 
-      <md-card>
+          <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.formatted_phone_number">
+            <label translate="CALENDAR.PHONE_NUMBER">Phone number</label>
+             <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.formatted_phone_number"/>
+          </md-input-container>
 
-        <!-- <md-card-title ng-if="vm.calendarEvent.locationName.name"> Location Information: </md-card-title> -->
-
-        <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.name">
-          <label translate="CALENDAR.LOCATION_NAME">Location Name</label>
-           <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.name"/>
-        </md-input-container>
-
-        <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.formatted_phone_number">
-          <label translate="CALENDAR.PHONE_NUMBER">Phone number</label>
-           <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.formatted_phone_number"/>
-        </md-input-container>
-
-        <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.opening_hours.weekday_text">
-          <label translate="CALENDAR.WORKING_HOURS">Working hours</label>
-           <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.opening_hours.weekday_text[vm.currDay-1]"/>
-        </md-input-container>
-      </md-card>
+          <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.opening_hours.weekday_text">
+            <label translate="CALENDAR.WORKING_HOURS">Working hours</label>
+             <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.opening_hours.weekday_text[vm.currDay-1]"/>
+          </md-input-container>
+        </md-card>
 
       <!-- Doctor -->
       <md-input-container class="md-block">
         <label translate="CALENDAR.DOCTOR">Reason</label>
-        <input name="doctor" ng-model="vm.calendarEvent.locationDoctor" ng-blur="vm.updateIssue()">
-        <div ng-messages="eventForm.doctor.$error" ng-show="eventForm.doctor.$touched" role="alert">
-          <div ng-message="required">
-            <span translate="CALENDAR.ERRORS.DOCTOR_REQUIRED">Doctor field is required</span>
-          </div>
+        <input name="doctor" ng-model="vm.calendarEvent.locationDoctor" ng-blur="vm.updateIssue()" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.locationDoctor">
+              Doctor is required
+            </div>
         </div>
       </md-input-container>
 
 
-
-      <label>Appointment time</label>
-
-
-
       <!-- Time and date -->
       <div layout="row" class="date-row">
-        <!-- <input mdc-datetime-picker="" date="true" time="true" type="text" id="datetime"
-placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
-        <md-datepicker ng-model="vm.date" md-placeholder="Appointment Date" ng-blur="vm.updateIssue()"></md-datepicker>
+        <div>
+          <md-datepicker ng-model="vm.date" md-placeholder="Appointment Date" ng-blur="vm.updateIssue()" required="">
+          </md-datepicker>
+          <div ng-messages="">
+            <div ng-if="vm.error.date" style="color: red">
+              Date is required
+            </div>
+          </div>
+        </div>
 
-
-        <mdp-time-picker ng-model="vm.currentTime" ng-change="vm.updateIssue()"></mdp-time-picker>
+        <div>
+          <mdp-time-picker ng-model="vm.currentTime" ng-change="vm.updateIssue()" required="">
+            <div ng-messages="">
+                <div ng-if="vm.error.currentTime">
+                  Time is required
+                </div>
+            </div>
+          </mdp-time-picker>
+        </div>
 
       </div>
 
@@ -98,12 +113,7 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
       <div layout="row" layout-align="space-between center">
         <md-input-container class="md-block flex-66">
           <label translate="CALENDAR.TRANSPORTATION">Transporation</label>
-          <input name="transportation" placeholder="We are transporting" ng-blur="vm.updateIssue()" ng-model="vm.transportation" required>
-          <div ng-messages="eventForm.transportation.$error" ng-show="eventForm.transportation.$touched" role="alert">
-            <div ng-message="required">
-              <span translate="CALENDAR.ERRORS.TRANSPORTATION_REQUIRED">Transporation field is required</span>
-            </div>
-          </div>
+          <input name="transportation" placeholder="We are transporting" ng-blur="vm.updateIssue()" ng-model="vm.transportation">
         </md-input-container>
 
       </div>
@@ -134,40 +144,6 @@ placeholder="Date" min-date="date" ng-model="dateTime" class=" md-input"> -->
 
         </md-list>
       </div>
-
-      <!-- <div class="comments">
-
-        <div class="section-header" layout="row" layout-align="start center">
-          <i class="icon-comment s18"></i>
-          <span class="section-title">Comments</span>
-        </div>
-
-        <div class="section-content">
-          <form name="cardCommentForm" ng-submit="vm.addNewComment(vm.newCommentText); vm.newCommentText =''" class="comment new-comment" layout="column" layout-align="start" no-validate>
-
-              <md-input-container flex md-no-float>
-                <textarea ms-scroll placeholder="Write a comment.." ng-model="vm.newCommentText" translate translate-attr-placeholder="SB.WRITE_A_COMMENT"></textarea>
-              </md-input-container>
-
-            <div layout="row" layout-align="end center">
-              <md-button type="submit" class="md-raised md-accent" ng-disabled="cardCommentForm.$invalid || cardCommentForm.$pristine" aria-label="Add">
-                <span translate="SB.ADD">Add</span>
-              </md-button>
-            </div>
-          </form>
-
-          <div class="comment" layout="row" ng-repeat="comment in vm.card.comments">
-            <img class="comment-member-avatar" ng-src="{{vm.board.members.getById(comment.idMember).avatar}}">
-
-            <div layout="column">
-              <div class="comment-member-name">
-                {{comment.author}}
-              </div>
-              <div class="comment-bubble" ng-bind-html="comment.commentText | addHtmlLineBreaks"></div>
-            </div>
-          </div>
-        </div>
-      </div> -->
 
     </md-dialog-content>
 

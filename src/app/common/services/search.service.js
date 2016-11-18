@@ -66,7 +66,10 @@
 
 
               });
-          } else if(query == "") {
+
+              console.log(resultData);
+              
+          } else if(query === "") {
 
             resultData = removeDueDate();
           }
@@ -108,7 +111,7 @@
         subscribe : subscribe,
         searchResultClick : searchResultClick,
         collapseSearch : collapseSearch
-      }
+      };
 
     }
 

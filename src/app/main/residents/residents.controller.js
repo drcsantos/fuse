@@ -25,8 +25,8 @@
 
     vm.selectedCategory = "Administrative";
 
-    vm.latitude = 40.77627;
-    vm.longitude = -73.910964;
+    vm.latitude = -1;
+    vm.longitude = -1;
 
     vm.scrollPos = 0;
     vm.scrollEl = angular.element('#content');
