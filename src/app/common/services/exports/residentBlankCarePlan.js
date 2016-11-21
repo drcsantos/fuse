@@ -532,24 +532,40 @@
         startX + optionsOffset,
         startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
       doc.text("No",
-        startX + optionsOffset + ("Yes".length * coordsPerLetter),
-        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1) + (spaceBetweenOptionsHorizontal * 1));
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Has Barber", oneThird, startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
-      doc.text("Yes", 205, 64);
-      doc.text("No", 245, 64);
+      doc.text("Has Barber", oneThird, startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Assist with Shaving", 400, 48);
-      doc.text("Yes", 405, 64);
-      doc.text("No", 445, 64);
+      doc.text("Assist with Shaving", twoThirds, startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Assist with Finger Nails", 15, 88);
-      doc.text("Yes", 20, 104);
-      doc.text("No", 60, 104);
+      doc.text("Assist with Finger Nails", startX, startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 2));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 2));
 
-      doc.text("Assist with Toe Nails", 400, 88);
-      doc.text("Yes", 405, 104);
-      doc.text("No", 445, 104);
+      doc.text("Assist with Toe Nails", twoThirds, startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 2));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 2));
 
       doc.text("Assist with Makeup", 15, 128);
       doc.text("Yes", 20, 144);
