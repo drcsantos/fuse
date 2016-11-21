@@ -424,12 +424,11 @@
 
         function getAverageStayTime(id) {
           apilaData.averageStayTime(id)
-          .success(function(response) {
-            vm.averageStayTime = response;
-            console.log("Average stay: " + response);
+          .success(function(stayTime) {
+            vm.averageStayTime = Math.floor(stayTime);
           })
-          .error(function(response) {
-            console.log(response);
+          .error(function(err) {
+            console.log(err);
           });
         }
 

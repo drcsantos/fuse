@@ -64,6 +64,7 @@
         "d3": false,
         "moment": false,
         "console": false,
-        "alert": false
+        "alert": false,
+        "_": false
     }
 }

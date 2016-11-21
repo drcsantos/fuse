@@ -1,5 +1,5 @@
 (function() {
-  'use strict'
+  'use strict';
 
   angular.module('app.residents')
     .controller('UpdateController', UpdateController);
@@ -62,8 +62,9 @@
     vm.hasPrimaryContact = (_.find(currResident.residentContacts, {"primaryContact": true}) !== undefined);
     vm.hasTrustedPerson = (_.find(currResident.residentContacts, {"trustedPerson": true}) !== undefined);
 
-    vm.form.birthDate = new Date(currResident.birthDate);
-    vm.form.admissionDate = new Date(currResident.admissionDate);
+
+    vm.form.birthDate = vm.form.birthDate ? new Date(currResident.birthDate) : undefined;
+    vm.form.admissionDate = vm.form.admissionDate ? new Date(currResident.admissionDate) : undefined;
 
     if(vm.form.movedFrom) {
       vm.form.locationInfo = vm.form.movedFrom.name;

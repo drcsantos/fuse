@@ -22,7 +22,7 @@
         vm.form.movedFrom = "Denver, CO, USA";
         vm.error = {};
 
-        var requiredArray = ["firstName", "lastName", "birthDate", "buildingStatus"];
+        var requiredArray = ["firstName", "lastName", "buildingStatus"];
 
         var userid = authentication.currentUser().id;
 
