@@ -15,11 +15,6 @@
         vm.closeDialog = closeDialog;
         vm.addResident = addResident;
 
-        vm.isNumber = function(n) {
-          if(n === "") {return true;}
-          return !isNaN(parseFloat(n)) && isFinite(n);
-        };
-
         // Data
         vm.residentList = resList;
         vm.form = {};
@@ -27,8 +22,7 @@
         vm.form.movedFrom = "Denver, CO, USA";
         vm.error = {};
 
-        var requiredArray = ["firstName", "lastName", "room", "birthDate", "sex",
-                            "socialSecurityNumber", "maritalStatus", "buildingStatus"];
+        var requiredArray = ["firstName", "lastName", "birthDate", "buildingStatus"];
 
         var userid = authentication.currentUser().id;
 

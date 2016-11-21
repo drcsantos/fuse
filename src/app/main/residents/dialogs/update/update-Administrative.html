@@ -44,11 +44,8 @@
         <label>Room Number</label>
         <input ng-model="vm.form.room" required="">
         <div ng-messages="">
-            <div ng-if="!vm.isNumber(vm.form.room)">
+            <div ng-if="!vm.isNumber(vm.form.room) && vm.form.room.length > 0">
               Must be a Number
-            </div>
-            <div ng-if="vm.error.room">
-              Room number is required
             </div>
         </div>
       </md-input-container>
@@ -61,28 +58,18 @@
 
       <md-input-container class="md-block">
         <label>Social Security Number</label>
-        <input ng-model="vm.form.socialSecurityNumber" ssn required="">
-        <div ng-messages="">
-            <div ng-if="vm.error.socialSecurityNumber">
-              Social Security Number is required
-            </div>
-        </div>
+        <input ng-model="vm.form.socialSecurityNumber" ssn>
       </md-input-container>
 
       <md-input-container class="md-block">
         <label>Marital Status</label>
-        <md-select ng-model="vm.form.maritalStatus" required="">
+        <md-select ng-model="vm.form.maritalStatus">
           <md-option value="Single">Single</md-option>
           <md-option value="Divorced">Divorced</md-option>
           <md-option value="Widowed">Widowed</md-option>
           <md-option value="Married">Married</md-option>
           <md-option value="Single never married">Single never married</md-option>
         </md-select>
-        <div ng-messages="">
-            <div ng-if="vm.error.maritalStatus">
-              Marital Status is required
-            </div>
-        </div>
       </md-input-container>
 
       <div layout="row" layout-align="space-around start">
@@ -115,16 +102,11 @@
       <div layout="row" layout-align="space-around end">
         <md-input-container>
           <label>Sex</label>
-          <md-select ng-model="vm.form.sex" required="">
+          <md-select ng-model="vm.form.sex">
             <md-option value="Male">Male</md-option>
             <md-option value="Female">Female</md-option>
             <md-option value="Other">Other</md-option>
           </md-select>
-          <div ng-messages="">
-              <div ng-if="vm.error.sex">
-                Sex is required
-              </div>
-          </div>
         </md-input-container>
 
         <md-input-container class="md-block" ng-if="vm.form.sex == 'Female'">
@@ -229,7 +211,7 @@
 
     <md-dialog-actions layout="row" layout-align="space-between center">
       <div layout="row" layout-align="start center">
-        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" ng-disabled="!vm.isNumber(vm.form.room)" aria-label="Update">
+        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Update">
           UPDATE
         </md-button>
       </div>
