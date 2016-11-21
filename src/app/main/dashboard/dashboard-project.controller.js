@@ -55,6 +55,8 @@
         vm.updateBillingModal = BillingService.updateBillingModal;
         vm.selectProject = selectProject;
 
+        vm.updateContactInfo = updateContactInfo;
+
         vm.cancelSubscription = function() {
           BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
         };
@@ -65,6 +67,8 @@
         .success(function(d) {
 
           vm.myCommunity = d;
+
+          vm.contactInfo = vm.myCommunity;
 
           vm.hasCommunity = true;
           vm.isTestCommunity = vm.myCommunity.testCommunity;
@@ -283,10 +287,12 @@
         })
         .error(function(err) {
           console.log(err);
-        })
+        });
 
         function openCommunityModal(ev)
         {
+          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+
           if(!vm.activeEmail) {
             $mdToast.show(
               $mdToast.simple()
@@ -332,6 +338,13 @@
           }
         }
 
+        function updateContactInfo() {
+
+          apilaData.updateContactInfo(vm.myCommunity._id, vm.contactInfo)
+          .error(function(err) {
+            console.log(err);
+          });
+        }
 
         function openRecoverModal(userToRecoverId, userToRecoverName, type)
         {

@@ -349,24 +349,24 @@
                                 <div layout="row" layout-align="space-around center">
                                   <md-input-container class="md-block" flex>
                                     <label>Address</label>
-                                    <input ng-model="vm.contactInfo.address" type="text">
+                                    <input ng-model="vm.contactInfo.address" type="text" ng-blur="vm.updateContactInfo()">
                                   </md-input-container>
 
                                   <md-input-container class="md-block" flex flex-offset="5">
                                     <label>Phone Number</label>
-                                    <input ng-model="vm.contactInfo.phoneNumber" type="text">
+                                    <input ng-model="vm.contactInfo.phone" type="text" ng-blur="vm.updateContactInfo()">
                                   </md-input-container>
                                 </div>
 
                                 <div layout="row" layout-align="space-around center">
                                   <md-input-container class="md-block" flex>
                                     <label>Website</label>
-                                    <input ng-model="vm.contactInfo.website" type="text">
+                                    <input ng-model="vm.contactInfo.website" type="text" ng-blur="vm.updateContactInfo()">
                                   </md-input-container>
 
                                   <md-input-container class="md-block" flex flex-offset="5">
                                     <label>Fax</label>
-                                    <input ng-model="vm.contactInfo.fax" type="text">
+                                    <input ng-model="vm.contactInfo.fax" type="text" ng-blur="vm.updateContactInfo()">
                                   </md-input-container>
                                 </div>
                               </div>

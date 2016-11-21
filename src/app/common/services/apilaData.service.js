@@ -291,6 +291,10 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + '/restore/' + userid, {}, getAuth());
     };
 
+    var updateContactInfo = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid +'/contactinfo', data, getAuth());
+    };
+
 
     ////////////////////////// TODOS RESOURCES /////////////////////////////
 
@@ -384,6 +388,7 @@
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
+      updateContactInfo: updateContactInfo,
 
       //todos
       listTasks:  listTasks,
