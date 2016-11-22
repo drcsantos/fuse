@@ -19,7 +19,7 @@
     vm.form.communicatedWithPrimaryContact = false;
     vm.form.communicatedWithTrustedPerson = false;
 
-    var requiredArray = ["firstName", "lastName", "birthDate", "buildingStatus"];
+    var requiredArray = ["firstName", "lastName", "buildingStatus"];
 
     vm.status = createMultiSelect(["Alert", "Friendly", "Disoriented",
       "Withdrawn", "Lonely", "Happy", "Confused", "Uncooperative",
