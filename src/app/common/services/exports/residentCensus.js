@@ -117,13 +117,21 @@
           listStartX + ((resident.firstName.length * coordsPerLetter) + (aliasLength * coordsPerLetter)) + (spaceBetweenWords * numberOfWords),
           listStartY + (increment*spaceBetweenResidents));
 
-        doc.text(resident.room.toString(),
-          roomX,
-          listStartY + (increment*spaceBetweenResidents));
+        if(resident.room) {
+          doc.text(resident.room.toString(),
+            roomX,
+            listStartY + (increment*spaceBetweenResidents));
+        } else {
+          resident.room = "";
+        }
 
-        doc.text(filteredbirthDate,
-          birthDateX,
-          listStartY + (increment*spaceBetweenResidents));
+        if(resident.birthDate) {
+          doc.text(filteredbirthDate,
+            birthDateX,
+            listStartY + (increment*spaceBetweenResidents));
+        } else {
+          resident.birthDate = "";
+        }
 
         increment++;
 

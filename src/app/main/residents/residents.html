@@ -60,6 +60,13 @@
 
           <!-- SETTINGS MENU -->
           <md-button class="md-icon-button"
+                     ng-click="vm.exportCensus()">
+                     <md-tooltip>
+                      Census
+                    </md-tooltip>
+              <md-icon md-font-icon="icon-format-list-numbers"></md-icon>
+          </md-button>
+          <md-button class="md-icon-button"
                      ng-click="vm.exportBlankPlan()">
                      <md-tooltip>
                       Blank Care Plan
