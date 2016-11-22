@@ -386,14 +386,40 @@
                                   <div class="h2">Room setup</div>
                               </div>
 
-                              <div class="content" layout="column">
-                                <div layout="row" layout-align="space-around center">
+                              <div class="content" layout="row">
+                                <div layout="column" layout-align="space-around center">
+                                  <md-input-container class="md-block" flex>
+                                    <md-button ng-click="vm.roomDialog()" class="md-raised md-primary" aria-label="Create Room Style">
+                                      Create Room Style
+                                    </md-button>
+                                  </md-input-container>
+
+                                  <md-input-container class="md-block">
+                                    <label>Rooms</label>
+                                    <input ng-model="vm.roomInfo.rooms" type="text" ng-blur="">
+                                  </md-input-container>
+
+                                  <md-input-container class="md-block">
+                                    <label>Floors</label>
+                                    <input ng-model="vm.roomInfo.floors" type="text" ng-blur="">
+                                  </md-input-container>
 
                                 </div>
 
-                                <div layout="row" layout-align="space-around center">
+                                <div layout="column" layout-align="space-around center">
+
+                                  <!-- Show list of current added rooms -->
+                                  <!-- <div ng-repeat="">
+                                    <div layout="row">
+                                      <label>{{ name}}</label>
+                                      <md-button class="md-raised md-primary" aria-label="Update">
+                                        Update
+                                      </md-button>
+                                    </div>
+                                  </div> -->
 
                                 </div>
+
                               </div>
 
                           </ms-widget-font>

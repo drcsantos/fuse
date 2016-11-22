@@ -57,6 +57,8 @@
 
         vm.updateContactInfo = updateContactInfo;
 
+        vm.roomDialog = roomDialog;
+
         vm.cancelSubscription = function() {
           BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
         };
@@ -379,6 +381,16 @@
               templateUrl        : 'app/main/dashboard/dialogs/recover/recover.html',
               parent             : angular.element($document.body),
               locals             : {recoveryInfo: vm.recoveryInfo},
+              clickOutsideToClose: true
+          });
+        }
+
+        function roomDialog() {
+          $mdDialog.show({
+              controller         : 'CreateRoomController',
+              controllerAs       : 'vm',
+              templateUrl        : 'app/main/dashboard/dialogs/create_room/create_room.html',
+              parent             : angular.element($document.body),
               clickOutsideToClose: true
           });
         }

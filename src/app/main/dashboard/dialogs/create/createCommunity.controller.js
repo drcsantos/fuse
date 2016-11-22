@@ -15,8 +15,6 @@
 
     vm.hasCanceledCommunity = false;
 
-    console.log(activeEmail);
-
     vm.username = authentication.currentUser().name;
     vm.userid = authentication.currentUser().id;
 
