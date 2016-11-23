@@ -388,13 +388,14 @@
           });
         }
 
-        function roomDialog() {
+        function roomDialog(room) {
+
           $mdDialog.show({
               controller         : 'CreateRoomController',
               controllerAs       : 'vm',
               templateUrl        : 'app/main/dashboard/dialogs/create_room/create_room.html',
               parent             : angular.element($document.body),
-              locals             : {roomStyles: vm.myCommunity.roomStyle},
+              locals             : {roomStyles: vm.myCommunity.roomStyle, room: room},
               clickOutsideToClose: true
           });
         }

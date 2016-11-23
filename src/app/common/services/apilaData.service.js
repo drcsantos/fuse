@@ -299,6 +299,9 @@
       return $http.post(apiUrl + '/api/communities/' + communityid + '/roomstyle', data, getAuth());
     };
 
+    var updateRoomStyle = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid + '/roomstyle/' + data._id, data, getAuth());
+    };
 
     ////////////////////////// TODOS RESOURCES /////////////////////////////
 
@@ -394,6 +397,7 @@
       restoreCommunity: restoreCommunity,
       updateContactAndRoomInfo: updateContactAndRoomInfo,
       createRoomStyle: createRoomStyle,
+      updateRoomStyle: updateRoomStyle,
 
       //todos
       listTasks:  listTasks,
