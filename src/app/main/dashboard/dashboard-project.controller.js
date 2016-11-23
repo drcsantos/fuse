@@ -55,7 +55,7 @@
         vm.updateBillingModal = BillingService.updateBillingModal;
         vm.selectProject = selectProject;
 
-        vm.updateContactInfo = updateContactInfo;
+        vm.updateContactAndRoomInfo = updateContactAndRoomInfo;
 
         vm.roomDialog = roomDialog;
 
@@ -340,9 +340,12 @@
           }
         }
 
-        function updateContactInfo() {
+        function updateContactAndRoomInfo() {
 
-          apilaData.updateContactInfo(vm.myCommunity._id, vm.contactInfo)
+          vm.contactInfo.rooms = vm.myCommunity.rooms;
+          vm.contactInfo.floors = vm.myCommunity.floors;
+
+          apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
           .error(function(err) {
             console.log(err);
           });

@@ -349,24 +349,24 @@
                                 <div layout="row" layout-align="space-around center">
                                   <md-input-container class="md-block" flex>
                                     <label>Address</label>
-                                    <input ng-model="vm.contactInfo.address" type="text" ng-blur="vm.updateContactInfo()">
+                                    <input ng-model="vm.contactInfo.address" type="text" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
 
                                   <md-input-container class="md-block" flex flex-offset="5">
                                     <label>Phone Number</label>
-                                    <input ng-model="vm.contactInfo.phone" type="text" ng-blur="vm.updateContactInfo()">
+                                    <input ng-model="vm.contactInfo.phone" type="text" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
                                 </div>
 
                                 <div layout="row" layout-align="space-around center">
                                   <md-input-container class="md-block" flex>
                                     <label>Website</label>
-                                    <input ng-model="vm.contactInfo.website" type="text" ng-blur="vm.updateContactInfo()">
+                                    <input ng-model="vm.contactInfo.website" type="text" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
 
                                   <md-input-container class="md-block" flex flex-offset="5">
                                     <label>Fax</label>
-                                    <input ng-model="vm.contactInfo.fax" type="text" ng-blur="vm.updateContactInfo()">
+                                    <input ng-model="vm.contactInfo.fax" type="text" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
                                 </div>
                               </div>
@@ -396,12 +396,12 @@
 
                                   <md-input-container class="md-block">
                                     <label>Rooms</label>
-                                    <input ng-model="vm.roomInfo.rooms" type="text" ng-blur="">
+                                    <input ng-model="vm.myCommunity.rooms" type="number" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
 
                                   <md-input-container class="md-block">
                                     <label>Floors</label>
-                                    <input ng-model="vm.roomInfo.floors" type="text" ng-blur="">
+                                    <input ng-model="vm.myCommunity.floors" type="number" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
 
                                 </div>

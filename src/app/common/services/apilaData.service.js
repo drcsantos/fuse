@@ -291,8 +291,12 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + '/restore/' + userid, {}, getAuth());
     };
 
-    var updateContactInfo = function(communityid, data) {
+    var updateContactAndRoomInfo = function(communityid, data) {
       return $http.put(apiUrl + '/api/communities/' + communityid +'/contactinfo', data, getAuth());
+    };
+
+    var createRoomStyle = function(communityid, data) {
+      return $http.post(apiUrl + '/api/communities/' + communityid + '/roomstyle', data, getAuth());
     };
 
 
@@ -388,7 +392,8 @@
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
-      updateContactInfo: updateContactInfo,
+      updateContactAndRoomInfo: updateContactAndRoomInfo,
+      createRoomStyle: createRoomStyle,
 
       //todos
       listTasks:  listTasks,
