@@ -16,7 +16,7 @@
   //  vm.calendarEvent.date = dialogData.start;
     var userid = authentication.currentUser().id;
 
-    var requiredArray = ['reason', 'locationName', 'locationDoctor'];
+    var requiredArray = ['reason', 'locationName'];
 
     vm.error = {};
 

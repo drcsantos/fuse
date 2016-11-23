@@ -394,6 +394,7 @@
               controllerAs       : 'vm',
               templateUrl        : 'app/main/dashboard/dialogs/create_room/create_room.html',
               parent             : angular.element($document.body),
+              locals             : {roomStyles: vm.myCommunity.roomStyle},
               clickOutsideToClose: true
           });
         }

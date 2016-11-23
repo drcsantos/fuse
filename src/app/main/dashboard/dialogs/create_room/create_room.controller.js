@@ -7,7 +7,7 @@
         .controller('CreateRoomController', CreateRoomController);
 
     /** @ngInject */
-    function CreateRoomController($mdDialog, apilaData, $mdConstant, authentication) {
+    function CreateRoomController($mdDialog, roomStyles, apilaData, $mdConstant, authentication) {
 
       var vm = this;
 
@@ -17,6 +17,8 @@
       vm.form = {
         rooms: []
       };
+
+      console.log(roomStyles);
 
       vm.seperators = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
@@ -30,6 +32,7 @@
         apilaData.createRoomStyle(communityId, vm.form)
         .success(function(response) {
           console.log(response);
+          roomStyles.push(response);
           closeDialog();
         })
         .error(function(err) {

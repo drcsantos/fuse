@@ -75,13 +75,8 @@
 
       <!-- Doctor -->
       <md-input-container class="md-block">
-        <label translate="CALENDAR.DOCTOR">Reason</label>
-        <input name="doctor" ng-model="vm.calendarEvent.locationDoctor" ng-blur="vm.updateIssue()" required="">
-        <div ng-messages="">
-            <div ng-if="vm.error.locationDoctor">
-              Doctor is required
-            </div>
-        </div>
+        <label translate="CALENDAR.DOCTOR">Doctor</label>
+        <input name="doctor" ng-model="vm.calendarEvent.locationDoctor" ng-blur="vm.updateIssue()">
       </md-input-container>
 
 

@@ -386,8 +386,8 @@
                                   <div class="h2">Room setup</div>
                               </div>
 
-                              <div class="content" layout="row">
-                                <div layout="column" layout-align="space-around center">
+                              <div class="content" layout="row" layout-align="space-between start">
+                                <div layout="column" layout-align="space-around start">
                                   <md-input-container class="md-block" flex>
                                     <md-button ng-click="vm.roomDialog()" class="md-raised md-primary" aria-label="Create Room Style">
                                       Create Room Style
@@ -406,18 +406,30 @@
 
                                 </div>
 
-                                <div layout="column" layout-align="space-around center">
+                                <div layout="column" layout-align="space-around start">
+
+                                  <h3><b>List of Room Styles</b></h3>
 
                                   <!-- Show list of current added rooms -->
-                                  <!-- <div ng-repeat="">
-                                    <div layout="row">
-                                      <label>{{ name}}</label>
-                                      <md-button class="md-raised md-primary" aria-label="Update">
-                                        Update
-                                      </md-button>
-                                    </div>
-                                  </div> -->
+                                  <md-list class="md-whiteframe-1dp">
+                                    <md-list-item ng-repeat="roomStyle in vm.myCommunity.roomStyle">
+                                      <div layout="row">
 
+                                        <div layout="column">
+                                          <span class="room-style-name md-list-item-text">{{ roomStyle.name}}</span>
+                                        </div>
+
+                                        <div layout="column">
+                                          <button class="text-boxed md-raised m-0 room-style-update">Update
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </md-list-item>
+                                  </md-list>
+
+                                </div>
+
+                                <div layout="column" layout-align="space-around center">
                                 </div>
 
                               </div>
