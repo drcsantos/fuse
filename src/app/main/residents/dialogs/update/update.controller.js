@@ -62,6 +62,9 @@
     vm.hasPrimaryContact = (_.find(currResident.residentContacts, {"primaryContact": true}) !== undefined);
     vm.hasTrustedPerson = (_.find(currResident.residentContacts, {"trustedPerson": true}) !== undefined);
 
+    vm.community = authentication.currentUser().community;
+
+    vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
 
     vm.form.birthDate = vm.form.birthDate ? new Date(currResident.birthDate) : undefined;
     vm.form.admissionDate = vm.form.admissionDate ? new Date(currResident.admissionDate) : undefined;
@@ -76,6 +79,7 @@
     vm.updateChip = updateChip;
     vm.uploadFiles = uploadFiles;
     vm.addContact = addContact;
+    vm.getMatches = getMatches;
 
     function closeDialog() {
       $mdDialog.hide();
@@ -86,6 +90,10 @@
 
       vm.form.modifiedBy = authentication.currentUser().id;
       vm.form.modifiedDate = new Date();
+
+      if(!vm.form.room) {
+        vm.form.room = vm.searchText;
+      }
 
       var changedFields =
         ResidentUpdateInfoService.checkChangedFields(vm.copyResident, vm.form);
@@ -208,6 +216,23 @@
 
         });
       }
+    }
+
+    function getMatches(text) {
+
+      if(text === null) {
+        return vm.roomList;
+      }
+
+      var textLower = text.toLowerCase();
+
+      var ret = vm.roomList.filter(function (d) {
+        if(d) {
+          return d.toLowerCase().indexOf(textLower) > -1;
+        }
+      });
+
+        return ret;
     }
 
 

@@ -63,7 +63,7 @@
         // console.log(vm.form.areaUnit);
         // // convert from  meters to feet
         // if(!vm.form.areaUnit) {
-        //   vm.form.area = vm.form.area / 2.28;
+        //   vm.form.area = vm.form.area / 3.28;
         // } else {
         //   vm.form.area = vm.form.area * 3.28;
         // }
