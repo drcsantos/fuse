@@ -391,9 +391,9 @@
         function roomDialog(room) {
 
           $mdDialog.show({
-              controller         : 'CreateRoomController',
+              controller         : 'RoomStyleController',
               controllerAs       : 'vm',
-              templateUrl        : 'app/main/dashboard/dialogs/create_room/create_room.html',
+              templateUrl        : 'app/main/dashboard/dialogs/room_style/room_style.html',
               parent             : angular.element($document.body),
               locals             : {roomStyles: vm.myCommunity.roomStyle, room: room},
               clickOutsideToClose: true

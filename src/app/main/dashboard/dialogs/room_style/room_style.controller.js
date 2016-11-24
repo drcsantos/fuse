@@ -4,10 +4,10 @@
 
     angular
         .module('app.dashboard')
-        .controller('CreateRoomController', CreateRoomController);
+        .controller('RoomStyleController', RoomStyleController);
 
     /** @ngInject */
-    function CreateRoomController($mdDialog, roomStyles, room, apilaData, $mdConstant, authentication) {
+    function RoomStyleController($mdDialog, roomStyles, room, apilaData, $mdConstant, authentication) {
 
       var vm = this;
 
@@ -17,8 +17,6 @@
       vm.form = {
         rooms: []
       };
-
-
 
       if(room) {
         vm.form = room;
@@ -37,7 +35,6 @@
 
         apilaData.createRoomStyle(communityId, vm.form)
         .success(function(response) {
-          console.log(response);
           roomStyles.push(response);
           closeDialog();
         })
@@ -50,7 +47,6 @@
 
         apilaData.updateRoomStyle(communityId, vm.form)
         .success(function(response) {
-          console.log(response);
           closeDialog();
         })
         .error(function(err) {

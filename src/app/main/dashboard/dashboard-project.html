@@ -408,22 +408,19 @@
 
                                 <div layout="column" layout-align="space-around start">
 
-                                  <h3><b>List of Room Styles</b></h3>
+                                  <md-subheader class="md-no-sticky">List of Room Styles</md-subheader>
 
                                   <!-- Show list of current added rooms -->
                                   <md-list class="md-whiteframe-1dp">
                                     <md-list-item ng-repeat="roomStyle in vm.myCommunity.roomStyle">
-                                      <div layout="row">
-
-                                        <div layout="column">
-                                          <span class="room-style-name md-list-item-text">{{ roomStyle.name}}</span>
+                                        <div>
+                                          <span class="room-style-name md-list-item-text">{{ roomStyle.name }}</span>
                                         </div>
 
-                                        <div layout="column">
-                                          <button ng-click="vm.roomDialog(roomStyle)" class="text-boxed md-raised m-0 room-style-update">Update
+                                        <div>
+                                          <button ng-click="vm.roomDialog(roomStyle)" class="text-boxed md-raised m-0 room-style-update md-secondary">Update
                                           </button>
                                         </div>
-                                      </div>
                                     </md-list-item>
                                   </md-list>
 

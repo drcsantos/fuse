@@ -91,6 +91,8 @@
       vm.form.modifiedBy = authentication.currentUser().id;
       vm.form.modifiedDate = new Date();
 
+      console.log(currResident.updateInfo);
+
       if(!vm.form.room) {
         vm.form.room = vm.searchText;
       }
@@ -135,9 +137,7 @@
       vm.form.newfoodDislikes = vm.foodDislikes;
 
       //important to set updateInfo when adding/removing chips because they will generate updateInfo
-      //vm.form.updateInfo = currResident.updateInfo;
-
-      console.log(vm.form.updateInfo);
+      vm.form.updateInfo = currResident.updateInfo;
 
       userObjectsToIds();
 

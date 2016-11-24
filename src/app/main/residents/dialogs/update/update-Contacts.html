@@ -9,10 +9,10 @@
       </div>
     </md-toolbar>
 
-    <span>
-    <md-tabs md-selected="vm.selectedTab">
+    <!-- <span> -->
+    <md-tabs md-selected="vm.selectedTab" style="min-height: 400px;">
 
-      <md-tab label="new" >
+      <md-tab label="new">
           <md-dialog-content>
             <md-input-container class="md-block">
               <label>First Name</label>
@@ -178,14 +178,14 @@
 
 
 </md-tabs>
-</span>
+<!-- </span> -->
 <md-dialog-actions layout="row" layout-align="space-between center">
   <div layout="row" layout-align="start center">
     <md-button ng-if="vm.selectedTab == 0" ng-click="vm.addContact()" class="send-button md-accent md-raised" aria-label="Add">
       ADD
     </md-button>
 
-    <md-button ng-if="vm.selectedTab != 0" ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
+    <md-button ng-if="vm.selectedTab != 0" ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Update">
       UPDATE
     </md-button>
   </div>

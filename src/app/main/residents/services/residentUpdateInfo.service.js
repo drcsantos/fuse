@@ -36,7 +36,7 @@
 
             formatEntry.username = entry.updateBy || {};
 
-            if(formatEntry.username.userImage) {
+            if(!formatEntry.username.userImage) {
               formatEntry.username.userImage = "assets/images/avatars/userDefaultProfile.png";
             }
 
