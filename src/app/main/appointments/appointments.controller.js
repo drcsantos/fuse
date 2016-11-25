@@ -30,6 +30,7 @@
     vm.next = next;
     vm.prev = prev;
     vm.exportAppointments = exportAppoint;
+    vm.openAppointmentMapDialog = openAppointmentMapDialog;
 
     function openIssuesCount(id) {
       apilaData.openIssuesCount(userid, id)
@@ -321,6 +322,20 @@
 
       return calEvent;
     }
+
+    function openAppointmentMapDialog() {
+      $mdDialog.show({
+        controller: 'AppointmentMapController',
+        controllerAs: 'vm',
+        templateUrl: 'app/main/appointments/dialogs/appointment-map/appointment-map.html',
+        parent: angular.element($document.body),
+        clickOutsideToClose: true,
+        locals: {
+          appointments: appointments
+        }
+      });
+    }
+
 
     function showEventFormDialog(type, calendarEvent, start, end, e) {
       var dialogData = {
