@@ -22,11 +22,17 @@
         vm.activities = [];
 
         var todoid = authentication.currentUser().todoid;
+        var user = {
+            name: authentication.currentUser().name,
+            userImage: authentication.getUserImage()
+        };
+
+        var communityid = authentication.currentUser().community._id;
+
         var tasks = [];
 
         // Funtions
         vm.getColor = getColor;
-        vm.openDialogs = openDialogs;
 
         apilaData.listTasks(todoid)
         .success(function(response) {
@@ -36,9 +42,14 @@
         //check for tasks that became active
         setInterval(function() {
 
+          var currTime = moment();
+
           tasks.forEach(function(task) {
-            var inCycle = isInActiveCycle(task, moment());
-            console.log(inCycle("days"));
+            var inCycle = isInActiveCycle(task, currTime);
+            if(!currTime.isSame(task.cycleDate, "day") && inCycle("days")){
+              console.log("Set activity");
+              addActivity(task);
+            }
           });
         }, 10000);
 
@@ -84,6 +95,30 @@
           }
         }
 
+        function addActivity(task) {
+
+          var hasActivity = false;
+
+          vm.activities.forEach(function(value) {
+            if(moment().isSame(moment(value.createdOn), "day") && task.text + " is active" === value.text) {
+              hasActivity = true;
+            }
+          });
+
+          if(!hasActivity) {
+            var activity = {
+              _id: moment().format(),
+              type: "task-active",
+              createdOn: moment().toDate(),
+              text: task.text + " is active",
+              userId: user,
+              communityId: communityid
+            };
+
+            vm.activities.push(activity);
+          }
+        }
+
         function isInActiveCycle(task, currTime) {
 
           var currHour = currTime.hour();
@@ -107,9 +142,6 @@
 
         function weekOfMonth(m) {
           return m.week() - moment(m).startOf('month').week() + 1;
-        }
-
-        function openDialogs(type) {
         }
 
     }
