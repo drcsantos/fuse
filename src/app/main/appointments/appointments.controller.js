@@ -183,7 +183,7 @@
         return p.start;
       });
 
-      //fitler out just the events from the selected montg and then map to table
+      //fitler out just the events from the selected month and then map to table
       var rows = _.map(_.filter(sortedEvents, function(o) {
         return moment(o.start).format("MM") === vm.calendar.getDate().format("MM") && o.cancel === false;
       }),
@@ -205,6 +205,8 @@
 
         return arr;
       });
+
+      console.log(rows);
 
       exportAppointments.exportPdf(columns, rows, month);
     }
