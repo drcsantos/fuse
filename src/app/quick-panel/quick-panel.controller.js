@@ -7,7 +7,7 @@
         .controller('QuickPanelController', QuickPanelController);
 
     /** @ngInject */
-    function QuickPanelController(msApi, socket, authentication, $mdDialog, $document)
+    function QuickPanelController(msApi, socket, authentication, $mdDialog, $document, apilaData)
     {
         var vm = this;
 
@@ -21,9 +21,26 @@
 
         vm.activities = [];
 
+        var todoid = authentication.currentUser().todoid;
+        var tasks = [];
+
         // Funtions
         vm.getColor = getColor;
         vm.openDialogs = openDialogs;
+
+        apilaData.listTasks(todoid)
+        .success(function(response) {
+          tasks = response;
+        });
+
+        //check for tasks that became active
+        setInterval(function() {
+
+          tasks.forEach(function(task) {
+            var inCycle = isInActiveCycle(task, moment());
+            console.log(inCycle("days"));
+          });
+        }, 10000);
 
         socket.on('connect', function() {
           var userCommunity = authentication.currentUser().community;
@@ -67,35 +84,32 @@
           }
         }
 
-        function openDialogs(type) {
+        function isInActiveCycle(task, currTime) {
 
-          console.log(type);
+          var currHour = currTime.hour();
+          var currDay = currTime.isoWeekday();
+          var currWeek = weekOfMonth(currTime);
+          var currMonth = currTime.month();
 
-          switch(type) {
-            case "task-create":
-            //  openTaskDialog({});
-            break;
-          }
+          return function(cycle){
+            if(cycle === "hours") {
+              return (currHour >= task.hourStart && currHour <= task.hourEnd);
+            } else if(cycle === "days") {
+              return task.activeDays[currDay - 1];
+            } else if(cycle === "weeks") {
+              return task.activeWeeks[currWeek - 1];
+            } else if(cycle === "months") {
+              return task.activeMonths[currMonth];
+            }
+          };
 
         }
 
-        function openTaskDialog(task)
-        {
-            $mdDialog.show({
-                controller         : 'TaskDialogController',
-                controllerAs       : 'vm',
-                templateUrl        : 'app/main/todo/dialogs/task/task-dialog.html',
-                parent             : angular.element($document.body),
-                clickOutsideToClose: true
-                // locals             : {
-                //     Task : task,
-                //     Tasks: vm.tasks
-                // }
-            }).then(function(error) {
-              if(!error) {
-            //    loadTasks();
-              }
-            });
+        function weekOfMonth(m) {
+          return m.week() - moment(m).startOf('month').week() + 1;
+        }
+
+        function openDialogs(type) {
         }
 
     }

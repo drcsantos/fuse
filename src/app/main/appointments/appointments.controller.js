@@ -126,17 +126,22 @@
 
           // get current year, and set that for birthday on cal
           var currYear = moment().year();
-          var startDate = moment(value.birthDate).year(currYear);
 
-          var calEvent = {
-            title: value.firstName + " " + value.lastName + "'s Birthday",
-            start: startDate,
-            end: null,
-            stick: true,
-            color: "#9C27B0"
-          };
 
-          vm.events[0].push(calEvent);
+          if(value.birthDate) {
+            var startDate = moment(value.birthDate).year(currYear);
+
+            var calEvent = {
+              title: value.firstName + " " + value.lastName + "'s Birthday",
+              start: startDate,
+              end: null,
+              stick: true,
+              color: "#9C27B0"
+            };
+
+            vm.events[0].push(calEvent);
+          }
+
 
         });
       })
