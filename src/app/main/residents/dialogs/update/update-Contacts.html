@@ -39,9 +39,10 @@
               <input ng-model="vm.form.contact.email" type="text">
             </md-input-container>
 
+            <!-- Physical Address -->
             <md-input-container class="md-block">
               <label>Physical Address</label>
-              <input ng-model="vm.form.contact.physicalAddress" type="text">
+               <input class="form-control" g-places-autocomplete ng-model="vm.form.contact.physicalAddress" />
             </md-input-container>
 
             <md-input-container class="md-block">
@@ -122,9 +123,10 @@
             <input ng-model="tab.email" type="text">
           </md-input-container>
 
+          <!-- Physical Address -->
           <md-input-container class="md-block">
             <label>Physical Address</label>
-            <input ng-model="tab.physicalAddress" type="text">
+             <input class="form-control" g-places-autocomplete ng-model="tab.physicalAddress" />
           </md-input-container>
 
           <md-input-container class="md-block">

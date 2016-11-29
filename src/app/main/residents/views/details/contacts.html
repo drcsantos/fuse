@@ -36,7 +36,7 @@
             <h4>Conservator : {{ vm.shownContact.conservator }}</h4>
             <h4>Guardian : {{ vm.shownContact.guardian }}</h4>
 
-            <h4>Physical Address : {{ vm.shownContact.physicalAddress }}</h4>
+            <h4>Physical Address : {{ vm.shownContact.physicalAddress.name  || vm.shownContact.physicalAddress}}</h4>
             <h4>Relation : {{ vm.shownContact.relation }}</h4>
             <h4>Contact Notes : {{ vm.shownContact.contactNotes }}</h4>
 
