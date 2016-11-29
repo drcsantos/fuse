@@ -234,12 +234,12 @@
             updateField : vm.card.updateField
           });
 
-          if(vm.card.submitBy._id) {
-            vm.card.submitBy = vm.card.submitBy._id;
-          }
-
+          console.log(vm.userid !== vm.card.submitBy._id);
 
           apilaData.updateIssue(vm.card._id, vm.card)
+          .success(function(response) {
+
+          })
           .error(function(err) {
             console.log(err);
           });
