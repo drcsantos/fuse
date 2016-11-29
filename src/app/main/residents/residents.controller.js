@@ -50,7 +50,7 @@
       "Sleep",
       "Vitals",
       "Contacts",
-      "Activity"
+      "Updates"
     ];
 
     // Methods
@@ -73,6 +73,14 @@
       vm.selectedCategory = category;
     };
 
+    vm.displayName = function(resident) {
+      if(resident.aliasName) {
+        return resident.firstName + ' "' + resident.aliasName + '" ' + resident.lastName;
+      } else {
+        return resident.firstName + ' ' + resident.lastName;
+      }
+
+    };
 
     //// INITIAL LOADING  ////
     apilaData.userCommunity(vm.userid)
@@ -245,10 +253,10 @@
         cat = "PhysicalCondition";
       }
 
-      if (vm.selectedCategory === "Activity") {
+      if (vm.selectedCategory === "Updates") {
         $mdToast.show(
           $mdToast.simple()
-          .textContent("Activity category is not availbe to update")
+          .textContent("Updates category is not availbe to update")
           .position("top right")
           .hideDelay(2000)
         );

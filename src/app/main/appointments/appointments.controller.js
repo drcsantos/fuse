@@ -127,8 +127,9 @@
           // get current year, and set that for birthday on cal
           var currYear = moment().year();
 
+          console.log(value.buildingStatus);
 
-          if(value.birthDate) {
+          if(value.birthDate && value.buildingStatus !== "Dead" && value.buildingStatus !== "Moved Out") {
             var startDate = moment(value.birthDate).year(currYear);
 
             var calEvent = {

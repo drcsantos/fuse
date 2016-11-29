@@ -15,7 +15,7 @@
                     {{resident.firstName}}
                 </div>
 
-                <span class="text-truncate">{{resident.firstName + " " + resident.aliasName + " " + resident.lastName}}</span>
+                <span class="text-truncate">{{vm.displayName(resident)}}</span>
 
                 <md-icon md-font-icon="icon-paperclip" class="has-attachment s16" ng-if="resident.hasAttachments"></md-icon>
             </div>
