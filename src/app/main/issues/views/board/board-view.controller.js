@@ -79,7 +79,11 @@
           .success(function(issues) {
 
             //add card to first list
-            var currUserIssues = _.filter(issues, {"responsibleParty" : userid});
+            var currUserIssues = _.filter(issues, function(user) {
+              if(user.responsibleParty._id === userid) {
+                return true;
+              }
+            });
 
             vm.board.labels = vm.board.labels.concat(_.flatten(_.map(issues, "labels")));
 

@@ -20,6 +20,8 @@
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
+        console.log(vm.card);
+
         vm.card.currdue = vm.card.due;
 
         vm.card.labels.map(function(d){d.id = d._id; return d;});
@@ -100,9 +102,64 @@
 
         vm.formatUpdateArray = UpdateInfoService.formatUpdateArray;
 
+        vm.getMatches = getMatches;
+
+        vm.selectedItem = {
+          value: vm.card.responsibleParty._id,
+          display: vm.card.responsibleParty.name
+        };
+
+        console.log(vm.card.responsibleParty);
+
+        vm.changeResponsibleParty = function() {
+          console.log(vm.card.responsibleParty);
+          vm.card.responsibleParty = vm.selectedItem.value;
+          vm.updateIssue();
+        };
+
         vm.uploadFiles = function(file, invalidFiles, card) {
           ImageUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
         };
+
+
+        // load of lists of residents for autocomplete selection
+        apilaData.usersList()
+          .success(function(usersList) {
+            vm.residentList = usersList.map(function(elem) {
+
+              if (elem.name === name) {
+                vm.selectedItem = {
+                  value: elem._id,
+                  display: elem.name
+                };
+              }
+
+              return {
+                value: elem._id,
+                display: elem.name
+              };
+            });
+
+          })
+          .error(function(usersList) {
+            console.log("Error retriving the list of residents");
+          });
+
+        function getMatches(text) {
+          if(text === null) {
+            return;
+          }
+
+          var textLower = text.toLowerCase();
+
+          var ret = vm.residentList.filter(function (d) {
+              if(d.display != null) {
+                return d.display.toLowerCase().indexOf(textLower) > -1;
+              }
+          });
+
+          return ret;
+        }
 
         // Load comments
         apilaData.issueCommentsList(vm.card._id)
@@ -233,8 +290,6 @@
             updateDate : vm.card.modifiedDate,
             updateField : vm.card.updateField
           });
-
-          console.log(vm.userid !== vm.card.submitBy._id);
 
           apilaData.updateIssue(vm.card._id, vm.card)
           .success(function(response) {
