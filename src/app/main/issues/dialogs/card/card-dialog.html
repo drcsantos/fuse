@@ -549,9 +549,10 @@
               <div layout="column">
                 <div class="comment-member-name">
                   {{comment.author.name}}
+                  <span class="comment-time secondary-text">{{vm.UpdateInfoService.timeDiff(comment.createdOn)}}</span>
+                  <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                 </div>
                 <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" e-rows="7" e-cols="50">{{comment.commentText}}</div>
-                <div class="comment-time secondary-text">{{vm.UpdateInfoService.timeDiff(comment.createdOn)}}</div>
               </div>
             </div>
 
@@ -563,7 +564,7 @@
         <!-- FINAL PLAN -->
 
         <div class="section">
-          <div class="final-plan">
+          <div class="comments">
 
           <div class="section-header" layout="row" layout-align="start center">
             <i class="icon-clipboard-check s18"></i>
@@ -571,7 +572,7 @@
           </div>
 
           <div class="section-content">
-            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="final-plan final-plan-new" layout="column" layout-align="start" no-validate>
+            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="comment final-plan-new" layout="column" layout-align="start" no-validate>
 
                 <md-input-container flex md-no-float>
                   <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newFinalPlanText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
@@ -598,10 +599,15 @@
 
             <div class="comment" layout="row">
               <div layout="column">
-                <div class="final-plan-bubble">
+                <div class="comment-bubble">
                   <md-tooltip ng-if="plan.checklist != true" md-direction="top">
                     Added to To-Dos
                   </md-tooltip>
+
+                  <div class="comment-member-name">
+                    <!-- {{plan.author}} -->
+                  </div>
+
                   {{plan.text}}
                 </div>
               </div>
