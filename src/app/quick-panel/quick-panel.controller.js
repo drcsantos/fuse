@@ -7,7 +7,7 @@
         .controller('QuickPanelController', QuickPanelController);
 
     /** @ngInject */
-    function QuickPanelController(msApi, socket, authentication, $mdDialog, $document, apilaData)
+    function QuickPanelController(msApi, socket, authentication, $mdDialog, $document, apilaData, msNavigationService)
     {
         var vm = this;
 
@@ -30,6 +30,15 @@
         var communityid = authentication.currentUser().community._id;
 
         var tasks = [];
+
+        apilaData.activeTasksCount(todoid).then(function(response) {
+          msNavigationService.saveItem('fuse.to-do', {
+            badge: {
+              content: response.data,
+              color: '#FF6F00'
+            }
+          });
+        });
 
         // Funtions
         vm.getColor = getColor;

@@ -309,6 +309,10 @@
       return $http.get(apiUrl + '/api/todos/' + todoId, getAuth());
     };
 
+    var activeTasksCount = function(todoId) {
+      return $http.get(apiUrl + '/api/todos/' + todoId +'/activecount', getAuth());
+    };
+
     var addTask = function(todoId, data) {
       return $http.post(apiUrl + '/api/todos/' + todoId, data, getAuth());
     };
@@ -401,6 +405,7 @@
 
       //todos
       listTasks:  listTasks,
+      activeTasksCount: activeTasksCount,
       addTask: addTask,
       updateTask: updateTask,
       deleteTask: deleteTask

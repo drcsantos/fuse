@@ -7,7 +7,7 @@
         .controller('TodoController', TodoController);
 
     /** @ngInject */
-    function TodoController($document, $mdDialog, $mdSidenav, authentication, apilaData, ToDoUtilsService)
+    function TodoController($document, $mdDialog, $mdSidenav, authentication, apilaData, ToDoUtilsService, msNavigationService)
     {
         var vm = this;
 
@@ -31,6 +31,16 @@
             filter : 'Start Date',
             dueDate: 'Next 3 days'
         };
+
+        apilaData.activeTasksCount(vm.todoid).then(function(response) {
+          console.log(response);
+          msNavigationService.saveItem('fuse.to-do', {
+            badge: {
+              content: response.data,
+              color: '#FF6F00'
+            }
+          });
+        });
 
         // Tasks will be filtered against these models
         vm.taskFilters = {
