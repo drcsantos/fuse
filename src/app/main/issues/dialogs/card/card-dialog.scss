@@ -28,7 +28,7 @@ md-dialog {
         border: 1px solid rgb(220, 223, 225);
         font-size: 14px;
         margin: 4px 0;
-      
+
     }
 
     md-dialog-content {
@@ -225,6 +225,7 @@ md-dialog {
             }
             .check-items {
               .check-item {
+                margin-bottom: 10px;
                 md-checkbox {
                   .md-label {
                     font-size: 14px;

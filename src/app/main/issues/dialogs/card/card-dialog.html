@@ -33,7 +33,7 @@
             <md-button ng-fclick="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
               <div layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
-                  <img class="avatar" alt="{{member.name}}" ng-src="http://a3.mzstatic.com/us/r30/Purple6/v4/75/87/fe/7587fe05-83c5-4127-48ce-2a213151d321/icon175x175.png" />
+                  <img class="avatar" alt="{{member.name}}" ng-src="{{member.userImage || 'assets/images/avatars/userDefaultProfile.png'}}" />
                   <p class="member-name">{{ member.name }}</p>
                 </div>
                 <i class="icon-check s16" ng-if="vm.existsMembers(member, vm.card.idMembers)"></i>
@@ -292,7 +292,7 @@
         <!-- Responsible party -->
         <md-input-container class="md-block">
           <label>Responsible Party</label>
-          
+
           <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="searchText"
                 md-items="item in vm.getMatches(searchText)" md-item-text="item.display"
                 md-min-length="0" placeholder="Responsible Party" md-selected-item-change="vm.changeResponsibleParty()">
@@ -446,7 +446,7 @@
           <div class="checklist">
             <div class="section-header" layout="row" layout-align="start center">
               <i class="icon-checkbox-marked s18"></i>
-              <span flex class="section-title" editable-text="checklist.checklistName">{{checklist.checklistName}}</span>
+              <span class="section-title" e-rows="1" e-cols="60" editable-textarea="checklist.checklistName">{{checklist.checklistName}}</span>
 
               <md-menu md-position-mode="target-right target" class="options">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="options" translate translate-attr-aria-label="SB.OPTIONS">

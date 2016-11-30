@@ -291,6 +291,9 @@
             updateField : vm.card.updateField
           });
 
+          console.log(vm.card);
+          vm.card.idMembers = vm.members;
+
           apilaData.updateIssue(vm.card._id, vm.card)
           .success(function(response) {
 
@@ -327,6 +330,7 @@
         }
 
         function selectedItemChange(selectedMember) {
+          console.log("Adding member");
           if(selectedMember !== null) {
             updateIssue();
           }

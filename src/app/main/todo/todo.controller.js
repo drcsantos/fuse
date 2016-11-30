@@ -33,7 +33,6 @@
         };
 
         apilaData.activeTasksCount(vm.todoid).then(function(response) {
-          console.log(response);
           msNavigationService.saveItem('fuse.to-do', {
             badge: {
               content: response.data,
