@@ -234,7 +234,7 @@
         formatUpdateArray : formatUpdateArray,
         checkChangedFields : checkChangedFields,
         timeDiff : timeDiff
-      }
+      };
     }
 
 })();

@@ -8,7 +8,7 @@
 
     /** @ngInject */
     function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
-      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService, MembersService)
+      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService, MembersService, Utils)
     {
         var vm = this;
 
@@ -20,8 +20,6 @@
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
-        console.log(vm.card);
-
         vm.card.currdue = vm.card.due;
 
         vm.card.labels.map(function(d){d.id = d._id; return d;});
@@ -30,6 +28,7 @@
         vm.newLabelColor = 'red';
         vm.members = vm.board.members;
         vm.UpdateInfoService = UpdateInfoService;
+        vm.Utils = Utils;
 
         vm.labels = vm.board.labels;
 
@@ -37,7 +36,7 @@
         var oldData = angular.copy(vm.card);
 
         vm.createdIssue = vm.card.submitBy.name + " created " + vm.card.title + " " +
-                           UpdateInfoService.timeDiff(vm.card.submitDate);
+                           Utils.timeDiff(vm.card.submitDate);
 
         vm.newCheckListTitle = "Checklist";
 
@@ -108,8 +107,6 @@
           value: vm.card.responsibleParty._id,
           display: vm.card.responsibleParty.name
         };
-
-        console.log(vm.card.responsibleParty);
 
         vm.changeResponsibleParty = function() {
           console.log(vm.card.responsibleParty);

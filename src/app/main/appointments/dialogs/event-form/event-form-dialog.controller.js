@@ -5,13 +5,14 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, apilaData, errorCheck, authentication, $window, $mdToast, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
     var vm = this;
 
     // Data
     vm.dialogData = dialogData;
 
     vm.isDisabled = false;
+    vm.Utils = Utils;
 
   //  vm.calendarEvent.date = dialogData.start;
     var userid = authentication.currentUser().id;
