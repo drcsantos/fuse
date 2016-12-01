@@ -144,11 +144,15 @@
       apilaData.updateResident(currResident._id, vm.form)
         .success(function(resident) {
 
+          console.log(resident);
+
           currResident.updateInfo = resident.updateInfo;
           currResident.carePoints = resident.carePoints;
 
           pushNewValues();
           resetFields();
+
+          console.log(resident);
 
           closeDialog();
         })
