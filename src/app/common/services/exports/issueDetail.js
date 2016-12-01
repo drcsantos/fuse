@@ -17,8 +17,12 @@
       var dateFilter = $filter('date');
       var filteredSubmitDate = dateFilter(data.submitDate, 'MMMM d, yyyy');
 
+      var dueDate = null;
+
+      console.log(data);
+
       if (data.due) {
-        var dueDate = dateFilter(new Date(data.due), 'MMM d, yyyy');
+        dueDate = dateFilter(moment(parseInt(data.currdue)).toDate(), 'MMM d, yyyy');
       }
 
       doc.setFontSize(20);
@@ -44,7 +48,7 @@
 
       if (data.due) {
         doc.text(40, 108, "Due Date:");
-        //doc.text(170, 108, dueDate);
+        doc.text(170, 108, dueDate);
         offset += 12;
       }
 
@@ -182,6 +186,21 @@
           doc.text(20, 238 + offset + i * 36 + leftofPoint, comment.commentText);
         }
       }
+
+      // Checklists and check items
+      data.checklists.forEach(function(checklist) {
+        console.log(checklist.checklistName);
+
+        //Go through each checkitem in checklist
+        checklist.checkItems.forEach(function(checkitem) {
+          if(checkitem.checked) {
+            console.log("   " + checkitem.name + " is checked");
+          } else {
+            console.log("   " + checkitem.name + " is not checked");
+          }
+
+        });
+      });
 
 
       doc.save(fileName);
