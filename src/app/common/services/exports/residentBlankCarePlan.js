@@ -567,9 +567,13 @@
         twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
         startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 2));
 
-      doc.text("Assist with Makeup", 15, 128);
-      doc.text("Yes", 20, 144);
-      doc.text("No", 60, 144);
+        doc.text("Assist with Makeup", startX, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 2));
+        doc.text("Yes",
+          startX + optionsOffset,
+          startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+        doc.text("No",
+          startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+          startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
 
       doc.text("Assist with Jewelry", 200, 128);
       doc.text("Yes", 205, 144);
