@@ -5,7 +5,7 @@
     .controller('UpdateController', UpdateController);
 
   /** @ngInject */
-  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck,
+  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping,
                             currResident, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
@@ -18,6 +18,8 @@
     vm.form.communicatedWithResident = false;
     vm.form.communicatedWithPrimaryContact = false;
     vm.form.communicatedWithTrustedPerson = false;
+
+    vm.SliderMapping = SliderMapping;
 
     var requiredArray = ["firstName", "lastName", "buildingStatus"];
 

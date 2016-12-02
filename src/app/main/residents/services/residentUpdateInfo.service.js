@@ -8,7 +8,7 @@
 
 
   /** @ngInject */
-  function ResidentUpdateInfoService(apilaData, authentication) {
+  function ResidentUpdateInfoService(apilaData, authentication, SliderMapping) {
 
     var username = authentication.currentUser().name;
 
@@ -17,6 +17,7 @@
       var arrayFields = ['foodAllergies', 'medicationAllergies'];
 
       var formatedArray = [];
+
 
       _.forEach(updateArray, function(entry, key) {
 
@@ -30,9 +31,11 @@
               'username': ''
             };
 
-            var oldValue = currField.old;
-            var newValue = currField.new;
             var field = currField.field;
+            var oldValue = SliderMapping.replaceNumberValue(field, currField.old) || currField.old;
+            var newValue = SliderMapping.replaceNumberValue(field, currField.new) || currField.new;
+
+
 
             formatEntry.username = entry.updateBy || {};
 

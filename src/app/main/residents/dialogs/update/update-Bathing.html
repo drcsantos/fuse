@@ -44,13 +44,8 @@
       </div>
 
       <div class="md-block">
-       <label ng-switch on="vm.form.frequencyOfBathing">
-           <span ng-switch-when="0">Frequency of Bathing : No Bathing</span>
-           <span ng-switch-when="1">Frequency of Bathing : Once a week</span>
-          <span ng-switch-when="2">Frequency of Bathing : Twice a week</span>
-           <span ng-switch-when="3">Frequency of Bathing : Every other day</span>
-           <span ng-switch-when="4">Frequency of Bathing : Everyday</span>
-          <span ng-switch-default>Frequency of Bathing : </span>
+       <label>
+           <span>Frequency of Bathing : {{ vm.SliderMapping.replaceNumberValue('frequencyOfBathing', vm.form.frequencyOfBathing)}}</span>
        </label>
        <md-slider flex min="0" max="4" ng-model="vm.form.frequencyOfBathing" aria-label="blue">
        </md-slider>
