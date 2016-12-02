@@ -22,6 +22,10 @@
           var allCheckedItems = 0;
           var allCheckItems = 0;
 
+          if(!checkedItem) {
+            return;
+          }
+
           angular.forEach(checkItems, function (checkItem)
           {
               if ( checkItem.checked )

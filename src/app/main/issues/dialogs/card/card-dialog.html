@@ -553,7 +553,6 @@
                   <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                 </div>
                 <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{comment.commentText}}</div>
-                <pre>{{ comment.commentText }}</pre>
               </div>
             </div>
 

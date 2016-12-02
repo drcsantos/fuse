@@ -119,6 +119,10 @@
         };
 
 
+        apilaData.issuePopulateOne(vm.card._id)
+        .success(function(resp) {
+          console.log(resp);
+        });
         // load of lists of residents for autocomplete selection
         apilaData.usersList()
           .success(function(usersList) {

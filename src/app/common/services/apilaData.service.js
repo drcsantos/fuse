@@ -114,6 +114,10 @@
       return $http.get(apiUrl + '/api/issues/' + issueid + '/updateinfo', getAuth());
     };
 
+    var issuePopulateOne = function(issueid) {
+      return $http.get(apiUrl + '/api/issues/' + issueid + '/populate', getAuth());
+    };
+
     var createIssueRecovery = function(data, communityid) {
       return $http.post(apiUrl + '/api/issues/recovery/' + communityid, data, getAuth());
     };
@@ -359,6 +363,7 @@
       issueUpdateInfo: issueUpdateInfo,
       createIssueRecovery: createIssueRecovery,
       verifyPassword: verifyPassword,
+      issuePopulateOne: issuePopulateOne,
 
       //residents
       residentsList: residentsList,
