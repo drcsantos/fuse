@@ -122,7 +122,7 @@
         // Checklists and check items
         data.checklists.forEach(function(checklist) {
 
-          doc.text(20, 178 + offset, checklist.checklistName + " created by " + checklist.author + " on " + dateFilter(checklist.createdOn, 'MMM d, yyyy'));
+          doc.text(20, 178 + offset, checklist.checklistName + " created by " + checklist.author.name + " on " + dateFilter(checklist.createdOn, 'MMM d, yyyy'));
           offset += 12;
 
           //Go through each checkitem in checklist

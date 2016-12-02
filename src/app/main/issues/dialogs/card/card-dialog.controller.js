@@ -119,10 +119,6 @@
         };
 
 
-        apilaData.issuePopulateOne(vm.card._id)
-        .success(function(resp) {
-          console.log(resp);
-        });
         // load of lists of residents for autocomplete selection
         apilaData.usersList()
           .success(function(usersList) {
@@ -358,8 +354,22 @@
         ////////////////////////////// OTHER ///////////////////////////////
 
         function exportIssue() {
-          exportIssueDetail.exportPdf(vm.card);
+
+          apilaData.issuePopulateOne(vm.card._id)
+          .success(function(resp) {
+            vm.card.checklists = resp.checklists;
+
+            exportIssueDetail.exportPdf(vm.card);
+
+          });
+
         }
+
+        apilaData.issuePopulateOne(vm.card._id)
+        .success(function(resp) {
+          vm.card.finalPlan = resp.finalPlan;
+
+        });
 
         function changeStatus() {
 

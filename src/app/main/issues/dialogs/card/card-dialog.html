@@ -542,18 +542,18 @@
 
               <div class="comment" layout="row" ng-repeat="comment in vm.card.comments.slice().reverse()">
 
-              <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+                <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
 
-              <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+                <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
 
-              <div layout="column">
-                <div class="comment-member-name">
-                  {{comment.author.name}}
-                  <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
-                  <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+                <div layout="column">
+                  <div class="comment-member-name">
+                    {{comment.author.name}}
+                    <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+                    <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+                  </div>
+                  <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{comment.commentText}}</div>
                 </div>
-                <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{comment.commentText}}</div>
-              </div>
             </div>
 
             </div>
@@ -595,7 +595,7 @@
 
           <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
 
-          <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
+          <!-- <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
 
             <div class="comment" layout="row">
               <div layout="column">
@@ -605,14 +605,29 @@
                   </md-tooltip>
 
                   <div class="comment-member-name">
-                    <!-- {{plan.author}} -->
                   </div>
 
                   {{plan.text}}
                 </div>
               </div>
            </div>
-         </span>
+         </span> -->
+
+         <div class="comment" layout="row" ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
+
+           <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+
+           <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+
+           <div layout="column">
+             <div class="comment-member-name">
+               {{comment.author.name}}
+               <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+               <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+             </div>
+             <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{comment.text}}</div>
+           </div>
+       </div>
 
         </div>
         </div>
