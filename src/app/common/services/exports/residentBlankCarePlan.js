@@ -275,6 +275,7 @@
         startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 5));
 
       doc.addPage();
+      boxHeight = 0;
 
       doc.text("Life", startX, startY + (spaceBetweenLines * 0));
       boxHeight += (spaceBetweenLines * 1);
@@ -417,6 +418,8 @@
 
       doc.rect(boxStartX, boxStartY, boxWidth, boxHeight);
 
+/////////////////////////////////////////////////////////////// Allergies
+
       boxHeight = 0;
       doc.text("Allergies", startX, startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 2));
       boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
@@ -525,7 +528,10 @@
       doc.addPage();
       boxHeight = 0;
 
+////////////////////////////////////////////////////////////// Assistance
+
       doc.text("Assistance", startX, startY);
+      boxHeight += (spaceBetweenLines * 1);
 
       doc.text("Assist with Hair", startX, startY + (spaceBetweenLines * 1));
       doc.text("Yes",
@@ -550,6 +556,7 @@
       doc.text("No",
         twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
         startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
       doc.text("Assist with Finger Nails", startX, startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
       doc.text("Yes",
@@ -566,142 +573,338 @@
       doc.text("No",
         twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
         startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 2));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-        doc.text("Assist with Makeup", startX, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 2));
-        doc.text("Yes",
-          startX + optionsOffset,
-          startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
-        doc.text("No",
-          startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
-          startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Assist with Makeup", startX, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 2));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
 
-      doc.text("Assist with Jewelry", 200, 128);
-      doc.text("Yes", 205, 144);
-      doc.text("No", 245, 144);
+      doc.text("Assist with Jewelry", oneThird, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 2));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
 
-      doc.text("Assist with Lotion", 400, 128);
-      doc.text("Yes", 405, 144);
-      doc.text("No", 445, 144);
+      doc.text("Assist with Lotion", twoThirds, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 2));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Layout Cloths", 15, 168);
-      doc.text("Yes", 20, 184);
-      doc.text("No", 60, 184);
+      doc.text("Layout Cloths", startX, startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 4));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 4));
 
-      doc.text("Assist with Shoes", 200, 168);
-      doc.text("Yes", 205, 184);
-      doc.text("No", 245, 184);
+      doc.text("Assist with Shoes", oneThird, startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 4));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 4));
 
-      doc.text("Assist with Top", 400, 168);
-      doc.text("Yes", 405, 184);
-      doc.text("No", 445, 184);
+      doc.text("Assist with Top", twoThirds, startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 4));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 4));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Assist with Bottom", 15, 208);
-      doc.text("Yes", 20, 224);
-      doc.text("No", 60, 224);
+      doc.text("Assist with Buttons", startX, startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 5));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 5));
 
-      doc.text("Assist with Buttons", 200, 208);
-      doc.text("Yes", 205, 224);
-      doc.text("No", 245, 224);
+      doc.text("Assist with Zippers", oneThird, startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 5));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 5));
 
-      doc.text("Assist with Zippers", 400, 208);
-      doc.text("Yes", 405, 224);
-      doc.text("No", 445, 224);
+      doc.text("Assist with Bottom", twoThirds, startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 5));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 5));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Notes", 15, 248);
-      doc.line(100, 250, 580, 250);
-      doc.line(100, 274, 580, 274);
+      doc.text("Notes", startX, startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 5));
+      doc.line(
+        startX + ("Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 5),
+        endX,
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 5));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 5),
+        endX,
+        startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 5));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
 
-      doc.rect(10, 308, 575, 600);
-      doc.text("Mobility", 15, 322);
-      doc.text("Inside Apartment", 15, 346);
+      doc.rect(boxStartX, boxStartY, boxWidth, boxHeight);
 
-      doc.text("Use of Assistive Device", 15, 370);
-      doc.text("Walker", 20, 386);
-      doc.text("Cane", 100, 386);
-      doc.text("Wheelchair", 200, 386);
-      doc.text("Electric Wheelchair", 300, 386);
-      doc.text("No Device", 420, 386);
-      doc.text("Other", 520, 386);
+//////////////////////////////////////////////////////////////// mobility
 
-      doc.text("Assistance with Device", 15, 410);
-      doc.line(100, 412, 580, 412);
-      doc.line(100, 436, 580, 436);
+      boxHeight = 0;
+      doc.text("Mobility", startX, startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 5));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Special Ambulation Needs", 15, 460);
-      doc.line(100, 462, 580, 462);
-      doc.line(100, 488, 580, 488);
+      doc.text("Inside Apartment", startX, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 5));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Mobility Equipment", 15, 512);
-      doc.text("Transfer Pole", 20, 528);
-      doc.text("Side Rails", 120, 528);
-      doc.text("Pivot Transfer", 220, 528);
-      doc.text("Lift Recliner Chair", 320, 528);
-      doc.text("Transfer Lift", 420, 528);
+      doc.text("Use of Assistive Device", startX, startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Walker",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Cane",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Wheelchair",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Electric Wheelchair",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + ("Wheelchair".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("No Device",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + ("Wheelchair".length * coordsPerLetter) + ("Electric Wheelchair".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 4),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Other",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + ("Wheelchair".length * coordsPerLetter) + ("Electric Wheelchair".length * coordsPerLetter) + ("No Device".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 5),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Outside Apartment", 15, 552);
-      doc.setDrawColor(181,181,181); // draw grey line
-      doc.line(100, 548, 580, 548);
-      doc.setDrawColor(0,0,0); // draw black line
+      doc.text("Assistance with Device", startX, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        startX + ("Assistance with Device".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Use of Assistive Device", 15, 576);
-      doc.text("Walker", 20, 592);
-      doc.text("Cane", 100, 592);
-      doc.text("Wheelchair", 200, 592);
-      doc.text("Electric Wheelchair", 300, 592);
-      doc.text("No Device", 420, 592);
-      doc.text("Other", 520, 592);
+      doc.text("Special Ambulation Needs", startX, startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        startX + ("Special Ambulation Needs".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Assistance with Device", 15, 616);
-      doc.line(100, 618, 580, 618);
-      doc.line(100, 642, 580, 642);
+      doc.text("Mobility Equipment", startX, startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Transfer Pole",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Side Rails",
+        startX + optionsOffset + ("Transfer Pole".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Pivot Transfer",
+        startX + optionsOffset + ("Transfer Pole".length * coordsPerLetter) + ("Side Rails".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Lift Recliner",
+        startX + optionsOffset + ("Transfer Pole".length * coordsPerLetter) + ("Side Rails".length * coordsPerLetter) + ("Lift Recliner".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Transfer Lift",
+        startX + optionsOffset + ("Transfer Pole".length * coordsPerLetter) + ("Side Rails".length * coordsPerLetter) + ("Lift Recliner".length * coordsPerLetter) + ("Transfer Lift".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 4),
+        startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 7));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Special Ambulation Needs", 15, 666);
-      doc.line(100, 668, 580, 668);
-      doc.line(100, 692, 580, 692);
+      doc.text("Outside Apartment", startX, startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 7));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Transfers", 15, 716);
-      doc.text("Independent", 20, 732);
-      doc.text("Standby", 100, 732);
-      doc.text("Full Assist", 200, 732);
-      doc.text("Transfer Pole", 300, 732);
-      doc.text("Gait Belt", 400, 732);
+      doc.text("Use of Assistive Device", startX, startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Walker",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Cane",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Wheelchair",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Electric Wheelchair",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + ("Wheelchair".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 8));
+      doc.text("No Device",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + ("Wheelchair".length * coordsPerLetter) + ("Electric Wheelchair".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 4),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Other",
+        startX + optionsOffset + ("Walker".length * coordsPerLetter) + ("Cane".length * coordsPerLetter) + ("Wheelchair".length * coordsPerLetter) + ("Electric Wheelchair".length * coordsPerLetter) + ("No Device".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 5),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 8));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Transfers Description", 15, 756);
-      doc.line(100, 758, 580, 758);
-      doc.line(100, 782, 580, 782);
+      doc.text("Assistance with Device", startX, startY + (spaceBetweenLines * 19) + (spaceBetweenOptionsVertical * 8));
+      doc.line(
+        startX + ("Assistance with Device".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 19) + (spaceBetweenOptionsVertical * 8),
+        endX,
+        startY + (spaceBetweenLines * 19) + (spaceBetweenOptionsVertical * 8));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 8),
+        endX,
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 8));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Fall Risk", 15, 806);
-      doc.text("Yes", 20, 822);
-      doc.text("No", 70, 822);
+      doc.text("Special Ambulation Needs", startX, startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8));
+      doc.line(
+        startX + ("Special Ambulation Needs".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8),
+        endX,
+        startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 8),
+        endX,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 8));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Fall Risk Description", 200, 806);
-      doc.line(300, 808, 580, 808);
-      doc.line(300, 832, 580, 832);
+      doc.text("Transfers", startX, startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Independent",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Standby",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Full Assist",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + ("Standby".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Transfer Pole",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + ("Standby".length * coordsPerLetter) + ("Full Assist".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Gait Belt",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + ("Standby".length * coordsPerLetter) + ("Full Assist".length * coordsPerLetter) + ("Transfer Pole".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 4),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 9));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
+      doc.text("Transfers Description", startX, startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 9));
+      doc.line(
+        startX + ("Transfers Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 9),
+        endX,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 9));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 9),
+        endX,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 9));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
+
+      doc.text("Fall Risk", startX, startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 10));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 10));
+
+      doc.text("Fall Risk Description", oneThird, startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 9));
+      doc.line(
+        oneThird + ("Fall Risk Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 9),
+        endX,
+        startY + (spaceBetweenLines * 26) + (spaceBetweenOptionsVertical * 9));
+      doc.line(
+        oneThird,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 9),
+        endX,
+        startY + (spaceBetweenLines * 27) + (spaceBetweenOptionsVertical * 9));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
+      boxHeight += 20;
+
+      doc.rect(boxStartX, startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 4), boxWidth, boxHeight);
       doc.addPage();
-      doc.rect(10, 0, 575, 210);
+      boxHeight = 0;
 
-      doc.text("Bed Repositioning", 15, 24);
-      doc.text("Yes", 20, 40);
-      doc.text("No", 70, 40);
+      doc.text("Bed Repositioning", startX, startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Two Person Lift", 200, 24);
-      doc.text("Yes", 205, 40);
-      doc.text("No", 255, 40);
+      doc.text("Two Person Lift", twoThirds, startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Bed Reposition Description", 15, 64);
-      doc.line(100, 66, 580, 66);
-      doc.line(100, 90, 580, 90);
+      doc.text("Bed Reposition Description", startX, startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX + ("Bed Reposition Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Bed Reposition Outside Agency", 15, 114);
-      doc.line(100, 116, 580, 116);
-      doc.line(100, 140, 580, 140);
+      doc.text("Bed Reposition Outside Agency", startX, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX + ("Bed Reposition Outside Agency".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Notes", 15, 164);
-      doc.line(100, 166, 580, 166);
-      doc.line(100, 188, 580, 188);
+      doc.text("Notes", startX, startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX + ("Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
 
-      doc.rect(10, 220, 575, 270);
+      doc.rect(boxStartX, boxStartY - 10, boxWidth, boxHeight + 10);
+
+      boxHeight = 0;
       doc.text("Sleep", 15, 234);
 
       doc.text("Usual Bedtime", 15, 258);
