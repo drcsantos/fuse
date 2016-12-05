@@ -16,7 +16,7 @@
 
      vm.cancel = function(){
        $mdDialog.hide();
-     }
+     };
 
 
    }

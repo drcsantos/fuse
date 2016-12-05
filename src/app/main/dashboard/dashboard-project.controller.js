@@ -320,6 +320,8 @@
 
         function openJoinModal(ev)
         {
+          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+
           if(!vm.activeEmail) {
             $mdToast.show(
               $mdToast.simple()

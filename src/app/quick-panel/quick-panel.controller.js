@@ -78,9 +78,30 @@
             socket.on('add-activity', function(activity) {
               vm.activities.push(activity);
             });
+
+            socket.on('member-accepted', function(data) {
+              console.log(data);
+              if(authentication.currentUser().id === data.id) {
+                console.log("Open accept dialog");
+                openAcceptDialog(data.communityName);
+              }
+            });
           });
 
         });
+
+        function openAcceptDialog(communityName) {
+          $mdDialog.show({
+              controller         : 'MemberAcceptedController',
+              controllerAs       : 'vm',
+              templateUrl        : 'app/quick-panel/dialogs/member-accepted.html',
+              parent             : angular.element($document.body),
+              locals: {
+                communityName: communityName
+              },
+              clickOutsideToClose: true
+          });
+        }
 
         function getColor(type) {
           switch(type) {

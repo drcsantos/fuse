@@ -1,0 +1,27 @@
+<md-dialog class="compose-dialog" aria-label="Update">
+    <form class="md-inline-form">
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">Accepted!</span>
+                <md-button class="md-icon-button" ng-click="vm.cancelDialog()" aria-label="Close dialog">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+
+          <h2>You have been accepted to community {{ vm.communityName }}.</h2>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <md-button ng-click="vm.cancelDialog()" class="send-button md-accent md-raised" aria-label="Next Login">
+                Next Login
+            </md-button>
+            <md-button ng-click="vm.refreshPage()" class="send-button md-accent md-raised" aria-label="Go Now">
+                Go Now
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
