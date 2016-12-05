@@ -414,7 +414,7 @@
         startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 2),
         endX,
         startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 2));
-      boxHeight += (spaceBetweenLines * 3);
+      boxHeight += ((spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 1));
 
       doc.rect(boxStartX, boxStartY, boxWidth, boxHeight);
 
@@ -904,73 +904,171 @@
 
       doc.rect(boxStartX, boxStartY - 10, boxWidth, boxHeight + 10);
 
+/////////////////////////////////////////////////////////////// Sleep
+
       boxHeight = 0;
-      doc.text("Sleep", 15, 234);
+      doc.text("Sleep", startX, startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 3));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Usual Bedtime", 15, 258);
-      doc.line(100, 260, 580, 260);
+      doc.text("Usual Bedtime", startX, startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 3));
+      doc.line(
+        startX + ("Usual Bedtime".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 3),
+        endX,
+        startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 3));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Usual Arising Time", 15, 284);
-      doc.line(100, 286, 580, 286);
+      doc.text("Usual Arising Time", startX, startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 3));
+      doc.line(
+        startX + ("Usual Arising Time".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 3),
+        endX,
+        startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 3));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Naps", 15, 310);
-      doc.text("Yes", 20, 326);
-      doc.text("No", 70, 326);
+      doc.text("Naps", startX, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 4));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 4));
 
-      doc.text("Nap Description", 200, 310);
-      doc.line(300, 312, 580, 312);
-      doc.line(300, 336, 580, 336);
+      doc.text("Nap Description", oneThird, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 3));
+      doc.line(
+        oneThird + ("Nap Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 3),
+        endX,
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 3));
+      doc.line(
+        oneThird,
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 3),
+        endX,
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 3));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Assistance to Bed", 15, 360);
-      doc.text("Medication", 20, 376);
-      doc.text("Positioning", 90, 376);
-      doc.text("Pillows", 160, 376);
-      doc.text("Drink", 210, 376);
-      doc.text("Alcohol", 260, 376);
-      doc.text("Hot Tea", 330, 376);
-      doc.text("Warm Milk", 400, 376);
-      doc.text("Other", 470, 376);
-      doc.text("None", 540, 376);
+      doc.text("Assistance to Bed", startX, startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Medication",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Positioning",
+        startX + optionsOffset + ("Medication".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Pillows",
+        startX + optionsOffset + ("Medication".length * coordsPerLetter) + ("Positioning".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Drink",
+        startX + optionsOffset + ("Medication".length * coordsPerLetter) + ("Positioning".length * coordsPerLetter) + ("Pillows".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Alcohol",
+        startX + optionsOffset + ("Medication".length * coordsPerLetter) + ("Positioning".length * coordsPerLetter) + ("Pillows".length * coordsPerLetter) + ("Drink".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 4),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Hot Tea",
+        startX + optionsOffset + ("Medication".length * coordsPerLetter) + ("Positioning".length * coordsPerLetter) + ("Pillows".length * coordsPerLetter) + ("Drink".length * coordsPerLetter) + ("Alcohol".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 5),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Warm Milk",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Other",
+        startX + optionsOffset + ("Warm Milk".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 5));
+      doc.text("None",
+        startX + optionsOffset + ("Warm Milk".length * coordsPerLetter) + ("Other".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 12) + (spaceBetweenOptionsVertical * 5));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 2));
 
-      doc.text("Sleeps through the Night", 15, 400);
-      doc.text("Yes", 20, 416);
-      doc.text("No", 70, 416);
+      doc.text("Sleeps through the Night", startX, startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 6));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 6));
 
-      doc.text("Can Call for Assistance", 250, 400);
-      doc.text("Yes", 255, 416);
-      doc.text("No", 325, 416);
+      doc.text("Can Call for Assistance", twoThirds, startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 6));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 13) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Notes", 15, 440);
-      doc.line(100, 442, 580, 442);
-      doc.line(100, 466, 580, 466);
+      doc.text("Notes", startX, startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        startX + ("Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 14) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
 
-      doc.rect(10, 500, 575, 400);
-      doc.text("Nutrition", 15, 514);
+      doc.rect(boxStartX, startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 2), boxWidth, boxHeight);
 
-      doc.text("Overall Nutrition", 15, 538);
-      doc.text("Good", 20, 554);
-      doc.text("Poor", 70, 554);
+/////////////////////////////////////////////////////////////// Nutrition
 
-      doc.text("Poor Nutition Description", 200, 538);
-      doc.line(300, 540, 580, 540);
-      doc.line(300, 564, 580, 564);
+      boxHeight = 0;
+      doc.text("Nutrition", startX, startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 6));
 
-      doc.text("Diabetic", 15, 588);
-      doc.text("Yes", 20, 604);
-      doc.text("No", 70, 604);
+      doc.text("Overall Nutrition", startX, startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Good",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Poor",
+        startX + optionsOffset + ("Good".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 7));
 
-      doc.text("Diabetic Type", 200, 588);
-      doc.text("Diet Controlled", 205, 604);
-      doc.text("Medication Controlled", 305, 604);
-      doc.text("Insulin Controlled", 435, 604);
+      doc.text("Poor Nutrition Description", oneThird, startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        oneThird + ("Poor Nutrition Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 6));
+      doc.line(
+        oneThird,
+        startY + (spaceBetweenLines * 19) + (spaceBetweenOptionsVertical * 6),
+        endX,
+        startY + (spaceBetweenLines * 19) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
 
-      doc.text("Blood Sugar Monitoring", 15, 628);
-      doc.text("Yes", 20, 644);
-      doc.text("No", 70, 644);
+      doc.text("Diabetic", startX, startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
 
-      doc.text("Bedtime Snack", 200, 628);
-      doc.text("Yes", 205, 644);
-      doc.text("No", 255, 644);
+      doc.text("Blood Sugar Monitoring", oneThird, startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
+
+      doc.text("Bedtime Snack", twoThirds, startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
+
+      doc.text("Diabetic Type", startX, startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 7));
+      doc.text("Diet Controlled",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Medication Controlled",
+        startX + optionsOffset + ("Diet Controlled".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Insulin Controlled",
+        startX + optionsOffset + ("Diet Controlled".length * coordsPerLetter) + ("Medication Controlled".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8));
 
       doc.text("Adaptive Equipment", 15, 668);
       doc.text("Plate Guard", 20, 684);
