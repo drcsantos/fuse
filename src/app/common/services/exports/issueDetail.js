@@ -75,29 +75,14 @@
       doc.text(260, 124 + offset, "Description");
       doc.setFontType("normal");
 
-      var descriptionLength = 79; // characters per line
+      var descriptionLength = 580; //px per line
       var descLeftofPoint = 0; // shifts down the page?
 
-      if (data.description.length > descriptionLength) {
-        var numTimes = Math.floor(data.description.length / descriptionLength);
+      var splitDescription = doc.splitTextToSize(data.description, descriptionLength);
 
-        for (var j = 0; j < numTimes; ++j) {
-          var txt = "";
+      doc.text(20, (142 + offset), splitDescription);
 
-          doc.text(20, // x position
-            (142 + offset) + // starting y position
-            j * // number of lines
-            12 + // coords per line
-            descLeftofPoint, txt + data.description.substr(j * (descriptionLength), descriptionLength));
-        }
-
-        descLeftofPoint = numTimes * 12;
-        offset += numTimes * 12;
-
-      } else {
-        doc.text(20, 142 + offset + descLeftofPoint, "" + data.description);
-        offset += 12;
-      }
+      offset = splitDescription.length * 14 || offset;
 
 //////////////////////////////////////////////////// checklists
 
