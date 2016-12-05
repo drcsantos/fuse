@@ -288,8 +288,12 @@
             updateField : vm.card.updateField
           });
 
-          console.log(vm.card);
           vm.card.idMembers = vm.members;
+
+          // Set author Id if it is an user object but api needs just an _id
+          setAuthorId(vm.card.comments);
+          setAuthorId(vm.card.finalPlan);
+          setAuthorId(vm.card.checklists);
 
           apilaData.updateIssue(vm.card._id, vm.card)
           .success(function(response) {
@@ -480,6 +484,14 @@
                    issue: vm.card
                  }
                });
+         }
+
+         function setAuthorId(subdocument) {
+           subdocument.forEach(function(doc) {
+             if(doc.author._id) {
+               doc.author = doc.author._id;
+             }
+           });
          }
 
          function addFinalPlan() {
