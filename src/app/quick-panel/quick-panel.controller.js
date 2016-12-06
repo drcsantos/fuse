@@ -7,7 +7,7 @@
         .controller('QuickPanelController', QuickPanelController);
 
     /** @ngInject */
-    function QuickPanelController(msApi, socket, authentication, $mdDialog, $document, apilaData, msNavigationService)
+    function QuickPanelController(msApi, socket, authentication, $window, $mdDialog, $document, apilaData, msNavigationService)
     {
         var vm = this;
 
@@ -25,6 +25,12 @@
         var user = {
             name: authentication.currentUser().name,
             userImage: authentication.getUserImage()
+        };
+
+        $window.onbeforeunload = function(ev) {
+          alert("nesto");
+          $window.localStorage.$reset();
+          return "realt";
         };
 
         var communityid = authentication.currentUser().community._id;

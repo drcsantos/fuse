@@ -17,14 +17,14 @@
 
         // create a saveToken method to read a value from localStorage
         var saveToken = function(token) {
-            $window.localStorage['apila-token'] = token;
+            $window.sessionStorage['apila-token'] = token;
             var name = JSON.parse($window.atob(token.split('.')[1])).name;
-            $window.localStorage['apila-username'] = $window.btoa(name);
+            $window.sessionStorage['apila-username'] = $window.btoa(name);
         };
 
         // create a getToken method to read a value from localStorage
         var getToken = function() {
-            return $window.localStorage['apila-token'];
+            return $window.sessionStorage['apila-token'];
         };
 
         var isLoggedIn = function() {
@@ -44,7 +44,7 @@
                 var token = getToken();
                 var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-                var encodedName = $window.localStorage['apila-username'];
+                var encodedName = $window.sessionStorage['apila-username'];
 
                 var name = $window.atob(encodedName);
 
@@ -61,7 +61,7 @@
         };
 
         var changeUsername = function(username) {
-          $window.localStorage['apila-username'] = $window.btoa(username);
+          $window.sessionStorage['apila-username'] = $window.btoa(username);
 
         };
 
@@ -92,8 +92,8 @@
         };
 
         var logout = function() {
-            $window.localStorage.removeItem('apila-token');
-            $window.localStorage.removeItem('apila-username');
+            $window.sessionStorage.removeItem('apila-token');
+            $window.sessionStorage.removeItem('apila-username');
         };
 
         function getCommunity(id) {

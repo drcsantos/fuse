@@ -256,7 +256,7 @@
       if (vm.selectedCategory === "Updates") {
         $mdToast.show(
           $mdToast.simple()
-          .textContent("Updates category is not availbe to update")
+          .textContent("Updates category is not available to update")
           .position("top right")
           .hideDelay(2000)
         );
