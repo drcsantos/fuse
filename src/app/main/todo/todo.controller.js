@@ -32,15 +32,6 @@
             dueDate: 'Next 3 days'
         };
 
-        apilaData.activeTasksCount(vm.todoid).then(function(response) {
-          msNavigationService.saveItem('fuse.to-do', {
-            badge: {
-              content: response.data,
-              color: '#FF6F00'
-            }
-          });
-        });
-
         // Tasks will be filtered against these models
         vm.taskFilters = {
             search   : '',

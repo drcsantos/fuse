@@ -2,7 +2,7 @@
 {
     'use strict';
 
-    angular.module('app.appointments')
+    angular.module('app.calendar')
         .controller('AppointmentMapController', AppointmentMapController);
 
     /** @ngInject */

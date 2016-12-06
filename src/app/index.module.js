@@ -21,7 +21,7 @@
             'app.quick-panel',
 
             // Appoitments
-            'app.appointments',
+            'app.calendar',
 
             // Residents
             'app.residents',

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('app.appointments')
+  angular.module('app.calendar')
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */

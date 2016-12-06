@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app.appointments')
+    .module('app.calendar')
     .controller('AppoitmentsController', AppoitmentsController);
 
   /** @ngInject */
@@ -32,25 +32,11 @@
     vm.exportAppointments = exportAppoint;
     vm.openAppointmentMapDialog = openAppointmentMapDialog;
 
-    function openIssuesCount(id) {
-      apilaData.openIssuesCount(userid, id)
-        .success(function(count) {
-          msNavigationService.saveItem('fuse.issues', {
-            badge: {
-              content: count,
-              color: '#F44336'
-            }
-          });
-        })
-        .error(function(count) {});
-    }
-
 
     apilaData.userCommunity(userid)
       .success(function(d) {
         vm.community = d;
         loadAppoitnments(vm.community._id);
-        openIssuesCount(vm.community._id);
         loadIssues(vm.community._id);
         loadBirthdays(vm.community._id);
 

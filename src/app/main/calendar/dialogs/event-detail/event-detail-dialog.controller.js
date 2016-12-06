@@ -2,7 +2,7 @@
 {
     'use strict';
 
-    angular.module('app.appointments')
+    angular.module('app.calendar')
         .controller('EventDetailDialogController', EventDetailDialogController);
 
     /** @ngInject */
@@ -12,8 +12,6 @@
 
         // Data
         vm.calendarEvent = calendarEvent;
-
-        console.log(vm.calendarEvent);
 
         // Methods
         vm.editEvent = editEvent;

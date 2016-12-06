@@ -22,15 +22,10 @@
         vm.activities = [];
 
         var todoid = authentication.currentUser().todoid;
+        var community = authentication.currentUser().community;
         var user = {
             name: authentication.currentUser().name,
             userImage: authentication.getUserImage()
-        };
-
-        $window.onbeforeunload = function(ev) {
-          alert("nesto");
-          $window.localStorage.$reset();
-          return "realt";
         };
 
         var communityid = authentication.currentUser().community._id;
@@ -45,6 +40,16 @@
             }
           });
         });
+
+          apilaData.openIssuesCount(authentication.currentUser().id, community._id)
+            .success(function(count) {
+              msNavigationService.saveItem('fuse.issues', {
+                badge: {
+                  content: count,
+                  color: '#F44336'
+                }
+              });
+            });
 
         // Funtions
         vm.getColor = getColor;
