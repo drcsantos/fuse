@@ -109,9 +109,9 @@
                                      ng-class="{'completed': vm.board.cards.getById(cardId).checkItemsChecked === vm.board.cards.getById(cardId).checkItems}"
                                      layout="row" layout-align="start center">
                                    <i class="icon-checkbox-marked-circle s16"></i>
-                                   <span>{{vm.board.cards.getById(cardId).checklists[0].checkItemsChecked}}</span>
+                                   <span>{{vm.getChecklistData(cardId).checkedItems}}</span>
                                    <span>/</span>
-                                   <span>{{vm.board.cards.getById(cardId).checklists[0].checkItems.length}}</span>
+                                   <span>{{vm.getChecklistData(cardId).checkItemsLength}}</span>
                                </span>
                                <!-- / CARD CHECK ITEMS STATUS -->
 
@@ -148,6 +148,15 @@
                                   Confidential
                                 </md-tooltip>
                               </md-icon>
+
+                              <span class="list-card-footer-item"
+                                    layout="row" layout-align="start center">
+                                  <i class="icon-gavel s18"></i>
+                                  <span class="value">{{ vm.board.cards.getById(cardId).finalPlan.length}}</span>
+                                  <md-tooltip>
+                                    Number of plans for the issue
+                                  </md-tooltip>
+                              </span>
 
                             </div>
 

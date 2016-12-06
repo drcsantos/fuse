@@ -11,18 +11,15 @@
       var vm = this;
 
       // Data
-      console.log(appointments);
 
       // Function
       vm.closeDialog = closeDialog;
 
-
       vm.todayLocations = getLocations(isToday);
       vm.tomorrowLocations = getLocations(isTomorrow);
+      vm.currentWeekLocations = getLocations(isCurrentWeek);
 
-      console.log(vm.tomorrowLocations);
-
-      console.log(vm.locations);
+      console.log(vm.currentWeekLocations);
 
       vm.locationsMap = {
           center: {
@@ -30,7 +27,6 @@
             longitude: -97.13306829999999
           },
           zoom  : 4
-          //markers: vm.locations
       };
 
       function getLocations(timeRange) {
@@ -56,6 +52,17 @@
         return locations;
       }
 
+
+      function isCurrentWeek(appoint) {
+        var appointDate = moment(appoint.appointmentDate);
+        var startOfWeek = moment().startOf('week').isoWeekday(1);
+        var endOfWeek = startOfWeek.add(6, 'days');
+
+        console.log(startOfWeek.toLocaleString());
+        console.log(endOfWeek.toLocaleString());
+
+        return appointDate.isBetween(startOfWeek, endOfWeek);
+      }
 
       function isToday(appoint) {
         if(appoint.appointmentDate){

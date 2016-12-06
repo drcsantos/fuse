@@ -28,6 +28,8 @@
         vm.cardFilter = cardFilter;
         vm.isOverdue = isOverdue;
 
+        vm.getChecklistData = getChecklistData;
+
         ////////////////////// PRELOAD DATA //////////////////////
 
         //push the first list for cuurent User, so it's always the first one
@@ -193,7 +195,7 @@
 
             // the issue is confidential and it's not from our user don't show it
             if(v.confidential !== undefined) {
-              if(v.confidential === true && v.submitBy !== username) {
+              if(v.confidential === true && v.submitBy._id !== userid) {
                 confidential = true;
               }
             }
@@ -205,6 +207,21 @@
 
           });
 
+        }
+
+        function getChecklistData(cardId) {
+          var checkedItems = 0;
+          var checkItemsLength = 0;
+
+          vm.board.cards.getById(cardId).checklists.forEach(function(d) {
+            checkedItems += d.checkItemsChecked;
+            checkItemsLength += d.checkItems.length;
+          });
+
+          return {
+            checkedItems: checkedItems,
+            checkItemsLength: checkItemsLength
+          };
         }
 
         ////////////////////////// HELPER FUNCTIONS //////////////////////////
