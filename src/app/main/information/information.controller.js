@@ -11,7 +11,9 @@
         "Dashboard",
         "Calendar",
         "Issues",
-        "Residents"
+        "Residents",
+        "To-Do",
+        "Security"
       ];
 
       vm.selectedItem = vm.menuItems[0];

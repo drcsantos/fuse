@@ -1013,6 +1013,7 @@
 
       boxHeight = 0;
       doc.text("Nutrition", startX, startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 6));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
       doc.text("Overall Nutrition", startX, startY + (spaceBetweenLines * 18) + (spaceBetweenOptionsVertical * 6));
       doc.text("Good",
@@ -1058,6 +1059,7 @@
       doc.text("No",
         twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
         startY + (spaceBetweenLines * 20) + (spaceBetweenOptionsVertical * 7));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
       doc.text("Diabetic Type", startX, startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 7));
       doc.text("Diet Controlled",
@@ -1069,85 +1071,221 @@
       doc.text("Insulin Controlled",
         startX + optionsOffset + ("Diet Controlled".length * coordsPerLetter) + ("Medication Controlled".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
         startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 8));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Adaptive Equipment", 15, 668);
-      doc.text("Plate Guard", 20, 684);
-      doc.text("Built Up Silverware", 120, 684);
-      doc.text("Special Cups", 270, 684);
-      doc.text("None", 370, 684);
+      doc.text("Adaptive Equipment", startX, startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 8));
+      doc.text("Plate Guard",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Built Up Silverware",
+        startX + optionsOffset + ("Plate Guard".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 9));
+      doc.text("Special Cups",
+        startX + optionsOffset + ("Plate Guard".length * coordsPerLetter) + ("Built Up Silverware".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 9));
+      doc.text("None",
+        startX + optionsOffset + ("Plate Guard".length * coordsPerLetter) + ("Built Up Silverware".length * coordsPerLetter) + ("Special Cups".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 9));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Type of Diet", 15, 708);
-      doc.text("BRAT", 20, 724);
-      doc.text("Gluten Free", 100, 724);
-      doc.text("Full Vegan", 180, 724);
-      doc.text("Partial Vegan", 260, 724);
-      doc.text("Lactose Free", 340, 724);
-      doc.text("Other", 420, 724);
-      doc.text("Regular", 500, 724);
+      doc.text("Type of Diet", startX, startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 9));
+      doc.text("BRAT",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 10));
+      doc.text("Gluten Free",
+        startX + optionsOffset + ("BRAT".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 10));
+      doc.text("Full Vegan",
+        startX + optionsOffset + ("BRAT".length * coordsPerLetter) + ("Gluten Free".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 10));
+      doc.text("Partial Vegan",
+        startX + optionsOffset + ("BRAT".length * coordsPerLetter) + ("Gluten Free".length * coordsPerLetter) + ("Full Vegan".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 10));
+      doc.text("Lactose Free",
+        startX + optionsOffset + ("BRAT".length * coordsPerLetter) + ("Gluten Free".length * coordsPerLetter) + ("Full Vegan".length * coordsPerLetter) + ("Partial Vegan".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 4),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 10));
+      doc.text("Other",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 11));
+      doc.text("Regular",
+        startX + optionsOffset + ("Other".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 11));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 2));
 
-      doc.text("Special Diet", 15, 748);
-      doc.text("Pureed", 20, 764);
-      doc.text("Ground", 100, 764);
-      doc.text("Soft", 180, 764);
-      doc.text("Regular", 260, 764);
+      doc.text("Special Diet", startX, startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 11));
+      doc.text("Pureed",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Ground",
+        startX + optionsOffset + ("Pureed".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Soft",
+        startX + optionsOffset + ("Pureed".length * coordsPerLetter) + ("Ground".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Regular",
+        startX + optionsOffset + ("Pureed".length * coordsPerLetter) + ("Ground".length * coordsPerLetter) + ("Soft".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 12));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Finger Foods", 15, 788);
-      doc.text("Yes", 20, 804);
-      doc.text("No", 70, 804);
+      doc.text("Finger Foods", startX, startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 13));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 13));
 
-      doc.text("Food in Room", 200, 788);
-      doc.text("Yes", 205, 804);
-      doc.text("No", 255, 804);
+      doc.text("Food in Room", oneThird, startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 13));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 13));
 
-      doc.text("Drink in Room", 400, 788);
-      doc.text("Yes", 405, 804);
-      doc.text("No", 455, 804);
+      doc.text("Drink in Room", twoThirds, startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 13));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 25) + (spaceBetweenOptionsVertical * 13));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+
+      doc.rect(boxStartX, startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 5), boxWidth, boxHeight + 10);
 
       doc.addPage();
-      doc.rect(10, 0, 575, 116);
+      boxHeight = 0;
 
-      doc.text("Food Assistance", 15, 24);
-      doc.text("Independent", 20, 40);
-      doc.text("Reminder", 100, 40);
-      doc.text("Partial Assistance", 180, 40);
-      doc.text("Full Assistance", 290, 40);
+      doc.text("Food Assistance", startX, startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Independent",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Reminder",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Partial Assistance",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + ("Reminder".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Full Assistance",
+        startX + optionsOffset + ("Independent".length * coordsPerLetter) + ("Reminder".length * coordsPerLetter) + ("Partial Assistance".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
-      doc.text("Notes", 15, 64);
-      doc.line(100, 66, 580, 66);
-      doc.line(100, 90, 580, 90);
+      doc.text("Notes", startX, startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX + ("Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
 
-      doc.rect(10, 126, 575, 800);
-      doc.text("Physical Condition", 15, 140);
-      doc.text("Skin", 15, 164);
+      doc.rect(boxStartX, boxStartY - 10, boxWidth, boxHeight + 10);
 
-      doc.text("Skin Condition", 15, 188);
-      doc.text("Average", 20, 204);
-      doc.text("Tears Easily", 80, 204);
+////////////////////////////////////////////////////////////// Physical Condition
 
-      doc.text("Wound that needs Dressing", 200, 188);
-      doc.text("Yes", 205, 204);
-      doc.text("No", 255, 204);
+      boxHeight = 0;
+      doc.text("Physical Condition", startX, startY + (spaceBetweenLines * 3) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Skin", startX, startY + (spaceBetweenLines * 4) + (spaceBetweenOptionsVertical * 3));
 
-      doc.text("Wound Amount", 400, 188);
-      doc.line(500, 190, 580, 190);
+      doc.text("Skin Condition", startX, startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Average",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Tears Easily",
+        startX + optionsOffset + ("Average".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
 
-      doc.text("At Risk for Skin Breakdown", 15, 228);
-      doc.text("Yes", 20, 244);
-      doc.text("No", 70, 244);
+      doc.text("At Risk for Skin Breakdown", twoThirds - 20, startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 3));
+      doc.text("Yes",
+        twoThirds - 20 + optionsOffset,
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
+      doc.text("No",
+        twoThirds - 20 + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 5) + (spaceBetweenOptionsVertical * 4));
 
-      doc.text("Infection", 15, 268);
+      doc.text("Has a Wound", startX, startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 4));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 5));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 5));
 
-      doc.text("UTI Risk", 15, 292);
-      doc.text("Yes", 20, 308);
-      doc.text("No", 70, 308);
+      doc.text("Wound Amount", oneThird, startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 4));
+      doc.line(
+        oneThird + ("Wound Amount".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 4),
+        endX,
+        startY + (spaceBetweenLines * 6) + (spaceBetweenOptionsVertical * 4));
 
-      doc.text("URI Risk", 200, 292);
-      doc.text("Yes", 205, 308);
-      doc.text("No", 255, 308);
+      doc.text("Wound Description", startX, startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 5));
+      doc.line(
+        startX + ("Wound Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 5),
+        endX,
+        startY + (spaceBetweenLines * 7) + (spaceBetweenOptionsVertical * 5));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 5),
+        endX,
+        startY + (spaceBetweenLines * 8) + (spaceBetweenOptionsVertical * 5));
 
-      doc.text("MRSA Risk", 400, 292);
-      doc.text("Yes", 405, 308);
-      doc.text("No", 455, 308);
+      doc.text("Infection", startX, startY + (spaceBetweenLines * 9) + (spaceBetweenOptionsVertical * 5));
+
+      doc.text("UTI Risk", startX, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 6));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 6));
+
+      doc.text("URI Risk", oneThird, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 6));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 6));
+
+      doc.text("MRSA Risk", twoThirds, startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 5));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 6));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 10) + (spaceBetweenOptionsVertical * 6));
+
+      doc.text("VRE Risk", startX, startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Yes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 7));
+      doc.text("No",
+        startX + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 7));
+
+      doc.text("Shingles Risk", oneThird, startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Yes",
+        oneThird + optionsOffset,
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 7));
+      doc.text("No",
+        oneThird + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 7));
+
+      doc.text("Pneumonia Risk", twoThirds, startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 6));
+      doc.text("Yes",
+        twoThirds + optionsOffset,
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 7));
+      doc.text("No",
+        twoThirds + optionsOffset + ("Yes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 11) + (spaceBetweenOptionsVertical * 7));
+/*
 
       doc.text("VRE Risk", 15, 332);
       doc.text("Yes", 20, 348);
@@ -1346,6 +1484,8 @@
       doc.line(290, 366, 580, 366);
       doc.line(200, 390, 580, 390);
 
+////////////////////////////////////////////////////////////// Psychosocial
+
       doc.rect(10, 426, 575, 500);
       doc.text("Psychosocial", 15, 440);
 
@@ -1540,6 +1680,8 @@
 
       doc.rect(10, 636, 575, 220);
 
+////////////////////////////////////////////////////////////// Pain
+
       doc.text("Pain", 15, 650);
 
       doc.text("Has Pain", 15, 674);
@@ -1594,7 +1736,7 @@
       doc.text("Notes", 15, 108);
       doc.line(100, 110, 580, 110);
       doc.line(100, 134, 580, 134);
-
+*/
       doc.save("Blank Careplan.pdf");
     }
 

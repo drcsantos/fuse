@@ -72,6 +72,14 @@
                       <div ng-include="'app/main/information/information-content/residents.html'"></div>
                   </div>
 
+                  <div ng-switch-when="To-Do">
+                      <div ng-include="'app/main/information/information-content/todos.html'"></div>
+                  </div>
+
+                  <div ng-switch-when="Security">
+                      <div ng-include="'app/main/information/information-content/security.html'"></div>
+                  </div>
+
             </md-content>
             <!-- / CONTENT -->
 
