@@ -118,6 +118,8 @@
 
                 angular.forEach(issues, function(v, k) {
 
+                  console.log(issues);
+
                   var currList = createList(v._id.name);
 
                   //we don't want to add ourself to the list, we are already added
