@@ -19,7 +19,7 @@
     vm.form.communicatedWithPrimaryContact = false;
     vm.form.communicatedWithTrustedPerson = false;
 
-    vm.SliderMapping = SliderMapping;
+    vm.replaceNumberValue = SliderMapping.replaceNumberValue;
 
     var requiredArray = ["firstName", "lastName", "buildingStatus"];
 

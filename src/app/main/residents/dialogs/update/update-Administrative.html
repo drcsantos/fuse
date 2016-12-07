@@ -162,6 +162,14 @@
 
        <!-- Random fields -->
 
+       <div class="md-block">
+          <label>
+              <span>Assessment Interval : {{ vm.replaceNumberValue('assessmentInterval', vm.form.assessmentInterval)}}</span>
+          </label>
+          <md-slider flex min="0" max="4" ng-model="vm.form.assessmentInterval" aria-label="blue">
+          </md-slider>
+       </div>
+
        <md-input-container class="md-block">
          <md-checkbox ng-model="vm.form.fullCode" aria-label="Full Code">
            Full Code

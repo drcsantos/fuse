@@ -44,11 +44,11 @@
       </div>
 
       <div class="md-block">
-       <label>
-           <span>Frequency of Bathing : {{ vm.SliderMapping.replaceNumberValue('frequencyOfBathing', vm.form.frequencyOfBathing)}}</span>
-       </label>
-       <md-slider flex min="0" max="4" ng-model="vm.form.frequencyOfBathing" aria-label="blue">
-       </md-slider>
+         <label>
+             <span>Frequency of Bathing : {{ vm.replaceNumberValue('frequencyOfBathing', vm.form.frequencyOfBathing)}}</span>
+         </label>
+         <md-slider flex min="0" max="4" ng-model="vm.form.frequencyOfBathing" aria-label="blue">
+         </md-slider>
       </div>
 
       <span ng-if="vm.form.frequencyOfBathing == 1 || vm.form.frequencyOfBathing == 2 || vm.form.frequencyOfBathing == 3">

@@ -6,7 +6,7 @@
     .controller('MailController', MailController);
 
   /** @ngInject */
-  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia,
+  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
@@ -52,6 +52,8 @@
       "Contacts",
       "Updates"
     ];
+
+    vm.replaceNumberValue = SliderMapping.replaceNumberValue;
 
     // Methods
     vm.selectResident = selectResident;

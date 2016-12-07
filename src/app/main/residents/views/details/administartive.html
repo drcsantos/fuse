@@ -31,13 +31,8 @@
 
         <h4>Handles Finances: {{ vm.handlesFinances }} </h4>
 
-        <h4 ng-switch on="vm.selectedResident.assessmentInterval">
-          <span ng-switch-when="0">Assessment Interval : None</span>
-          <span ng-switch-when="1">Assessment Interval : Weekly</span>
-          <span ng-switch-when="2">Assessment Interval : Monthly</span>
-          <span ng-switch-when="3">Assessment Interval : Quarterly</span>
-          <span ng-switch-when="4">Assessment Interval : Yearly</span>
-          <span ng-switch-default>Assessment Interval :  </span>
+        <h4>Assessment Interval :
+          {{vm.replaceNumberValue('assessmentInterval', vm.selectedResident.assessmentInterval)}}
         </h4>
 
         <h4>Moved from: {{ vm.selectedResident.movedFrom.name }} </h4>
