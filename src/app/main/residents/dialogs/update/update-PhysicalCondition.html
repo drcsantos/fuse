@@ -1,4 +1,4 @@
-¢4¢<md-dialog class="compose-dialog" aria-label="Update">
+<md-dialog class="compose-dialog" aria-label="Update">
   <form class="md-inline-form">
     <md-toolbar class="md-accent md-hue-2">
       <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -9,54 +9,46 @@
       </div>
     </md-toolbar>
 
-    <md-dialog-content ms-scroll>
+    <md-tabs style="min-height: 400px;">
+      <md-tab label="Skin">
 
-      <md-input-container>
-        <label>Skin Condition</label>
-        <md-select ng-model="vm.form.skinCondition">
-          <md-option value="Average">Average</md-option>
-          <md-option value="Tears easily">Tears easily</md-option>
-        </md-select>
-      </md-input-container>
+      <md-dialog-content ms-scroll>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.hasWound" ng-hide="vm.showCancel">
-          Has Wound
-        </md-checkbox>
-      </md-input-container>
+        <md-input-container>
+          <label>Skin Condition</label>
+          <md-select ng-model="vm.form.skinCondition">
+            <md-option value="Average">Average</md-option>
+            <md-option value="Tears easily">Tears easily</md-option>
+          </md-select>
+        </md-input-container>
 
-      <md-input-container class="md-block" ng-if="vm.form.hasWound">
-        <label>Wound Description</label>
-        <input ng-model="vm.form.hasWoundDescribe" type="text">
-      </md-input-container>
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.hasWound" ng-hide="vm.showCancel">
+            Has Wound
+          </md-checkbox>
+        </md-input-container>
 
-      <md-input-container class="md-block" ng-if="vm.form.hasWound">
-        <label>Wound Amount</label>
-        <input ng-model="vm.form.woundAmount" type="number">
-      </md-input-container>
+        <md-input-container class="md-block" ng-if="vm.form.hasWound">
+          <label>Wound Description</label>
+          <input ng-model="vm.form.hasWoundDescribe" type="text">
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.skinBreakdown">
-          Skin Breakdown
-        </md-checkbox>
-      </md-input-container>
+        <md-input-container class="md-block" ng-if="vm.form.hasWound">
+          <label>Wound Amount</label>
+          <input ng-model="vm.form.woundAmount" type="number">
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.wearsHearingAid" ng-hide="vm.showCancel">
-          Wears Hearing Aid
-        </md-checkbox>
-      </md-input-container>
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.skinBreakdown">
+            Skin Breakdown
+          </md-checkbox>
+        </md-input-container>
 
-      <md-input-container class="md-block" ng-if="vm.form.wearsHearingAid">
-        <md-checkbox ng-model="vm.form.helpWithHearingAid" ng-hide="vm.showCancel">
-          Help with Hearing Aid
-        </md-checkbox>
-      </md-input-container>
+      </md-dialog-content>
+    </md-tab>
 
-      <md-input-container class="md-block" ng-if="vm.form.helpWithHearingAid">
-        <label>Help With Hearing Aid Description</label>
-        <input ng-model="vm.form.helpWithHearingAidDescribe" type="text">
-      </md-input-container>
+    <md-tab label="Ears">
+      <md-dialog-content ms-scroll>
 
       <div layout="row" layout-align="space-around center">
         <md-input-container>
@@ -78,7 +70,6 @@
             <md-option value="None">None</md-option>
           </md-select>
         </md-input-container>
-      </div>
 
        <md-input-container>
          <label>Hearing Assist</label>
@@ -89,27 +80,52 @@
          </md-select>
        </md-input-container>
 
+       </div>
+
       <div class="md-block">
        <label>Hearing Ability: {{ vm.form.hearingAbility }}</label>
        <md-slider flex min="0" max="10" ng-model="vm.form.hearingAbility" aria-label="blue">
        </md-slider>
      </div>
 
+     <md-input-container class="md-block">
+       <md-checkbox ng-model="vm.form.wearsHearingAid" ng-hide="vm.showCancel">
+         Wears Hearing Aid
+       </md-checkbox>
+     </md-input-container>
+
+     <md-input-container class="md-block" ng-if="vm.form.wearsHearingAid">
+       <md-checkbox ng-model="vm.form.helpWithHearingAid" ng-hide="vm.showCancel">
+         Help with Hearing Aid
+       </md-checkbox>
+     </md-input-container>
+
+     <md-input-container class="md-block" ng-if="vm.form.helpWithHearingAid">
+       <label>Help With Hearing Aid Description</label>
+       <input ng-model="vm.form.helpWithHearingAidDescribe" type="text">
+     </md-input-container>
+
       <md-input-container class="md-block">
         <label>Hearing Notes</label>
         <input ng-model="vm.form.hearingNotes" type="text">
       </md-input-container>
 
-      <md-input-container>
-        <label>Vision Device</label>
-        <md-select ng-model="vm.form.visionDevice">
-          <md-option value="Glasses">Glasses</md-option>
-          <md-option value="Contacts">Contacts</md-option>
-          <md-option value="None">None</md-option>
-        </md-select>
-      </md-input-container>
+    </md-dialog-content>
+  </md-tab>
+
+  <md-tab label="Eyes">
+    <md-dialog-content ms-scroll>
 
       <div layout="row" layout-align="space-around center">
+        <md-input-container>
+          <label>Vision Device</label>
+          <md-select ng-model="vm.form.visionDevice">
+            <md-option value="Glasses">Glasses</md-option>
+            <md-option value="Contacts">Contacts</md-option>
+            <md-option value="None">None</md-option>
+          </md-select>
+        </md-input-container>
+
         <md-input-container>
           <label>Left Eye</label>
           <md-select ng-model="vm.form.leftEye">
@@ -152,43 +168,15 @@
         <input ng-model="vm.form.visionNotes" type="text">
       </md-input-container>
 
+    </md-dialog-content>
+  </md-tab>
+
+  <md-tab label="Teeth">
+    <md-dialog-content ms-scroll>
+
       <md-input-container class="md-block">
         <label>Dentist's Name</label>
         <input ng-model="vm.form.dentistName" type="text">
-      </md-input-container>
-
-      <md-input-container>
-        <label>Teeth Assist</label>
-        <md-select ng-model="vm.form.teethAssist">
-          <md-option value="Full">Full</md-option>
-          <md-option value="Independent">Independent</md-option>
-          <md-option value="Reminder">Reminder</md-option>
-        </md-select>
-      </md-input-container>
-
-      <md-input-container>
-        <label>Upper Teeth</label>
-        <md-select ng-model="vm.form.upperTeeth">
-          <md-option value="Has Own">Has Own</md-option>
-          <md-option value="Has Dentures">Has Dentures</md-option>
-          <md-option value="Has Partia">Has Partial</md-option>
-          <md-option value="No Teeth">No Teeth</md-option>
-        </md-select>
-      </md-input-container>
-
-      <md-input-container>
-        <label>Lower Teeth</label>
-        <md-select ng-model="vm.form.lowerTeeth">
-          <md-option value="Has Own">Has Own</md-option>
-          <md-option value="Has Dentures">Has Dentures</md-option>
-          <md-option value="Has Partia">Has Partial</md-option>
-          <md-option value="No Teeth">No Teeth</md-option>
-        </md-select>
-      </md-input-container>
-
-      <md-input-container flex class="md-block textarea-container">
-        <label>Teeth Notes</label>
-        <textarea ng-model="vm.form.teethNotes"></textarea>
       </md-input-container>
 
       <div class="md-block">
@@ -197,29 +185,78 @@
        </md-slider>
      </div>
 
-     <!-- Oxygen -->
+      <div layout="row" layout-align="space-around center">
+        <md-input-container>
+          <label>Teeth Assist</label>
+          <md-select ng-model="vm.form.teethAssist">
+            <md-option value="Full">Full</md-option>
+            <md-option value="Independent">Independent</md-option>
+            <md-option value="Reminder">Reminder</md-option>
+          </md-select>
+        </md-input-container>
 
-     <md-input-container class="md-block">
-       <md-checkbox ng-model="vm.form.oxygen"  aria-label="Oxygen">
-         Oxygen
-       </md-checkbox>
+        <md-input-container>
+          <label>Upper Teeth</label>
+          <md-select ng-model="vm.form.upperTeeth">
+            <md-option value="Has Own">Has Own</md-option>
+            <md-option value="Has Dentures">Has Dentures</md-option>
+            <md-option value="Has Partia">Has Partial</md-option>
+            <md-option value="No Teeth">No Teeth</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Lower Teeth</label>
+          <md-select ng-model="vm.form.lowerTeeth">
+            <md-option value="Has Own">Has Own</md-option>
+            <md-option value="Has Dentures">Has Dentures</md-option>
+            <md-option value="Has Partia">Has Partial</md-option>
+            <md-option value="No Teeth">No Teeth</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+     <md-input-container flex class="md-block textarea-container">
+       <label>Teeth Notes</label>
+       <textarea ng-model="vm.form.teethNotes"></textarea>
      </md-input-container>
 
-       <md-input-container ng-if="vm.form.oxygen == true">
-         <label>Oxygen Type</label>
-         <md-select ng-model="vm.form.oxygenType">
-           <md-option value="Liquid">Liquid</md-option>
-           <md-option value="Concentrate">Concentrate</md-option>
-         </md-select>
-       </md-input-container>
+     </md-dialog-content>
+   </md-tab>
 
-       <md-input-container ng-if="vm.form.oxygen == true">
-         <label>Oxygen Flow</label>
-         <md-select ng-model="vm.form.oxygenFlow">
-           <md-option value="Continuous Flow">Continuous Flow</md-option>
-           <md-option value="Helios">Helios</md-option>
-         </md-select>
-       </md-input-container>
+   <md-tab label="Oxygen">
+     <md-dialog-content ms-scroll>
+
+       <div layout="row" layout-align="space-around center">
+
+         <md-input-container class="md-block">
+           <md-checkbox ng-model="vm.form.oxygen"  aria-label="Oxygen">
+             Oxygen
+           </md-checkbox>
+         </md-input-container>
+
+           <md-input-container ng-if="vm.form.oxygen == true">
+             <label>Oxygen Type</label>
+             <md-select ng-model="vm.form.oxygenType">
+               <md-option value="Liquid">Liquid</md-option>
+               <md-option value="Concentrate">Concentrate</md-option>
+             </md-select>
+           </md-input-container>
+
+           <md-input-container ng-if="vm.form.oxygen == true">
+             <label>Oxygen Flow</label>
+             <md-select ng-model="vm.form.oxygenFlow">
+               <md-option value="Continuous Flow">Continuous Flow</md-option>
+               <md-option value="Helios">Helios</md-option>
+             </md-select>
+           </md-input-container>
+        </div>
+
+     </md-dialog-content>
+   </md-tab>
+
+   <md-tab label="Infection">
+     <md-dialog-content ms-scroll>
 
      <md-input-container class="md-block">
        <md-checkbox ng-model="vm.form.urinaryTractInfectionRisk"  aria-label="Urinary Tract Infection Risk">
@@ -262,49 +299,71 @@
         <textarea ng-model="vm.form.physicalNotes"></textarea>
       </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.medsAtBedside"  aria-label="Meds At Bedside">
-          Meds At Bedside
-        </md-checkbox>
-      </md-input-container>
+    </md-dialog-content>
+  </md-tab>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.selfMeds"  aria-label="Self Meds">
-          Self Meds
-        </md-checkbox>
-      </md-input-container>
+  <md-tab label="Medications">
+    <md-dialog-content ms-scroll>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.meds"  aria-label="Meds">
-          Meds
-        </md-checkbox>
-      </md-input-container>
+      <div layout="row" layout-align="space-around end">
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.swallowAssist"  aria-label="Swallow Assist">
-          Swallow Assist
-        </md-checkbox>
-      </md-input-container>
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.medsAtBedside"  aria-label="Meds At Bedside">
+              Meds At Bedside
+            </md-checkbox>
+          </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.chemotherapy"  aria-label="Chemotherapy">
-          Chemotherapy
-        </md-checkbox>
-      </md-input-container>
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.selfMeds"  aria-label="Self Meds">
+              Self Meds
+            </md-checkbox>
+          </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.dialysis"  aria-label="Dialysis">
-          Dialysis
-        </md-checkbox>
-      </md-input-container>
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.meds"  aria-label="Meds">
+              Meds
+            </md-checkbox>
+          </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.marijuana"  aria-label="Marijuana">
-          Marijuana
-        </md-checkbox>
-      </md-input-container>
+      </div>
+
+      <div layout="row" layout-align="space-around center">
+
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.swallowAssist"  aria-label="Swallow Assist">
+              Swallow Assist
+            </md-checkbox>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.chemotherapy"  aria-label="Chemotherapy">
+              Chemotherapy
+            </md-checkbox>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.dialysis"  aria-label="Dialysis">
+              Dialysis
+            </md-checkbox>
+          </md-input-container>
+
+          <!-- 420 -->
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="vm.form.marijuana"  aria-label="Marijuana">
+              Marijuana
+            </md-checkbox>
+          </md-input-container>
+
+      </div>
 
     </md-dialog-content>
+  </md-tab>
+
+    </md-dialog-content>
+
+  </md-tab>
+
+  </md-tabs>
 
     <md-dialog-actions layout="row" layout-align="space-between center">
       <div layout="row" layout-align="start center">
