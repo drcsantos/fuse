@@ -319,7 +319,7 @@
       $mdDialog.show({
         controller: 'AppointmentMapController',
         controllerAs: 'vm',
-        templateUrl: 'app/main/appointments/dialogs/appointment-map/appointment-map.html',
+        templateUrl: 'app/main/calendar/dialogs/appointment-map/appointment-map.html',
         parent: angular.element($document.body),
         clickOutsideToClose: true,
         locals: {
@@ -340,7 +340,7 @@
       $mdDialog.show({
         controller: 'EventFormDialogController',
         controllerAs: 'vm',
-        templateUrl: 'app/main/appointments/dialogs/event-form/event-form-dialog.html',
+        templateUrl: 'app/main/calendar/dialogs/event-form/event-form-dialog.html',
         parent: angular.element($document.body),
         targetEvent: e,
         clickOutsideToClose: true,
