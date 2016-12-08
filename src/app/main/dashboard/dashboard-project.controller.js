@@ -83,17 +83,6 @@
 
           MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
 
-
-          apilaData.openIssuesCount(vm.userid, vm.myCommunity._id)
-            .success(function(count) {
-              msNavigationService.saveItem('fuse.issues', {
-                badge: {
-                  content: count,
-                  color: '#F44336'
-                }
-              });
-            })
-            .error(function(count) {});
         })
         .error(function(d) {
 
@@ -179,6 +168,8 @@
 
           loadStats(vm.myCommunity._id);
 
+          console.log(vm.communityMembers);
+
           vm.communityMemberTable = _.map(vm.communityMembers, function(v) {
             var boss = false;
             var director = false;
@@ -220,6 +211,8 @@
 
             return [userImage, v.name, v.email, v._id, boss, director, minion, creator, role, recovery];
           });
+
+          console.log(vm.communityMemberTable);
 
           vm.pendingMemberTable = _.map(vm.myCommunity.pendingMembers, function(v) {
             var userImage = (v.userImage !== undefined) ? v.userImage : "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
