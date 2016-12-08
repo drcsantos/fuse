@@ -335,11 +335,10 @@
         </div>
         <div class="section-content">
           <md-chips class="member-chips" ng-model="vm.card.idMembers" md-transform-chip="$chip.id" md-autocomplete-snap md-require-match="true">
-            <md-autocomplete md-selected-item="vm.selectedMember" md-search-text="vm.searchText" md-items="member in vm.memberQuerySearch(vm.searchText)" md-item-text="member.name" placeholder="Search for a member" md-selected-item-change="vm.selectedItemChange(vm.selectedMember)">
+            <md-autocomplete md-selected-item="vm.selectedMember" md-search-text="vm.searchText" md-items="member in vm.memberQuerySearch(vm.searchText)" md-item-text="member.name" placeholder="Search for a member" md-selected-item-change="vm.addMemberAutoComplete(vm.selectedMember)">
               <span md-highlight-text="vm.searchText">{{member.name}}</span>
             </md-autocomplete>
             <md-chip-template class="member-chip">
-              <!-- <img class="member-chip-avatar"  alt="Kek"> -->
               <span>{{ $chip.name }}</span>
             </md-chip-template>
             <button md-chip-remove class="md-primary" ng-click="vm.memberUpdate($chip.name)">

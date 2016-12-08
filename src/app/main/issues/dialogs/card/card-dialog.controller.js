@@ -20,16 +20,12 @@
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
-        console.log(vm.board.cards);
-        console.log(vm.card);
-
         vm.card.currdue = vm.card.due;
 
         vm.card.labels.map(function(d){d.id = d._id; return d;});
         vm.board.labels.map(function(d){d.id = d._id; return d;});
 
         vm.newLabelColor = 'red';
-        vm.members = vm.board.members;
         vm.UpdateInfoService = UpdateInfoService;
         vm.Utils = Utils;
 
@@ -90,7 +86,7 @@
         vm.removeDueDate = removeDueDate;
         vm.memberUpdate = memberUpdate;
         vm.updateLabel = updateLabel;
-        vm.selectedItemChange = selectedItemChange;
+        vm.addMemberAutoComplete = addMemberAutoComplete;
 
         //Other
         vm.wordCloud = wordCloud;
@@ -183,11 +179,11 @@
 
           //load member list
           apilaData.usersInCommunity(d._id)
-          .success(function(d) {
-            vm.members = d;
+          .success(function(response) {
+            vm.members = response;
           })
-          .error(function(d) {
-            console.log("error while loading users");
+          .error(function(response) {
+            console.log(response);
           });
         });
 
@@ -238,6 +234,13 @@
 
         }
 
+        function addMemberAutoComplete(selectedMember) {
+          if(selectedMember !== null) {
+            vm.card.idMembers.push(selectedMember);
+            updateIssue();
+          }
+        }
+
         /////////////////////////// COMMENTS ///////////////////////////////
 
         function addNewComment(newCommentText)
@@ -286,7 +289,7 @@
             updateField : vm.card.updateField
           });
 
-          vm.card.idMembers = vm.members;
+          console.log(vm.card.idMembers);
 
           // Set author Id if it is an user object but api needs just an _id
           setAuthorId(vm.card.comments);
@@ -326,13 +329,6 @@
 
         function updateLabel(labelid) {
           vm.updateIssue();
-        }
-
-        function selectedItemChange(selectedMember) {
-          console.log("Adding member");
-          if(selectedMember !== null) {
-            updateIssue();
-          }
         }
 
         //Update due date
