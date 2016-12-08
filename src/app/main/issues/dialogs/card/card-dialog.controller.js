@@ -20,6 +20,8 @@
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
+        console.log(vm.board);
+
         vm.card.currdue = vm.card.due;
 
         vm.card.labels.map(function(d){d.id = d._id; return d;});
@@ -102,11 +104,7 @@
 
         vm.getMatches = getMatches;
 
-        vm.changeResponsibleParty = function() {
-          console.log(vm.selectedItem);
-          vm.card.responsibleParty = vm.selectedItem.value;
-          vm.updateIssue();
-        };
+        vm.changeResponsibleParty = changeResponsibleParty;
 
         vm.uploadFiles = function(file, invalidFiles, card) {
           ImageUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
@@ -312,6 +310,25 @@
           vm.card.currdue = '';
 
           updateIssue();
+        }
+
+        function changeResponsibleParty() {
+          if(vm.selectedItem) {
+            vm.card.responsibleParty = vm.selectedItem.value;
+            vm.updateIssue();
+
+            // var changedName = vm.selectedItem.display;
+            //
+            // var newList = _.find(vm.board.lists, {name: changedName});
+            // var oldList = _.find(vm.board.lists, {name: vm.username});
+            //
+            // if(newList && oldList) {
+            //   newList.idCards.push(vm.card.id);
+            // //  _.remove(oldList.idCards, vm.card.id);
+            // }
+
+          }
+
         }
 
         function updateTextFields(type) {

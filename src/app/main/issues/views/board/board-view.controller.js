@@ -118,8 +118,6 @@
 
                 angular.forEach(issues, function(v, k) {
 
-                  console.log(issues);
-
                   var currList = createList(v._id.name);
 
                   //we don't want to add ourself to the list, we are already added
@@ -127,7 +125,12 @@
 
                      //add all the cards
                       angular.forEach(v.issues, function(card, key) {
-                        currList.idCards.push(addCard(card).id);
+                        var myCard = addCard(card);
+
+                        if(myCard) {
+                          currList.idCards.push(myCard.id);
+                        }
+
                       });
 
                       vm.board.lists.push(currList);
@@ -151,9 +154,10 @@
           var confidential = false;
 
           // the issue is confidential and it's not from our user don't show it
-          if(card.confidential !== undefined) {
-            if(card.confidential === true && card.submitBy !== username) {
+          if(card.confidential) {
+            if(card.confidential === true && card.submitBy !== userid) {
               confidential = true;
+              return null;
             }
           }
 
