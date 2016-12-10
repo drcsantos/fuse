@@ -43,17 +43,11 @@
         var searchParams = ["title", "transportation", "locationDoctor", "reason", "locationName",
                             "cancel", "appointmentDate"];
 
-        console.log(appointList);
-
         SearchService.setData(appointList, searchParams);
 
         SearchService.subscribe($scope, function() {
 
-        //console.log(vm.events[0].length);
-
         vm.events[0] = SearchService.getResult();
-
-        //console.log(vm.events[0]);
         });
 
       });
@@ -74,8 +68,8 @@
           vm.events[0] = appointList;
 
         })
-        .error(function(e) {
-          console.log("error loading appointments");
+        .error(function(err) {
+          console.log(err);
         });
 
     };
@@ -195,8 +189,6 @@
 
         return arr;
       });
-
-      console.log(rows);
 
       exportAppointments.exportPdf(columns, rows, month);
     }

@@ -19,35 +19,61 @@
       vm.tomorrowLocations = getLocations(isTomorrow);
       vm.currentWeekLocations = getLocations(isCurrentWeek);
 
-      console.log(vm.currentWeekLocations);
-
-      vm.locationsMap = {
-          center: {
-            latitude : 33.2148412,
-            longitude: -97.13306829999999
-          },
-          zoom  : 4
-      };
-
       function getLocations(timeRange) {
 
         var locations = [];
 
+        var mainLocations = {};
+
         _.forEach(appointments, function(d) {
           if(!angular.isString(d.locationName)) {
             var geometry = d.locationName.geometry;
+            var name = d.locationName.formatted_address;
 
             if(geometry && timeRange(d)) {
-              locations.push({
-                'id' : d._id,
-                'coords' : {
+
+              //keep track of how many times is each location referenced
+              if(!mainLocations[name]) {
+                mainLocations[name] = {value: 1};
+                mainLocations[name].center = {
                   latitude : geometry.location.lat,
                   longitude: geometry.location.lng
-                }
+                };
+              } else {
+                mainLocations[name].value++;
+              }
+
+
+              vm.locationsMap = {
+                center: {
+                  latitude : geometry.location.lat,
+                  longitude: geometry.location.lng
+                },
+                zoom: 10
+
+              };
+
+              locations.push({
+                'id' : d._id,
+                'coords' : vm.locationsMap.center
               });
             }
           }
         });
+
+
+        //finding the location that is most used and set the center to that
+        var maxValue = {value: -1};
+
+        for(var k in mainLocations) {
+          if(mainLocations.hasOwnProperty(k)) {
+            if(maxValue.value < mainLocations[k].value) {
+              maxValue = mainLocations[k];
+            }
+          }
+        }
+
+        vm.locationsMap.center = maxValue.center || vm.locationsMap.center;
 
         return locations;
       }
@@ -57,9 +83,6 @@
         var appointDate = moment(appoint.appointmentDate);
         var startOfWeek = moment().startOf('week').isoWeekday(1);
         var endOfWeek = startOfWeek.add(6, 'days');
-
-        console.log(startOfWeek.toLocaleString());
-        console.log(endOfWeek.toLocaleString());
 
         return appointDate.isBetween(startOfWeek, endOfWeek);
       }
