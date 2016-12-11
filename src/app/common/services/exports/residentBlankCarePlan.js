@@ -2372,7 +2372,9 @@
 
 //////////////////////////////////////////////////////////////////// bathing
 
+      boxHeight = 0;
       doc.text("Bathing", startX, startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 8));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 0));
 
       doc.text("Type of Bathing", startX, startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 8));
       doc.text("Shower",
@@ -2384,6 +2386,7 @@
       doc.text("Spit Bath",
         startX + optionsOffset + ("Shower".length * coordsPerLetter) + ("Bathtub".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
         startY + (spaceBetweenLines * 16) + (spaceBetweenOptionsVertical * 9));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
 
       doc.text("Time of Bathing", startX, startY + (spaceBetweenLines * 17) + (spaceBetweenOptionsVertical * 9));
       doc.text("Morning",
@@ -2436,6 +2439,69 @@
         endX,
         startY + (spaceBetweenLines * 21) + (spaceBetweenOptionsVertical * 11));
       boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
+
+      doc.text("Acceptance of Bathing", startX, startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 11));
+      doc.text("Likes",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Dislikes",
+        startX + optionsOffset + ("Likes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Refuses",
+        startX + optionsOffset + ("Likes".length * coordsPerLetter) + ("Dislikes".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 12));
+      doc.text("Indifferent",
+        startX + optionsOffset + ("Likes".length * coordsPerLetter) + ("Dislikes".length * coordsPerLetter) + ("Refuses".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 22) + (spaceBetweenOptionsVertical * 12));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+
+      doc.text("Dislikes/Refuses Bathing Description", startX, startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 12));
+      doc.line(
+        startX + ("Dislikes/Refuses Bathing Description".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 12),
+        endX,
+        startY + (spaceBetweenLines * 23) + (spaceBetweenOptionsVertical * 12));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 12),
+        endX,
+        startY + (spaceBetweenLines * 24) + (spaceBetweenOptionsVertical * 12));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 0));
+
+      doc.rect(boxStartX, startY + (spaceBetweenLines * 15) + (spaceBetweenOptionsVertical * 7), boxWidth, boxHeight + 50);
+
+      doc.addPage();
+      boxHeight = 0;
+
+      doc.text("Bathing Assist", startX, startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 0));
+      doc.text("Full Assistance",
+        startX + optionsOffset,
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Partial Assistance",
+        startX + optionsOffset + ("Full Assistance".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 1),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Standby",
+        startX + optionsOffset + ("Full Assistance".length * coordsPerLetter) + ("Partial Assistance".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 2),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      doc.text("Reminder",
+        startX + optionsOffset + ("Full Assistance".length * coordsPerLetter) + ("Partial Assistance".length * coordsPerLetter) + ("Standby".length * coordsPerLetter) + (spaceBetweenOptionsHorizontal * 3),
+        startY + (spaceBetweenLines * 0) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+
+      doc.text("Bathing Notes", startX, startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX + ("Bathing Notes".length * coordsPerLetter),
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 1) + (spaceBetweenOptionsVertical * 1));
+      doc.line(
+        startX,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1),
+        endX,
+        startY + (spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
+      boxHeight += ((spaceBetweenLines * 2) + (spaceBetweenOptionsVertical * 1));
+
+      doc.rect(boxStartX, boxStartY - 20, boxWidth, boxHeight + 20);
 
       doc.save("Blank Careplan.pdf");
     }
