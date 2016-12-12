@@ -5,7 +5,7 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, residentList, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
     var vm = this;
 
     // Data
@@ -13,6 +13,8 @@
 
     vm.isDisabled = false;
     vm.Utils = Utils;
+
+    vm.residentList = residentList;
 
   //  vm.calendarEvent.date = dialogData.start;
     var userid = authentication.currentUser().id;
@@ -32,11 +34,7 @@
 
     init();
 
-    apilaData.userCommunity(userid)
-      .success(function(d) {
-        vm.community = d;
-        residentsList(vm.community._id);
-      });
+    var communityid = authentication.currentUser().community._id;
 
     //////////
 
@@ -73,23 +71,7 @@
        return ret;
      }
 
-
-    vm.residentList = [];
     vm.selectedUser = {};
-
-    function residentsList(id){
-      apilaData.residentsList(id)
-        .success(function(residentList) {
-          //console.log(residentList);
-          vm.residentList = residentList.map(function(elem) {
-            return {value: elem._id, display: elem.firstName + " " + elem.lastName};
-          });
-        })
-        .error(function(residentList) {
-          console.log("Error retriving the list of residents");
-        });
-
-    }
 
 
       //if we are in the update model set fields value

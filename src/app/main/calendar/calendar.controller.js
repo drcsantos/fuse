@@ -24,6 +24,7 @@
 
     var username = authentication.currentUser().name;
     var userid = authentication.currentUser().id;
+    var communityid = authentication.currentUser().community._id;
 
     // Functions
     vm.addEvent = addEvent;
@@ -32,6 +33,16 @@
     vm.exportAppointments = exportAppoint;
     vm.openAppointmentMapDialog = openAppointmentMapDialog;
 
+
+    apilaData.residentsList(communityid)
+      .success(function(residentList) {
+        vm.residentList = residentList.map(function(elem) {
+          return {value: elem._id, display: elem.firstName + " " + elem.lastName};
+        });
+      })
+      .error(function(err) {
+        console.log(err);
+      });
 
     apilaData.userCommunity(userid)
       .success(function(d) {
@@ -94,7 +105,7 @@
         });
       })
       .error(function(response) {
-
+        console.log(response);
       });
     };
 
@@ -337,7 +348,8 @@
         targetEvent: e,
         clickOutsideToClose: true,
         locals: {
-          dialogData: dialogData
+          dialogData: dialogData,
+          residentList: vm.residentList
         }
       }).then(function(response) {
 
