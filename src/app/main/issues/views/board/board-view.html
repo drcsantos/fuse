@@ -149,26 +149,32 @@
                                 </md-tooltip>
                               </md-icon>
 
+                            </div>
+
+                            <div layout="row" layout-align="end center">
+
+                              <!-- CARD PLAN -->
                               <span class="list-card-footer-item"
                                     layout="row" layout-align="start center">
                                   <i class="icon-gavel s18"></i>
                                   <span class="value">{{ vm.board.cards.getById(cardId).finalPlan.length}}</span>
                                   <md-tooltip>
-                                    Number of plans for the issue
+                                    Plans
                                   </md-tooltip>
                               </span>
-
-                            </div>
-
-                            <div layout="row" layout-align="end center">
+                              <!-- / CARD PLAN -->
 
                               <!-- CARD ATTACHMENT -->
                                <span class="list-card-footer-item" ng-if="vm.board.cards.getById(cardId).attachments"
                                      layout="row" layout-align="start center">
                                    <i class="icon-attachment s18"></i>
                                    <span class="value">{{vm.board.cards.getById(cardId).attachments.length}}</span>
+                                   <md-tooltip>
+                                     Attachments
+                                   </md-tooltip>
                                </span>
                                <!-- / CARD ATTACHMENT -->
+
 
 
                                 <!-- CARD COMMENTS -->
@@ -176,6 +182,9 @@
                                       layout="row" layout-align="start center">
                                     <i class="icon-comment s18"></i>
                                     <span class="value">{{vm.board.cards.getById(cardId).comments.length}}</span>
+                                    <md-tooltip>
+                                      Comments
+                                    </md-tooltip>
                                 </span>
                                 <!-- / CARD COMMENTS -->
 
