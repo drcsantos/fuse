@@ -28,6 +28,17 @@
       vm.todayLocations = getLocations(isToday);
       vm.currentWeekLocations = getLocations(isCurrentWeek);
 
+      vm.switchTabs = function(state) {
+        if(state === "Today") {
+          vm.todayLocations = getLocations(isToday);
+        } else if(state === "Tomorrow") {
+          vm.tomorrowLocations = getLocations(isTomorrow);
+        } else if(state === "This-Week") {
+          vm.currentWeekLocations = getLocations(isCurrentWeek);
+        }
+
+      };
+
       function getLocations(timeRange) {
 
         var locations = [];
@@ -85,10 +96,19 @@
 
       function isCurrentWeek(appoint) {
         var appointDate = moment(appoint.appointmentDate);
-        var startOfWeek = moment().startOf('week').isoWeekday(1);
-        var endOfWeek = startOfWeek.add(6, 'days');
+        var currentDate = moment();
+
+        var startOfWeek = moment();
+        var endOfWeek = moment();
+
+        var dayOfWeek = currentDate.isoWeekday();
+
+        startOfWeek = moment(currentDate).subtract(dayOfWeek, 'day');
+
+        endOfWeek = moment(startOfWeek).add(6, 'day');
 
         return appointDate.isBetween(startOfWeek, endOfWeek);
+
       }
 
       function isToday(appoint) {

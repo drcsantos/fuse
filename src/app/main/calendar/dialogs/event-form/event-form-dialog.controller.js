@@ -35,6 +35,7 @@
     init();
 
     var communityid = authentication.currentUser().community._id;
+    vm.community = authentication.currentUser().community;
 
     //////////
 

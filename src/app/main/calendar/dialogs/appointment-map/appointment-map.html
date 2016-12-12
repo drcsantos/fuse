@@ -13,21 +13,21 @@
 
       <md-tabs style="min-height: 400px;">
 
-        <md-tab label="Today">
+        <md-tab label="Today" md-on-select="vm.switchTabs('Today')">
           <ui-gmap-google-map center="vm.locationsMap.center" zoom="vm.locationsMap.zoom">
               <ui-gmap-marker ng-repeat="m in vm.todayLocations" coords="m.coords" idkey="m.id">
               </ui-gmap-marker>
           </ui-gmap-google-map>
         </md-tab>
 
-        <md-tab label="Tomorrow">
+        <md-tab label="Tomorrow" md-on-select="vm.switchTabs('Tomorrow')">
           <ui-gmap-google-map center="vm.locationsMap.center" zoom="vm.locationsMap.zoom">
               <ui-gmap-marker ng-repeat="m in vm.tomorrowLocations" coords="m.coords" idkey="m.id">
               </ui-gmap-marker>
           </ui-gmap-google-map>
         </md-tab>
 
-        <md-tab label="This-Week">
+        <md-tab label="This-Week" md-on-select="vm.switchTabs('This-Week')">
           <ui-gmap-google-map center="vm.locationsMap.center" zoom="vm.locationsMap.zoom">
               <ui-gmap-marker ng-repeat="m in vm.currentWeekLocations" coords="m.coords" idkey="m.id">
               </ui-gmap-marker>
