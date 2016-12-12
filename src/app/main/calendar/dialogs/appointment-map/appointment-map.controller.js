@@ -15,8 +15,17 @@
       // Function
       vm.closeDialog = closeDialog;
 
-      vm.todayLocations = getLocations(isToday);
+      vm.locationsMap = {
+        center: {
+          latitude : 33.2148412,
+          longitude: -97.13306829999999
+        },
+        zoom: 4
+
+      };
+
       vm.tomorrowLocations = getLocations(isTomorrow);
+      vm.todayLocations = getLocations(isToday);
       vm.currentWeekLocations = getLocations(isCurrentWeek);
 
       function getLocations(timeRange) {
@@ -27,6 +36,7 @@
 
         _.forEach(appointments, function(d) {
           if(!angular.isString(d.locationName)) {
+
             var geometry = d.locationName.geometry;
             var name = d.locationName.formatted_address;
 
@@ -43,19 +53,12 @@
                 mainLocations[name].value++;
               }
 
-
-              vm.locationsMap = {
-                center: {
-                  latitude : geometry.location.lat,
-                  longitude: geometry.location.lng
-                },
-                zoom: 10
-
-              };
-
               locations.push({
                 'id' : d._id,
-                'coords' : vm.locationsMap.center
+                'coords' : {
+                  latitude : geometry.location.lat,
+                  longitude: geometry.location.lng
+                }
               });
             }
           }
@@ -74,6 +77,7 @@
         }
 
         vm.locationsMap.center = maxValue.center || vm.locationsMap.center;
+        vm.locationsMap.zoom = 10;
 
         return locations;
       }

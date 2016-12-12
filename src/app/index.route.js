@@ -10,7 +10,7 @@
     function routeRun($rootScope, $location, authentication) {
 
       //urls we can't visit while we're not logged in
-      var restrictedUrls = ['app.residents', 'app.appointments', 'app.issues.boards.board', 'app.dashboard'];
+      var restrictedUrls = ['app.residents', 'app.calendar', 'app.issues.boards.board', 'app.dashboard'];
 
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
