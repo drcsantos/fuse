@@ -41,7 +41,7 @@
       var birthDateX = 450; // horizontal position of the date of birth row
 
       //number of resident rows before new page is created
-      var newPageRows = 16;
+      var newPageRows = 36;
 
       var increment = 0;
 
@@ -82,13 +82,13 @@
          doc.setDrawColor(224,224,224);
          doc.line(10,
            listStartY - 3 + (increment*spaceBetweenResidents),
-           570,
+           590,
            listStartY - 3 + (increment*spaceBetweenResidents));
        }
 
-        //creates a new page after newPageRows (first time it's 15 later 20)
+        //creates a new page after newPageRows
         if(((increment+1) % newPageRows === 0)) {
-          newPageRows = 20;
+          newPageRows = 42; // number of entries on remaining pages
           listStartX = 14;
           listStartY = 20;
 
