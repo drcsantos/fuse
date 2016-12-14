@@ -7,7 +7,7 @@
         .factory('api', apiService);
 
     /** @ngInject */
-    function apiService($resource)
+    function apiService($resource, $log)
     {
         /**
          * You can use this service to define your API urls. The "api" service
@@ -75,7 +75,7 @@
          *              // Success
          *              function (response)
          *              {
-         *                  console.log(response);
+         *                  $log.debug(response);
          *              },
          *
          *              // Error
@@ -92,7 +92,7 @@
          *              // Success
          *              function (response)
          *              {
-         *                  console.log(response);
+         *                  $log.debug(response);
          *              },
          *
          *              // Error
@@ -109,7 +109,7 @@
          *              // Success
          *              function (response)
          *              {
-         *                  console.log(response);
+         *                  $log.debug(response);
          *              },
          *
          *              // Error
@@ -179,7 +179,7 @@
 
         api.getTestCall = $resource('http://localhost:3300/api/testCall/');
 
-        
+
 
         // Base Url
         api.baseUrl = 'app/data/';

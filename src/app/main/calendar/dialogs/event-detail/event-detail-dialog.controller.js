@@ -6,7 +6,7 @@
         .controller('EventDetailDialogController', EventDetailDialogController);
 
     /** @ngInject */
-    function EventDetailDialogController($mdDialog, calendarEvent, showEventFormDialog, event, apilaData, exportPdf)
+    function EventDetailDialogController($mdDialog, calendarEvent, showEventFormDialog, $log, event, apilaData, exportPdf)
     {
         var vm = this;
 
@@ -22,12 +22,12 @@
         vm.submitComment = function() {
           apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
               .success(function(data) {
-                  console.log("Comment has been aded");
+                  $log.debug("Comment has been aded");
                   vm.calendarEvent.appointmentComment.push(data);
                   vm.formData.commentText = "";
               })
               .error(function(data) {
-                  console.log("Error while adding comments");
+                  $log.debug("Error while adding comments");
               });
         }
 
@@ -36,7 +36,7 @@
          var name = vm.calendarEvent.residentGoing.firstName + " to " +
               (vm.calendarEvent.locationName.formatted_address || vm.calendarEvent.locationName);
 
-        console.log(vm.calendarEvent.locationName);
+        $log.debug(vm.calendarEvent.locationName);
          //vm.calendarEvent.appointment = vm.calendarEvent;
          exportPdf.exportAppointmentDetail(name, vm.calendarEvent);
      }

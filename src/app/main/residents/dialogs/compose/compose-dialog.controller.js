@@ -7,7 +7,7 @@
         .controller('ComposeDialogController', ComposeDialogController);
 
     /** @ngInject */
-    function ComposeDialogController($mdDialog, apilaData, resList, authentication, errorCheck)
+    function ComposeDialogController($mdDialog, $log, apilaData, resList, authentication, errorCheck)
     {
         var vm = this;
 
@@ -56,7 +56,7 @@
                 $mdDialog.hide();
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 

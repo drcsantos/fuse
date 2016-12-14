@@ -7,7 +7,7 @@
         .controller('BoardViewController', BoardViewController);
 
     /** @ngInject */
-    function BoardViewController($document, $window, $timeout, $mdDialog, msUtils, $stateParams, SearchService,
+    function BoardViewController($document, $window, $log, $timeout, $mdDialog, msUtils, $stateParams, SearchService,
        BoardService, CardFilters, DialogService, authentication, apilaData, msNavigationService, $scope)
     {
         var vm = this;
@@ -92,7 +92,7 @@
             addCardsToList(currUserIssues, vm.board.lists[0]);
           })
           .error(function(issues) {
-              console.log("Error while loading list of issues for: " + username);
+              $log.debug("Error while loading list of issues for: " + username);
           });
     }
 
@@ -107,7 +107,7 @@
           });
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
     }
 
@@ -142,7 +142,7 @@
 
               })
               .error(function(issues) {
-                  console.log("Error while loading list of issues for: " + username);
+                  $log.debug("Error while loading list of issues for: " + username);
               });
 
         }

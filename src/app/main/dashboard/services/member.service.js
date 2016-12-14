@@ -8,7 +8,7 @@
 
 
   /** @ngInject */
-  function MemberService(apilaData, $mdDialog) {
+  function MemberService(apilaData, $mdDialog, $log) {
 
     var pendingMemberTable = null;
     var communityMemberTable = null;
@@ -30,7 +30,7 @@
         communityMemberTable.push(addedMember);
       })
       .error(function(d) {
-        console.log(d);
+        $log.debug(d);
       });
     }
 
@@ -45,7 +45,7 @@
         pendingMemberTable.splice(index, 1);
       })
       .error(function(d) {
-        console.log(d);
+        $log.debug(d);
       });
     }
 
@@ -60,7 +60,7 @@
             removeMemberFromTable(userid);
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
 
       });
@@ -76,10 +76,10 @@
 
       apilaData.addRole(communityId, userId, data)
       .success(function(response) {
-        console.log("Role added " + response);
+        $log.debug("Role added " + response);
       })
       .error(function(response) {
-        console.log("Couldn't add a role");
+        $log.debug("Couldn't add a role");
       });
     }
 

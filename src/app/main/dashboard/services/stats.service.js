@@ -8,7 +8,7 @@
 
 
   /** @ngInject */
-  function StatsService(apilaData) {
+  function StatsService(apilaData, $log) {
 
     var communityId = "";
     var averageAge = 0;
@@ -17,11 +17,11 @@
     function getAverageAge() {
       apilaData.averageAge(communityId)
       .success(function(response) {
-        console.log("averageAge: " + response);
+        $log.debug("averageAge: " + response);
         averageAge = response;
       })
       .error(function(response) {
-        console.log(response);
+        $log.debug(response);
       });
     }
 
@@ -31,7 +31,7 @@
         averageStayTime = response;
       })
       .error(function(response) {
-        console.log(response);
+        $log.debug(response);
       });
     }
 

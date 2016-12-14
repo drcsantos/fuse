@@ -6,7 +6,7 @@
     .controller('AppoitmentsController', AppoitmentsController);
 
   /** @ngInject */
-  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService,
+  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService, $log,
                                  authentication, $state, $scope, SearchService, exportAppointments) {
     var vm = this;
 
@@ -41,7 +41,7 @@
         });
       })
       .error(function(err) {
-        console.log(err);
+        $log.debug(err);
       });
 
     apilaData.userCommunity(userid)
@@ -80,7 +80,7 @@
 
         })
         .error(function(err) {
-          console.log(err);
+          $log.debug(err);
         });
 
     };
@@ -105,7 +105,7 @@
         });
       })
       .error(function(response) {
-        console.log(response);
+        $log.debug(response);
       });
     };
 

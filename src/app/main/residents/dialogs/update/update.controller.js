@@ -5,7 +5,7 @@
     .controller('UpdateController', UpdateController);
 
   /** @ngInject */
-  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping,
+  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping, $log,
                             currResident, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
@@ -93,7 +93,7 @@
       vm.form.modifiedBy = authentication.currentUser().id;
       vm.form.modifiedDate = new Date();
 
-      console.log(currResident.updateInfo);
+      $log.debug(currResident.updateInfo);
 
       if(!vm.form.room) {
         vm.form.room = vm.searchText;
@@ -146,7 +146,7 @@
       apilaData.updateResident(currResident._id, vm.form)
         .success(function(resident) {
 
-          console.log(resident);
+          $log.debug(resident);
 
           currResident.updateInfo = resident.updateInfo;
           currResident.carePoints = resident.carePoints;
@@ -154,12 +154,12 @@
           pushNewValues();
           resetFields();
 
-          console.log(resident);
+          $log.debug(resident);
 
           closeDialog();
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
     }
@@ -178,10 +178,10 @@
       apilaData.updateListItem(vm.copyResident._id, data)
         .success(function(response) {
           currResident = response;
-          console.log(currResident);
+          $log.debug(currResident);
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
     }
 
@@ -195,7 +195,7 @@
         closeDialog();
       })
       .error(function(response) {
-        console.log(response);
+        $log.debug(response);
       });
     }
 

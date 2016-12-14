@@ -7,7 +7,7 @@
         .controller('RoomStyleController', RoomStyleController);
 
     /** @ngInject */
-    function RoomStyleController($mdDialog, roomStyles, room, apilaData, $mdConstant, authentication) {
+    function RoomStyleController($mdDialog, roomStyles, room, $log, apilaData, $mdConstant, authentication) {
 
       var vm = this;
 
@@ -39,7 +39,7 @@
           closeDialog();
         })
         .error(function(err) {
-          console.log(err);
+          $log.debug(err);
         });
       }
 
@@ -50,13 +50,13 @@
           closeDialog();
         })
         .error(function(err) {
-          console.log(err);
+          $log.debug(err);
         });
 
       }
 
       function convertUnit() {
-        // console.log(vm.form.areaUnit);
+        // $log.debug(vm.form.areaUnit);
         // // convert from  meters to feet
         // if(!vm.form.areaUnit) {
         //   vm.form.area = vm.form.area / 3.28;

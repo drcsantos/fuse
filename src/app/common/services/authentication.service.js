@@ -4,9 +4,9 @@
         .module('app.core')
         .service('authentication', authentication);
 
-    authentication.$inject = ['$http', '$window'];
+    authentication.$inject = ['$http', '$window', '$log'];
 
-    function authentication($http, $window) {
+    function authentication($http, $window, $log) {
 
        var apiUrl="http://localhost:3300";
 
@@ -104,7 +104,7 @@
             community = response;
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
@@ -114,7 +114,7 @@
             userImage = response;
           })
           .error(function(response) {
-            console.log("Unable to load user image");
+            $log.debug("Unable to load user image");
           });
         }
 

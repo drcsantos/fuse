@@ -7,7 +7,7 @@
         .service('ChecklistsService', ChecklistsService);
 
     /** @ngInject */
-    function ChecklistsService(apilaData, msUtils, authentication, UpdateInfoService) {
+    function ChecklistsService(apilaData, $log, msUtils, authentication, UpdateInfoService) {
 
       var vm = null;
 
@@ -56,7 +56,7 @@
               vm.card.updateInfo.push(transformUpdateInfo(list.updateInfo));
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
       }
 
@@ -85,7 +85,7 @@
 
           })
           .error(function() {
-            console.log("Error while updateing checklist");
+            $log.debug("Error while updateing checklist");
           });
 
       }
@@ -108,7 +108,7 @@
             });
           })
           .error(function(d){
-            console.log("Error while removing checklist");
+            $log.debug("Error while removing checklist");
           });
 
       }
@@ -135,7 +135,7 @@
               vm.newCheckListTitle = "Checklist";
           })
           .error(function(err) {
-            console.log(err);
+            $log.debug(err);
           });
       }
 

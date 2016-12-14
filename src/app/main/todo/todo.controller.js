@@ -7,7 +7,7 @@
         .controller('TodoController', TodoController);
 
     /** @ngInject */
-    function TodoController($document, $mdDialog, $mdSidenav, authentication, apilaData, ToDoUtilsService, msNavigationService)
+    function TodoController($document, $mdDialog, $log, $mdSidenav, authentication, apilaData, ToDoUtilsService, msNavigationService)
     {
         var vm = this;
 
@@ -95,7 +95,7 @@
 
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
@@ -163,7 +163,7 @@
             loadTasks();
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
@@ -333,7 +333,7 @@
             }
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
 
         }

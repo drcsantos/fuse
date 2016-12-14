@@ -7,7 +7,7 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService,
+    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService, $log,
                         $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
@@ -93,11 +93,11 @@
           apilaData.usersInCommunity(communityid)
           .success(function(response) {
             vm.communityMembers = response;
-            console.log(response);
+            $log.debug(response);
             callback();
           })
           .error(function(response) {
-            console.log("Unable to load community members");
+            $log.debug("Unable to load community members");
           });
         }
 
@@ -106,7 +106,7 @@
           apilaData.getLocations(id)
           .success(function(response) {
 
-            console.log(response);
+            $log.debug(response);
 
             var markers = [];
 
@@ -134,7 +134,7 @@
             };
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
@@ -168,7 +168,7 @@
 
           loadStats(vm.myCommunity._id);
 
-          console.log(vm.communityMembers);
+          $log.debug(vm.communityMembers);
 
           vm.communityMemberTable = _.map(vm.communityMembers, function(v) {
             var boss = false;
@@ -202,7 +202,7 @@
               vm.chosenUser = v.recovery;
 
               if(v.recovery === vm.currUserId) {
-                console.log("You are selected for recovery");
+                $log.debug("You are selected for recovery");
                 recovery = true;
               }
             }
@@ -212,7 +212,7 @@
             return [userImage, v.name, v.email, v._id, boss, director, minion, creator, role, recovery];
           });
 
-          console.log(vm.communityMemberTable);
+          $log.debug(vm.communityMemberTable);
 
           vm.pendingMemberTable = _.map(vm.myCommunity.pendingMembers, function(v) {
             var userImage = (v.userImage !== undefined) ? v.userImage : "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
@@ -232,7 +232,7 @@
             vm.appointmentsToday = d;
           })
           .error(function(d) {
-            console.log("Error loading appointments today count");
+            $log.debug("Error loading appointments today count");
           });
 
           apilaData.residentCount(id)
@@ -240,7 +240,7 @@
             vm.residentCount = d;
           })
           .error(function(d) {
-            console.log("Error loading resident count");
+            $log.debug("Error loading resident count");
           });
 
           apilaData.issuesCount(id)
@@ -271,7 +271,7 @@
           .error(function(response) {
             //dont show an error if the user didnt create stripe customer info
             if(response.customer !== null) {
-              console.log(response);
+              $log.debug(response);
             }
           });
         })();
@@ -281,7 +281,7 @@
           vm.activeEmail = response.active;
         })
         .error(function(err) {
-          console.log(err);
+          $log.debug(err);
         });
 
         function openCommunityModal(ev)
@@ -342,7 +342,7 @@
 
           apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
           .error(function(err) {
-            console.log(err);
+            $log.debug(err);
           });
         }
 
@@ -406,7 +406,7 @@
             callback(response);
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
             $mdToast.show(
               $mdToast.simple()
                 .textContent(response.message)
@@ -440,10 +440,10 @@
           apilaData.averageAge(id)
           .success(function(response) {
             vm.averageAge = response;
-            console.log("Average age: " + response);
+            $log.debug("Average age: " + response);
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
@@ -453,7 +453,7 @@
             vm.averageStayTime = Math.floor(stayTime);
           })
           .error(function(err) {
-            console.log(err);
+            $log.debug(err);
           });
         }
 

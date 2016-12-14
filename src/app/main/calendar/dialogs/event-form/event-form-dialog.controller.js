@@ -5,7 +5,7 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, residentList, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, residentList, $log, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
     var vm = this;
 
     // Data
@@ -165,7 +165,7 @@
         //the date that is set when we click the dialog must be in local time for the md-datepicker
         if(dialogData.start._d !== undefined) {
           vm.date = utcToLocalDate(dialogData.start._d);
-          console.log(vm.date);
+          $log.debug(vm.date);
         }
 
 
@@ -255,7 +255,7 @@
           })
           .error(function(appoint) {
             $mdDialog.hide();
-            console.log("Something went wrong while updating the appointments");
+            $log.debug("Something went wrong while updating the appointments");
           });
 
       } else { // Add
@@ -293,7 +293,7 @@
             }
 
             $mdDialog.hide();
-            console.log(appoint);
+            $log.debug(appoint);
           });
       }
 
@@ -352,7 +352,7 @@
             vm.formData.commentText = "";
           })
           .error(function(data) {
-              console.log("Error while adding comments");
+              $log.debug("Error while adding comments");
           });
     }
 

@@ -7,7 +7,7 @@
         .controller('CreateIssueController', CreateIssueController);
 
     /** @ngInject */
-    function CreateIssueController($mdDialog, apilaData, board, name, errorCheck, authentication, msNavigationService) {
+    function CreateIssueController($mdDialog, $log, apilaData, board, name, errorCheck, authentication, msNavigationService) {
 
       var vm = this;
 
@@ -73,7 +73,7 @@
 
        })
        .error(function(usersList) {
-         console.log("Error retriving the list of residents");
+         $log.debug("Error retriving the list of residents");
        });
 
        function checkForm() {
@@ -114,7 +114,7 @@
               closeDialog();
             })
             .error(function(issue) {
-                console.log("Error while adding issue");
+                $log.debug("Error while adding issue");
             });
       }
 
@@ -131,7 +131,7 @@
             });
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
       }
 

@@ -7,7 +7,7 @@
         .controller('QuickPanelController', QuickPanelController);
 
     /** @ngInject */
-    function QuickPanelController(msApi, socket, authentication, $window, $mdDialog, $document, apilaData, msNavigationService)
+    function QuickPanelController(msApi, socket, $log, authentication, $window, $mdDialog, $document, apilaData, msNavigationService)
     {
         var vm = this;
 
@@ -67,7 +67,7 @@
           tasks.forEach(function(task) {
             var inCycle = isInActiveCycle(task, currTime);
             if(!currTime.isSame(task.cycleDate, "day") && inCycle("days")){
-              console.log("Set activity");
+              $log.debug("Set activity");
               addActivity(task);
             }
           });
@@ -91,9 +91,9 @@
             });
 
             socket.on('member-accepted', function(data) {
-              console.log(data);
+              $log.debug(data);
               if(authentication.currentUser().id === data.id) {
-                console.log("Open accept dialog");
+                $log.debug("Open accept dialog");
                 openAcceptDialog(data.communityName);
               }
             });

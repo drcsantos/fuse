@@ -1,6 +1,6 @@
 (function() {
   'use strict';
- 
+
   angular
       .module('app.todo')
       .component('historyList', {
@@ -14,7 +14,6 @@
             vm.dateFormat = "MMM dd, yyyy 'at' h:mma";
           }
 
-          console.log(vm.dateFormat);
         },
         bindings: {
           list: '<',

@@ -7,7 +7,7 @@
         .controller('JoinCommunityController', JoinCommunityController);
 
     /** @ngInject */
-    function JoinCommunityController($mdDialog, apilaData, $mdToast, authentication) {
+    function JoinCommunityController($mdDialog, apilaData, $mdToast, $log, authentication) {
 
       var vm = this;
 
@@ -28,7 +28,7 @@
           });
         })
         .error(function(communityList) {
-          console.log("Error retriving the list of residents");
+          $log.debug("Error retriving the list of residents");
         });
 
       //////////////////// PUBLIC FUNCTIONS /////////////////////////////
@@ -55,7 +55,7 @@
           closeDialog();
         })
         .error(function(d) {
-          console.log(d);
+          $log.debug(d);
 
           if(d.exists) {
             showToastMsg("You have already sent a request to this community");

@@ -8,7 +8,7 @@
 
     /** @ngInject */
     function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
-      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService, MembersService, Utils)
+      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, $log, ImageUploadService, UpdateInfoService, MembersService, Utils)
     {
         var vm = this;
 
@@ -20,7 +20,7 @@
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
-        console.log(vm.board);
+        $log.debug(vm.board);
 
         vm.card.currdue = vm.card.due;
 
@@ -131,7 +131,7 @@
 
           })
           .error(function(usersList) {
-            console.log("Error retriving the list of residents");
+            $log.debug("Error retriving the list of residents");
           });
 
         function getMatches(text) {
@@ -156,7 +156,7 @@
           vm.card.comments = response;
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
         // Load updateInfo
@@ -165,7 +165,7 @@
           vm.card.updateInfo = response;
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
         apilaData.userCommunity(userid)
@@ -181,7 +181,7 @@
             vm.members = response;
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         });
 
@@ -200,7 +200,7 @@
               vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
             })
             .error(function(d) {
-              console.log(d);
+              $log.debug(d);
             });
         }
 
@@ -260,7 +260,7 @@
               vm.card.comments.push(newComment);
 
             }).error(function(data) {
-              console.log("Error while adding comment");
+              $log.debug("Error while adding comment");
             });
 
 
@@ -287,7 +287,7 @@
             updateField : vm.card.updateField
           });
 
-          console.log(vm.card.idMembers);
+          $log.debug(vm.card.idMembers);
 
           // Set author Id if it is an user object but api needs just an _id
           setAuthorId(vm.card.comments);
@@ -299,7 +299,7 @@
 
           })
           .error(function(err) {
-            console.log(err);
+            $log.debug(err);
           });
         }
 
@@ -479,7 +479,7 @@
 
                  })
                  .error(function(d) {
-                   console.log(d);
+                   $log.debug(d);
                  });
 
              }, function ()
@@ -530,7 +530,7 @@
              }
            })
            .error(function(response) {
-             console.log(response);
+             $log.debug(response);
            });
          }
 
@@ -540,7 +540,7 @@
 
            apilaData.issueCommentsUpdate(vm.card._id, comment)
            .error(function(err) {
-             console.log(err);
+             $log.debug(err);
            });
          }
 
@@ -581,7 +581,7 @@
               });
             })
             .error(function(response) {
-              console.log(response);
+              $log.debug(response);
             });
         }
 

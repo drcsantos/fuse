@@ -7,7 +7,7 @@
         .controller('RegisterController', RegisterController);
 
     /** @ngInject */
-    function RegisterController($location, authentication)
+    function RegisterController($location, authentication, $log)
     {
         // Data
         var vm = this;
@@ -52,7 +52,7 @@
               }
             })
             .then(function() {
-              console.log("success register: " + authentication.currentUser().name);
+              $log.debug("success register: " + authentication.currentUser().name);
               $location.path('/auth/login');
             });
         };

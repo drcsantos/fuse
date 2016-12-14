@@ -3,9 +3,9 @@
 (function() {
   angular.module("app.core").service("exportIssueDetail", exportIssueDetail);
 
-  exportIssueDetail.$inject = ['$filter', 'imageData'];
+  exportIssueDetail.$inject = ['$filter', 'imageData', '$log'];
 
-  function exportIssueDetail($filter, imageData) {
+  function exportIssueDetail($filter, imageData, $log) {
 
     function exportPdf(data) {
 
@@ -22,7 +22,7 @@
       var dueDate = null;
       var coordsPerLetter = (610/84); // amount of page coordinates per letter in .length items
 
-      console.log(data);
+      $log.debug(data);
 
       if (data.due) {
         dueDate = dateFilter(moment(parseInt(data.currdue)).toDate(), 'MMM d, yyyy');
@@ -163,7 +163,7 @@
       for (var i = 0; i < data.comments.length; ++i) {
         var comment = data.comments[i];
 
-        console.log(comment);
+        $log.debug(comment);
 
         doc.text(20, 226 + offset + i * 36 + leftofPoint, comment.author.name + " on " + dateFilter(comment.createdOn, 'h:mm a MMM d, yyyy'));
 

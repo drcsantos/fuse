@@ -6,7 +6,7 @@
     .controller('MailController', MailController);
 
   /** @ngInject */
-  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping,
+  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
@@ -98,7 +98,7 @@
           vm.residentList = d;
         })
         .error(function(d) {
-          console.log("Error Retrieving the List of Residents");
+          $log.debug("Error Retrieving the List of Residents");
         });
     }
 

@@ -8,7 +8,7 @@
 
 
   /** @ngInject */
-  function ResidentUpdateInfoService(apilaData, authentication, SliderMapping) {
+  function ResidentUpdateInfoService(apilaData, authentication, SliderMapping, $log) {
 
     var username = authentication.currentUser().name;
 
@@ -383,7 +383,7 @@
           }
 
           if(newValue) {
-            console.log("updated");
+            $log.debug("updated");
             diff.push({
               "field": arrayFields[i],
               "new": newValue
@@ -511,7 +511,7 @@
 
         for(var property in contact) {
           if(oldData.residentContacts[i][property] !== newData.residentContacts[i][property]) {
-            console.log(property + " changed!!!");
+            $log.debug(property + " changed!!!");
             diff.push({
               "field": property + 'InContacts',
               "old": oldData.residentContacts[i][property],
