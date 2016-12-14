@@ -329,6 +329,11 @@
       return $http.delete(apiUrl + '/api/todos/'+ todoId + '/task/' + taskid, getAuth());
     };
 
+    ////////////////////////////////// ACTIVITY /////////////////////////////////
+    var createToDoActivity = function(todoId, data) {
+      return $http.post(apiUrl + '/api/activity/' + todoId, data, getAuth());
+    };
+
     return {
       //appointments
       appointmentsList: appointmentsList,
@@ -413,7 +418,11 @@
       activeTasksCount: activeTasksCount,
       addTask: addTask,
       updateTask: updateTask,
-      deleteTask: deleteTask
+      deleteTask: deleteTask,
+
+      //activity
+      createToDoActivity: createToDoActivity
+
     };
   }
 

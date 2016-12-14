@@ -66,12 +66,38 @@
 
           tasks.forEach(function(task) {
             var inCycle = isInActiveCycle(task, currTime);
-            if(!currTime.isSame(task.cycleDate, "day") && inCycle("days")){
-              $log.debug("Set activity");
-              addActivity(task);
+
+            $log.debug(task.occurrence);
+
+            switch (task.occurrence) {
+              case 0:
+                if(inCycle("hours") && currTime.hour() !== task.cycleDate.hour()){
+                  addActivity(task);
+                }
+              break;
+
+              case 1:
+                if(!currTime.isSame(task.cycleDate, "day") && inCycle("days")){
+                  addActivity(task);
+                }
+              break;
+
+              case 2:
+                if(!currTime.isSame(task.cycleDate, "week") && inCycle("weeks")){
+                  addActivity(task);
+                }
+              break;
+
+              case 3:
+                if(!currTime.isSame(task.cycleDate, "month") && inCycle("months")){
+                  addActivity(task);
+                }
+              break;
+
             }
+
           });
-        }, 10000);
+        }, 15000);
 
         socket.on('connect', function() {
           var userCommunity = authentication.currentUser().community;
@@ -141,23 +167,32 @@
           var hasActivity = false;
 
           vm.activities.forEach(function(value) {
-            if(moment().isSame(moment(value.createdOn), "day") && task.text + " is active" === value.text) {
+            if(moment().isSame(moment(value.createdOn), "day") && ("Task " + task.text + " is active") === value.text) {
               hasActivity = true;
             }
           });
 
           if(!hasActivity) {
             var activity = {
-              _id: moment().format(),
               type: "task-active",
-              createdOn: moment().toDate(),
-              text: task.text + " is active",
-              userId: user,
+              text: "Task " + task.text + " is active",
+              userId: authentication.currentUser().id,
               communityId: communityid
             };
 
-            vm.activities.push(activity);
+            saveActivity(activity);
+
           }
+        }
+
+        function saveActivity(acitivity) {
+          apilaData.createToDoActivity(todoid, acitivity)
+          .success(function(resp) {
+            vm.activities.push(resp);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          });
         }
 
         function isInActiveCycle(task, currTime) {
