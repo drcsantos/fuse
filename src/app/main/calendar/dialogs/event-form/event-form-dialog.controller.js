@@ -55,6 +55,10 @@
           vm.currentTime =  new Date();
       }
 
+      vm.changeComment = function(comment) {
+        return comment.split(/((?:\w+ ){15})/g).filter(Boolean).join("\n");
+      };
+
     function getMatches(text) {
       if(!text) {
          return vm.residentList;

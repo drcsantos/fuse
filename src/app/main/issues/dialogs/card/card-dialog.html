@@ -516,7 +516,7 @@
               <form name="cardCommentForm" ng-submit="vm.addNewComment(vm.newCommentText); vm.newCommentText =''" class="comment new-comment" layout="column" layout-align="start" no-validate>
 
                   <md-input-container flex md-no-float>
-                    <textarea ms-scroll placeholder="Write a comment.." ng-model="vm.newCommentText" required translate translate-attr-placeholder="SB.WRITE_A_COMMENT"></textarea>
+                    <textarea wrap="hard" cols="30" placeholder="Write a comment.." ng-model="vm.newCommentText" required translate translate-attr-placeholder="SB.WRITE_A_COMMENT"></textarea>
                   </md-input-container>
 
                 <div layout="row" layout-align="end center">
@@ -538,7 +538,7 @@
                     <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
                     <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                   </div>
-                  <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{comment.commentText}}</div>
+                  <div class="comment-bubble" wrap="hard" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.commentText)}}</div>
                 </div>
             </div>
 
@@ -611,7 +611,7 @@
                <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
                <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
              </div>
-             <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{comment.text}}</div>
+             <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.text)}}</div>
            </div>
        </div>
 

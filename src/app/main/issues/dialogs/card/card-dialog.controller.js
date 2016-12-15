@@ -20,8 +20,6 @@
         vm.board = BoardService.data.data;
         vm.card = vm.board.cards.getById(cardId);
 
-        $log.debug(vm.board);
-
         vm.card.currdue = vm.card.due;
 
         vm.card.labels.map(function(d){d.id = d._id; return d;});
@@ -374,15 +372,23 @@
           .success(function(resp) {
             vm.card.checklists = resp.checklists;
 
+            vm.card.responsibleParty = vm.responsibleParty;
+
             exportIssueDetail.exportPdf(vm.card);
 
           });
 
         }
 
+        vm.changeComment = function(comment) {
+          return comment.split(/((?:\w+ ){15})/g).filter(Boolean).join("\n");
+        };
+
         apilaData.issuePopulateOne(vm.card._id)
         .success(function(resp) {
           vm.card.finalPlan = resp.finalPlan;
+
+          vm.responsibleParty = resp.responsibleParty;
 
           vm.selectedItem = {
             value: resp.responsibleParty._id,
