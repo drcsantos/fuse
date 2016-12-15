@@ -41,15 +41,15 @@
           });
         });
 
-          apilaData.openIssuesCount(authentication.currentUser().id, community._id)
-            .success(function(count) {
-              msNavigationService.saveItem('fuse.issues', {
-                badge: {
-                  content: count,
-                  color: '#F44336'
-                }
-              });
+        apilaData.openIssuesCount(authentication.currentUser().id, community._id)
+          .success(function(count) {
+            msNavigationService.saveItem('fuse.issues', {
+              badge: {
+                content: count,
+                color: '#F44336'
+              }
             });
+          });
 
         // Funtions
         vm.getColor = getColor;
@@ -66,8 +66,6 @@
 
           tasks.forEach(function(task) {
             var inCycle = isInActiveCycle(task, currTime);
-
-            $log.debug(task.occurrence);
 
             switch (task.occurrence) {
               case 0:
@@ -167,6 +165,9 @@
           var hasActivity = false;
 
           vm.activities.forEach(function(value) {
+
+            $log.debug(value.text);
+
             if(moment().isSame(moment(value.createdOn), "day") && ("Task " + task.text + " is active") === value.text) {
               hasActivity = true;
             }
