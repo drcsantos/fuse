@@ -13,9 +13,11 @@
       // date config
       var residentBirthDate = new Date(data.birthDate);
       var residentAdmissionDate = new Date(data.admissionDate);
+      var exportDate = Date.now();
       var dateFilter = $filter('date');
       var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
       var residentFilteredAdmissionDate = dateFilter(residentAdmissionDate, 'MMM d, yyyy');
+      var filteredExportDate = dateFilter(exportDate, 'MMM d, yyyy');
 
       if (data.insideApartment === undefined) {
         data.insideApartment = {};
@@ -26,15 +28,59 @@
       }
 
       // export config
-      doc.setFontSize(12);
       doc.setFont("courier");
       doc.setFontType("normal");
+      doc.setFontSize(12);
+      doc.setLineWidth(1);
 
       // config variables
-      var offset = 0;
-      var spaceBetweenLines = 12;
-      var coordsPerLetter = 7.2439; // amount of page coordinates per letter in .length items
-      var spaceBetweenWords = 10; // horizontal spacing between the words
+      var spaceBetweenLines = 24;
+      var metaSpacing = 24;
+      var coordsPerLetter = (594/82); // amount of page coordinates per letter in .length items
+      var spaceBetweenOptionsHorizontal = 24; // horizontal spacing between the multiple choice options
+      var spaceBetweenOptionsVertical = 16; // vertical spacing between the question and multiple choice options
+      var numberOfOptionSpaces = 0;
+      var optionsOffset = 5;
+      var adminStartX = 215;
+      var adminMid = 394;
+      var midPoint = 300;
+      var oneThird = 200;
+      var twoThirds = 400;
+      var startX = 15;
+      var startY = 24;
+      var endX = 580;
+      var boxStartX = 10;
+      var boxStartY = 10;
+      var boxWidth = 575;
+      var boxHeight = 8;
+
+      // export date
+      doc.text("Exported on", startX, startY);
+      doc.text(filteredExportDate.toString(), startX, startY + spaceBetweenOptionsVertical);
+
+      // community logo
+      doc.rect(110, 10, 100, 100);
+      doc.text("place holder", 120, 50);
+      doc.text("for logo", 120, 62);
+
+      // community info
+      doc.text("Phone", adminStartX, startY + (metaSpacing * 0));
+      doc.text("(719) 587-3514", 275, startY + (metaSpacing * 0));
+
+      doc.text("Fax", adminStartX, startY + (metaSpacing * 1));
+      doc.text("(719) 589-3614", 275, startY + (metaSpacing * 1));
+
+      doc.text("Address", adminStartX, startY + (metaSpacing * 2));
+      doc.text("3407 Carroll St Alamosa CO, 81101", 275, startY + (metaSpacing * 2));
+
+      doc.text("Website", adminStartX, startY + (metaSpacing * 3));
+      doc.text("AlamosaBridge.com", 275, startY + (metaSpacing * 3));
+
+      // resident picture
+      doc.rect(10, 120, 200, 280);
+      doc.text("place holder", 60, 250);
+      doc.text("for resident picture", 60, 262);
+
 
 
 /*

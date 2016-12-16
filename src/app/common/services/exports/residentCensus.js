@@ -62,7 +62,7 @@
       doc.text("(719) 589-3614", 275, metaStartY * 2);
 
       doc.text("Address", metaStartX, metaStartY * 3);
-      doc.text("3407 Carroll St Alamoa CO, 81101", 275, metaStartY * 3);
+      doc.text("3407 Carroll St Alamosa CO, 81101", 275, metaStartY * 3);
 
       doc.text("Website", metaStartX, metaStartY * 4);
       doc.text("AlamosaBridge.com", 275, metaStartY * 4);
@@ -82,7 +82,7 @@
          doc.setDrawColor(224,224,224);
          doc.line(10,
            listStartY - 3 + (increment*spaceBetweenResidents),
-           590,
+           585,
            listStartY - 3 + (increment*spaceBetweenResidents));
        }
 
