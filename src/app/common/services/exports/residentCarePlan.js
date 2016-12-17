@@ -1,3 +1,5 @@
+// documentation: https://parall.ax/products/jspdf
+
 (function() {
   angular.module("app.core").service("exportCarePlan", exportCarePlan);
 
@@ -13,9 +15,11 @@
       // date config
       var residentBirthDate = new Date(data.birthDate);
       var residentAdmissionDate = new Date(data.admissionDate);
+      var exportDate = Date.now();
       var dateFilter = $filter('date');
-      var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
-      var residentFilteredAdmissionDate = dateFilter(residentAdmissionDate, 'MMM d, yyyy');
+      var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMMM d, yyyy');
+      var residentFilteredAdmissionDate = dateFilter(residentAdmissionDate, 'MMMM d, yyyy');
+      var filteredExportDate = dateFilter(exportDate, 'MMM d, yyyy');
 
       if (data.insideApartment === undefined) {
         data.insideApartment = {};
@@ -26,15 +30,225 @@
       }
 
       // export config
-      doc.setFontSize(12);
       doc.setFont("courier");
       doc.setFontType("normal");
+      doc.setFontSize(12);
+      doc.setLineWidth(1);
 
       // config variables
-      var offset = 0;
-      var spaceBetweenLines = 12;
-      var coordsPerLetter = 7.2439; // amount of page coordinates per letter in .length items
-      var spaceBetweenWords = 10; // horizontal spacing between the words
+      var coordsPerLetter = (594/82); // amount of page coordinates per letter in .length items
+      var startX = 15;
+      var startY = 24;
+      var metaX = 215;
+      var offsetFromLabel = 120;
+
+      var fullSpace = 24;
+      var halfSpace = 16;
+
+      var fullSpaceOffset = 0;
+      var halfSpaceOffset = 0;
+/////////////////////// 24          24              0               16               1
+      var positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      var positionX = startX;
+
+      // export date
+      doc.text("Exported on", positionX, positionY);
+
+      halfSpaceOffset++;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text(filteredExportDate.toString(), positionX, positionY);
+
+      // community logo
+      doc.rect(110, 10, 100, 100);
+      doc.text("place holder", 120, 50);
+      doc.text("for logo", 120, 62);
+
+      // resident picture
+      doc.rect(10, 120, 200, 280);
+      doc.text("place holder", 60, 250);
+      doc.text("for resident picture", 60, 262);
+
+      ///////// community information
+      positionX = metaX;
+      halfSpaceOffset = 0;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text("The Bridge at Alamosa", positionX, positionY);
+
+      fullSpaceOffset++;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text("Phone: ", positionX, positionY);
+
+      halfSpaceOffset++;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text("Fax: ", positionX, positionY);
+
+      halfSpaceOffset++;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text("Address: ", positionX, positionY);
+
+      halfSpaceOffset++;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text("Website: ", positionX, positionY);
+
+      ///////// residents name
+      fullSpaceOffset++;
+      halfSpaceOffset++;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      doc.text(data.firstName, positionX, positionY);
+      positionX += (data.firstName.length * coordsPerLetter);
+
+      if (data.aliasName) {
+        doc.text(" \"" + data.aliasName + "\" ", positionX, positionY);
+        positionX += ((data.aliasName.length + 3) * coordsPerLetter);
+      } else {
+        data.aliasName = "";
+      };
+
+      if (data.middleName) {
+        doc.text(" " + data.middleName, positionX, positionY);
+        positionX += ((data.middleName.length + 1) * coordsPerLetter);
+      } else {
+        data.middleName = "";
+      };
+
+      doc.text(" " + data.lastName, positionX, positionY);
+
+      if (data.maidenName) {
+        fullSpaceOffset++;
+        positionX = metaX;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Maiden Name: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.maidenName, positionX, positionY);
+      } else {
+        data.maidenName = "";
+      };
+
+      if (data.movedFrom) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("From: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.movedFrom.name, positionX, positionY);
+      } else {
+        data.movedFrom = "";
+      };
+
+      if (data.birthDate) {
+        halfSpaceOffset++;
+        positionX = metaX;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Date of Birth: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(residentFilteredBirthDate, positionX, positionY);
+      } else {
+        data.birthDate = "";
+      };
+
+      if (data.admissionDate) {
+        halfSpaceOffset++;
+        positionX = metaX;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Admission Date: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(residentFilteredAdmissionDate, positionX, positionY);
+      } else {
+        data.admissionDate = "";
+      };
+
+      if (data.sex) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Sex: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.sex, positionX, positionY);
+      } else {
+        data.sex = "";
+      };
+
+      if (data.maritalStatus) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Marital Status: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.maritalStatus, positionX, positionY);
+      } else {
+        data.maritalStatus = "";
+      };
+
+      if (data.veteran) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        if (data.veteran === true) {
+          doc.text("Veteran", positionX, positionY);
+        }
+      } else {
+        data.veteran = "";
+      };
+
+      if (data.primaryDoctor) {
+        fullSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Primary Doctor: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.primaryDoctor, positionX, positionY);
+      } else {
+        data.primaryDoctor = "";
+      };
+
+      if (data.pharmacy) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Pharmacy: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.pharmacy, positionX, positionY);
+      } else {
+        data.pharmacy = "";
+      };
+
+      if (data.buildingStatus) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Building Status: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.buildingStatus, positionX, positionY);
+      } else {
+        data.buildingStatus = "";
+      };
+
+      if (data.admittedFrom) {
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        doc.text("Admitted From: ", positionX, positionY);
+        positionX = metaX + offsetFromLabel;
+        doc.text(data.admittedFrom, positionX, positionY);
+      } else {
+        data.admittedFrom = "";
+      };
+
+      if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === true) {
+        doc.text("Receiving Long Term Care Insurance", positionX, positionY);
+      } else if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === false) {
+        doc.text("Has but not receiving Long Term Care Insurance", positionX, positionY);
+      }
+
+      doc.setFontType("bold");
+      doc.setTextColor(139, 0, 0);
+      halfSpaceOffset++;
+      positionX = metaX;
+      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      if (data.fullCode === true) {
+        doc.text("Full Code", positionX, positionY);
+      } else {
+        doc.text("No Code", positionX, positionY);
+      };
+      doc.setTextColor(255, 0, 0);
+      doc.setFontType("normal");
+
+
+
+
+
 
 
 /*

@@ -10,6 +10,7 @@
       <div class="due-date">
         <div ng-if="!vm.card.currdue" moment-picker="vm.card.currdue" format="x" min-view="year" max-view="month" start-view="month">
           <md-button class="md-icon-button" aria-label="Due date" translate translate-attr-aria-label="SB.DUE_DATE" ng-click="$mdOpenMenu($event)">
+            <md-tooltip>Due Date</md-tooltip>
             <md-icon md-font-icon="icon-calendar"></md-icon>
           </md-button>
         </div>
@@ -19,6 +20,7 @@
       <!-- MEMBERS -->
       <md-menu md-offset="0 48" class="members">
         <md-button class="md-icon-button" aria-label="Members" ng-click="$mdOpenMenu($event)">
+          <md-tooltip>Members</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-account-multiple"></md-icon>
         </md-button>
 
@@ -47,6 +49,7 @@
       <!-- ATTACHMENT -->
       <md-menu md-offset="0 48px" class="options">
         <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Attachment" translate translate-attr-aria-label="SB.ATTACHMENT">
+          <md-tooltip>Attachments</md-tooltip>
           <md-icon md-font-icon="icon-attachment"></md-icon>
         </md-button>
         <md-menu-content class="options-menu-content" width="4">
@@ -63,6 +66,7 @@
       <!-- CHECKLIST -->
       <md-menu md-offset="0 48px" class="checklist">
         <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="checklist" translate translate-attr-aria-label="SB.CHECKLIST">
+          <md-tooltip>Checklists</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-checkbox-marked"></md-icon>
         </md-button>
 
@@ -83,6 +87,7 @@
       <!-- LABELS -->
       <md-menu md-offset="0 48" class="labels">
         <md-button class="md-icon-button" aria-label="Label" translate translate-attr-aria-label="SB.LABEL" ng-click="vm.labelTabIndex = 0;$mdOpenMenu($event)">
+          <md-tooltip>Labels</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-label-outline"></md-icon>
         </md-button>
 
@@ -193,12 +198,14 @@
 
       <!-- EXPORT -->
         <md-button class="md-icon-button" ng-click="vm.exportIssue()" aria-label="Options" translate translate-attr-aria-label="SB.OPTIONS">
+          <md-tooltip>Export</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-export"></md-icon>
         </md-button>
       <!-- / EXPORT -->
 
       <!-- WORD CLOUD -->
         <md-button class="md-icon-button" ng-click="vm.wordCloud()" aria-label="WordCloud">
+          <md-tooltip>Word Cloud</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-cloud"></md-icon>
         </md-button>
       <!-- / WORD CLOUD -->

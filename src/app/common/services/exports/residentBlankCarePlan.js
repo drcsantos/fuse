@@ -60,7 +60,7 @@
       doc.text("(719) 589-3614", 275, startY + (metaSpacing * 1));
 
       doc.text("Address", adminStartX, startY + (metaSpacing * 2));
-      doc.text("3407 Carroll St Alamoa CO, 81101", 275, startY + (metaSpacing * 2));
+      doc.text("3407 Carroll St Alamosa CO, 81101", 275, startY + (metaSpacing * 2));
 
       doc.text("Website", adminStartX, startY + (metaSpacing * 3));
       doc.text("AlamosaBridge.com", 275, startY + (metaSpacing * 3));
