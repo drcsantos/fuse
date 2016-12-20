@@ -60,50 +60,51 @@
         });
 
         //check for tasks that became active
-        setInterval(function() {
-
-          var currTime = moment();
-
-          tasks.forEach(function(task) {
-            var inCycle = isInActiveCycle(task, currTime);
-
-            switch (task.occurrence) {
-              case 0:
-                if(inCycle("hours") && currTime.hour() !== task.cycleDate.hour()){
-                  addActivity(task);
-                }
-              break;
-
-              case 1:
-                if(!currTime.isSame(task.cycleDate, "day") && inCycle("days")){
-                  addActivity(task);
-                }
-              break;
-
-              case 2:
-                if(!currTime.isSame(task.cycleDate, "week") && inCycle("weeks")){
-                  addActivity(task);
-                }
-              break;
-
-              case 3:
-                if(!currTime.isSame(task.cycleDate, "month") && inCycle("months")){
-                  addActivity(task);
-                }
-              break;
-
-            }
-
-          });
-        }, 15000);
+        // setInterval(function() {
+        //
+        //   var currTime = moment();
+        //
+        //   tasks.forEach(function(task) {
+        //     var inCycle = isInActiveCycle(task, currTime);
+        //
+        //     switch (task.occurrence) {
+        //       case 0:
+        //         if(inCycle("hours") && currTime.hour() !== task.cycleDate.hour()){
+        //           addActivity(task);
+        //         }
+        //       break;
+        //
+        //       case 1:
+        //         if(!currTime.isSame(task.cycleDate, "day") && inCycle("days")){
+        //           addActivity(task);
+        //         }
+        //       break;
+        //
+        //       case 2:
+        //         if(!currTime.isSame(task.cycleDate, "week") && inCycle("weeks")){
+        //           addActivity(task);
+        //         }
+        //       break;
+        //
+        //       case 3:
+        //         if(!currTime.isSame(task.cycleDate, "month") && inCycle("months")){
+        //           addActivity(task);
+        //         }
+        //       break;
+        //
+        //     }
+        //
+        //   });
+        // }, 15000);
 
         socket.on('connect', function() {
           var userCommunity = authentication.currentUser().community;
+          var userid = authentication.currentUser().id;
 
           socket
           .emit('authenticate', {token: authentication.getToken()})
           .on('authenticated', function () {
-            socket.emit('join-community', userCommunity);
+            socket.emit('join-community', {community: userCommunity, userid: userid});
             socket.emit('get-activities', userCommunity);
 
             socket.on('recent-activities', function(activities) {
