@@ -232,6 +232,7 @@
 
         function addMemberAutoComplete(selectedMember) {
           if(selectedMember !== null) {
+            vm.card.addedMember = selectedMember;
             vm.card.idMembers.push(selectedMember);
             updateIssue();
           }
@@ -294,7 +295,7 @@
 
           apilaData.updateIssue(vm.card._id, vm.card)
           .success(function(response) {
-
+            vm.card.addedMember = "";
           })
           .error(function(err) {
             $log.debug(err);

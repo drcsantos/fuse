@@ -286,7 +286,7 @@
 
         function openCommunityModal(ev)
         {
-          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
 
           if(!vm.activeEmail) {
             $mdToast.show(
@@ -313,7 +313,7 @@
 
         function openJoinModal(ev)
         {
-          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
 
           if(!vm.activeEmail) {
             $mdToast.show(
