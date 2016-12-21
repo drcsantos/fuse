@@ -79,6 +79,14 @@
 
           setMapLocations(vm.myCommunity._id);
 
+          // apilaData.addFloor(vm.myCommunity._id, {})
+          // .success(function(resp) {
+          //   console.log(resp);
+          // })
+          // .error(function(err) {
+          //   console.log(err);
+          // });
+
           formatMembersData();
 
           MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
@@ -335,10 +343,12 @@
           }
         }
 
+
+
         function updateContactAndRoomInfo() {
 
           vm.contactInfo.rooms = vm.myCommunity.rooms;
-          vm.contactInfo.floors = vm.myCommunity.floors;
+          vm.contactInfo.floors = vm.myCommunity.numFloors;
 
           apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
           .error(function(err) {

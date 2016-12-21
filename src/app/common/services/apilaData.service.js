@@ -283,6 +283,10 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + "/role/" + userid, data, getAuth());
     };
 
+    var addFloor = function(communityid, data) {
+      return $http.post(apiUrl + '/api/communities/' + communityid + "/floor", data, getAuth());
+    };
+
     var removeMember = function(communityid, userid) {
       return $http.delete(apiUrl + '/api/communites/' + communityid + "/user/" + userid, getAuth());
     };
@@ -406,6 +410,7 @@
       addPendingMember: addPendingMember,
       declineMember: declineMember,
       addRole: addRole,
+      addFloor: addFloor,
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
