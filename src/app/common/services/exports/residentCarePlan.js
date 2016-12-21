@@ -81,7 +81,9 @@
       positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
       doc.text("Phone: ", positionX, positionY);
 
+      console.log(halfSpaceOffset);
       halfSpaceOffset++;
+      console.log(halfSpaceOffset);
       positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
       doc.text("Fax: ", positionX, positionY);
 
@@ -105,14 +107,14 @@
         positionX += ((data.aliasName.length + 3) * coordsPerLetter);
       } else {
         data.aliasName = "";
-      };
+      }
 
       if (data.middleName) {
         doc.text(" " + data.middleName, positionX, positionY);
         positionX += ((data.middleName.length + 1) * coordsPerLetter);
       } else {
         data.middleName = "";
-      };
+      }
 
       doc.text(" " + data.lastName, positionX, positionY);
 
@@ -125,7 +127,7 @@
         doc.text(data.maidenName, positionX, positionY);
       } else {
         data.maidenName = "";
-      };
+      }
 
       if (data.movedFrom) {
         halfSpaceOffset++;
@@ -136,7 +138,7 @@
         doc.text(data.movedFrom.name, positionX, positionY);
       } else {
         data.movedFrom = "";
-      };
+      }
 
       if (data.birthDate) {
         halfSpaceOffset++;
@@ -147,7 +149,7 @@
         doc.text(residentFilteredBirthDate, positionX, positionY);
       } else {
         data.birthDate = "";
-      };
+      }
 
       if (data.admissionDate) {
         halfSpaceOffset++;
@@ -158,7 +160,7 @@
         doc.text(residentFilteredAdmissionDate, positionX, positionY);
       } else {
         data.admissionDate = "";
-      };
+      }
 
       if (data.sex) {
         halfSpaceOffset++;
@@ -169,7 +171,7 @@
         doc.text(data.sex, positionX, positionY);
       } else {
         data.sex = "";
-      };
+      }
 
       if (data.maritalStatus) {
         halfSpaceOffset++;
@@ -180,14 +182,14 @@
         doc.text(data.maritalStatus, positionX, positionY);
       } else {
         data.maritalStatus = "";
-      };
+      }
 
       if (data.veteran === true) {
         halfSpaceOffset++;
         positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Veteran", positionX, positionY);
-      };
+      }
 
       if (data.primaryDoctor) {
         fullSpaceOffset++;
@@ -198,7 +200,7 @@
         doc.text(data.primaryDoctor, positionX, positionY);
       } else {
         data.primaryDoctor = "";
-      };
+      }
 
       if (data.pharmacy) {
         halfSpaceOffset++;
@@ -209,7 +211,7 @@
         doc.text(data.pharmacy, positionX, positionY);
       } else {
         data.pharmacy = "";
-      };
+      }
 
       if (data.buildingStatus) {
         halfSpaceOffset++;
@@ -220,7 +222,7 @@
         doc.text(data.buildingStatus, positionX, positionY);
       } else {
         data.buildingStatus = "";
-      };
+      }
 
       if (data.admittedFrom) {
         halfSpaceOffset++;
@@ -231,7 +233,7 @@
         doc.text(data.admittedFrom, positionX, positionY);
       } else {
         data.admittedFrom = "";
-      };
+      }
 
       if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === true) {
         positionX = metaX;
@@ -254,21 +256,21 @@
         doc.text("Full Code", positionX, positionY);
       } else {
         doc.text("No Code", positionX, positionY);
-      };
+      }
       doc.setTextColor(0, 0, 0);
       doc.setFontType("normal");
 
       halfSpaceOffset = 0;
       fullSpaceOffset = 0;
       if (data.religion) {
-        halfSpaceOffset
+        halfSpaceOffset++;
         positionX = startX;
         positionY = (nonMetaStartY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         splitText = doc.splitTextToSize(data.religion, textLength);
         doc.text(positionX, positionY, splitText);
       } else {
         data.religion = "";
-      };
+      }
 
 
 
