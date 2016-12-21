@@ -7,6 +7,23 @@
 
   function exportCarePlan($filter, imageData) {
 
+    function calculateOffset(doc, fullSpace, halfSpace, config) {
+
+      var positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
+                                       (halfSpace * config.halfSpaceOffset));
+
+      // create a new page and reset the offsets
+      if(positionY > doc.internal.pageSize.height) {
+        doc.addPage();
+
+        config.fullSpaceOffset = 0;
+        config.halfSpaceOffset = 0;
+
+      }
+
+      return positionY;
+    }
+
     function exportPdf(data) {
 
       var doc = new jsPDF('p', 'pt', 'letter');
@@ -37,8 +54,6 @@
 
       // config variables
       var coordsPerLetter = (594/82); // amount of page coordinates per letter in .length items
-      var startX = 15;
-      var startY = 24;
       var metaX = 215;
       var nonMetaStartY = 420;
       var offsetFromLabel = 120;
@@ -48,17 +63,24 @@
       var fullSpace = 24;
       var halfSpace = 16;
 
-      var fullSpaceOffset = 0;
-      var halfSpaceOffset = 0;
-/////////////////////// 24          24              0               16               1
-      var positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-      var positionX = startX;
+      var config = {
+        startX : 15,
+        startY : 24,
+        fullSpaceOffset : 0,
+        halfSpaceOffset : 0
+      };
+
+      var calculateY = calculateOffset.bind(this, doc, fullSpace, halfSpace);
+
+/////////////////////// 24          24              0               16               0
+      var positionY = calculateY(config);
+      var positionX = config.startX;
 
       // export date
       doc.text("Exported on", positionX, positionY);
 
-      halfSpaceOffset++;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      config.halfSpaceOffset++;
+      positionY = calculateY(config);
       doc.text(filteredExportDate.toString(), positionX, positionY);
 
       // community logo
@@ -73,32 +95,39 @@
 
       ///////// community information
       positionX = metaX;
-      halfSpaceOffset = 0;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-      doc.text("The Bridge at Alamosa", positionX, positionY);
+      config.halfSpaceOffset = 0;
+      positionY = calculateY(config);
+      doc.text(data.communityName, positionX, positionY);
 
-      fullSpaceOffset++;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-      doc.text("Phone: ", positionX, positionY);
+      if(data.community.phone) {
+        config.fullSpaceOffset++;
+        positionY = calculateY(config);
+        doc.text("Phone: " + data.community.phone, positionX, positionY);
+      }
 
-      console.log(halfSpaceOffset);
-      halfSpaceOffset++;
-      console.log(halfSpaceOffset);
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-      doc.text("Fax: ", positionX, positionY);
+      if(data.community.fax) {
+        config.halfSpaceOffset++;
+        positionY = calculateY(config);
+        doc.text("Fax: " + data.community.fax, positionX, positionY);
+      }
 
-      halfSpaceOffset++;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-      doc.text("Address: ", positionX, positionY);
+      if(data.community.address) {
+        config.halfSpaceOffset++;
+        positionY = calculateY(config);
+        doc.text("Address: " + data.community.address, positionX, positionY);
+      }
 
-      halfSpaceOffset++;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-      doc.text("Website: ", positionX, positionY);
+      if(data.community.website) {
+        config.halfSpaceOffset++;
+        positionY = calculateY(config);
+        doc.text("Website: " + data.community.website, positionX, positionY);
+      }
+
 
       ///////// residents name
-      fullSpaceOffset++;
-      halfSpaceOffset++;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      config.fullSpaceOffset++;
+      config.halfSpaceOffset++;
+      positionY = calculateY(config);
       doc.text(data.firstName, positionX, positionY);
       positionX += (data.firstName.length * coordsPerLetter);
 
@@ -119,9 +148,9 @@
       doc.text(" " + data.lastName, positionX, positionY);
 
       if (data.maidenName) {
-        fullSpaceOffset++;
+        config.fullSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Maiden Name: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.maidenName, positionX, positionY);
@@ -130,9 +159,9 @@
       }
 
       if (data.movedFrom) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("From: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.movedFrom.name, positionX, positionY);
@@ -141,9 +170,9 @@
       }
 
       if (data.birthDate) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Date of Birth: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(residentFilteredBirthDate, positionX, positionY);
@@ -152,9 +181,9 @@
       }
 
       if (data.admissionDate) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Admission Date: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(residentFilteredAdmissionDate, positionX, positionY);
@@ -163,9 +192,9 @@
       }
 
       if (data.sex) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Sex: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.sex, positionX, positionY);
@@ -174,9 +203,9 @@
       }
 
       if (data.maritalStatus) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Marital Status: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.maritalStatus, positionX, positionY);
@@ -185,16 +214,16 @@
       }
 
       if (data.veteran === true) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Veteran", positionX, positionY);
       }
 
       if (data.primaryDoctor) {
-        fullSpaceOffset++;
+        config.fullSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Primary Doctor: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.primaryDoctor, positionX, positionY);
@@ -203,9 +232,9 @@
       }
 
       if (data.pharmacy) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Pharmacy: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.pharmacy, positionX, positionY);
@@ -214,9 +243,9 @@
       }
 
       if (data.buildingStatus) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Building Status: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.buildingStatus, positionX, positionY);
@@ -225,9 +254,9 @@
       }
 
       if (data.admittedFrom) {
-        halfSpaceOffset++;
+        config.halfSpaceOffset++;
         positionX = metaX;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        positionY = calculateY(config);
         doc.text("Admitted From: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
         doc.text(data.admittedFrom, positionX, positionY);
@@ -237,21 +266,21 @@
 
       if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === true) {
         positionX = metaX;
-        halfSpaceOffset++;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        config.halfSpaceOffset++;
+        positionY = calculateY(config);
         doc.text("Receiving Long Term Care Insurance", positionX, positionY);
       } else if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === false) {
         positionX = metaX;
-        halfSpaceOffset++;
-        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        config.halfSpaceOffset++;
+        positionY = calculateY(config);
         doc.text("Has but not receiving Long Term Care Insurance", positionX, positionY);
       }
 
       doc.setFontType("bold");
       doc.setTextColor(139, 0, 0);
-      halfSpaceOffset++;
+      config.halfSpaceOffset++;
       positionX = metaX;
-      positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+      positionY = calculateY(config);
       if (data.fullCode === true) {
         doc.text("Full Code", positionX, positionY);
       } else {
@@ -260,12 +289,12 @@
       doc.setTextColor(0, 0, 0);
       doc.setFontType("normal");
 
-      halfSpaceOffset = 0;
-      fullSpaceOffset = 0;
+      config.halfSpaceOffset = 0;
+      config.fullSpaceOffset = 0;
       if (data.religion) {
-        halfSpaceOffset++;
-        positionX = startX;
-        positionY = (nonMetaStartY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        config.halfSpaceOffset++;
+        positionX = config.startX;
+        positionY = (nonMetaStartY + (fullSpace * config.fullSpaceOffset) + (halfSpace * config.halfSpaceOffset));
         splitText = doc.splitTextToSize(data.religion, textLength);
         doc.text(positionX, positionY, splitText);
       } else {

@@ -211,6 +211,7 @@
 
         // community
         carePlanData.communityName = vm.community.name;
+        carePlanData.community = vm.community;
 
         exportCarePlan.exportPdf(carePlanData);
       }, 500);
