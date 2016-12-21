@@ -40,7 +40,10 @@
       var startX = 15;
       var startY = 24;
       var metaX = 215;
+      var nonMetaStartY = 420;
       var offsetFromLabel = 120;
+      var textLength = 580; //px per line
+      var splitText;
 
       var fullSpace = 24;
       var halfSpace = 16;
@@ -126,6 +129,7 @@
 
       if (data.movedFrom) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("From: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -158,6 +162,7 @@
 
       if (data.sex) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Sex: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -168,6 +173,7 @@
 
       if (data.maritalStatus) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Marital Status: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -176,18 +182,16 @@
         data.maritalStatus = "";
       };
 
-      if (data.veteran) {
+      if (data.veteran === true) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
-        if (data.veteran === true) {
-          doc.text("Veteran", positionX, positionY);
-        }
-      } else {
-        data.veteran = "";
+        doc.text("Veteran", positionX, positionY);
       };
 
       if (data.primaryDoctor) {
         fullSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Primary Doctor: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -198,6 +202,7 @@
 
       if (data.pharmacy) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Pharmacy: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -208,6 +213,7 @@
 
       if (data.buildingStatus) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Building Status: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -218,6 +224,7 @@
 
       if (data.admittedFrom) {
         halfSpaceOffset++;
+        positionX = metaX;
         positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Admitted From: ", positionX, positionY);
         positionX = metaX + offsetFromLabel;
@@ -227,8 +234,14 @@
       };
 
       if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === true) {
+        positionX = metaX;
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Receiving Long Term Care Insurance", positionX, positionY);
       } else if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === false) {
+        positionX = metaX;
+        halfSpaceOffset++;
+        positionY = (startY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
         doc.text("Has but not receiving Long Term Care Insurance", positionX, positionY);
       }
 
@@ -242,8 +255,20 @@
       } else {
         doc.text("No Code", positionX, positionY);
       };
-      doc.setTextColor(255, 0, 0);
+      doc.setTextColor(0, 0, 0);
       doc.setFontType("normal");
+
+      halfSpaceOffset = 0;
+      fullSpaceOffset = 0;
+      if (data.religion) {
+        halfSpaceOffset
+        positionX = startX;
+        positionY = (nonMetaStartY + (fullSpace * fullSpaceOffset) + (halfSpace * halfSpaceOffset));
+        splitText = doc.splitTextToSize(data.religion, textLength);
+        doc.text(positionX, positionY, splitText);
+      } else {
+        data.religion = "";
+      };
 
 
 
