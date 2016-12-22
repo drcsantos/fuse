@@ -57,7 +57,7 @@
       var metaX = 215;
       var nonMetaStartY = 420;
       var offsetFromLabel = 120;
-      var textLength = 580; //px per line
+      var textLength = 460; //px per line
       var splitText;
 
       var fullSpace = 24;
@@ -72,7 +72,6 @@
 
       var calculateY = calculateOffset.bind(this, doc, fullSpace, halfSpace);
 
-/////////////////////// 24          24              0               16               0
       var positionY = calculateY(config);
       var positionX = config.startX;
 
@@ -99,32 +98,38 @@
       positionY = calculateY(config);
       doc.text(data.communityName, positionX, positionY);
 
-      if(data.community.phone) {
-        config.fullSpaceOffset++;
-        positionY = calculateY(config);
-        doc.text("Phone: " + data.community.phone, positionX, positionY);
-      }
+      config.fullSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Phone: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      doc.text(data.community.phone, positionX, positionY);
 
-      if(data.community.fax) {
-        config.halfSpaceOffset++;
-        positionY = calculateY(config);
-        doc.text("Fax: " + data.community.fax, positionX, positionY);
-      }
+      config.halfSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Fax: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      doc.text(data.community.fax, positionX, positionY);
 
-      if(data.community.address) {
-        config.halfSpaceOffset++;
-        positionY = calculateY(config);
-        doc.text("Address: " + data.community.address, positionX, positionY);
-      }
+      config.halfSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Address: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      doc.text(data.community.address, positionX, positionY);
 
-      if(data.community.website) {
-        config.halfSpaceOffset++;
-        positionY = calculateY(config);
-        doc.text("Website: " + data.community.website, positionX, positionY);
-      }
+      config.halfSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Website: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      doc.text(data.community.website, positionX, positionY);
 
 
       ///////// residents name
+      positionX = metaX;
+      doc.setFontType("bold");
       config.fullSpaceOffset++;
       config.halfSpaceOffset++;
       positionY = calculateY(config);
@@ -146,6 +151,7 @@
       }
 
       doc.text(" " + data.lastName, positionX, positionY);
+      doc.setFontType("normal");
 
       if (data.maidenName) {
         config.fullSpaceOffset++;
@@ -289,17 +295,62 @@
       doc.setTextColor(0, 0, 0);
       doc.setFontType("normal");
 
+//////////////////////////////////////////
+
       config.halfSpaceOffset = 0;
       config.fullSpaceOffset = 0;
-      if (data.religion) {
-        config.halfSpaceOffset++;
-        positionX = config.startX;
-        positionY = (nonMetaStartY + (fullSpace * config.fullSpaceOffset) + (halfSpace * config.halfSpaceOffset));
-        splitText = doc.splitTextToSize(data.religion, textLength);
+      config.startY = 420;
+
+      if (data.administrativeNotes) {
+        positionX = config.startX
+        positionY = calculateY(config);
+        doc.text("Notes:", positionX, positionY);
+        splitText = doc.splitTextToSize(data.administrativeNotes, textLength);
+        positionX = config.startX + offsetFromLabel;
         doc.text(positionX, positionY, splitText);
+        config.halfSpaceOffset += splitText.length;
+      } else {
+        data.administrativeNotes = "";
+      }
+
+      if (data.religion) {
+        positionX = config.startX
+        positionY = calculateY(config);
+        doc.text("Religion:", positionX, positionY);
+        splitText = doc.splitTextToSize(data.religion, textLength);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(positionX, positionY, splitText);
+        config.halfSpaceOffset += splitText.length;
       } else {
         data.religion = "";
       }
+
+      if (data.education) {
+        positionX = config.startX
+        positionY = calculateY(config);
+        doc.text("Education:", positionX, positionY);
+        splitText = doc.splitTextToSize(data.education, textLength);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(positionX, positionY, splitText);
+        config.halfSpaceOffset += splitText.length;
+      } else {
+        data.education = "";
+      }
+
+      if (data.occupation) {
+        positionX = config.startX
+        positionY = calculateY(config);
+        doc.text("Occupation:", positionX, positionY);
+        splitText = doc.splitTextToSize(data.occupation, textLength);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(positionX, positionY, splitText);
+        config.halfSpaceOffset += splitText.length;
+      } else {
+        data.occupation = "";
+      }
+
+      doc.text("positionY: " + positionY, 40, 300);
+      doc.text("splitText.length: " + splitText.length, 40, 320);
 
 
 

@@ -1,26 +1,115 @@
 (function() {
   angular.module("app.core").service("exportFaceSheet", exportFaceSheet);
 
-  exportFaceSheet.$inject = [];
+  exportFaceSheet.$inject = ['$filter'];
 
-  function exportFaceSheet() {
+  function exportFaceSheet($filter) {
 
-    function exportPdf(resident) {
+    function calculateOffset(doc, fullSpace, halfSpace, config) {
+
+      var positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
+                                       (halfSpace * config.halfSpaceOffset));
+
+      // create a new page and reset the offsets
+      if(positionY > doc.internal.pageSize.height) {
+        doc.addPage();
+
+        config.fullSpaceOffset = 0;
+        config.halfSpaceOffset = 0;
+
+      }
+
+      return positionY;
+    }
+
+    function exportPdf(data) {
 
       var doc = new jsPDF('p', 'pt');
+
+      // date config
+      var residentBirthDate = new Date(data.birthDate);
+      var residentAdmissionDate = new Date(data.admissionDate);
+      var exportDate = Date.now();
+      var dateFilter = $filter('date');
+      var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMMM d, yyyy');
+      var residentFilteredAdmissionDate = dateFilter(residentAdmissionDate, 'MMMM d, yyyy');
+      var filteredExportDate = dateFilter(exportDate, 'MMM d, yyyy');
+
 
       // export config
       doc.setFont("courier");
       doc.setFontType("normal");
       doc.setFontSize(12);
+      doc.setLineWidth(1);
 
       // config variables
-      var startX = 0;
-      var startY = 0;
-      var spaceBetweenLines = 12;
+      var coordsPerLetter = (594/82); // amount of page coordinates per letter in .length items
+      var metaX = 215;
+      var nonMetaStartY = 420;
+      var offsetFromLabel = 120;
+      var textLength = 460; //px per line
+      var splitText;
 
-      doc.text(resident.firstName, 100, 50);
-      doc.text(resident.lastName, 100, 75);
+      var fullSpace = 24;
+      var halfSpace = 16;
+
+      var config = {
+        startX : 15,
+        startY : 24,
+        fullSpaceOffset : 0,
+        halfSpaceOffset : 0
+      };
+
+      var calculateY = calculateOffset.bind(this, doc, fullSpace, halfSpace);
+
+      var positionY = calculateY(config);
+      var positionX = config.startX;
+
+      // export date
+      doc.text("Exported on", positionX, positionY);
+
+      config.halfSpaceOffset++;
+      positionY = calculateY(config);
+      doc.text(filteredExportDate.toString(), positionX, positionY);
+
+      // community logo
+      doc.rect(110, 10, 100, 100);
+      doc.text("place holder", 120, 50);
+      doc.text("for logo", 120, 62);
+
+      // community information
+      positionX = metaX;
+      config.halfSpaceOffset = 0;
+      positionY = calculateY(config);
+      //doc.text(data.communityName, positionX, positionY);
+
+      config.fullSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Phone: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      //doc.text(data.community.phone, positionX, positionY);
+
+      config.halfSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Fax: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      //doc.text(data.community.fax, positionX, positionY);
+
+      config.halfSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Address: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      //doc.text(data.community.address, positionX, positionY);
+
+      config.halfSpaceOffset++;
+      positionX = metaX;
+      positionY = calculateY(config);
+      doc.text("Website: ", positionX, positionY);
+      positionX = metaX + offsetFromLabel;
+      //doc.text(data.community.website, positionX, positionY);
 
       doc.addPage();
 
@@ -58,7 +147,7 @@
 
 
 
-      doc.save(resident.firstName + " " + resident.lastName + " Face Sheet.pdf");
+      doc.save(data.firstName + " " + data.lastName + " Face Sheet.pdf");
     }
 
     return {
