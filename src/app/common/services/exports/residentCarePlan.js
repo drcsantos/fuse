@@ -12,20 +12,21 @@
       var positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                        (halfSpace * config.halfSpaceOffset));
 
+      // logic to see if the text is overflowing and spliting it up
+
       // create a new page and reset the offsets
       if(positionY > doc.internal.pageSize.height) {
         doc.addPage();
 
         config.fullSpaceOffset = 0;
         config.halfSpaceOffset = 0;
+        config.startY = 24;
 
         positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                          (halfSpace * config.halfSpaceOffset));
       } else if(textLength) {
-          console.log("ofsetovao");
           config.halfSpaceOffset += textLength;
-        }
-
+      }
 
       return positionY;
     }
@@ -314,7 +315,6 @@
         doc.text("Notes:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(positionX, positionY, splitText);
-        //config.halfSpaceOffset += splitText.length;
       } else {
         data.administrativeNotes = "";
       }
@@ -352,7 +352,6 @@
         data.occupation = "";
       }
 
-      console.log(config);
       positionY = calculateY(config);
       //doc.text("positionY: " + positionY, 40, 300);
       //doc.text("splitText.length: " + splitText.length, 40, 320);
