@@ -241,7 +241,11 @@
         return;
       }
 
-      exportFaceSheet.exportPdf(vm.selectedResident);
+      var exportData = vm.selectedResident;
+
+      exportData.community = vm.community;
+
+      exportFaceSheet.exportPdf(exportData);
     }
 
     function exportBlankPlan() {

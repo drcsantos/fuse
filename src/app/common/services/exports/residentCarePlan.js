@@ -7,7 +7,7 @@
 
   function exportCarePlan($filter, imageData) {
 
-    function calculateOffset(doc, fullSpace, halfSpace, config) {
+    function calculateOffset(doc, fullSpace, halfSpace, config, textLength) {
 
       var positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                        (halfSpace * config.halfSpaceOffset));
@@ -19,7 +19,13 @@
         config.fullSpaceOffset = 0;
         config.halfSpaceOffset = 0;
 
-      }
+        positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
+                                         (halfSpace * config.halfSpaceOffset));
+      } else if(textLength) {
+          console.log("ofsetovao");
+          config.halfSpaceOffset += textLength;
+        }
+
 
       return positionY;
     }
@@ -96,7 +102,7 @@
       positionX = metaX;
       config.halfSpaceOffset = 0;
       positionY = calculateY(config);
-      doc.text(data.communityName, positionX, positionY);
+      doc.text(data.community.name, positionX, positionY);
 
       config.fullSpaceOffset++;
       positionX = metaX;
@@ -302,55 +308,54 @@
       config.startY = 420;
 
       if (data.administrativeNotes) {
-        positionX = config.startX
-        positionY = calculateY(config);
-        doc.text("Notes:", positionX, positionY);
+        positionX = config.startX;
         splitText = doc.splitTextToSize(data.administrativeNotes, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Notes:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(positionX, positionY, splitText);
-        config.halfSpaceOffset += splitText.length;
+        //config.halfSpaceOffset += splitText.length;
       } else {
         data.administrativeNotes = "";
       }
 
       if (data.religion) {
-        positionX = config.startX
-        positionY = calculateY(config);
-        doc.text("Religion:", positionX, positionY);
+        positionX = config.startX;
         splitText = doc.splitTextToSize(data.religion, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Religion:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(positionX, positionY, splitText);
-        config.halfSpaceOffset += splitText.length;
       } else {
         data.religion = "";
       }
 
       if (data.education) {
-        positionX = config.startX
-        positionY = calculateY(config);
-        doc.text("Education:", positionX, positionY);
+        positionX = config.startX;
         splitText = doc.splitTextToSize(data.education, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Education:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(positionX, positionY, splitText);
-        config.halfSpaceOffset += splitText.length;
       } else {
         data.education = "";
       }
 
       if (data.occupation) {
-        positionX = config.startX
-        positionY = calculateY(config);
-        doc.text("Occupation:", positionX, positionY);
+        positionX = config.startX;
         splitText = doc.splitTextToSize(data.occupation, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Occupation:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(positionX, positionY, splitText);
-        config.halfSpaceOffset += splitText.length;
       } else {
         data.occupation = "";
       }
 
-      doc.text("positionY: " + positionY, 40, 300);
-      doc.text("splitText.length: " + splitText.length, 40, 320);
+      console.log(config);
+      positionY = calculateY(config);
+      //doc.text("positionY: " + positionY, 40, 300);
+      //doc.text("splitText.length: " + splitText.length, 40, 320);
 
 
 

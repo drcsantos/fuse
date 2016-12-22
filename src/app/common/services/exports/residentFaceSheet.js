@@ -81,35 +81,35 @@
       positionX = metaX;
       config.halfSpaceOffset = 0;
       positionY = calculateY(config);
-      //doc.text(data.communityName, positionX, positionY);
+      doc.text(data.community.name, positionX, positionY);
 
       config.fullSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Phone: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      //doc.text(data.community.phone, positionX, positionY);
+      doc.text(data.community.phone, positionX, positionY);
 
       config.halfSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Fax: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      //doc.text(data.community.fax, positionX, positionY);
+      doc.text(data.community.fax, positionX, positionY);
 
       config.halfSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Address: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      //doc.text(data.community.address, positionX, positionY);
+      doc.text(data.community.address, positionX, positionY);
 
       config.halfSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Website: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      //doc.text(data.community.website, positionX, positionY);
+      doc.text(data.community.website, positionX, positionY);
 
       doc.addPage();
 
