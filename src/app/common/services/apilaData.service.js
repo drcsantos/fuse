@@ -283,6 +283,14 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + "/role/" + userid, data, getAuth());
     };
 
+    var acceptMember = function(data, communityid) {
+      return $http.put(apiUrl + '/api/communities/accept/' + communityid, data, getAuth());
+    };
+
+    var updateFloor = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid + "/floor", data, getAuth());
+    };
+
     var addFloor = function(communityid, data) {
       return $http.post(apiUrl + '/api/communities/' + communityid + "/floor", data, getAuth());
     };
@@ -410,6 +418,7 @@
       addPendingMember: addPendingMember,
       declineMember: declineMember,
       addRole: addRole,
+      updateFloor: updateFloor,
       addFloor: addFloor,
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,

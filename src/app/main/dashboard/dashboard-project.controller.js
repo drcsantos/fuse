@@ -56,6 +56,7 @@
         vm.selectProject = selectProject;
 
         vm.updateContactAndRoomInfo = updateContactAndRoomInfo;
+        vm.updateFloors = updateFloors;
 
         vm.roomDialog = roomDialog;
 
@@ -79,13 +80,7 @@
 
           setMapLocations(vm.myCommunity._id);
 
-          // apilaData.addFloor(vm.myCommunity._id, {})
-          // .success(function(resp) {
-          //   console.log(resp);
-          // })
-          // .error(function(err) {
-          //   console.log(err);
-          // });
+          vm.floors = vm.myCommunity.floors;
 
           formatMembersData();
 
@@ -344,11 +339,30 @@
         }
 
 
+        function updateFloors() {
+          apilaData.updateFloor(vm.myCommunity._id, vm.floors)
+          .success(function(resp) {
+            $log.debug(resp);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          })
+        }
 
         function updateContactAndRoomInfo() {
 
           vm.contactInfo.rooms = vm.myCommunity.rooms;
-          vm.contactInfo.floors = vm.myCommunity.numFloors;
+
+
+            vm.floors = _.map(_.range(vm.myCommunity.numFloors), function(floorNumber) {
+              return {
+                floorNumber: floorNumber,
+                startRoom: 0,
+                endRoom: 0
+              };
+            });
+
+            vm.contactInfo.floors = vm.floors;
 
           apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
           .error(function(err) {

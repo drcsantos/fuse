@@ -12,7 +12,7 @@
       var positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                        (halfSpace * config.halfSpaceOffset));
 
-      // logic to see if the text is overflowing and spliting it up
+      //TODO: logic to see if the text is overflowing and spliting it up
 
       // create a new page and reset the offsets
       if(positionY > doc.internal.pageSize.height) {

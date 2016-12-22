@@ -404,6 +404,23 @@
                                     <input ng-model="vm.myCommunity.numFloors" type="number" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
 
+                                  <div ng-repeat="room in vm.floors">
+                                    <label><u><b>{{ room.floorNumber + 1 }}st </b> Floor</u></label>
+                                    <div layout="row" layout-align="space-between start">
+
+                                      <md-input-container class="md-block">
+                                        <label>Starting Room</label>
+                                        <input ng-model="room.startRoom" type="number" ng-blur="vm.updateFloors()">
+                                      </md-input-container>
+
+                                      <md-input-container class="md-block">
+                                        <label>Ending Room</label>
+                                        <input ng-model="room.endRoom" type="number" ng-blur="vm.updateFloors()">
+                                      </md-input-container>
+
+                                    </div>
+                                  </div>
+
                                 </div>
 
                                 <div layout="column" layout-align="space-around start">
