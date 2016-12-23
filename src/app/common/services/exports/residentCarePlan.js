@@ -7,12 +7,37 @@
 
   function exportCarePlan($filter, imageData) {
 
+
+    function multilineText(doc, textArr, x, y, config) {
+
+      var offset = 0;
+      var newPage = false;
+
+      textArr.forEach(function(textLine) {
+        doc.text(x,y + offset, textLine);
+        offset += 12;
+
+        // if y goes over page height create new page and reset coords
+        if(y + offset > 792) {
+          doc.addPage();
+          newPage = true;
+
+          config.fullSpaceOffset = 0;
+          config.halfSpaceOffset = 0;
+          config.startY = 24;
+          y = 15;
+          offset = 0;
+        }
+      });
+
+      config.startY = y + offset + 5;
+
+    };
+
     function calculateOffset(doc, fullSpace, halfSpace, config, textLength) {
 
       var positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                        (halfSpace * config.halfSpaceOffset));
-
-      //TODO: logic to see if the text is overflowing and spliting it up
 
       // create a new page and reset the offsets
       if(positionY > doc.internal.pageSize.height) {
@@ -25,7 +50,7 @@
         positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                          (halfSpace * config.halfSpaceOffset));
       } else if(textLength) {
-          config.halfSpaceOffset += textLength;
+          //config.halfSpaceOffset += textLength;
       }
 
       return positionY;
@@ -314,7 +339,8 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Notes:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(positionX, positionY, splitText);
+        //doc.text(positionX, positionY, splitText);
+        multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.administrativeNotes = "";
       }
@@ -325,7 +351,8 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Religion:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(positionX, positionY, splitText);
+        //doc.text(positionX, positionY, splitText);
+        multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.religion = "";
       }
@@ -336,7 +363,8 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Education:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(positionX, positionY, splitText);
+        //doc.text(positionX, positionY, splitText);
+        multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.education = "";
       }
@@ -347,7 +375,8 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Occupation:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(positionX, positionY, splitText);
+        //doc.text(positionX, positionY, splitText);
+        multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.occupation = "";
       }
