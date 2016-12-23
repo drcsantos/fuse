@@ -372,25 +372,49 @@
           })
         }
 
-        function updateContactAndRoomInfo() {
+        function updateContactAndRoomInfo(type) {
 
           vm.contactInfo.rooms = vm.myCommunity.rooms;
 
+          if(type === "floors") {
 
-            vm.floors = _.map(_.range(vm.myCommunity.numFloors), function(floorNumber) {
-              return {
-                floorNumber: floorNumber,
-                startRoom: 0,
-                endRoom: 0
-              };
-            });
+            var newFloors = vm.myCommunity.numFloors - vm.floors.length;
 
-            vm.contactInfo.floors = vm.floors;
+            if(vm.floors.length === 0) { //create floors for first time
+              vm.floors = generateFloors(vm.myCommunity.numFloors, 0);
+
+            } else if(newFloors > 0) {  // adding new floors
+              vm.floors = vm.floors.concat(generateFloors(newFloors, vm.floors.length));
+
+            } else if(newFloors < 0) { // removing new floors
+              vm.floors.splice(newFloors);
+
+            } if(vm.myCommunity.numFloors === 0) { // reset floors
+              vm.floors = [];
+            }
+
+          }
+
+          vm.contactInfo.floors = vm.floors;
 
           apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
           .error(function(err) {
             $log.debug(err);
           });
+        }
+
+        function generateFloors(numFloors, startCount) {
+
+          var floorRange = _.range(numFloors);
+
+          var floors = _.map(floorRange, function(floorNumber) {
+           return {
+             floorNumber: floorNumber + startCount,
+             startRoom: null,
+             endRoom: null
+           }});
+
+           return floors;
         }
 
         function openRecoverModal(userToRecoverId, userToRecoverName, type)

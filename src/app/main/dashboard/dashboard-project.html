@@ -401,18 +401,18 @@
 
                                   <md-input-container class="md-block">
                                     <label>Floors</label>
-                                    <input ng-model="vm.myCommunity.numFloors" type="number" ng-blur="vm.updateContactAndRoomInfo()">
+                                    <input ng-model="vm.myCommunity.numFloors" type="number" ng-blur="vm.updateContactAndRoomInfo('floors')">
                                   </md-input-container>
 
                                   <div ng-repeat="room in vm.floors">
-                                    <label><u><b>{{ room.floorNumber + 1 }}st </b> Floor</u></label>
+                                    <label><u><b>{{ room.floorNumber + 1 }}. </b> Floor</u></label>
                                     <div layout="row" layout-align="space-between start">
 
                                       <md-input-container class="md-block">
-                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.startRoom" md-search-text="room.searchText"
-                                              md-items="item in vm.getMatches(room.searchText)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
+                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.startRoom" md-search-text="room.startRoom"
+                                              md-items="item in vm.getMatches(room.startRoom)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
                                               md-min-length="0" placeholder="Choose start room">
-                                          <md-item-template> <span md-highlight-text="room.searchText">{{item}}</span>
+                                          <md-item-template> <span md-highlight-text="room.startRoom">{{item}}</span>
 
                                           </md-item-template>
                                           <md-not-found>
@@ -422,10 +422,10 @@
                                       </md-input-container>
 
                                       <md-input-container class="md-block">
-                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.endRoom" md-search-text="room.searchEndText"
-                                              md-items="item in vm.getMatches(room.searchEndText)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
-                                              md-min-length="0" placeholder="Choose end room">
-                                          <md-item-template> <span md-highlight-text="room.searchEndText">{{item}}</span>
+                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.endRoom" md-search-text="room.endRoom"
+                                              md-items="item in vm.getMatches(room.endRoom)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
+                                              md-min-length="0" ng-blur="vm.updateFloors()" placeholder="Choose end room">
+                                          <md-item-template> <span md-highlight-text="room.endRoom">{{item}}</span>
 
                                           </md-item-template>
                                           <md-not-found>
