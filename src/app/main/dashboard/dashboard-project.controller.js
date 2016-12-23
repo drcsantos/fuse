@@ -20,6 +20,10 @@
         vm.username = authentication.currentUser().name;
         vm.userid = authentication.currentUser().id;
 
+        vm.community = authentication.currentUser().community;
+
+        vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
+
         // stats
         vm.appointmentsToday = 0;
         vm.residentCount = 0;
@@ -59,6 +63,7 @@
         vm.updateFloors = updateFloors;
 
         vm.roomDialog = roomDialog;
+        vm.getMatches = getMatches;
 
         vm.cancelSubscription = function() {
           BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
@@ -314,6 +319,23 @@
 
         }
 
+        function getMatches(text) {
+
+          if(text === null) {
+            return vm.roomList;
+          }
+
+          var textLower = text.toLowerCase();
+
+          var ret = vm.roomList.filter(function (d) {
+            if(d) {
+              return d.toLowerCase().indexOf(textLower) > -1;
+            }
+          });
+
+            return ret;
+        }
+
         function openJoinModal(ev)
         {
           //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
@@ -340,6 +362,7 @@
 
 
         function updateFloors() {
+
           apilaData.updateFloor(vm.myCommunity._id, vm.floors)
           .success(function(resp) {
             $log.debug(resp);
@@ -416,6 +439,11 @@
               parent             : angular.element($document.body),
               locals             : {roomStyles: vm.myCommunity.roomStyle, room: room},
               clickOutsideToClose: true
+          }).then(function(resp) {
+
+            vm.community.roomStyle = resp;
+
+            vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
           });
         }
 

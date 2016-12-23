@@ -36,7 +36,7 @@
         apilaData.createRoomStyle(communityId, vm.form)
         .success(function(response) {
           roomStyles.push(response);
-          closeDialog();
+          closeDialog(roomStyles);
         })
         .error(function(err) {
           $log.debug(err);
@@ -47,7 +47,7 @@
 
         apilaData.updateRoomStyle(communityId, vm.form)
         .success(function(response) {
-          closeDialog();
+          closeDialog(response);
         })
         .error(function(err) {
           $log.debug(err);
@@ -65,9 +65,9 @@
         // }
       }
 
-      function closeDialog()
+      function closeDialog(resp)
       {
-          $mdDialog.hide();
+          $mdDialog.hide(resp);
       }
 
     }

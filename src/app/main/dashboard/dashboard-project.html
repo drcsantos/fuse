@@ -409,13 +409,29 @@
                                     <div layout="row" layout-align="space-between start">
 
                                       <md-input-container class="md-block">
-                                        <label>Starting Room</label>
-                                        <input ng-model="room.startRoom" type="number" ng-blur="vm.updateFloors()">
+                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.startRoom" md-search-text="room.searchText"
+                                              md-items="item in vm.getMatches(room.searchText)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
+                                              md-min-length="0" placeholder="Choose start room">
+                                          <md-item-template> <span md-highlight-text="room.searchText">{{item}}</span>
+
+                                          </md-item-template>
+                                          <md-not-found>
+                                            No room found
+                                          </md-not-found>
+                                        </md-autocomplete>
                                       </md-input-container>
 
                                       <md-input-container class="md-block">
-                                        <label>Ending Room</label>
-                                        <input ng-model="room.endRoom" type="number" ng-blur="vm.updateFloors()">
+                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.endRoom" md-search-text="room.searchEndText"
+                                              md-items="item in vm.getMatches(room.searchEndText)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
+                                              md-min-length="0" placeholder="Choose end room">
+                                          <md-item-template> <span md-highlight-text="room.searchEndText">{{item}}</span>
+
+                                          </md-item-template>
+                                          <md-not-found>
+                                            No room found
+                                          </md-not-found>
+                                        </md-autocomplete>
                                       </md-input-container>
 
                                     </div>
