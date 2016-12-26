@@ -7,7 +7,7 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService, $log,
+    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService, $log, WeatherService,
                         $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
@@ -23,6 +23,21 @@
         vm.community = authentication.currentUser().community;
 
         vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
+
+        vm.communityTown = "Denever";
+        vm.units = "imperial";
+
+        vm.windDirection = WeatherService.windDirection;
+
+        WeatherService.getWeather(vm.communityTown, vm.units)
+        .then(function(response) {
+          vm.weatherData = response.data;
+          console.log(vm.weatherData);
+        })
+        .catch(function(err) {
+          $log.error(err);
+        });
+
 
         // stats
         vm.appointmentsToday = 0;
