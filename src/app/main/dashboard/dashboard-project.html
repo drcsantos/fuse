@@ -369,6 +369,15 @@
                                     <input ng-model="vm.contactInfo.fax" type="text" ng-blur="vm.updateContactAndRoomInfo()">
                                   </md-input-container>
                                 </div>
+
+                                <div layout="row" layout-align="space-around center">
+                                  <md-input-container class="md-block" flex>
+                                    <label>Town</label>
+                                    <input ng-model="vm.contactInfo.town" type="text" ng-blur="vm.updateContactAndRoomInfo('town')">
+                                  </md-input-container>
+
+
+                                </div>
                               </div>
 
                           </ms-widget-font>
@@ -507,7 +516,7 @@
 
                             <md-menu-content width="3">
                                 <md-menu-item>
-                                    <md-button ng-click="vm.nowWidget.dummyFunction()">
+                                    <md-button ng-click="vm.refreshWeather()">
                                         <md-icon md-font-icon="icon-refresh" class="icon"></md-icon>
                                         Refresh
                                     </md-button>
@@ -572,9 +581,10 @@
                                    </md-button>
                                </md-menu-item>
                                <md-menu-item>
-                                   <md-button ng-click="vm.nowWidget.dummyFunction()">
+                                   <md-button ng-click="vm.changeWeatherUnit()">
                                        <md-icon md-font-icon="icon-cog" class="icon"></md-icon>
-                                       Settings
+                                       <span ng-if="vm.units === 'metric'">Change to imperial</span>
+                                       <span ng-if="vm.units === 'imperial'">Change to metric</span>
                                    </md-button>
                                </md-menu-item>
                            </md-menu-content>
@@ -584,14 +594,13 @@
                    <div class="p-16 pb-32" layout="column" layout-align="center center">
                        <div layout="row" layout-align="center center">
                            <md-icon
-                                   md-font-icon="icon-cloud"
+                                   md-font-icon="{{ vm.mapIcon(vm.weatherData.list[0].weather[0].main) }}"
                                    class="icon s40 mr-16"></md-icon>
                            <span class="md-display-2 font-weight-300 secondary-text">
-                               {{vm.weatherData.list[0].main.temp}}
+                               {{vm.currentWeather.main.temp}}
                            </span>
                            <span class="font-size-48 font-weight-300 hint-text text-super ml-8">&deg;</span>
-                           <span ng-if="vm.units === 'metric'"class="md-display-2 font-weight-300 hint-text">C</span>
-                           <span ng-if="vm.units === 'imperial'"class="md-display-2 font-weight-300 hint-text">F</span>
+                           <span class="md-display-2 font-weight-300 hint-text">{{ vm.tempUnit }}</span>
                        </div>
                    </div>
 
@@ -599,7 +608,7 @@
                        <div layout="row" layout-align="start center">
                            <md-icon md-font-icon="icon-weather-windy" class="icon mr-8 s20"></md-icon>
                            <span>
-                               {{vm.weatherData.list[0].wind.speed}}
+                               {{vm.currentWeather.wind.speed}}
                            </span>
                            <span ng-if="vm.units === 'metric'" class="secondary-text ml-5">M/S</span>
                            <span ng-if="vm.units === 'imperial'" class="secondary-text ml-5">M/H</span>
@@ -608,24 +617,44 @@
 
                        <div layout="row" layout-align="start center">
                            <md-icon md-font-icon="icon-compass-outline" class="icon mr-8 s20"></md-icon>
-                           <span>{{vm.windDirection(vm.weatherData.list[0].wind.deg)}}</span>
+                           <span>{{vm.windDirection(vm.currentWeather.wind.deg)}}</span>
                        </div>
 
-                       <div layout="row" layout-align="start center">
+                       <!-- <div layout="row" layout-align="start center">
                            <md-icon md-font-icon="icon-umbrella" class="icon mr-8 s20"></md-icon>
                            <span>{{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].rainProbability}}</span>
-                       </div>
+                       </div> -->
                    </div>
 
                    <div class="pv-16">
-                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center"
-                            ng-repeat="day in vm.weatherWidget.locations[vm.weatherWidget.currentLocation].next3Days">
-                           <span class="h4">{{day.name}}</span>
+                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
+                           <span class="h4">{{ vm.getDay(vm.weatherData.list[1].dt) }}</span>
                            <div layout="row" layout-align="start center">
-                               <md-icon class="mr-16" md-font-icon="{{day.icon}}" class="icon"></md-icon>
-                               <span class="h2">{{day.temp[vm.weatherWidget.tempUnit]}}</span>
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[1].weather[0].main) }}" class="icon"></md-icon>
+                               <span class="h2">{{vm.weatherData.list[1].temp.day}}</span>
                                <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
-                               <span class="h2 font-weight-300 secondary-text">{{vm.weatherWidget.tempUnit}}</span>
+                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                           </div>
+                       </div>
+
+                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
+                           <span class="h4">{{ vm.getDay(vm.weatherData.list[2].dt) }}</span>
+                           <div layout="row" layout-align="start center">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[2].weather[0].main) }}" class="icon"></md-icon>
+                               <span class="h2">{{vm.weatherData.list[2].temp.day}}</span>
+                               <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
+                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                           </div>
+                       </div>
+
+
+                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
+                           <span class="h4">{{ vm.getDay(vm.weatherData.list[3].dt) }}</span>
+                           <div layout="row" layout-align="start center">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[3].weather[0].main) }}" class="icon"></md-icon>
+                               <span class="h2">{{vm.weatherData.list[3].temp.day}}</span>
+                               <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
+                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
                            </div>
                        </div>
                    </div>

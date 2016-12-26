@@ -14,6 +14,7 @@
 
         // Data
         vm.recoveryInfo = {};
+        vm.contactInfo = {};
         vm.currUserId = null;
         vm.bothRoles = 0;
         vm.chosenUser = '';
@@ -24,20 +25,44 @@
 
         vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
 
-        vm.communityTown = "Denever";
         vm.units = "imperial";
 
         vm.windDirection = WeatherService.windDirection;
 
-        WeatherService.getWeather(vm.communityTown, vm.units)
-        .then(function(response) {
-          vm.weatherData = response.data;
-          console.log(vm.weatherData);
-        })
-        .catch(function(err) {
-          $log.error(err);
-        });
+        vm.getDay = WeatherService.getDay;
+        vm.mapIcon = WeatherService.mapIcon;
 
+        function getWeather() {
+          WeatherService.getWeather(vm.communityTown, vm.units)
+          .then(function(response) {
+            vm.tempUnit = WeatherService.getTempUnit();
+            vm.weatherData = response.data;
+          })
+          .catch(function(err) {
+            $log.error(err);
+          });
+
+          WeatherService.currentWeather(vm.communityTown, vm.units)
+          .then(function(response) {
+            vm.tempUnit = WeatherService.getTempUnit();
+            vm.currentWeather  = response.data;
+          })
+          .catch(function(err) {
+            $log.error(err);
+          });
+        }
+
+        vm.refreshWeather = function(){getWeather();};
+
+        vm.changeWeatherUnit = function() {
+          if(vm.units === 'metric') {
+            vm.units = 'imperial';
+          } else {
+            vm.units = 'metric';
+          }
+
+          getWeather();
+        };
 
         // stats
         vm.appointmentsToday = 0;
@@ -92,6 +117,10 @@
           vm.myCommunity = d;
 
           vm.contactInfo = vm.myCommunity;
+
+          vm.communityTown = vm.myCommunity.town || "Denever";
+
+          getWeather();
 
           vm.hasCommunity = true;
           vm.isTestCommunity = vm.myCommunity.testCommunity;
@@ -408,6 +437,9 @@
               vm.floors = [];
             }
 
+          } else if(type === "town") {
+            vm.communityTown = vm.contactInfo.town;
+            getWeather();
           }
 
           vm.contactInfo.floors = vm.floors;

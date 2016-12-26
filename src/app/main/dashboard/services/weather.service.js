@@ -12,6 +12,18 @@
 
     var API_KEY = "f6ae740f7c8d63c065cbaf1ca73ff0ee";
 
+    var tempUnit = "";
+
+
+    function currentWeather(city, units) {
+      units = units || 'metric';
+
+      var url = "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&units=" + units
+                + "&mode=json&APPID=" + API_KEY;
+
+      return $http.get(url);
+    }
+
     function getWeather(city, units) {
 
       var requestUrl = createUrl(city, units);
@@ -37,13 +49,59 @@
       countryCode = countryCode || "us";
       units = units || 'metric';
 
-      return "http://api.openweathermap.org/data/2.5/forecast?q=" +
+      if(units === 'metric') {
+        tempUnit = "C";
+      } else {
+        tempUnit = "F";
+      }
+
+      return "http://api.openweathermap.org/data/2.5/forecast/daily?q=" +
             city + "," + countryCode + "&units=" + units + "&mode=json&APPID=" + API_KEY;
+    }
+
+    function mapIcon(weather) {
+
+      weather = weather || '';
+
+      weather = weather.toLowerCase();
+
+      switch (weather) {
+        case 'clear':
+          return 'icon-weather-sunny'
+        break;
+
+        case 'clouds':
+          return 'icon-weather-cloudy';
+        break;
+
+        case 'snow':
+          return 'icon-weather-snowy'
+        break;
+
+        case 'rain':
+          return 'icon-weather-rainy'
+        break;
+
+        default:
+        return '';
+      }
+    }
+
+    function getDay(date) {
+      return moment.unix(parseInt(date)).format("dddd");
+    }
+
+    function getTempUnit() {
+      return tempUnit;
     }
 
     return {
       getWeather : getWeather,
-      windDirection: windDirection
+      windDirection: windDirection,
+      getTempUnit: getTempUnit,
+      getDay: getDay,
+      mapIcon: mapIcon,
+      currentWeather: currentWeather
     };
 
   }
