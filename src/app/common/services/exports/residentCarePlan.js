@@ -18,14 +18,14 @@
         offset += 12;
 
         // if y goes over page height create new page and reset coords
-        if(y + offset > 792) {
+        if(y + offset > 780) {
           doc.addPage();
           newPage = true;
 
           config.fullSpaceOffset = 0;
           config.halfSpaceOffset = 0;
           config.startY = 24;
-          y = 15;
+          y = 24;
           offset = 0;
         }
       });
@@ -339,7 +339,6 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Notes:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        //doc.text(positionX, positionY, splitText);
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.administrativeNotes = "";
@@ -351,7 +350,6 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Religion:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        //doc.text(positionX, positionY, splitText);
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.religion = "";
@@ -363,7 +361,6 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Education:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        //doc.text(positionX, positionY, splitText);
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.education = "";
@@ -375,15 +372,124 @@
         positionY = calculateY(config, splitText.length);
         doc.text("Occupation:", positionX, positionY);
         positionX = config.startX + offsetFromLabel;
-        //doc.text(positionX, positionY, splitText);
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.occupation = "";
       }
 
-      positionY = calculateY(config);
-      //doc.text("positionY: " + positionY, 40, 300);
-      //doc.text("splitText.length: " + splitText.length, 40, 320);
+      if (data.contribution) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.contribution, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Contribution:", positionX, positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.contribution = "";
+      }
+
+      if (data.shopping) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Shopping Person:", positionX, positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.shopping, positionX, positionY);
+        config.halfSpaceOffset += data.shopping.length;
+      } else {
+        data.shopping = "";
+      }
+
+      if (data.supportGroup === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Has a Support Group", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.outsideAgency) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Outside Agency:", positionX, positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.outsideAgency, positionX, positionY);
+        config.halfSpaceOffset++;
+      } else {
+        data.outsideAgency = "";
+      }
+
+      if (data.easilyUnderstood === true && data.englishFirstLanguage === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Is easily understood", positionX, positionY);
+        config.halfSpaceOffset++;
+      } else if (data.easilyUnderstood === true && data.englishFirstLanguage === false) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Is easily understood but English is not their first language.", positionX, positionY);
+        config.halfSpaceOffset++;
+      } else if (data.easilyUnderstood === false && data.englishFirstLanguage === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Is not easily understood", positionX, positionY);
+        config.halfSpaceOffset++;
+      } else if (data.easilyUnderstood === false && data.englishFirstLanguage === false) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Is not easily understood and English is not their first language.", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.otherLanguage) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Other Language(s):", positionX, positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.otherLanguage, positionX, positionY);
+        config.halfSpaceOffset++;
+      } else {
+        data.otherLanguage = "";
+      }
+
+      if (data.heatingPad === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Has a Heating Pad", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.microwave === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Has a Microwave", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.extensionCord === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Uses Extension Cords", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.extensionCord === true || data.microwave === true || data.heatingPad === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        //doc.text("test:" + accessorySafetyAssessment, positionX, positionY);
+        doc.text("These devices have been assessed for safety.", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.lifeNotes) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.lifeNotes, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Notes:", positionX, positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.lifeNotes = "";
+      }
+
 
 
 
