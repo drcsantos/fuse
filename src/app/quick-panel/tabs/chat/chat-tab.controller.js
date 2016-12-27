@@ -7,7 +7,7 @@
         .controller('ChatTabController', ChatTabController);
 
     /** @ngInject */
-    function ChatTabController(socket, $timeout, authentication)
+    function ChatTabController(socket, $timeout, authentication, Utils)
     {
         var vm = this;
 
@@ -16,7 +16,7 @@
         vm.chatActive = false;
         vm.replyMessage = '';
 
-        vm.communityid = authentication.currentUser().community._id;
+        vm.timeDiff = Utils.timeDiff;
 
         vm.chat.community = {
           messages : []
@@ -30,12 +30,19 @@
 
         socket.on("connect", function() {
 
+          socket.emit("get-community-msgs", authentication.currentUser().community._id);
+
           socket.on("community-msg", function(msg) {
             console.log("Community msg received");
           });
 
           socket.on("chat-newmsg", function(msg) {
             vm.chat.community.messages.push(msg);
+          });
+
+          socket.on("community-msgs", function(msgs) {
+            console.log("In loading messages");
+            vm.chat.community = msgs;
           });
 
         });
@@ -60,17 +67,24 @@
             }
 
             var newMsg = {
-                who    : 'user',
+                userSend: authentication.currentUser().id,
                 message: vm.replyMessage,
-                community: vm.communityid,
-                time   : 'Just now'
+                community: authentication.currentUser().community._id,
+                timeSent: new Date()
             };
+
+            socket.emit('chat-msg', newMsg);
+
+            //populate infor about the user so the name and the image is shown
+            newMsg.userSend = {
+              _id: authentication.currentUser().id,
+              name: authentication.currentUser().name,
+              userImage: authentication.getUserImage()
+            }
 
             vm.chat.community.messages.push(newMsg);
 
             vm.replyMessage = '';
-
-            socket.emit('chat-msg', newMsg);
 
             scrollToBottomOfChat(400);
         }

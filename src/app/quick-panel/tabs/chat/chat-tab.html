@@ -63,15 +63,15 @@
 
     </md-toolbar>
     <md-content flex layout-paddings ms-scroll id="chat-dialog">
-        <div layout="row" ng-repeat="dialog in vm.chat.community.messages" class="md-padding message-row"
-             ng-class="dialog.who">
-            <img ng-if="dialog.who ==='contact'" ng-src="{{vm.chat.contact.avatar}}" class="avatar"
+        <div layout="row" ng-repeat="msg in vm.chat.community.messages" class="md-padding message-row"
+             ng-class="msg.userSend">
+            <img ng-if="msg.userSend ==='contact'" ng-src="{{vm.chat.contact.avatar}}" class="avatar"
                  alt="{{vm.chat.contact.name}}"/>
-            <img ng-if="dialog.who ==='user'" class="avatar" src="assets/images/avatars/profile.jpg">
+            <img class="avatar" src="{{ msg.userSend.userImage }}">
 
             <div class="bubble" flex>
-                <div class="message">{{dialog.message}}</div>
-                <div class="time secondary-text">{{dialog.time}}</div>
+                <div class="message">{{ msg.message }}</div>
+                <div class="time secondary-text">{{ vm.timeDiff(msg.timeSent) }}</div>
             </div>
         </div>
     </md-content>
