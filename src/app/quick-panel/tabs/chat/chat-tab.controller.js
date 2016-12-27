@@ -7,7 +7,7 @@
         .controller('ChatTabController', ChatTabController);
 
     /** @ngInject */
-    function ChatTabController(msApi, $timeout)
+    function ChatTabController(socket, $timeout, authentication)
     {
         var vm = this;
 
@@ -16,19 +16,29 @@
         vm.chatActive = false;
         vm.replyMessage = '';
 
-       /* msApi.request('quickPanel.contacts@get', {},
-            // Success
-            function (response)
-            {
-                vm.contacts = response.data;
-            }
-        );*/
+        vm.communityid = authentication.currentUser().community._id;
+
+        vm.chat.community = {
+          messages : []
+        };
 
         // Methods
         vm.toggleChat = toggleChat;
         vm.reply = reply;
 
         //////////
+
+        socket.on("connect", function() {
+
+          socket.on("community-msg", function(msg) {
+            console.log("Community msg received");
+          });
+
+          socket.on("chat-newmsg", function(msg) {
+            vm.chat.community.messages.push(msg);
+          });
+
+        });
 
         function toggleChat(contact)
         {
@@ -49,18 +59,18 @@
                 return;
             }
 
-            if ( !vm.chat.contact.dialog )
-            {
-                vm.chat.contact.dialog = [];
-            }
-
-            vm.chat.contact.dialog.push({
+            var newMsg = {
                 who    : 'user',
                 message: vm.replyMessage,
+                community: vm.communityid,
                 time   : 'Just now'
-            });
+            };
+
+            vm.chat.community.messages.push(newMsg);
 
             vm.replyMessage = '';
+
+            socket.emit('chat-msg', newMsg);
 
             scrollToBottomOfChat(400);
         }

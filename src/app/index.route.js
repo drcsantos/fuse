@@ -15,9 +15,9 @@
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
           //if we go to login and we are already logged in, switch to appointments
-          if(toState.name === "app.pages_auth_login" && authentication.isLoggedIn()) {
-            $location.path('/dashboard');
-          }
+          // if(toState.name === "app.pages_auth_login" && authentication.isLoggedIn()) {
+          //   $location.path('/dashboard');
+          // }
 
           //if we go to homepage and we are already logged in, switch to appointments
           if(toState.name === "app.homepage" && authentication.isLoggedIn()) {
