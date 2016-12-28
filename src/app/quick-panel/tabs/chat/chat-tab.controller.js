@@ -41,8 +41,7 @@
           });
 
           socket.on("community-msgs", function(msgs) {
-            console.log("In loading messages");
-            vm.chat.community = msgs;
+            vm.chat.community.messages = msgs;
           });
 
         });
