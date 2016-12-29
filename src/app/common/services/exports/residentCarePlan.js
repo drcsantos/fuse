@@ -87,10 +87,12 @@
       // config variables
       var coordsPerLetter = (594/82); // amount of page coordinates per letter in .length items
       var metaX = 215;
+      var twoColumnSplitX = 300;
       var nonMetaStartY = 420;
       var offsetFromLabel = 120;
       var textLength = 460; //px per line
       var splitText;
+      var title; // title of each sections.  used to calculate title art (blue dots!)
 
       var fullSpace = 24;
       var halfSpace = 16;
@@ -99,8 +101,13 @@
         startX : 15,
         startY : 24,
         fullSpaceOffset : 0,
-        halfSpaceOffset : 0
+        halfSpaceOffset : 0,
+        columnOneOffset : 0,
+        columnTwoOffset : 0
       };
+
+      var columnOneY = (config.columnOneOffset * halfSpace);
+      var columnTwoY = (config.columnTwoOffset * halfSpace);
 
       var calculateY = calculateOffset.bind(this, doc, fullSpace, halfSpace);
 
@@ -344,22 +351,63 @@
         data.administrativeNotes = "";
       }
 
+/////////////////////////////////////////// life section
+
+      positionY = calculateY(config);
+      title = "Life";
+      doc.setFillColor(33, 150, 243);
+
+      // right side dots
+      createDots(
+        594,
+        10,
+        (297 + ((title.length/2) * coordsPerLetter) + 28),
+        doc, positionY);
+      // left side dots
+      createDots(
+        (297 - ((title.length/2) * coordsPerLetter) - 6),
+        10,
+        20,
+        doc, positionY);
+      // (how far to extend to the right X, how far down to start Y, how far to extend to the left X)
+
+      doc.setFontType("bold");
+      doc.roundedRect(
+        (297 - (((title.length)/2)  * coordsPerLetter)) - 20, // x position
+        positionY, // y position | bigger is lower on page
+        (title.length * coordsPerLetter) + 40, // x length
+        18, // y height
+        7, 7, // rounded corners
+        'F'); // F filled | FD filled with borders
+
+      config.fullSpaceOffset++;
+      config.halfSpaceOffset += 0.5;
+      doc.text(title, 297 - (((title.length)/2)  * coordsPerLetter), positionY + 12);
+      doc.setFontType("normal");
+      doc.text("positionY: " + positionY, 0, 286);
+
       if (data.religion) {
         positionX = config.startX;
         splitText = doc.splitTextToSize(data.religion, textLength);
         positionY = calculateY(config, splitText.length);
-        doc.text("Religion:", positionX, positionY);
+        doc.text("Religion:",
+          (config.startX + offsetFromLabel) - ("Religion: ".length * coordsPerLetter), 
+          positionY);
         positionX = config.startX + offsetFromLabel;
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.religion = "";
       }
 
+      doc.text("positionY: " + positionY, 0, 298);
+
       if (data.education) {
         positionX = config.startX;
         splitText = doc.splitTextToSize(data.education, textLength);
         positionY = calculateY(config, splitText.length);
-        doc.text("Education:", positionX, positionY);
+        doc.text("Education:",
+          (config.startX + offsetFromLabel) - ("Education: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
@@ -370,7 +418,9 @@
         positionX = config.startX;
         splitText = doc.splitTextToSize(data.occupation, textLength);
         positionY = calculateY(config, splitText.length);
-        doc.text("Occupation:", positionX, positionY);
+        doc.text("Occupation:",
+          (config.startX + offsetFromLabel) - ("Occupation: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
@@ -381,68 +431,126 @@
         positionX = config.startX;
         splitText = doc.splitTextToSize(data.contribution, textLength);
         positionY = calculateY(config, splitText.length);
-        doc.text("Contribution:", positionX, positionY);
+        doc.text("Contribution:",
+          (config.startX + offsetFromLabel) - ("Contribution: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.contribution = "";
       }
 
+//////////////////////////// column one
+
       if (data.shopping) {
         positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Shopping Person:", positionX, positionY);
+        positionY = calculateY(config) + columnOneY;
+        doc.text("Shopping Person:",
+          (config.startX + offsetFromLabel) - ("Shopping Person: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(data.shopping, positionX, positionY);
-        config.halfSpaceOffset += data.shopping.length;
+        config.columnOneOffset += data.shopping.length;
+        columnOneY = (config.columnOneOffset * halfSpace);
       } else {
         data.shopping = "";
       }
 
-      if (data.supportGroup === true) {
-        positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Has a Support Group", positionX, positionY);
-        config.halfSpaceOffset++;
-      }
-
       if (data.outsideAgency) {
         positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Outside Agency:", positionX, positionY);
+        positionY = calculateY(config) + columnOneY;
+        doc.text("Outside Agency:",
+          (config.startX + offsetFromLabel) - ("Outside Agency: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(data.outsideAgency, positionX, positionY);
-        config.halfSpaceOffset++;
+        config.columnOneOffset++;
+        columnOneY = (config.columnOneOffset * halfSpace);
       } else {
         data.outsideAgency = "";
       }
 
       if (data.easilyUnderstood === true && data.englishFirstLanguage === true) {
         positionX = config.startX;
-        positionY = calculateY(config);
+        positionY = calculateY(config) + columnOneY;
         doc.text("Is easily understood", positionX, positionY);
-        config.halfSpaceOffset++;
+        config.columnOneOffset++;
       } else if (data.easilyUnderstood === true && data.englishFirstLanguage === false) {
         positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Is easily understood but English is not their first language.", positionX, positionY);
-        config.halfSpaceOffset++;
+        positionY = calculateY(config) + columnOneY;
+        doc.text("Is easily understood but English", positionX, positionY);
+        doc.text("is not their first language.", positionX, positionY + 12);
+        config.columnOneOffset += 1.75;
       } else if (data.easilyUnderstood === false && data.englishFirstLanguage === true) {
         positionX = config.startX;
-        positionY = calculateY(config);
+        positionY = calculateY(config) + columnOneY;
         doc.text("Is not easily understood", positionX, positionY);
-        config.halfSpaceOffset++;
+        config.columnOneOffset++;
       } else if (data.easilyUnderstood === false && data.englishFirstLanguage === false) {
         positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Is not easily understood and English is not their first language.", positionX, positionY);
-        config.halfSpaceOffset++;
+        positionY = calculateY(config) + columnOneY;
+        doc.text("Is not easily understood and English", positionX, positionY);
+        doc.text("is not their first language.", positionX, positionY + 12);
+        config.columnOneOffset += 1.75;
+      }
+
+////////////////////// column two
+
+      if (data.supportGroup === true) {
+        positionX = twoColumnSplitX;
+        positionY = calculateY(config) + columnTwoY;
+        doc.text("Has a Support Group", positionX, positionY);
+        config.columnTwoOffset++;
+        columnTwoY = (config.columnTwoOffset * halfSpace);
+      }
+
+      if (data.heatingPad === true) {
+        positionX = twoColumnSplitX;
+        positionY = calculateY(config) + columnTwoY;
+        doc.text("Has a Heating Pad", positionX, positionY);
+        config.columnTwoOffset++;
+        columnTwoY = (config.columnTwoOffset * halfSpace);
+      }
+
+      if (data.microwave === true) {
+        positionX = twoColumnSplitX;
+        positionY = calculateY(config) + columnTwoY;
+        doc.text("Has a Microwave", positionX, positionY);
+        config.columnTwoOffset++;
+        columnTwoY = (config.columnTwoOffset * halfSpace);
+      }
+
+      if (data.extensionCord === true) {
+        positionX = twoColumnSplitX;
+        positionY = calculateY(config) + columnTwoY;
+        doc.text("Uses Extension Cords", positionX, positionY);
+        config.columnTwoOffset++;
+        columnTwoY = (config.columnTwoOffset * halfSpace);
+      }
+
+      if (data.extensionCord === true || data.microwave === true || data.heatingPad === true) {
+        positionX = twoColumnSplitX;
+        positionY = calculateY(config) + columnTwoY;
+        //doc.text("test:" + accessorySafetyAssessment, positionX, positionY);
+        doc.text("These devices have been assessed", positionX, positionY);
+        doc.text("for safety.", positionX, positionY + 12);
+        config.columnTwoOffset += 1.75;
+        columnTwoY = (config.columnTwoOffset * halfSpace);
+      }
+
+      // if statement to determine the larger column then add it to offset
+      if (config.columnOneOffset >= config.columnTwoOffset) {
+        config.halfSpaceOffset += config.columnOneOffset;
+      } else if (config.columnOneOffset < config.columnTwoOffset) {
+        config.halfSpaceOffset += config.columnTwoOffset;
       }
 
       if (data.otherLanguage) {
         positionX = config.startX;
         positionY = calculateY(config);
-        doc.text("Other Language(s):", positionX, positionY);
+        doc.text("Other Languages:",
+          (config.startX + offsetFromLabel) - ("Other Languages: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         doc.text(data.otherLanguage, positionX, positionY);
         config.halfSpaceOffset++;
@@ -450,44 +558,103 @@
         data.otherLanguage = "";
       }
 
-      if (data.heatingPad === true) {
-        positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Has a Heating Pad", positionX, positionY);
-        config.halfSpaceOffset++;
-      }
-
-      if (data.microwave === true) {
-        positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Has a Microwave", positionX, positionY);
-        config.halfSpaceOffset++;
-      }
-
-      if (data.extensionCord === true) {
-        positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Uses Extension Cords", positionX, positionY);
-        config.halfSpaceOffset++;
-      }
-
-      if (data.extensionCord === true || data.microwave === true || data.heatingPad === true) {
-        positionX = config.startX;
-        positionY = calculateY(config);
-        //doc.text("test:" + accessorySafetyAssessment, positionX, positionY);
-        doc.text("These devices have been assessed for safety.", positionX, positionY);
-        config.halfSpaceOffset++;
-      }
-
       if (data.lifeNotes) {
         positionX = config.startX;
         splitText = doc.splitTextToSize(data.lifeNotes, textLength);
         positionY = calculateY(config, splitText.length);
-        doc.text("Notes:", positionX, positionY);
+        doc.text("Notes:",
+          (config.startX + offsetFromLabel) - ("Notes: ".length * coordsPerLetter),
+          positionY);
         positionX = config.startX + offsetFromLabel;
         multilineText(doc, splitText, positionX, positionY, config);
       } else {
         data.lifeNotes = "";
+      }
+
+////////////////////////////////////////// life section
+
+      positionY = calculateY(config);
+      title = "Allergies";
+      doc.setFillColor(33, 150, 243);
+
+      // right side dots
+      createDots(
+        594,
+        10,
+        (297 + ((title.length/2) * coordsPerLetter) + 28),
+        doc, positionY);
+      // left side dots
+      createDots(
+        (297 - ((title.length/2) * coordsPerLetter) - 6),
+        10,
+        20,
+        doc, positionY);
+      // (how far to extend to the right X, how far down to start Y, how far to extend to the left X)
+
+      doc.setFontType("bold");
+      doc.roundedRect(
+        (297 - (((title.length)/2)  * coordsPerLetter)) - 20, // x position
+        positionY, // y position | bigger is lower on page
+        (title.length * coordsPerLetter) + 40, // x length
+        18, // y height
+        7, 7, // rounded corners
+        'F'); // F filled | FD filled with borders
+
+      config.fullSpaceOffset++;
+      config.halfSpaceOffset += 0.5;
+      doc.text(title, 297 - (((title.length)/2)  * coordsPerLetter), positionY + 12);
+      doc.setFontType("normal");
+
+      if (data.foodAllergies) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Food Allergies:",
+          (config.startX + offsetFromLabel) - ("Food Allergies: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.foodAllergies, positionX, positionY);
+        config.halfSpaceOffset += data.foodAllergies.length;
+      } else {
+        data.foodAllergies = "";
+      }
+
+      if (data.medicationAllergies) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Med Allergies:",
+          (config.startX + offsetFromLabel) - ("Med Allergies: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.medicationAllergies, positionX, positionY);
+        config.halfSpaceOffset += data.medicationAllergies.length;
+      } else {
+        data.medicationAllergies = "";
+      }
+
+      if (data.otherAllergies) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Other Allergies:",
+          (config.startX + offsetFromLabel) - ("Other Allergies: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.otherAllergies, positionX, positionY);
+        config.halfSpaceOffset += data.otherAllergies.length;
+      } else {
+        data.otherAllergies = "";
+      }
+
+      if (data.allergyNotes) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.allergyNotes, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Notes:",
+          (config.startX + offsetFromLabel) - ("Notes: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.allergyNotes = "";
       }
 
 
@@ -976,6 +1143,24 @@
 */
 
       doc.save(fileName);
+    }
+
+    // Helper functions to make blue dots
+    function createDots(x, y, end, doc, positionY) {
+
+      var dots = [];
+      var step = 10;
+
+      if(end < x) {
+        dots = _.range(end - step, x + step, step);
+      } else {
+        dots = _.range(x - step, end + step, step);
+      }
+
+      dots.forEach(function(pos) {
+        doc.ellipse(pos, y + positionY, 2, 2, 'F');
+      });
+
     }
 
     return {
