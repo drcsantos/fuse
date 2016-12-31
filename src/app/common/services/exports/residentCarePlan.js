@@ -391,7 +391,7 @@
         splitText = doc.splitTextToSize(data.religion, textLength);
         positionY = calculateY(config, splitText.length);
         doc.text("Religion:",
-          (config.startX + offsetFromLabel) - ("Religion: ".length * coordsPerLetter), 
+          (config.startX + offsetFromLabel) - ("Religion: ".length * coordsPerLetter),
           positionY);
         positionX = config.startX + offsetFromLabel;
         multilineText(doc, splitText, positionX, positionY, config);
@@ -571,7 +571,7 @@
         data.lifeNotes = "";
       }
 
-////////////////////////////////////////// life section
+////////////////////////////////////////// allergy section
 
       positionY = calculateY(config);
       title = "Allergies";
@@ -656,6 +656,87 @@
       } else {
         data.allergyNotes = "";
       }
+
+      doc.text("positionY 1: " + positionY, 0, 12)
+
+////////////////////////////////////////// Assistance section
+
+      positionY = calculateY(config);
+      title = "Assistance";
+      doc.setFillColor(33, 150, 243);
+
+      // right side dots
+      createDots(
+        594,
+        10,
+        (297 + ((title.length/2) * coordsPerLetter) + 28),
+        doc, positionY);
+      // left side dots
+      createDots(
+        (297 - ((title.length/2) * coordsPerLetter) - 6),
+        10,
+        20,
+        doc, positionY);
+      // (how far to extend to the right X, how far down to start Y, how far to extend to the left X)
+
+      doc.roundedRect(
+        (297 - (((title.length)/2)  * coordsPerLetter)) - 20, // x position
+        positionY, // y position | bigger is lower on page
+        (title.length * coordsPerLetter) + 40, // x length
+        18, // y height
+        7, 7, // rounded corners
+        'F'); // F filled | FD filled with borders
+
+      config.fullSpaceOffset++;
+      config.halfSpaceOffset += 0.5;
+      doc.setFontType("bold");
+      doc.text(title, 297 - (((title.length)/2)  * coordsPerLetter), positionY + 12);
+      doc.setFontType("normal");
+
+      doc.text("positionY 2: " + positionY, 0, 24)
+
+      if (data.hairAssist === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Needs Assistance with Hair", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.barber === true) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Has a Barber", positionX, positionY);
+        config.halfSpaceOffset++;
+      }
+
+      if (data.shaveAssist) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Shave Assist:",
+          (config.startX + offsetFromLabel) - ("Shave Assist: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.shaveAssist, positionX, positionY);
+        config.halfSpaceOffset++;
+      } else {
+        data.shaveAssist = "";
+      }
+
+      doc.text("positionY 3: " + positionY, 0, 36)
+
+      if (data.hairNotes) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.hairNotes, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Hair Notes:",
+          (config.startX + offsetFromLabel) - ("Hair Notes: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.hairNotes = "";
+      }
+
 
 
 

@@ -22,7 +22,7 @@
         return Math.floor(duration.asMinutes()) + " minutes ago";
       } else if(duration.asHours() < 24) {
         return Math.floor(duration.asHours()) + " hours ago";
-      } else if(duration.asDays() < 31) {
+      } else if(duration.asDays() < 30.4) {
         return Math.floor(duration.asDays()) + " days ago";
       } else if(duration.asMonths() < 12) {
         return Math.floor(duration.asMonths()) + " months ago";
