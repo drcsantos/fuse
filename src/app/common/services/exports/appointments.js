@@ -7,7 +7,7 @@
       var doc = new jsPDF('p', 'pt');
 
       doc.autoTable(columns, rows, {
-        beforePageContent: function(data) {
+        addPageContent: function(data) {
           doc.text("Appointments for " + month, 170, 30);
         }
       });

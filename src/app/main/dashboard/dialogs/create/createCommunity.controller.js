@@ -6,7 +6,7 @@
     .controller('CreateCommunityController', CreateCommunityController);
 
   /** @ngInject */
-  function CreateCommunityController($mdDialog, apilaData, authentication, $mdToast, $window, activeEmail) {
+  function CreateCommunityController($mdDialog, apilaData, authentication, $log, $mdToast, $window, activeEmail) {
 
     var vm = this;
 
@@ -14,8 +14,6 @@
     vm.form = {};
 
     vm.hasCanceledCommunity = false;
-
-    console.log(activeEmail);
 
     vm.username = authentication.currentUser().name;
     vm.userid = authentication.currentUser().id;
@@ -34,7 +32,7 @@
         vm.hasCanceledCommunity = true;
       })
       .error(function(err) {
-        console.log(err);
+        $log.debug(err);
       });
 
     ///////////////////// PUBLIC FUNCTIONS /////////////////////////////////
@@ -95,11 +93,11 @@
               $window.location.reload();
             })
             .error(function(d) {
-              console.log(d);
+              $log.debug(d);
             });
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
     }
 
@@ -118,11 +116,11 @@
 
             })
             .error(function(response) {
-              console.log(response);
+              $log.debug(response);
             });
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
     }
 

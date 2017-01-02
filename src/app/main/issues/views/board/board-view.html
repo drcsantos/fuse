@@ -109,9 +109,9 @@
                                      ng-class="{'completed': vm.board.cards.getById(cardId).checkItemsChecked === vm.board.cards.getById(cardId).checkItems}"
                                      layout="row" layout-align="start center">
                                    <i class="icon-checkbox-marked-circle s16"></i>
-                                   <span>{{vm.board.cards.getById(cardId).checklists[0].checkItemsChecked}}</span>
+                                   <span>{{vm.getChecklistData(cardId).checkedItems}}</span>
                                    <span>/</span>
-                                   <span>{{vm.board.cards.getById(cardId).checklists[0].checkItems.length}}</span>
+                                   <span>{{vm.getChecklistData(cardId).checkItemsLength}}</span>
                                </span>
                                <!-- / CARD CHECK ITEMS STATUS -->
 
@@ -122,13 +122,13 @@
                                  layout="row">
 
                                 <div class="list-card-member"
-                                     ng-repeat="memberId in vm.board.cards.getById(cardId).idMembers">
+                                     ng-repeat="member in vm.board.cards.getById(cardId).idMembers">
 
                                     <img class="list-card-member-avatar"
-                                         ng-src="http://a3.mzstatic.com/us/r30/Purple6/v4/75/87/fe/7587fe05-83c5-4127-48ce-2a213151d321/icon175x175.png">
+                                         ng-src="{{member.userImage || 'assets/images/avatars/userDefaultProfile.png'}}">
 
                                     <md-tooltip>
-                                        <div class="name">{{ vm.board.members.getById(memberId).name}}</div>
+                                        <div class="name">{{ member.name }}</div>
                                     </md-tooltip>
                                 </div>
 
@@ -153,13 +153,28 @@
 
                             <div layout="row" layout-align="end center">
 
+                              <!-- CARD PLAN -->
+                              <span class="list-card-footer-item"
+                                    layout="row" layout-align="start center">
+                                  <i class="icon-gavel s18"></i>
+                                  <span class="value">{{ vm.board.cards.getById(cardId).finalPlan.length}}</span>
+                                  <md-tooltip>
+                                    Plans
+                                  </md-tooltip>
+                              </span>
+                              <!-- / CARD PLAN -->
+
                               <!-- CARD ATTACHMENT -->
                                <span class="list-card-footer-item" ng-if="vm.board.cards.getById(cardId).attachments"
                                      layout="row" layout-align="start center">
                                    <i class="icon-attachment s18"></i>
                                    <span class="value">{{vm.board.cards.getById(cardId).attachments.length}}</span>
+                                   <md-tooltip>
+                                     Attachments
+                                   </md-tooltip>
                                </span>
                                <!-- / CARD ATTACHMENT -->
+
 
 
                                 <!-- CARD COMMENTS -->
@@ -167,6 +182,9 @@
                                       layout="row" layout-align="start center">
                                     <i class="icon-comment s18"></i>
                                     <span class="value">{{vm.board.cards.getById(cardId).comments.length}}</span>
+                                    <md-tooltip>
+                                      Comments
+                                    </md-tooltip>
                                 </span>
                                 <!-- / CARD COMMENTS -->
 

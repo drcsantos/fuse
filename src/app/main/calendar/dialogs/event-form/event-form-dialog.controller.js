@@ -1,19 +1,27 @@
 (function() {
   'use strict';
 
-  angular.module('app.appointments')
+  angular.module('app.calendar')
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, apilaData, authentication, $window, $mdToast, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, residentList, $log, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
     var vm = this;
 
     // Data
     vm.dialogData = dialogData;
+
     vm.isDisabled = false;
+    vm.Utils = Utils;
+
+    vm.residentList = residentList;
 
   //  vm.calendarEvent.date = dialogData.start;
     var userid = authentication.currentUser().id;
+
+    var requiredArray = ['reason', 'locationName'];
+
+    vm.error = {};
 
     // Methods
     vm.saveEvent = saveEvent;
@@ -26,11 +34,8 @@
 
     init();
 
-    apilaData.userCommunity(userid)
-      .success(function(d) {
-        vm.community = d;
-        residentsList(vm.community._id);
-      });
+    var communityid = authentication.currentUser().community._id;
+    vm.community = authentication.currentUser().community;
 
     //////////
 
@@ -50,8 +55,12 @@
           vm.currentTime =  new Date();
       }
 
+      vm.changeComment = function(comment) {
+        return comment.split(/((?:\w+ ){15})/g).filter(Boolean).join("\n");
+      };
+
     function getMatches(text) {
-       if(text === null) {
+      if(!text) {
          return vm.residentList;
        }
 
@@ -67,23 +76,7 @@
        return ret;
      }
 
-
-    vm.residentList = [];
     vm.selectedUser = {};
-
-    function residentsList(id){
-      apilaData.residentsList(id)
-        .success(function(residentList) {
-          //console.log(residentList);
-          vm.residentList = residentList.map(function(elem) {
-            return {value: elem._id, display: elem.firstName + " " + elem.lastName};
-          });
-        })
-        .error(function(residentList) {
-          console.log("Error retriving the list of residents");
-        });
-
-    }
 
 
       //if we are in the update model set fields value
@@ -176,14 +169,19 @@
         //the date that is set when we click the dialog must be in local time for the md-datepicker
         if(dialogData.start._d !== undefined) {
           vm.date = utcToLocalDate(dialogData.start._d);
-          console.log(vm.date);
+          $log.debug(vm.date);
         }
 
 
       }
     }
 
+
     function saveEvent() {
+
+      if(checkFields()) {
+        return;
+      }
 
       //set up the date to proper fields before sending to the api
       vm.calendarEvent.transportation = vm.transportation;
@@ -219,7 +217,7 @@
         vm.calendarEvent.timezone = vm.date.getTimezoneOffset() / 60;
 
         //update info
-        vm.calendarEvent.modifiedBy = authentication.currentUser().name;
+        vm.calendarEvent.modifiedBy = authentication.currentUser().id;
         vm.calendarEvent.modifiedDate = new Date();
 
         var changedFields = checkChangedFields(vm.dialogData.calendarEvent, vm.calendarEvent);
@@ -261,7 +259,7 @@
           })
           .error(function(appoint) {
             $mdDialog.hide();
-            console.log("Something went wrong while updating the appointments");
+            $log.debug("Something went wrong while updating the appointments");
           });
 
       } else { // Add
@@ -299,7 +297,7 @@
             }
 
             $mdDialog.hide();
-            console.log(appoint);
+            $log.debug(appoint);
           });
       }
 
@@ -347,12 +345,18 @@
     function submitComment() {
       apilaData.addAppointmentCommentById(vm.calendarEvent.appointId, vm.formData)
           .success(function(data) {
-              vm.calendarEvent.appointmentComment.push(data);
-              vm.dialogData.calendarEvent.appointmentComment.push(data);
-              vm.formData.commentText = "";
+
+            data.author = {
+              _id : userid,
+              name : authentication.currentUser().name
+            };
+
+            vm.calendarEvent.appointmentComment.push(data);
+            vm.dialogData.calendarEvent.appointmentComment.push(data);
+            vm.formData.commentText = "";
           })
           .error(function(data) {
-              console.log("Error while adding comments");
+              $log.debug("Error while adding comments");
           });
     }
 
@@ -382,6 +386,37 @@
       vm.calendarEvent.hours = hours;
       vm.calendarEvent.minutes = minutes;
       vm.calendarEvent.isAm = isAm;
+    }
+
+    function checkFields() {
+      var error = false;
+
+      if(errorCheck.requiredFields(vm.calendarEvent, vm.error, requiredArray)) {
+        error = true;
+      }
+
+      if(!vm.date) {
+        vm.error.date = true;
+        error = true;
+      } else {
+        vm.error.date = false;
+      }
+
+      if(!vm.currentTime) {
+        vm.error.currentTime = true;
+        error = true;
+      } else {
+        vm.error.currentTime = false;
+      }
+
+      if(!vm.selectedItem) {
+        vm.error.selectedItem = true;
+        error = true;
+      } else {
+        vm.error.selectedItem = false;
+      }
+
+      return error;
     }
 
     function inUpdate()

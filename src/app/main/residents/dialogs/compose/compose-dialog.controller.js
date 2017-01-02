@@ -7,7 +7,7 @@
         .controller('ComposeDialogController', ComposeDialogController);
 
     /** @ngInject */
-    function ComposeDialogController($mdDialog, apilaData, resList, authentication)
+    function ComposeDialogController($mdDialog, $log, apilaData, resList, authentication, errorCheck)
     {
         var vm = this;
 
@@ -15,16 +15,14 @@
         vm.closeDialog = closeDialog;
         vm.addResident = addResident;
 
-        vm.isNumber = function(n) {
-          if(n === "") {return true;}
-          return !isNaN(parseFloat(n)) && isFinite(n);
-        };
-
         // Data
         vm.residentList = resList;
         vm.form = {};
         vm.form.room = "";
         vm.form.movedFrom = "Denver, CO, USA";
+        vm.error = {};
+
+        var requiredArray = ["firstName", "lastName", "buildingStatus"];
 
         var userid = authentication.currentUser().id;
 
@@ -46,6 +44,10 @@
         {
           vm.form.community =  vm.community;
 
+          if(errorCheck.requiredFields(vm.form, vm.error, requiredArray)) {
+            return;
+          }
+
           setLocationData();
 
           apilaData.addResident(vm.form)
@@ -54,16 +56,20 @@
                 $mdDialog.hide();
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
 
         function setLocationData() {
           vm.form.movedFrom = {};
-          vm.form.movedFrom.name = vm.form.locationInfo.formatted_address;
-          vm.form.movedFrom.latitude = vm.form.locationInfo.geometry.location.lat();
-          vm.form.movedFrom.longitude = vm.form.locationInfo.geometry.location.lng();
+
+          if(vm.form.locationInfo) {
+            vm.form.movedFrom.name = vm.form.locationInfo.formatted_address;
+            vm.form.movedFrom.latitude = vm.form.locationInfo.geometry.location.lat();
+            vm.form.movedFrom.longitude = vm.form.locationInfo.geometry.location.lng();
+          }
+
         }
     }
 })();

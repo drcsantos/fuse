@@ -1,11 +1,12 @@
 (function() {
-  'use strict'
+  'use strict';
 
   angular.module('app.residents')
     .controller('UpdateController', UpdateController);
 
   /** @ngInject */
-  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, currResident, apilaData, authentication, ResidentUpdateInfoService) {
+  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping, $log,
+                            currResident, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
 
@@ -17,6 +18,10 @@
     vm.form.communicatedWithResident = false;
     vm.form.communicatedWithPrimaryContact = false;
     vm.form.communicatedWithTrustedPerson = false;
+
+    vm.replaceNumberValue = SliderMapping.replaceNumberValue;
+
+    var requiredArray = ["firstName", "lastName", "buildingStatus"];
 
     vm.status = createMultiSelect(["Alert", "Friendly", "Disoriented",
       "Withdrawn", "Lonely", "Happy", "Confused", "Uncooperative",
@@ -54,12 +59,21 @@
       }
     };
 
+    vm.error = {};
+
     vm.hasPrimaryContact = (_.find(currResident.residentContacts, {"primaryContact": true}) !== undefined);
     vm.hasTrustedPerson = (_.find(currResident.residentContacts, {"trustedPerson": true}) !== undefined);
 
-    vm.form.birthDate = new Date(currResident.birthDate);
-    vm.form.admissionDate = new Date(currResident.admissionDate);
-    vm.form.locationInfo = vm.form.movedFrom.name;
+    vm.community = authentication.currentUser().community;
+
+    vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
+
+    vm.form.birthDate = vm.form.birthDate ? new Date(currResident.birthDate) : undefined;
+    vm.form.admissionDate = vm.form.admissionDate ? new Date(currResident.admissionDate) : undefined;
+
+    if(vm.form.movedFrom) {
+      vm.form.locationInfo = vm.form.movedFrom.name;
+    }
 
     //Functions
     vm.closeDialog = closeDialog;
@@ -67,6 +81,7 @@
     vm.updateChip = updateChip;
     vm.uploadFiles = uploadFiles;
     vm.addContact = addContact;
+    vm.getMatches = getMatches;
 
     function closeDialog() {
       $mdDialog.hide();
@@ -78,6 +93,12 @@
       vm.form.modifiedBy = authentication.currentUser().id;
       vm.form.modifiedDate = new Date();
 
+      $log.debug(currResident.updateInfo);
+
+      if(!vm.form.room) {
+        vm.form.room = vm.searchText;
+      }
+
       var changedFields =
         ResidentUpdateInfoService.checkChangedFields(vm.copyResident, vm.form);
 
@@ -86,7 +107,11 @@
 
       addToPainManagedBy();
 
-      if (vm.form.locationInfo.geometry !== undefined) {
+      if(!vm.form.movedFrom) {
+        vm.form.movedFrom = {};
+      }
+
+      if (vm.form.locationInfo.geometry) {
         vm.form.movedFrom.name = vm.form.locationInfo.formatted_address;
         vm.form.movedFrom.latitude = vm.form.locationInfo.geometry.location.lat();
         vm.form.movedFrom.longitude = vm.form.locationInfo.geometry.location.lng();
@@ -100,6 +125,10 @@
 
 
     function updateResident() {
+
+      if(errorCheck.requiredFields(vm.form, vm.error, requiredArray)) {
+        return;
+      }
 
       formatData();
 
@@ -117,15 +146,20 @@
       apilaData.updateResident(currResident._id, vm.form)
         .success(function(resident) {
 
+          $log.debug(resident);
+
           currResident.updateInfo = resident.updateInfo;
+          currResident.carePoints = resident.carePoints;
 
           pushNewValues();
           resetFields();
 
+          $log.debug(resident);
+
           closeDialog();
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
     }
@@ -138,15 +172,16 @@
         "list": list,
         "type": type,
         "selectedItem": chip,
-        "updateBy": authentication.currentUser().name
+        "updateBy": authentication.currentUser().id
       };
 
       apilaData.updateListItem(vm.copyResident._id, data)
         .success(function(response) {
           currResident = response;
+          $log.debug(currResident);
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
     }
 
@@ -160,7 +195,7 @@
         closeDialog();
       })
       .error(function(response) {
-        console.log(response);
+        $log.debug(response);
       });
     }
 
@@ -187,6 +222,23 @@
 
         });
       }
+    }
+
+    function getMatches(text) {
+
+      if(text === null) {
+        return vm.roomList;
+      }
+
+      var textLower = text.toLowerCase();
+
+      var ret = vm.roomList.filter(function (d) {
+        if(d) {
+          return d.toLowerCase().indexOf(textLower) > -1;
+        }
+      });
+
+        return ret;
     }
 
 
@@ -313,6 +365,7 @@
       addToArray(vm.form.internationalNormalizedRatio, vm.form.newinternationalNormalizedRatio);
 
       vm.form.foodAllergies = vm.form.newfoodAllergies;
+
       vm.form.medicationAllergies = vm.form.newmedicationAllergies;
 
       //addToArray(vm.form.psychosocialStatus, vm.form.newpsychosocialStatus);

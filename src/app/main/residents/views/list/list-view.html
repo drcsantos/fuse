@@ -1,5 +1,5 @@
 <!-- resident LIST ITEMS -->
-<div class="mail-list-item" ng-repeat="resident in vm.residentList | filter: vm.search "
+<div class="mail-list-item" ng-repeat="resident in vm.residentList | filter: vm.search | orderBy:'-carePoints' "
      md-ink-ripple
      ng-click="vm.selectResident(resident)"
      ng-class="{'starred': resident.starred, 'selected': vm.selectedResident === resident, 'checked': vm.isChecked(resident)}">
@@ -15,14 +15,20 @@
                     {{resident.firstName}}
                 </div>
 
-                <span class="text-truncate">{{resident.firstName + " " + resident.aliasName + " " + resident.lastName}}</span>
+                <span class="text-truncate">{{vm.displayName(resident)}}</span>
 
                 <md-icon md-font-icon="icon-paperclip" class="has-attachment s16" ng-if="resident.hasAttachments"></md-icon>
             </div>
         </div>
 
+        <div class="md-item-text md-whiteframe-z1 care-points">
+          <b>{{resident.carePoints}}</b>
+          <md-tooltip>
+            Care Points
+          </md-tooltip>
+        </div>
+
         <div layout="column" layout-align="space-between end">
-            <div class="time">{{resident.time}}</div>
 
              <md-button class="md-accent md-raised" ng-click="vm.updateResident(resident)">Update</md-button>
         </div>

@@ -30,22 +30,16 @@
 
       <div layout="row" layout-align="space-around center">
           <div class="md-block">
-            <label ng-switch on="vm.form.bowelContinent">
-              <span ng-switch-when="0">Bowel Continent : Never</span>
-              <span ng-switch-when="1">Bowel Continent : Sometimes</span>
-              <span ng-switch-when="2">Bowel Continent : Always</span>
-              <span ng-switch-default>Bowel Continent :</span>
+            <label>
+              <span>Bowel Continent : {{vm.replaceNumberValue('bowelContinent', vm.form.bowelContinent)}}</span>
             </label>
           <md-slider flex min="0" max="2" ng-model="vm.form.bowelContinent" aria-label="blue">
           </md-slider>
       </div>
 
         <div class="md-block">
-         <label ng-switch on="vm.form.constipated">
-             <span ng-switch-when="0">Constipated : Never</span>
-             <span ng-switch-when="1">Constipated : Sometimes</span>
-             <span ng-switch-when="2">Constipated : Always</span>
-             <span ng-switch-default>Constipated : </span>
+         <label>
+           <span>Constipated : {{vm.replaceNumberValue('constipated', vm.form.constipated)}}</span>
          </label>
          <md-slider flex min="0" max="2" ng-model="vm.form.constipated" aria-label="blue">
          </md-slider>
@@ -56,27 +50,22 @@
       <br>
 
       <div layout="row" layout-align="space-around center">
+
         <div class="md-block">
-             <label ng-switch on="vm.form.bladderContinent">
-                 <span ng-switch-when="0">Bladder Continent : Never</span>
-                 <span ng-switch-when="1">Bladder Continent : Sometimes</span>
-                <span ng-switch-when="2">Bladder Continent : Always</span>
-                <span ng-switch-default>Bladder Continent : </span>
-             </label>
-             <md-slider flex min="0" max="2" ng-model="vm.form.bladderContinent" aria-label="blue">
-             </md-slider>
-          </div>
+           <label>
+             <span>Bladder Continent : {{vm.replaceNumberValue('bladderContinent', vm.form.bladderContinent)}}</span>
+           </label>
+           <md-slider flex min="0" max="2" ng-model="vm.form.bladderContinent" aria-label="blue">
+           </md-slider>
+        </div>
 
           <div class="md-block">
-              <label ng-switch on="vm.form.dribbles">
-                  <span ng-switch-when="0">Dribbles : Never</span>
-                  <span ng-switch-when="1">Dribbles : Sometimes</span>
-                  <span ng-switch-when="2">Dribbles : Always</span>
-                  <span ng-switch-default>Dribbles :</span>
+              <label>
+                 <span>Dribbles : {{vm.replaceNumberValue('dribbles', vm.form.dribbles)}}</span>
               </label>
                <md-slider flex min="0" max="2" ng-model="vm.form.dribbles" aria-label="blue">
               </md-slider>
-             </div>
+          </div>
 
         <md-input-container>
           <label>Toileting Device</label>
@@ -156,7 +145,7 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row" layout-align="space-between center">
-      <div layout="row" layout-align="start center">
+      <div layout="row" layout-align="start start">
         <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
           UPDATE
         </md-button>

@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('app.appointments')
+    .module('app.calendar')
     .controller('AppoitmentsController', AppoitmentsController);
 
   /** @ngInject */
-  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService,
+  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService, $log,
                                  authentication, $state, $scope, SearchService, exportAppointments) {
     var vm = this;
 
@@ -24,32 +24,30 @@
 
     var username = authentication.currentUser().name;
     var userid = authentication.currentUser().id;
+    var communityid = authentication.currentUser().community._id;
 
     // Functions
     vm.addEvent = addEvent;
     vm.next = next;
     vm.prev = prev;
     vm.exportAppointments = exportAppoint;
+    vm.openAppointmentMapDialog = openAppointmentMapDialog;
 
-    function openIssuesCount(id) {
-      apilaData.openIssuesCount(userid, id)
-        .success(function(count) {
-          msNavigationService.saveItem('fuse.issues', {
-            badge: {
-              content: count,
-              color: '#F44336'
-            }
-          });
-        })
-        .error(function(count) {});
-    }
 
+    apilaData.residentsList(communityid)
+      .success(function(residentList) {
+        vm.residentList = residentList.map(function(elem) {
+          return {value: elem._id, display: elem.firstName + " " + elem.lastName};
+        });
+      })
+      .error(function(err) {
+        $log.debug(err);
+      });
 
     apilaData.userCommunity(userid)
       .success(function(d) {
         vm.community = d;
         loadAppoitnments(vm.community._id);
-        openIssuesCount(vm.community._id);
         loadIssues(vm.community._id);
         loadBirthdays(vm.community._id);
 
@@ -60,7 +58,7 @@
 
         SearchService.subscribe($scope, function() {
 
-          vm.events[0] = SearchService.getResult();
+        vm.events[0] = SearchService.getResult();
         });
 
       });
@@ -81,8 +79,8 @@
           vm.events[0] = appointList;
 
         })
-        .error(function(e) {
-          console.log("error loading appointments");
+        .error(function(err) {
+          $log.debug(err);
         });
 
     };
@@ -107,7 +105,7 @@
         });
       })
       .error(function(response) {
-
+        $log.debug(response);
       });
     };
 
@@ -119,17 +117,21 @@
 
           // get current year, and set that for birthday on cal
           var currYear = moment().year();
-          var startDate = moment(value.birthDate).year(currYear);
 
-          var calEvent = {
-            title: value.firstName + " " + value.lastName + "'s Birthday",
-            start: startDate,
-            end: null,
-            stick: true,
-            color: "#9C27B0"
-          };
+          if(value.birthDate && value.buildingStatus !== "Dead" && value.buildingStatus !== "Moved Out") {
+            var startDate = moment(value.birthDate).year(currYear);
 
-          appointList.push(calEvent);
+            var calEvent = {
+              title: value.firstName + " " + value.lastName + "'s Birthday",
+              start: startDate,
+              end: null,
+              stick: true,
+              color: "#9C27B0"
+            };
+
+            vm.events[0].push(calEvent);
+          }
+
 
         });
       })
@@ -176,7 +178,7 @@
         return p.start;
       });
 
-      //fitler out just the events from the selected montg and then map to table
+      //fitler out just the events from the selected month and then map to table
       var rows = _.map(_.filter(sortedEvents, function(o) {
         return moment(o.start).format("MM") === vm.calendar.getDate().format("MM") && o.cancel === false;
       }),
@@ -316,6 +318,20 @@
       return calEvent;
     }
 
+    function openAppointmentMapDialog() {
+      $mdDialog.show({
+        controller: 'AppointmentMapController',
+        controllerAs: 'vm',
+        templateUrl: 'app/main/calendar/dialogs/appointment-map/appointment-map.html',
+        parent: angular.element($document.body),
+        clickOutsideToClose: true,
+        locals: {
+          appointments: appointments
+        }
+      });
+    }
+
+
     function showEventFormDialog(type, calendarEvent, start, end, e) {
       var dialogData = {
         type: type,
@@ -327,12 +343,13 @@
       $mdDialog.show({
         controller: 'EventFormDialogController',
         controllerAs: 'vm',
-        templateUrl: 'app/main/appointments/dialogs/event-form/event-form-dialog.html',
+        templateUrl: 'app/main/calendar/dialogs/event-form/event-form-dialog.html',
         parent: angular.element($document.body),
         targetEvent: e,
         clickOutsideToClose: true,
         locals: {
-          dialogData: dialogData
+          dialogData: dialogData,
+          residentList: vm.residentList
         }
       }).then(function(response) {
 

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.appointments', [
+        .module('app.calendar', [
             'ui.calendar'
         ])
         .config(config);
@@ -12,25 +12,25 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.appointments', {
+        $stateProvider.state('app.calendar', {
             url      : '/calendar',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/appointments/appointments.html',
+                    templateUrl: 'app/main/calendar/calendar.html',
                     controller : 'AppoitmentsController as vm'
                 }
             },
-            bodyClass: 'appointments'
+            bodyClass: 'calendar'
         });
 
         // Translation
-        $translatePartialLoaderProvider.addPart('app/main/appointments');
+        $translatePartialLoaderProvider.addPart('app/main/calendar');
 
         // Navigation
-        msNavigationServiceProvider.saveItem('fuse.appointments', {
+        msNavigationServiceProvider.saveItem('fuse.calendar', {
             title : 'Calendar',
             icon  : 'icon-calendar-today',
-            state : 'app.appointments',
+            state : 'app.calendar',
             weight: 1
         });
     }

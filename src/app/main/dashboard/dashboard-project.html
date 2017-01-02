@@ -55,7 +55,7 @@
                     <div class="widget-group" layout="row" flex="100" layout-wrap>
 
                         <!-- APPOINTMENTS TODAY INFO -->
-                        <ms-widget flippable="true"  ui-sref="app.appointments" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                        <ms-widget flippable="true" class="hand-cursor" ui-sref="app.calendar" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
                             <ms-widget-front class="white-bg">
                                 <div class="ph-8 pv-16 h-55" layout="row" layout-align="space-between center">
@@ -75,7 +75,7 @@
                         </ms-widget>
 
                         <!-- RESIDENT COUNT INFO-->
-                        <ms-widget flippable="true" ui-sref="app.residents" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                        <ms-widget flippable="true" class="hand-cursor" ui-sref="app.residents" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
                             <ms-widget-front class="white-bg">
                                 <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
@@ -93,7 +93,7 @@
                         </ms-widget>
 
                         <!-- ISSUE COUNT INFO -->
-                        <ms-widget flippable="true" ui-sref="app.issues.boards.board" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                        <ms-widget flippable="true" class="hand-cursor" ui-sref="app.issues.boards.board" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
 
                             <ms-widget-front class="white-bg">
                                 <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
@@ -286,13 +286,11 @@
 
                 </md-tab>
 
-
                 <md-tab label="Community Settings">
-
                   <!-- WIDGET GROUP -->
                   <div class="widget-group" layout="row" flex="100" layout-wrap>
 
-                      <!-- WIDGET 11 -->
+                      <!-- Billing widget -->
                       <ms-widget layout="row" flex="100">
 
                           <!-- Front -->
@@ -326,11 +324,153 @@
                               </div>
 
                               <div class="content" ng-if="!vm.customerData.status">
-                                <h2>You haven't got any billing information.</h2>
+                                <h4>You haven't got any billing information.</h4>
                               </div>
 
                               <div class="content" ng-if="vm.subscriptionCanceled">
                                 <h2>You have cancelled your subscription</h2>
+                              </div>
+
+                          </ms-widget-font>
+
+                      </ms-widget>
+
+                      <!-- Contact Information -->
+                      <ms-widget layout="row" flex="100">
+
+                          <!-- Front -->
+                          <ms-widget-front class="white-bg">
+
+                              <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
+                                  <div class="h2">Contact Information</div>
+                              </div>
+
+                              <div class="content" layout="column">
+                                <div layout="row" layout-align="space-around center">
+                                  <md-input-container class="md-block" flex>
+                                    <label>Address</label>
+                                    <input ng-model="vm.contactInfo.address" type="text" ng-blur="vm.updateContactAndRoomInfo()">
+                                  </md-input-container>
+
+                                  <md-input-container class="md-block" flex flex-offset="5">
+                                    <label>Phone Number</label>
+                                    <input ng-model="vm.contactInfo.phone" type="text" ng-blur="vm.updateContactAndRoomInfo()">
+                                  </md-input-container>
+                                </div>
+
+                                <div layout="row" layout-align="space-around center">
+                                  <md-input-container class="md-block" flex>
+                                    <label>Website</label>
+                                    <input ng-model="vm.contactInfo.website" type="text" ng-blur="vm.updateContactAndRoomInfo()">
+                                  </md-input-container>
+
+                                  <md-input-container class="md-block" flex flex-offset="5">
+                                    <label>Fax</label>
+                                    <input ng-model="vm.contactInfo.fax" type="text" ng-blur="vm.updateContactAndRoomInfo()">
+                                  </md-input-container>
+                                </div>
+
+                                <div layout="row" layout-align="space-around center">
+                                  <md-input-container class="md-block" flex>
+                                    <label>Town</label>
+                                    <input ng-model="vm.contactInfo.town" type="text" ng-blur="vm.updateContactAndRoomInfo('town')">
+                                  </md-input-container>
+
+
+                                </div>
+                              </div>
+
+                          </ms-widget-font>
+
+                      </ms-widget>
+
+
+                      <!-- Room setup -->
+                      <ms-widget layout="row" flex="100">
+
+                          <!-- Front -->
+                          <ms-widget-front class="white-bg">
+
+                              <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
+                                  <div class="h2">Room setup</div>
+                              </div>
+
+                              <div class="content" layout="row" layout-align="space-between start">
+                                <div layout="column" layout-align="space-around start">
+                                  <md-input-container class="md-block" flex>
+                                    <md-button ng-click="vm.roomDialog()" class="md-raised md-primary" aria-label="Create Room Style">
+                                      Create Room Style
+                                    </md-button>
+                                  </md-input-container>
+
+                                  <md-input-container class="md-block">
+                                    <label>Rooms</label>
+                                    <input ng-model="vm.myCommunity.rooms" type="number" ng-blur="vm.updateContactAndRoomInfo()">
+                                  </md-input-container>
+
+                                  <md-input-container class="md-block">
+                                    <label>Floors</label>
+                                    <input ng-model="vm.myCommunity.numFloors" type="number" ng-blur="vm.updateContactAndRoomInfo('floors')">
+                                  </md-input-container>
+
+                                  <div ng-repeat="room in vm.floors">
+                                    <label><u><b>{{ room.floorNumber + 1 }}. </b> Floor</u></label>
+                                    <div layout="row" layout-align="space-between start">
+
+                                      <md-input-container class="md-block">
+                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.startRoom" md-search-text="room.startRoom"
+                                              md-items="item in vm.getMatches(room.startRoom)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
+                                              md-min-length="0" placeholder="Choose start room">
+                                          <md-item-template> <span md-highlight-text="room.startRoom">{{item}}</span>
+
+                                          </md-item-template>
+                                          <md-not-found>
+                                            No room found
+                                          </md-not-found>
+                                        </md-autocomplete>
+                                      </md-input-container>
+
+                                      <md-input-container class="md-block">
+                                        <md-autocomplete md-input-id="select-room" md-selected-item="room.endRoom" md-search-text="room.endRoom"
+                                              md-items="item in vm.getMatches(room.endRoom)" md-item-text="item" md-selected-item-change="vm.updateFloors()"
+                                              md-min-length="0" ng-blur="vm.updateFloors()" placeholder="Choose end room">
+                                          <md-item-template> <span md-highlight-text="room.endRoom">{{item}}</span>
+
+                                          </md-item-template>
+                                          <md-not-found>
+                                            No room found
+                                          </md-not-found>
+                                        </md-autocomplete>
+                                      </md-input-container>
+
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <div layout="column" layout-align="space-around start">
+
+                                  <md-subheader class="md-no-sticky">List of Room Styles</md-subheader>
+
+                                  <!-- Show list of current added rooms -->
+                                  <md-list class="md-whiteframe-1dp">
+                                    <md-list-item ng-repeat="roomStyle in vm.myCommunity.roomStyle">
+                                        <div>
+                                          <span class="room-style-name md-list-item-text">{{ roomStyle.name }}</span>
+                                        </div>
+
+                                        <div>
+                                          <button ng-click="vm.roomDialog(roomStyle)" class="text-boxed md-raised m-0 room-style-update md-secondary">Update
+                                          </button>
+                                        </div>
+                                    </md-list-item>
+                                  </md-list>
+
+                                </div>
+
+                                <div layout="column" layout-align="space-around center">
+                                </div>
+
                               </div>
 
                           </ms-widget-font>
@@ -376,7 +516,7 @@
 
                             <md-menu-content width="3">
                                 <md-menu-item>
-                                    <md-button ng-click="vm.nowWidget.dummyFunction()">
+                                    <md-button ng-click="vm.refreshWeather()">
                                         <md-icon md-font-icon="icon-refresh" class="icon"></md-icon>
                                         Refresh
                                     </md-button>
@@ -412,6 +552,133 @@
 
             </ms-widget>
             <!-- / NOW WIDGET -->
+
+
+            <!-- WEATHER WIDGET -->
+           <ms-widget flippable="false" class="sidenav-widget">
+
+               <!-- Front -->
+               <ms-widget-front>
+
+                   <div class="pl-16 pr-8 pv-16" layout="row" layout-align="space-between center">
+                       <div class="h4">
+                           <md-icon md-font-icon="icon-map-marker" class="icon mr-8"></md-icon>
+                           {{vm.communityTown}}
+                       </div>
+
+                       <md-menu>
+                           <md-button class="md-icon-button" ng-click="$mdOpenMenu()" md-menu-origin
+                                      md-menu-align-target
+                                      aria-label="Options">
+                               <md-icon md-font-icon="icon-dots-vertical" class="icon"></md-icon>
+                           </md-button>
+
+                           <md-menu-content width="3">
+                               <md-menu-item>
+                                   <md-button ng-click="vm.nowWidget.dummyFunction()">
+                                       <md-icon md-font-icon="icon-refresh" class="icon"></md-icon>
+                                       Refresh
+                                   </md-button>
+                               </md-menu-item>
+                               <md-menu-item>
+                                   <md-button ng-click="vm.changeWeatherUnit()">
+                                       <md-icon md-font-icon="icon-cog" class="icon"></md-icon>
+                                       <span ng-if="vm.units === 'metric'">Change to imperial</span>
+                                       <span ng-if="vm.units === 'imperial'">Change to metric</span>
+                                   </md-button>
+                               </md-menu-item>
+                           </md-menu-content>
+                       </md-menu>
+                   </div>
+
+                   <div class="p-16 pb-32" layout="column" layout-align="center center">
+                       <div layout="row" layout-align="center center">
+                           <md-icon
+                                   md-font-icon="{{ vm.mapIcon(vm.weatherData.list[0].weather[0].main) }}"
+                                   class="icon s40 mr-16">
+                             <md-tooltip>
+                               {{ vm.currentWeather.weather[0].description }}
+                             </md-tooltip>
+                           </md-icon>
+                           <span class="md-display-2 font-weight-300 secondary-text">
+                               {{vm.currentWeather.main.temp}}
+                           </span>
+                           <span class="font-size-48 font-weight-300 hint-text text-super ml-8">&deg;</span>
+                           <span class="md-display-2 font-weight-300 hint-text">{{ vm.tempUnit }}</span>
+                       </div>
+                   </div>
+
+                   <div class="grey-300-bg p-16" layout="row" layout-align="space-between center">
+                       <div layout="row" layout-align="start center">
+                           <md-icon md-font-icon="icon-weather-windy" class="icon mr-8 s20"></md-icon>
+                           <span>
+                               {{vm.currentWeather.wind.speed}}
+                           </span>
+                           <md-tooltip>
+                             Wind Speed
+                           </md-tooltip>
+                           <span ng-if="vm.units === 'metric'" class="secondary-text ml-5">M/S</span>
+                           <span ng-if="vm.units === 'imperial'" class="secondary-text ml-5">M/H</span>
+
+                       </div>
+
+                       <div layout="row" layout-align="start center">
+                           <md-icon md-font-icon="icon-compass-outline" class="icon mr-8 s20"></md-icon>
+                           <span>{{vm.windDirection(vm.currentWeather.wind.deg)}}</span>
+                           <md-tooltip>
+                             Wind Direction
+                           </md-tooltip>
+                       </div>
+
+                       <!-- <div layout="row" layout-align="start center">
+                           <md-icon md-font-icon="icon-umbrella" class="icon mr-8 s20"></md-icon>
+                           <span>{{vm.weatherWidget.locations[vm.weatherWidget.currentLocation].rainProbability}}</span>
+                       </div> -->
+                   </div>
+
+                   <div class="pv-16">
+                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
+                           <span class="h4">{{ vm.getDay(vm.weatherData.list[1].dt) }}</span>
+                           <div layout="row" layout-align="start center">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[1].weather[0].main) }}" class="icon">
+                               </md-icon>
+                               <span class="h2">{{vm.weatherData.list[1].temp.day}}</span>
+                               <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
+                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                           </div>
+                       </div>
+
+                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
+                           <span class="h4">{{ vm.getDay(vm.weatherData.list[2].dt) }}</span>
+                           <div layout="row" layout-align="start center">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[2].weather[0].main) }}" class="icon">
+                               </md-icon>
+                               <span class="h2">{{vm.weatherData.list[2].temp.day}}</span>
+                               <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
+                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                           </div>
+                       </div>
+
+
+                       <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
+                           <span class="h4">{{ vm.getDay(vm.weatherData.list[3].dt) }}</span>
+                           <div layout="row" layout-align="start center">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[3].weather[0].main) }}" class="icon">
+                               </md-icon>
+                               <span class="h2">{{vm.weatherData.list[3].temp.day}}</span>
+                               <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
+                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                           </div>
+                       </div>
+                   </div>
+
+                   <md-divider></md-divider>
+
+               </ms-widget-front>
+               <!-- / Front -->
+
+           </ms-widget>
+           <!-- / WEATHER WIDGET -->
 
 
         </div>

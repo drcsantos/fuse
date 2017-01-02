@@ -12,6 +12,8 @@
 
       var appointmentDate = new Date(data._start);
 
+      var dateFilter = $filter('date');
+
       var currDay = moment().isoWeekday() - 1;
 
       appointmentDate.setHours(data.hours);
@@ -19,12 +21,13 @@
 
       var commentLength = 90;
 
-      var residentBirthDate = new Date(data.residentGoing.birthDate);
+      if(data.residentGoing.birthDate) {
+        var residentBirthDate = new Date(data.residentGoing.birthDate);
+        var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
+      }
 
-      var dateFilter = $filter('date');
       //var appointmentFilteredTime = dateFilter(data._start, 'h:mm a');
       var appointmentFilteredDate = dateFilter(appointmentDate, 'MMM d, yyyy');
-      var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
 
       var location = data.locationName.name || data.locationName;
 
@@ -43,7 +46,7 @@
       doc.text(140, 238, data.transportation);
 
       doc.text(415, 156, "Date of Birth:");
-      doc.text(490, 156, residentFilteredBirthDate);
+      doc.text(490, 156, residentFilteredBirthDate || "Date not set");
 
       if(data.locationName.formatted_phone_number) {
         doc.text(415, 176, "Phone number:");

@@ -62,11 +62,11 @@
                     }
                   }
 
-                //  unfiltered.push(item.id);
-
-
               });
-          } else if(query == "") {
+
+              resultData = _.uniqBy(resultData, "_id");
+
+          } else if(query === "") {
 
             resultData = removeDueDate();
           }
@@ -108,7 +108,7 @@
         subscribe : subscribe,
         searchResultClick : searchResultClick,
         collapseSearch : collapseSearch
-      }
+      };
 
     }
 

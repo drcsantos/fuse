@@ -114,6 +114,10 @@
       return $http.get(apiUrl + '/api/issues/' + issueid + '/updateinfo', getAuth());
     };
 
+    var issuePopulateOne = function(issueid) {
+      return $http.get(apiUrl + '/api/issues/' + issueid + '/populate', getAuth());
+    };
+
     var createIssueRecovery = function(data, communityid) {
       return $http.post(apiUrl + '/api/issues/recovery/' + communityid, data, getAuth());
     };
@@ -279,6 +283,18 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + "/role/" + userid, data, getAuth());
     };
 
+    var acceptMember = function(data, communityid) {
+      return $http.put(apiUrl + '/api/communities/accept/' + communityid, data, getAuth());
+    };
+
+    var updateFloor = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid + "/floor", data, getAuth());
+    };
+
+    var addFloor = function(communityid, data) {
+      return $http.post(apiUrl + '/api/communities/' + communityid + "/floor", data, getAuth());
+    };
+
     var removeMember = function(communityid, userid) {
       return $http.delete(apiUrl + '/api/communites/' + communityid + "/user/" + userid, getAuth());
     };
@@ -291,11 +307,26 @@
       return $http.post(apiUrl + '/api/communites/' + communityid + '/restore/' + userid, {}, getAuth());
     };
 
+    var updateContactAndRoomInfo = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid +'/contactinfo', data, getAuth());
+    };
+
+    var createRoomStyle = function(communityid, data) {
+      return $http.post(apiUrl + '/api/communities/' + communityid + '/roomstyle', data, getAuth());
+    };
+
+    var updateRoomStyle = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid + '/roomstyle/' + data._id, data, getAuth());
+    };
 
     ////////////////////////// TODOS RESOURCES /////////////////////////////
 
     var listTasks = function(todoId) {
       return $http.get(apiUrl + '/api/todos/' + todoId, getAuth());
+    };
+
+    var activeTasksCount = function(todoId) {
+      return $http.get(apiUrl + '/api/todos/' + todoId +'/activecount', getAuth());
     };
 
     var addTask = function(todoId, data) {
@@ -308,6 +339,11 @@
 
     var deleteTask = function(todoId, taskid) {
       return $http.delete(apiUrl + '/api/todos/'+ todoId + '/task/' + taskid, getAuth());
+    };
+
+    ////////////////////////////////// ACTIVITY /////////////////////////////////
+    var createToDoActivity = function(todoId, data) {
+      return $http.post(apiUrl + '/api/activity/' + todoId, data, getAuth());
     };
 
     return {
@@ -344,6 +380,7 @@
       issueUpdateInfo: issueUpdateInfo,
       createIssueRecovery: createIssueRecovery,
       verifyPassword: verifyPassword,
+      issuePopulateOne: issuePopulateOne,
 
       //residents
       residentsList: residentsList,
@@ -381,15 +418,25 @@
       addPendingMember: addPendingMember,
       declineMember: declineMember,
       addRole: addRole,
+      updateFloor: updateFloor,
+      addFloor: addFloor,
       removeMember: removeMember,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
+      updateContactAndRoomInfo: updateContactAndRoomInfo,
+      createRoomStyle: createRoomStyle,
+      updateRoomStyle: updateRoomStyle,
 
       //todos
       listTasks:  listTasks,
+      activeTasksCount: activeTasksCount,
       addTask: addTask,
       updateTask: updateTask,
-      deleteTask: deleteTask
+      deleteTask: deleteTask,
+
+      //activity
+      createToDoActivity: createToDoActivity
+
     };
   }
 

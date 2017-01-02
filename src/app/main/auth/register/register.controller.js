@@ -7,7 +7,7 @@
         .controller('RegisterController', RegisterController);
 
     /** @ngInject */
-    function RegisterController($location, authentication)
+    function RegisterController($location, authentication, $log, $mdToast)
     {
         // Data
         var vm = this;
@@ -50,12 +50,26 @@
               if (error.err.indexOf("email") !== -1) {
                 vm.emailExists = "This email already exists";
               }
+
+              if(error.err.indexOf("failed_send") !== -1) {
+                showToast("Unable to send verification email. Please contact the administrators.");
+              }
             })
             .then(function() {
-              console.log("success register: " + authentication.currentUser().name);
+              $log.debug("success register: " + authentication.currentUser().name);
               $location.path('/auth/login');
             });
         };
+
+
+        function showToast(msg) {
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent(msg)
+            .position("top right")
+            .hideDelay(2000)
+          );
+        }
         //////////
     }
 })();

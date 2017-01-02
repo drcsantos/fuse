@@ -17,36 +17,23 @@
         <h4>Continent Independent : {{ vm.selectedResident.continentIndependent}} </h4>
         <h4>Colostomy : {{ vm.selectedResident.colostomy}} </h4>
 
-        <h4 ng-switch on="vm.selectedResident.bowelContinent">
-            <span ng-switch-when="0">Bowel Continent : Never</span>
-            <span ng-switch-when="1">Bowel Continent : Sometimes</span>
-            <span ng-switch-when="2">Bowel Continent : Always</span>
-            <span ng-switch-default>Bowel Continent :</span>
+        <h4>Bowel Continent :
+          {{vm.replaceNumberValue('bowelContinent', vm.selectedResident.bowelContinent)}}
         </h4>
 
-        <h4 ng-switch on="vm.selectedResident.constipated">
-            <span ng-switch-when="0">Constipated : Never</span>
-            <span ng-switch-when="1">Constipated : Sometimes</span>
-            <span ng-switch-when="2">Constipated : Always</span>
-            <span ng-switch-default>Constipated :</span>
+        <h4>Constipated :
+          {{vm.replaceNumberValue('constipated', vm.selectedResident.constipated)}}
         </h4>
 
         <h4>Laxative: {{vm.selectedResident.laxative}} </h4>
 
-        <h4 ng-switch on="vm.selectedResident.bladderContinent">
-            <span ng-switch-when="0">Bladder Continent : Never</span>
-            <span ng-switch-when="1">Bladder Continent : Sometimes</span>
-            <span ng-switch-when="2">Bladder Continent : Always</span>
-            <span ng-switch-default>Bladder Continent :</span>
+        <h4>Bladder Continent :
+          {{vm.replaceNumberValue('bladderContinent', vm.selectedResident.bladderContinent)}}
         </h4>
 
-        <h4 ng-switch on="vm.selectedResident.bladderContinent">
-            <span ng-switch-when="0">Dribbles : Never</span>
-            <span ng-switch-when="1">Dribbles : Sometimes</span>
-            <span ng-switch-when="2">Dribbles : Always</span>
-            <span ng-switch-default>Dribbles :</span>
+        <h4>Dribbles :
+          {{vm.replaceNumberValue('dribbles', vm.selectedResident.dribbles)}}
         </h4>
-
 
         <h4>Urostomy: {{vm.selectedResident.urostomy}} </h4>
         <h4>Catheter : {{ vm.selectedResident.catheter }}</h4>

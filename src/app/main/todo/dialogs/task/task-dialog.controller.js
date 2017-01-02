@@ -7,7 +7,7 @@
         .controller('TaskDialogController', TaskDialogController);
 
     /** @ngInject */
-    function TaskDialogController($mdDialog, Task, Tasks, event, $mdToast, authentication, apilaData, ToDoUtilsService)
+    function TaskDialogController($mdDialog, $log, Task, Tasks, event, $mdToast, authentication, apilaData, ToDoUtilsService)
     {
         var vm = this;
 
@@ -19,7 +19,7 @@
 
         vm.canSubmit = false;
 
-        console.log("Task dialog opened");
+        $log.debug("Task dialog opened");
 
         vm.todoid = authentication.currentUser().todoid;
 
@@ -65,7 +65,7 @@
               closeDialog();
             })
             .error(function(response) {
-              console.log(response);
+              $log.debug(response);
             });
 
         }
@@ -89,7 +89,7 @@
             closeDialog();
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
 
         }

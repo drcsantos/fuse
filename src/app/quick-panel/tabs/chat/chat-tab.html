@@ -1,20 +1,19 @@
 <div class="main animate-slide-left" ng-hide="vm.chatActive">
     <md-list class="recent">
         <md-subheader class="md-no-sticky">
-            <span translate="QUICKPANEL.RECENT">Recent</span>
+            <span translate="QUICKPANEL.COMMUNITY">Community</span>
         </md-subheader>
 
-        <md-list-item class="contact md-3-line" ng-repeat="contact in vm.contacts.recent"
-                      ng-click="vm.toggleChat(contact)">
-            <img ng-src="{{contact.avatar}}" class="md-avatar" alt="{{contact.name}}"/>
+        <md-list-item class="contact md-3-line" ng-click="vm.toggleChat(contact)">
+            <img ng-src="assets/images/avatars/community_final.png" class="md-avatar" alt="Community"/>
 
-            <div class="status  {{contact.status}}"></div>
+            <div class="status online"></div>
 
-            <div ng-if="contact.unread" class="md-accent-bg unread-message-count">{{contact.unread}}</div>
+            <div class="md-accent-bg unread-message-count">4</div>
 
             <div class="md-list-item-text">
-                <h3>{{contact.name}}</h3>
-                <p class="last-message">{{contact.lastMessage}}</p>
+                <h3>Community chat</h3>
+                <p class="last-message">Talk to everyone in the community</p>
             </div>
         </md-list-item>
     </md-list>
@@ -50,16 +49,11 @@
                     <md-icon md-font-icon="icon-keyboard-backspace"></md-icon>
                 </md-button>
                 <h4>
-                    <span>{{vm.chat.contact.name}}</span>
+                    <span>Community</span>
                 </h4>
             </div>
 
             <div layout="row" layout-align="end center">
-                <md-button class="md-icon-button" aria-label="Call" translate
-                           translate-attr-aria-label="QUICKPANEL.CALL">
-                    <md-icon md-font-icon="icon-phone"></md-icon>
-                </md-button>
-
                 <md-button class="md-icon-button" aria-label="More" translate
                            translate-attr-aria-label="QUICKPANEL.MORE">
                     <md-icon md-font-icon="icon-dots-vertical"></md-icon>
@@ -69,15 +63,15 @@
 
     </md-toolbar>
     <md-content flex layout-paddings ms-scroll id="chat-dialog">
-        <div layout="row" ng-repeat="dialog in vm.chat.contact.dialog" class="md-padding message-row"
-             ng-class="dialog.who">
-            <img ng-if="dialog.who ==='contact'" ng-src="{{vm.chat.contact.avatar}}" class="avatar"
+        <div layout="row" ng-repeat="msg in vm.chat.community.messages" class="md-padding message-row"
+             ng-class="msg.userSend">
+            <img ng-if="msg.userSend ==='contact'" ng-src="{{vm.chat.contact.avatar}}" class="avatar"
                  alt="{{vm.chat.contact.name}}"/>
-            <img ng-if="dialog.who ==='user'" class="avatar" src="assets/images/avatars/profile.jpg">
+            <img class="avatar" src="{{ msg.userSend.userImage }}">
 
             <div class="bubble" flex>
-                <div class="message">{{dialog.message}}</div>
-                <div class="time secondary-text">{{dialog.time}}</div>
+                <div class="message">{{ msg.message }}</div>
+                <div class="time secondary-text">{{ vm.timeDiff(msg.timeSent) }}</div>
             </div>
         </div>
     </md-content>

@@ -1,0 +1,50 @@
+<md-dialog class="event-form-dialog" aria-label="New Message">
+  <form name="eventForm" class="md-inline-form" novalidate>
+    <md-toolbar class="md-accent md-hue-2">
+      <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <span class="title">Appointments Map</span>
+        <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog" translate translate-attr-aria-label="CALENDAR.CLOSE_DIALOG">
+          <md-icon md-font-icon="icon-close"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+      <md-tabs style="min-height: 400px;">
+
+        <md-tab label="Today" md-on-select="vm.switchTabs('Today')">
+          <ui-gmap-google-map center="vm.locationsMap.center" zoom="vm.locationsMap.zoom">
+              <ui-gmap-marker ng-repeat="m in vm.todayLocations" coords="m.coords" idkey="m.id">
+              </ui-gmap-marker>
+          </ui-gmap-google-map>
+        </md-tab>
+
+        <md-tab label="Tomorrow" md-on-select="vm.switchTabs('Tomorrow')">
+          <ui-gmap-google-map center="vm.locationsMap.center" zoom="vm.locationsMap.zoom">
+              <ui-gmap-marker ng-repeat="m in vm.tomorrowLocations" coords="m.coords" idkey="m.id">
+              </ui-gmap-marker>
+          </ui-gmap-google-map>
+        </md-tab>
+
+        <md-tab label="Week" md-on-select="vm.switchTabs('This-Week')">
+          <ui-gmap-google-map center="vm.locationsMap.center" zoom="vm.locationsMap.zoom">
+              <ui-gmap-marker ng-repeat="m in vm.currentWeekLocations" coords="m.coords" idkey="m.id">
+              </ui-gmap-marker>
+          </ui-gmap-google-map>
+        </md-tab>
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" layout-align="space-between center">
+      <md-button ng-disabled="vm.isDisabled" ng-click="vm.saveEvent()" class="save-button md-accent md-raised" aria-label="SAVE" ng-disabled="eventForm.$invalid || eventForm.$pristine" translate="CALENDAR.SAVE" translate-attr-aria-label="CALENDAR.SAVE">
+        SAVE
+      </md-button>
+
+    </md-dialog-actions>
+
+
+  </form>
+</md-dialog>

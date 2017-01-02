@@ -8,7 +8,7 @@
 
 
   /** @ngInject */
-  function BillingService(apilaData, $mdDialog, $document, $window) {
+  function BillingService(apilaData, $mdDialog, $document, $window, $log) {
 
     function updateBillingModal(ev)
     {
@@ -38,7 +38,7 @@
          $window.location.reload();
        })
        .error(function(response) {
-         console.log(response);
+         $log.debug(response);
        });
      });
     }

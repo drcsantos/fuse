@@ -7,7 +7,7 @@
         .controller('ChatTabController', ChatTabController);
 
     /** @ngInject */
-    function ChatTabController(msApi, $timeout)
+    function ChatTabController(socket, $timeout, authentication, Utils)
     {
         var vm = this;
 
@@ -16,19 +16,35 @@
         vm.chatActive = false;
         vm.replyMessage = '';
 
-       /* msApi.request('quickPanel.contacts@get', {},
-            // Success
-            function (response)
-            {
-                vm.contacts = response.data;
-            }
-        );*/
+        vm.timeDiff = Utils.timeDiff;
+
+        vm.chat.community = {
+          messages : []
+        };
 
         // Methods
         vm.toggleChat = toggleChat;
         vm.reply = reply;
 
         //////////
+
+        socket.on("connect", function() {
+
+          socket.emit("get-community-msgs", authentication.currentUser().community._id);
+
+          socket.on("community-msg", function(msg) {
+            console.log("Community msg received");
+          });
+
+          socket.on("chat-newmsg", function(msg) {
+            vm.chat.community.messages.push(msg);
+          });
+
+          socket.on("community-msgs", function(msgs) {
+            vm.chat.community.messages = msgs;
+          });
+
+        });
 
         function toggleChat(contact)
         {
@@ -49,16 +65,23 @@
                 return;
             }
 
-            if ( !vm.chat.contact.dialog )
-            {
-                vm.chat.contact.dialog = [];
+            var newMsg = {
+                userSend: authentication.currentUser().id,
+                message: vm.replyMessage,
+                community: authentication.currentUser().community._id,
+                timeSent: new Date()
+            };
+
+            socket.emit('chat-msg', newMsg);
+
+            //populate infor about the user so the name and the image is shown
+            newMsg.userSend = {
+              _id: authentication.currentUser().id,
+              name: authentication.currentUser().name,
+              userImage: authentication.getUserImage()
             }
 
-            vm.chat.contact.dialog.push({
-                who    : 'user',
-                message: vm.replyMessage,
-                time   : 'Just now'
-            });
+            vm.chat.community.messages.push(newMsg);
 
             vm.replyMessage = '';
 

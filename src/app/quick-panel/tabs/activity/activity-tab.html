@@ -5,9 +5,8 @@
 
     <md-list-item ng-style="vm.getColor(activity.type)"
                   aria-label="activity-box"
-                  ng-click="vm.openDialogs(activity.type)"
-                  class="md-3-line"
-                  ng-repeat="activity in vm.activities | orderBy:'-createdOn' track by activity._id">
+                  class="md-3-line activity-item"
+                  ng-repeat="activity in vm.activities | orderBy:'-createdOn' track by $index">
       <activity-box activity="activity"></activity-box>
     </md-list-item>
 

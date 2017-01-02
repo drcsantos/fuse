@@ -9,10 +9,10 @@
       </div>
     </md-toolbar>
 
-    <span>
-    <md-tabs md-selected="vm.selectedTab">
+    <!-- <span> -->
+    <md-tabs md-selected="vm.selectedTab" style="min-height: 400px;">
 
-      <md-tab label="new" >
+      <md-tab label="new">
           <md-dialog-content>
             <md-input-container class="md-block">
               <label>First Name</label>
@@ -21,27 +21,28 @@
 
             <md-input-container class="md-block">
               <label>Last Name</label>
-              <input ng-model="vm.form.contact.lastName" type="text" required="">
+              <input ng-model="vm.form.contact.lastName" type="text">
             </md-input-container>
 
             <md-input-container class="md-block">
               <label>Primary Phone Number</label>
-              <input ng-model="vm.form.contact.primaryPhoneNumber" type="text" required="">
+              <input ng-model="vm.form.contact.primaryPhoneNumber" type="text">
             </md-input-container>
 
             <md-input-container class="md-block">
               <label>Secondary Phone Number</label>
-              <input ng-model="vm.form.contact.secondaryPhoneNumber" type="text" required="">
+              <input ng-model="vm.form.contact.secondaryPhoneNumber" type="text">
             </md-input-container>
 
             <md-input-container class="md-block">
               <label>Email</label>
-              <input ng-model="vm.form.contact.email" type="text" required="">
+              <input ng-model="vm.form.contact.email" type="text">
             </md-input-container>
 
+            <!-- Physical Address -->
             <md-input-container class="md-block">
               <label>Physical Address</label>
-              <input ng-model="vm.form.contact.physicalAddress" type="text" required="">
+               <input class="form-control" g-places-autocomplete ng-model="vm.form.contact.physicalAddress" />
             </md-input-container>
 
             <md-input-container class="md-block">
@@ -87,7 +88,7 @@
 
             <md-input-container class="md-block">
               <label>Notes</label>
-              <input ng-model="vm.form.contact.contactNotes" type="text" required="">
+              <input ng-model="vm.form.contact.contactNotes" type="text">
             </md-input-container
 
           </md-dialog-content>
@@ -104,27 +105,28 @@
 
           <md-input-container class="md-block">
             <label>Last Name</label>
-            <input ng-model="tab.lastName" type="text" required="">
+            <input ng-model="tab.lastName" type="text">
           </md-input-container>
 
           <md-input-container class="md-block">
             <label>Primary Phone Number</label>
-            <input ng-model="tab.primaryPhoneNumber" type="text" required="">
+            <input ng-model="tab.primaryPhoneNumber" type="text">
           </md-input-container>
 
           <md-input-container class="md-block">
             <label>Secondary Phone Number</label>
-            <input ng-model="tab.secondaryPhoneNumber" type="text" required="">
+            <input ng-model="tab.secondaryPhoneNumber" type="text">
           </md-input-container>
 
           <md-input-container class="md-block">
             <label>Email</label>
-            <input ng-model="tab.email" type="text" required="">
+            <input ng-model="tab.email" type="text">
           </md-input-container>
 
+          <!-- Physical Address -->
           <md-input-container class="md-block">
             <label>Physical Address</label>
-            <input ng-model="tab.physicalAddress" type="text" required="">
+             <input class="form-control" g-places-autocomplete ng-model="tab.physicalAddress" />
           </md-input-container>
 
           <md-input-container class="md-block">
@@ -170,7 +172,7 @@
 
           <md-input-container class="md-block">
             <label>Notes</label>
-            <input ng-model="tab.contactNotes" type="text" required="">
+            <input ng-model="tab.contactNotes" type="text">
           </md-input-container
 
         </md-dialog-content>
@@ -178,14 +180,14 @@
 
 
 </md-tabs>
-</span>
+<!-- </span> -->
 <md-dialog-actions layout="row" layout-align="space-between center">
-  <div layout="row" layout-align="start center">
+  <div layout="row" layout-align="start start">
     <md-button ng-if="vm.selectedTab == 0" ng-click="vm.addContact()" class="send-button md-accent md-raised" aria-label="Add">
       ADD
     </md-button>
 
-    <md-button ng-if="vm.selectedTab != 0" ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
+    <md-button ng-if="vm.selectedTab != 0" ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Update">
       UPDATE
     </md-button>
   </div>

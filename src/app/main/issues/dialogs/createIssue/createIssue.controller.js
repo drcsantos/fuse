@@ -7,7 +7,7 @@
         .controller('CreateIssueController', CreateIssueController);
 
     /** @ngInject */
-    function CreateIssueController($mdDialog, apilaData, board, name, authentication, msNavigationService) {
+    function CreateIssueController($mdDialog, $log, apilaData, board, name, errorCheck, authentication, msNavigationService) {
 
       var vm = this;
 
@@ -17,6 +17,10 @@
 
       vm.residentList = [];
       vm.selectedUser = {};
+      vm.form = {};
+      vm.error = {};
+
+      var requiredArray = ["title", "resolutionTimeframe", "description"];
 
       //Functions
       vm.closeDialog = closeDialog;
@@ -69,10 +73,29 @@
 
        })
        .error(function(usersList) {
-         console.log("Error retriving the list of residents");
+         $log.debug("Error retriving the list of residents");
        });
 
+       function checkForm() {
+         var error = false;
+
+         if(errorCheck.requiredFields(vm.form, vm.error, requiredArray)) {
+           error = true;
+         }
+
+         if(!vm.selectedItem) {
+           vm.error.selectedItem = true;
+           error = true;
+         } else {
+           vm.error.selectedItem = false;
+         }
+
+         return error;
+       }
+
       function addIssue() {
+
+        if(checkForm()){return;}
 
         vm.form.responsibleParty = vm.selectedItem.value;
         vm.form.community = vm.myCommunity;
@@ -91,7 +114,7 @@
               closeDialog();
             })
             .error(function(issue) {
-                console.log("Error while adding issue");
+                $log.debug("Error while adding issue");
             });
       }
 
@@ -108,7 +131,7 @@
             });
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
       }
 

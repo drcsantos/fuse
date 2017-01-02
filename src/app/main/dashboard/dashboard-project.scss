@@ -1,5 +1,28 @@
 #dashboard-project {
 
+  .hand-cursor {
+    cursor: hand;
+    cursor: pointer;
+  }
+
+  .room-style-list {
+    padding: 8px 20px 8px 30px;
+  }
+
+  .room-style-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 55px;
+  }
+
+  .room-style-update {
+    float: right;
+    background-color: #039BE5;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+
     > .center {
 
         > .header {

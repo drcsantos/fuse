@@ -13,6 +13,11 @@
       <md-input-container class="md-block">
         <label>First Name</label>
         <input ng-model="vm.form.firstName" type="text" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.firstName">
+              First Name is required
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -28,16 +33,24 @@
       <md-input-container class="md-block">
         <label>Last Name</label>
         <input ng-model="vm.form.lastName" type="text" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.lastName">
+              Last Name is required
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container class="md-block">
-        <label>Room Number</label>
-        <input ng-model="vm.form.room" required="">
-        <div ng-messages="">
-            <div ng-if="!vm.isNumber(vm.form.room)">
-              Must be a Number
-            </div>
-        </div>
+        <md-autocomplete md-input-id="select-room" md-selected-item="vm.form.room" md-search-text="vm.searchText"
+              md-items="item in vm.getMatches(vm.searchText)" md-item-text="item"
+              md-min-length="0" placeholder="Choose a room">
+          <md-item-template> <span md-highlight-text="vm.searchText">{{item}}</span>
+
+          </md-item-template>
+          <md-not-found>
+            No room found
+          </md-not-found>
+        </md-autocomplete>
       </md-input-container>
 
       <md-input-container class="md-block">
@@ -48,12 +61,12 @@
 
       <md-input-container class="md-block">
         <label>Social Security Number</label>
-        <input ng-model="vm.form.socialSecurityNumber" ssn required="">
+        <input ng-model="vm.form.socialSecurityNumber" ssn>
       </md-input-container>
 
       <md-input-container class="md-block">
         <label>Marital Status</label>
-        <md-select ng-model="vm.form.maritalStatus" required="">
+        <md-select ng-model="vm.form.maritalStatus">
           <md-option value="Single">Single</md-option>
           <md-option value="Divorced">Divorced</md-option>
           <md-option value="Widowed">Widowed</md-option>
@@ -63,15 +76,15 @@
       </md-input-container>
 
       <div layout="row" layout-align="space-around start">
-        <div>
+        <md-input-container class="md-block">
           <h4>Date of Birth</h4>
-          <md-datepicker ng-model="vm.form.birthDate" md-placeholder="Birth Date" required=""></md-datepicker>
-        </div>
+          <md-datepicker ng-model="vm.form.birthDate" md-placeholder="Birth Date"></md-datepicker>
+        </md-input-container>
 
-        <div>
+        <md-input-container class="md-block">
           <h4>Admission Date</h4>
           <md-datepicker ng-model="vm.form.admissionDate" md-placeholder="Admission Date"></md-datepicker>
-        </div>
+        </md-input-container>
       </div>
       <br>
 
@@ -87,7 +100,7 @@
       <div layout="row" layout-align="space-around end">
         <md-input-container>
           <label>Sex</label>
-          <md-select ng-model="vm.form.sex" required="">
+          <md-select ng-model="vm.form.sex">
             <md-option value="Male">Male</md-option>
             <md-option value="Female">Female</md-option>
             <md-option value="Other">Other</md-option>
@@ -103,11 +116,17 @@
           <label>Building Status</label>
           <md-select ng-model="vm.form.buildingStatus" required="">
             <md-option value="In Building">In Building</md-option>
+            <md-option value="Out of Building">Out of Building</md-option>
             <md-option value="Hospital">Hospital</md-option>
             <md-option value="Rehab">Rehab</md-option>
             <md-option value="Dead">Dead</md-option>
             <md-option value="Moved Out">Moved Out</md-option>
           </md-select>
+          <div ng-messages="">
+              <div ng-if="vm.error.buildingStatus">
+                Building Status is required
+              </div>
+          </div>
         </md-input-container>
 
         <md-input-container>
@@ -142,6 +161,14 @@
         </md-input-container>
 
        <!-- Random fields -->
+
+       <div class="md-block">
+          <label>
+              <span>Assessment Interval : {{ vm.replaceNumberValue('assessmentInterval', vm.form.assessmentInterval)}}</span>
+          </label>
+          <md-slider flex min="0" max="4" ng-model="vm.form.assessmentInterval" aria-label="blue">
+          </md-slider>
+       </div>
 
        <md-input-container class="md-block">
          <md-checkbox ng-model="vm.form.fullCode" aria-label="Full Code">
@@ -189,8 +216,8 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row" layout-align="space-between center">
-      <div layout="row" layout-align="start center">
-        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" ng-disabled="!vm.isNumber(vm.form.room)" aria-label="Update">
+      <div layout="row" layout-align="start start">
+        <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Update">
           UPDATE
         </md-button>
       </div>

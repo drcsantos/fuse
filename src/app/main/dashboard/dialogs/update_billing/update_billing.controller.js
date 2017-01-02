@@ -7,7 +7,7 @@
         .controller('UpdateBillingController', UpdateBillingController);
 
     /** @ngInject */
-    function UpdateBillingController($mdDialog, apilaData, authentication, $mdToast) {
+    function UpdateBillingController($mdDialog, apilaData, $log, authentication, $mdToast) {
 
       var vm = this;
 
@@ -32,7 +32,7 @@
                 closeDialog();
               })
               .error(function(response) {
-                console.log(response);
+                $log.debug(response);
               });
             }
 

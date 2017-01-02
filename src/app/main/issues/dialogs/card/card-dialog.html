@@ -10,6 +10,7 @@
       <div class="due-date">
         <div ng-if="!vm.card.currdue" moment-picker="vm.card.currdue" format="x" min-view="year" max-view="month" start-view="month">
           <md-button class="md-icon-button" aria-label="Due date" translate translate-attr-aria-label="SB.DUE_DATE" ng-click="$mdOpenMenu($event)">
+            <md-tooltip>Due Date</md-tooltip>
             <md-icon md-font-icon="icon-calendar"></md-icon>
           </md-button>
         </div>
@@ -19,6 +20,7 @@
       <!-- MEMBERS -->
       <md-menu md-offset="0 48" class="members">
         <md-button class="md-icon-button" aria-label="Members" ng-click="$mdOpenMenu($event)">
+          <md-tooltip>Members</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-account-multiple"></md-icon>
         </md-button>
 
@@ -33,7 +35,7 @@
             <md-button ng-fclick="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
               <div layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
-                  <img class="avatar" alt="{{member.name}}" ng-src="http://a3.mzstatic.com/us/r30/Purple6/v4/75/87/fe/7587fe05-83c5-4127-48ce-2a213151d321/icon175x175.png" />
+                  <img class="avatar" alt="{{member.name}}" ng-src="{{member.userImage || 'assets/images/avatars/userDefaultProfile.png'}}" />
                   <p class="member-name">{{ member.name }}</p>
                 </div>
                 <i class="icon-check s16" ng-if="vm.existsMembers(member, vm.card.idMembers)"></i>
@@ -47,6 +49,7 @@
       <!-- ATTACHMENT -->
       <md-menu md-offset="0 48px" class="options">
         <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Attachment" translate translate-attr-aria-label="SB.ATTACHMENT">
+          <md-tooltip>Attachments</md-tooltip>
           <md-icon md-font-icon="icon-attachment"></md-icon>
         </md-button>
         <md-menu-content class="options-menu-content" width="4">
@@ -63,6 +66,7 @@
       <!-- CHECKLIST -->
       <md-menu md-offset="0 48px" class="checklist">
         <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="checklist" translate translate-attr-aria-label="SB.CHECKLIST">
+          <md-tooltip>Checklists</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-checkbox-marked"></md-icon>
         </md-button>
 
@@ -83,6 +87,7 @@
       <!-- LABELS -->
       <md-menu md-offset="0 48" class="labels">
         <md-button class="md-icon-button" aria-label="Label" translate translate-attr-aria-label="SB.LABEL" ng-click="vm.labelTabIndex = 0;$mdOpenMenu($event)">
+          <md-tooltip>Labels</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-label-outline"></md-icon>
         </md-button>
 
@@ -193,12 +198,14 @@
 
       <!-- EXPORT -->
         <md-button class="md-icon-button" ng-click="vm.exportIssue()" aria-label="Options" translate translate-attr-aria-label="SB.OPTIONS">
+          <md-tooltip>Export</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-export"></md-icon>
         </md-button>
       <!-- / EXPORT -->
 
       <!-- WORD CLOUD -->
         <md-button class="md-icon-button" ng-click="vm.wordCloud()" aria-label="WordCloud">
+          <md-tooltip>Word Cloud</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-cloud"></md-icon>
         </md-button>
       <!-- / WORD CLOUD -->
@@ -289,6 +296,21 @@
           </md-select>
         </md-input-container>
 
+        <!-- Responsible party -->
+        <md-input-container class="md-block">
+          <label>Responsible Party</label>
+
+          <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="searchText"
+                md-items="item in vm.getMatches(searchText)" md-item-text="item.display"
+                md-min-length="0" placeholder="Responsible Party" md-selected-item-change="vm.changeResponsibleParty()">
+            <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
+
+            </md-item-template>
+            <md-not-found>
+              No Users found.
+            </md-not-found>
+          </md-autocomplete>
+        </md-input-container>
 
         <!-- SECTIONS -->
 
@@ -320,11 +342,10 @@
         </div>
         <div class="section-content">
           <md-chips class="member-chips" ng-model="vm.card.idMembers" md-transform-chip="$chip.id" md-autocomplete-snap md-require-match="true">
-            <md-autocomplete md-selected-item="vm.selectedMember" md-search-text="vm.searchText" md-items="member in vm.memberQuerySearch(vm.searchText)" md-item-text="member.name" placeholder="Search for a member" md-selected-item-change="vm.selectedItemChange(vm.selectedMember)">
+            <md-autocomplete md-selected-item="vm.selectedMember" md-search-text="vm.searchText" md-items="member in vm.memberQuerySearch(vm.searchText)" md-item-text="member.name" placeholder="Search for a member" md-selected-item-change="vm.addMemberAutoComplete(vm.selectedMember)">
               <span md-highlight-text="vm.searchText">{{member.name}}</span>
             </md-autocomplete>
             <md-chip-template class="member-chip">
-              <!-- <img class="member-chip-avatar"  alt="Kek"> -->
               <span>{{ $chip.name }}</span>
             </md-chip-template>
             <button md-chip-remove class="md-primary" ng-click="vm.memberUpdate($chip.name)">
@@ -332,8 +353,6 @@
             </button>
           </md-chips>
         </div>
-
-
 
 
         <!-- ATTACHMENTS SECTION -->
@@ -431,7 +450,7 @@
           <div class="checklist">
             <div class="section-header" layout="row" layout-align="start center">
               <i class="icon-checkbox-marked s18"></i>
-              <span flex class="section-title" editable-text="checklist.checklistName">{{checklist.checklistName}}</span>
+              <span class="section-title" e-rows="1" e-cols="60" editable-textarea="checklist.checklistName">{{checklist.checklistName}}</span>
 
               <md-menu md-position-mode="target-right target" class="options">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="options" translate translate-attr-aria-label="SB.OPTIONS">
@@ -504,7 +523,7 @@
               <form name="cardCommentForm" ng-submit="vm.addNewComment(vm.newCommentText); vm.newCommentText =''" class="comment new-comment" layout="column" layout-align="start" no-validate>
 
                   <md-input-container flex md-no-float>
-                    <textarea ms-scroll placeholder="Write a comment.." ng-model="vm.newCommentText" required translate translate-attr-placeholder="SB.WRITE_A_COMMENT"></textarea>
+                    <textarea wrap="hard" cols="30" placeholder="Write a comment.." ng-model="vm.newCommentText" required translate translate-attr-placeholder="SB.WRITE_A_COMMENT"></textarea>
                   </md-input-container>
 
                 <div layout="row" layout-align="end center">
@@ -514,30 +533,20 @@
                 </div>
               </form>
 
-              <!-- <div class="comment" layout="row" ng-repeat="comment in vm.card.comments">
-                <img class="comment-member-avatar" ng-src="{{vm.board.members.getById(comment.idMember).avatar}}">
+              <div class="comment" layout="row" ng-repeat="comment in vm.card.comments.slice().reverse()">
+
+                <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+
+                <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
 
                 <div layout="column">
                   <div class="comment-member-name">
-                    {{comment.author}}
+                    {{comment.author.name}}
+                    <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+                    <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                   </div>
-                  <div class="comment-bubble" ng-bind-html="comment.commentText | addHtmlLineBreaks"></div>
+                  <div class="comment-bubble" wrap="hard" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.commentText)}}</div>
                 </div>
-              </div> -->
-
-              <div class="comment" layout="row" ng-repeat="comment in vm.card.comments.slice().reverse()">
-
-              <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
-
-              <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
-
-              <div layout="column">
-                <div class="comment-member-name">
-                  {{comment.author.name}}
-                </div>
-                <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" e-rows="7" e-cols="50">{{comment.commentText}}</div>
-                <div class="comment-time secondary-text">{{vm.UpdateInfoService.timeDiff(comment.createdOn)}}</div>
-              </div>
             </div>
 
             </div>
@@ -548,7 +557,7 @@
         <!-- FINAL PLAN -->
 
         <div class="section">
-          <div class="final-plan">
+          <div class="comments">
 
           <div class="section-header" layout="row" layout-align="start center">
             <i class="icon-clipboard-check s18"></i>
@@ -556,7 +565,7 @@
           </div>
 
           <div class="section-content">
-            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="final-plan final-plan-new" layout="column" layout-align="start" no-validate>
+            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="comment final-plan-new" layout="column" layout-align="start" no-validate>
 
                 <md-input-container flex md-no-float>
                   <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newFinalPlanText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
@@ -579,19 +588,39 @@
 
           <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
 
-          <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
+          <!-- <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
 
             <div class="comment" layout="row">
               <div layout="column">
-                <div class="final-plan-bubble">
+                <div class="comment-bubble">
                   <md-tooltip ng-if="plan.checklist != true" md-direction="top">
                     Added to To-Dos
                   </md-tooltip>
+
+                  <div class="comment-member-name">
+                  </div>
+
                   {{plan.text}}
                 </div>
               </div>
            </div>
-         </span>
+         </span> -->
+
+         <div class="comment" layout="row" ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
+
+           <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+
+           <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+
+           <div layout="column">
+             <div class="comment-member-name">
+               {{comment.author.name}}
+               <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+               <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+             </div>
+             <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.text)}}</div>
+           </div>
+       </div>
 
         </div>
         </div>
@@ -605,7 +634,7 @@
 
             <div class="section-header" layout="row" layout-align="start center">
               <i class="icon-format-list-bulleted s18"></i>
-              <span class="section-title">Activity</span>
+              <span class="section-title">Updates</span>
             </div>
 
             <div class="section-content">

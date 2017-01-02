@@ -25,11 +25,8 @@
       </md-input-container>
 
       <div class="md-block">
-        <label ng-switch on="vm.form.comprehension">
-            <span ng-switch-when="0">Comprehension : Slow</span>
-            <span ng-switch-when="1">Comprehension : Moderate</span>
-            <span ng-switch-when="2">Comprehension : Quick</span>
-            <span ng-switch-default>Comprehension : </span>
+        <label>
+          <span>Comprehension : {{vm.replaceNumberValue('comprehension', vm.form.comprehension)}}</span>
         </label>
         <md-slider flex min="0" max="2" ng-model="vm.form.comprehension" aria-label="blue">
         </md-slider>
@@ -107,72 +104,48 @@
       </md-input-container>
 
       <div class="md-block">
-       <label ng-switch on="vm.form.generalActivityParticipation">
-           <span ng-switch-when="0">General Activity Participation : Never</span>
-           <span ng-switch-when="1">General Activity Participation : Sometimes</span>
-           <span ng-switch-when="2">General Activity Participation : Good</span>
-           <span ng-switch-when="3">General Activity Participation : Amazing</span>
-           <span ng-switch-default>General Activity Participation : </span>
+       <label>
+          <span>General Activity Participation : {{vm.replaceNumberValue('generalActivityParticipation', vm.form.generalActivityParticipation)}}</span>
        </label>
        <md-slider flex min="0" max="3" ng-model="vm.form.generalActivityParticipation" aria-label="blue">
        </md-slider>
      </div>
 
      <div class="md-block">
-      <label ng-switch on="vm.form.diningRoomParticipation">
-          <span ng-switch-when="0">Dining Room Participation : Never</span>
-          <span ng-switch-when="1">Dining Room Participation : Sometimes</span>
-          <span ng-switch-when="2">Dining Room Participation : Good</span>
-          <span ng-switch-when="3">Dining Room Participation : Amazing</span>
-          <span ng-switch-default>Dining Room Participation : </span>
+      <label>
+          <span>Dining Room Participation : {{vm.replaceNumberValue('diningRoomParticipation', vm.form.diningRoomParticipation)}}</span>
       </label>
       <md-slider flex min="0" max="3" ng-model="vm.form.diningRoomParticipation" aria-label="blue">
       </md-slider>
     </div>
 
     <div class="md-block">
-     <label ng-switch on="vm.form.busRideParticipation">
-         <span ng-switch-when="0">Bus Ride Participation : Never</span>
-         <span ng-switch-when="1">Bus Ride Participation : Sometimes</span>
-         <span ng-switch-when="2">Bus Ride Participation : Good</span>
-         <span ng-switch-when="3">Bus Ride Participation : Amazing</span>
-         <span ng-switch-default>Bus Ride Participation : </span>
+     <label>
+        <span>Bus Ride Participation : {{vm.replaceNumberValue('busRideParticipation', vm.form.busRideParticipation)}}</span>
      </label>
      <md-slider flex min="0" max="3" ng-model="vm.form.busRideParticipation" aria-label="blue">
      </md-slider>
    </div>
 
    <div class="md-block">
-    <label ng-switch on="vm.form.fitnessClassParticipation">
-        <span ng-switch-when="0">Fitness Class Participation : Never</span>
-        <span ng-switch-when="1">Fitness Class Participation : Sometimes</span>
-        <span ng-switch-when="2">Fitness Class Participation : Good</span>
-        <span ng-switch-when="3">Fitness Class Participation : Amazing</span>
-        <span ng-switch-default>Fitness Class Participation :</span>
+    <label>
+      <span>Fitness Class Participation : {{vm.replaceNumberValue('fitnessClassParticipation', vm.form.fitnessClassParticipation)}}</span>
     </label>
     <md-slider flex min="0" max="3" ng-model="vm.form.fitnessClassParticipation" aria-label="blue">
     </md-slider>
   </div>
 
   <div class="md-block">
-   <label ng-switch on="vm.form.bingoParticipation">
-       <span ng-switch-when="0">Bingo Participation : Never</span>
-       <span ng-switch-when="1">Bingo Participation : Sometimes</span>
-       <span ng-switch-when="2">Bingo Participation : Good</span>
-       <span ng-switch-when="3">Bingo Participation : Amazing</span>
-       <span ng-switch-default>Bingo Participation : </span>
+   <label>
+     <span>Bingo Participation : {{vm.replaceNumberValue('bingoParticipation', vm.form.bingoParticipation)}}</span>
    </label>
    <md-slider flex min="0" max="3" ng-model="vm.form.bingoParticipation" aria-label="blue">
    </md-slider>
  </div>
 
  <div class="md-block">
-  <label ng-switch on="vm.form.communityParticipation">
-      <span ng-switch-when="0">Community Participation : Never</span>
-      <span ng-switch-when="1">Community Participation : Sometimes</span>
-      <span ng-switch-when="2">Community Participation : Good</span>
-      <span ng-switch-when="3">Community Participation : Amazing</span>
-      <span ng-switch-default>Community Participation :</span>
+  <label>
+    <span>Community Participation : {{vm.replaceNumberValue('communityParticipation', vm.form.communityParticipation)}}</span>
   </label>
   <md-slider flex min="0" max="3" ng-model="vm.form.communityParticipation" aria-label="blue">
   </md-slider>
@@ -256,11 +229,8 @@
       </md-input-container>
 
       <div class="md-block">
-       <label ng-switch on="vm.form.dementia">
-           <span ng-switch-when="0">Dementia : None</span>
-           <span ng-switch-when="1">Dementia : Mild</span>
-           <span ng-switch-when="2">Dementia : Moderate</span>
-           <span ng-switch-when="3">Dementia : Severe</span>
+       <label>
+         <span>Dementia : {{vm.replaceNumberValue('dementia', vm.form.dementia)}}</span>
        </label>
        <md-slider flex min="0" max="3" ng-model="vm.form.dementia" aria-label="blue">
        </md-slider>
@@ -269,7 +239,7 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row" layout-align="space-between center">
-      <div layout="row" layout-align="start center">
+      <div layout="row" layout-align="start start">
         <md-button ng-click="vm.updateResident()" class="send-button md-accent md-raised" aria-label="Add">
           UPDATE
         </md-button>

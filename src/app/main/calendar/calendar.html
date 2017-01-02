@@ -16,6 +16,12 @@
 
                 <!-- TOOLBAR -->
                 <div class="toolbar" layout="row" layout-align="start center">
+                  <md-button class="md-icon-button" ng-click="vm.openAppointmentMapDialog()" aria-label="Appointment Map" translate
+                             translate-attr-aria-label="CALENDAR.APPOINTMENT_MAP">
+                      <md-icon md-font-icon="icon-map-marker-radius"></md-icon>
+                      <md-tooltip><span translate="CALENDAR.APPOINTMENT_MAP">Appointment Map</span></md-tooltip>
+                  </md-button>
+
                     <md-button class="md-icon-button" ng-click="vm.calendar.today()" aria-label="Today" translate
                                translate-attr-aria-label="CALENDAR.TODAY">
                         <md-icon md-font-icon="icon-calendar-today"></md-icon>

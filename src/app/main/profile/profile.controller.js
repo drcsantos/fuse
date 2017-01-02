@@ -7,7 +7,7 @@
         .controller('ProfileController', ProfileController);
 
     /** @ngInject */
-    function ProfileController(authentication, apilaData, Upload, $mdToast, $timeout, $mdDialog, $document, $window)
+    function ProfileController(authentication, apilaData, $log, Upload, $mdToast, $timeout, $mdDialog, $document, $window)
     {
         var vm = this;
 
@@ -38,18 +38,18 @@
           vm.formatedRegister = moment(vm.currUser.registeredOn).format('LL');
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
         apilaData.communityList()
           .success(function(residentList) {
-            //console.log(residentList);
+            //$log.debug(residentList);
             vm.residentList = residentList.map(function(elem) {
               return {value: elem._id, display: elem.name};
             });
           })
           .error(function(residentList) {
-            console.log("Error retriving the list of residents");
+            $log.debug("Error retriving the list of residents");
           });
 
           vm.getMatches = function (text) {
@@ -106,13 +106,13 @@
 
           apilaData.changeUsername(vm.userid, vm.form)
           .success(function(response) {
-            console.log(response);
+            $log.debug(response);
             vm.userExists = "";
             authentication.changeUsername(vm.form.username);
             $window.location.reload();
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
             vm.userExists = response.message;
           });
         }

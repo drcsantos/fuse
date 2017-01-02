@@ -7,7 +7,7 @@
         .controller('BoardViewController', BoardViewController);
 
     /** @ngInject */
-    function BoardViewController($document, $window, $timeout, $mdDialog, msUtils, $stateParams, SearchService,
+    function BoardViewController($document, $window, $log, $timeout, $mdDialog, msUtils, $stateParams, SearchService,
        BoardService, CardFilters, DialogService, authentication, apilaData, msNavigationService, $scope)
     {
         var vm = this;
@@ -27,6 +27,8 @@
         vm.openCardDialog = DialogService.openCardDialog;
         vm.cardFilter = cardFilter;
         vm.isOverdue = isOverdue;
+
+        vm.getChecklistData = getChecklistData;
 
         ////////////////////// PRELOAD DATA //////////////////////
 
@@ -79,14 +81,18 @@
           .success(function(issues) {
 
             //add card to first list
-            var currUserIssues = _.filter(issues, {"responsibleParty" : userid});
+            var currUserIssues = _.filter(issues, function(user) {
+              if(user.responsibleParty._id === userid) {
+                return true;
+              }
+            });
 
             vm.board.labels = vm.board.labels.concat(_.flatten(_.map(issues, "labels")));
 
             addCardsToList(currUserIssues, vm.board.lists[0]);
           })
           .error(function(issues) {
-              console.log("Error while loading list of issues for: " + username);
+              $log.debug("Error while loading list of issues for: " + username);
           });
     }
 
@@ -101,7 +107,7 @@
           });
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
     }
 
@@ -119,7 +125,12 @@
 
                      //add all the cards
                       angular.forEach(v.issues, function(card, key) {
-                        currList.idCards.push(addCard(card).id);
+                        var myCard = addCard(card);
+
+                        if(myCard) {
+                          currList.idCards.push(myCard.id);
+                        }
+
                       });
 
                       vm.board.lists.push(currList);
@@ -131,7 +142,7 @@
 
               })
               .error(function(issues) {
-                  console.log("Error while loading list of issues for: " + username);
+                  $log.debug("Error while loading list of issues for: " + username);
               });
 
         }
@@ -143,9 +154,10 @@
           var confidential = false;
 
           // the issue is confidential and it's not from our user don't show it
-          if(card.confidential !== undefined) {
-            if(card.confidential === true && card.submitBy !== username) {
+          if(card.confidential) {
+            if(card.confidential === true && card.submitBy !== userid) {
               confidential = true;
+              return null;
             }
           }
 
@@ -189,7 +201,7 @@
 
             // the issue is confidential and it's not from our user don't show it
             if(v.confidential !== undefined) {
-              if(v.confidential === true && v.submitBy !== username) {
+              if(v.confidential === true && v.submitBy._id !== userid) {
                 confidential = true;
               }
             }
@@ -201,6 +213,21 @@
 
           });
 
+        }
+
+        function getChecklistData(cardId) {
+          var checkedItems = 0;
+          var checkItemsLength = 0;
+
+          vm.board.cards.getById(cardId).checklists.forEach(function(d) {
+            checkedItems += d.checkItemsChecked;
+            checkItemsLength += d.checkItems.length;
+          });
+
+          return {
+            checkedItems: checkedItems,
+            checkItemsLength: checkItemsLength
+          };
         }
 
         ////////////////////////// HELPER FUNCTIONS //////////////////////////

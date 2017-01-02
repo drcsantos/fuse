@@ -12,6 +12,7 @@
     <div class="info" layout="row" layout-align="space-between start">
 
       <div layout="column" layout-align="start start">
+
         <h4>First Name: {{ vm.selectedResident.firstName }} </h4>
         <h4>Prefered Name: {{ vm.selectedResident.aliasName }} </h4>
         <h4>Middle Name: {{ vm.selectedResident.middleName }} </h4>
@@ -26,15 +27,12 @@
         <h4>Sex: {{ vm.selectedResident.sex }} </h4>
         <h4>Building Status: {{ vm.selectedResident.buildingStatus }} </h4>
 
+        <h4>Care Points: {{ vm.selectedResident.carePoints }}</h4>
+
         <h4>Handles Finances: {{ vm.handlesFinances }} </h4>
 
-        <h4 ng-switch on="vm.selectedResident.assessmentInterval">
-          <span ng-switch-when="0">Assessment Interval : None</span>
-          <span ng-switch-when="1">Assessment Interval : Weekly</span>
-          <span ng-switch-when="2">Assessment Interval : Monthly</span>
-          <span ng-switch-when="3">Assessment Interval : Quarterly</span>
-          <span ng-switch-when="4">Assessment Interval : Yearly</span>
-          <span ng-switch-default>Assessment Interval :  </span>
+        <h4>Assessment Interval :
+          {{vm.replaceNumberValue('assessmentInterval', vm.selectedResident.assessmentInterval)}}
         </h4>
 
         <h4>Moved from: {{ vm.selectedResident.movedFrom.name }} </h4>
@@ -53,10 +51,10 @@
 
         <h4>Notes: {{ vm.selectedResident.administrativeNotes }} </h4>
 
-        <ui-gmap-google-map center="vm.movedFromMap.center" zoom="vm.movedFromMap.zoom">
-      <ui-gmap-marker coords="vm.movedFromMap.marker.coords"
-                      idkey="vm.movedFromMap.marker.id"></ui-gmap-marker>
-  </ui-gmap-google-map>
+        <ui-gmap-google-map ng-if="vm.latitude !== -1" center="vm.movedFromMap.center" zoom="vm.movedFromMap.zoom">
+          <ui-gmap-marker coords="vm.movedFromMap.marker.coords" idkey="vm.movedFromMap.marker.id">
+          </ui-gmap-marker>
+        </ui-gmap-google-map>
 
       </div>
     </div>

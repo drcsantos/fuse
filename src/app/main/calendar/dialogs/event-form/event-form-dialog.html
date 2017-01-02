@@ -1,0 +1,164 @@
+<md-dialog class="event-form-dialog" aria-label="New Message">
+  <form name="eventForm" class="md-inline-form" novalidate>
+    <md-toolbar class="md-accent md-hue-2">
+      <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+
+        <md-button class="md-icon-button" ng-click="vm.exportAppointment()" aria-label="Options" translate translate-attr-aria-label="SB.OPTIONS">
+          <md-icon md-menu-origin md-font-icon="icon-export"></md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog" translate translate-attr-aria-label="CALENDAR.CLOSE_DIALOG">
+          <md-icon md-font-icon="icon-close"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content ms-scroll>
+
+      <!-- Reason -->
+      <md-input-container class="md-block">
+        <label translate="CALENDAR.REASON">Reason</label>
+        <input name="reason" ng-model="vm.calendarEvent.reason" ng-blur="vm.updateIssue()" required="">
+        <div ng-messages="">
+            <div ng-if="vm.error.reason">
+              Reason is required
+            </div>
+        </div>
+      </md-input-container>
+
+      <md-autocomplete md-selected-item="vm.selectedItem" required="" md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.display" md-selected-item-change="vm.updateIssue()" md-min-length="0" placeholder="Select a resident">
+        <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
+
+        </md-item-template>
+        <md-not-found>
+          No Resident found.
+        </md-not-found>
+        <div ng-messages="">
+            <div ng-if="vm.error.selectedItem">
+              Resident is required
+            </div>
+        </div>
+      </md-autocomplete>
+
+      <div ng-if="vm.error.selectedItem" style="color:red; padding-top:5px;">
+        Resident is required
+      </div>
+
+      <!-- Location name -->
+      <md-input-container class="md-block">
+        <label translate="CALENDAR.LOCATION">Location</label>
+         <input class="form-control" g-places-autocomplete options="vm.autocompleteOptions" ng-model="vm.calendarEvent.locationName" required="" />
+         <div ng-messages="">
+             <div ng-if="vm.error.locationName">
+               Location is required
+             </div>
+         </div>
+      </md-input-container>
+
+        <!-- Extra location info -->
+        <md-card>
+          <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.name">
+            <label translate="CALENDAR.LOCATION_NAME">Location Name</label>
+             <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.name"/>
+          </md-input-container>
+
+          <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.formatted_phone_number">
+            <label translate="CALENDAR.PHONE_NUMBER">Phone number</label>
+             <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.formatted_phone_number"/>
+          </md-input-container>
+
+          <md-input-container class="md-block" ng-if="vm.calendarEvent.locationName.opening_hours.weekday_text">
+            <label translate="CALENDAR.WORKING_HOURS">Working hours</label>
+             <input disabled class="form-control" ng-model="vm.calendarEvent.locationName.opening_hours.weekday_text[vm.currDay-1]"/>
+          </md-input-container>
+        </md-card>
+
+      <!-- Doctor -->
+      <md-input-container class="md-block">
+        <label translate="CALENDAR.DOCTOR">Doctor</label>
+        <input name="doctor" ng-model="vm.calendarEvent.locationDoctor" ng-blur="vm.updateIssue()">
+      </md-input-container>
+
+
+      <!-- Time and date -->
+      <div layout="row" class="date-row">
+        <div>
+          <md-datepicker ng-model="vm.date" md-placeholder="Appointment Date" ng-blur="vm.updateIssue()" required="">
+          </md-datepicker>
+          <div ng-messages="">
+            <div ng-if="vm.error.date" style="color: red">
+              Date is required
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <mdp-time-picker ng-model="vm.currentTime" ng-change="vm.updateIssue()" required="">
+            <div ng-messages="">
+                <div ng-if="vm.error.currentTime">
+                  Time is required
+                </div>
+            </div>
+          </mdp-time-picker>
+        </div>
+
+      </div>
+
+      <!-- Transportation -->
+      <div layout="row" layout-align="space-between center">
+        <md-input-container class="md-block flex-66">
+          <label translate="CALENDAR.TRANSPORTATION">Transporation</label>
+          <input name="transportation" placeholder="We are transporting" ng-blur="vm.updateIssue()" ng-model="vm.transportation">
+        </md-input-container>
+
+      </div>
+
+
+      <!-- Comments input -->
+      <div ng-if="vm.inUpdate()">
+
+        <md-input-container class="md-block textarea-container">
+          <label>Comment</label>
+          <textarea ng-model="vm.formData.commentText"></textarea>
+
+          <md-button ng-click="vm.submitComment()" aria-label="Add Comment">
+            <md-icon md-font-icon="icon-comment"></md-icon>
+            <md-tooltip><span>Submit</span></md-tooltip>
+          </md-button>
+
+        </md-input-container>
+
+        <div class="comment" layout="row" ng-repeat="comment in vm.calendarEvent.appointmentComment.slice().reverse()">
+          <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+
+          <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+
+          <div layout="column">
+            <div class="comment-member-name">
+              {{comment.author.name}}
+              <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+              <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+            </div>
+            <div class="comment-bubble" onaftersave="vm.updateComment(comment)" e-rows="7" e-cols="50">{{vm.changeComment(comment.commentText)}}</div>
+          </div>
+        </div>
+
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" layout-align="space-between center">
+      <md-button ng-disabled="vm.isDisabled" ng-click="vm.saveEvent()" class="save-button md-accent md-raised" aria-label="SAVE" ng-disabled="eventForm.$invalid || eventForm.$pristine" translate="CALENDAR.SAVE" translate-attr-aria-label="CALENDAR.SAVE">
+        SAVE
+      </md-button>
+
+      <!-- Cancel -->
+      <md-checkbox ng-model="vm.isCancel" ng-hide="vm.showCancel" ng-change="vm.updateIssue()" aria-label="Cancel Appointment">
+        Cancel Appointment
+      </md-checkbox>
+
+    </md-dialog-actions>
+
+
+  </form>
+</md-dialog>

@@ -7,7 +7,7 @@
         .service('LabelsService', LabelsService);
 
     /** @ngInject */
-    function LabelsService(apilaData, msUtils, authentication, UpdateInfoService) {
+    function LabelsService(apilaData, msUtils, $log, authentication, UpdateInfoService) {
 
       var vm = null;
 
@@ -37,7 +37,7 @@
 
           })
           .error(function(data) {
-            console.log("Error while adding label");
+            $log.debug("Error while adding label");
           });
 
       }
@@ -64,7 +64,7 @@
 
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
 
           vm.newLabelName = '';

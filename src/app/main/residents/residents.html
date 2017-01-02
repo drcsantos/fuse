@@ -60,6 +60,13 @@
 
           <!-- SETTINGS MENU -->
           <md-button class="md-icon-button"
+                     ng-click="vm.exportCensus()">
+                     <md-tooltip>
+                      Census
+                    </md-tooltip>
+              <md-icon md-font-icon="icon-format-list-numbers"></md-icon>
+          </md-button>
+          <md-button class="md-icon-button"
                      ng-click="vm.exportBlankPlan()">
                      <md-tooltip>
                       Blank Care Plan
@@ -78,11 +85,6 @@
                 <md-menu-item>
                     <md-button ng-click="vm.exportCarePlan()">
                         <span>Care Plan</span>
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="vm.exportCensus()">
-                        <span>Census Sheet</span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
@@ -191,8 +193,8 @@
                   </div>
                 </div>
 
-                <div ng-switch-when="Activity">
-                  <div class="content mail-read-pane" ng-include="'app/main/residents/views/details/activity.html'" ms-scroll>
+                <div ng-switch-when="Updates">
+                  <div class="content mail-read-pane" ng-include="'app/main/residents/views/details/updates.html'" ms-scroll>
                   </div>
                 </div>
 

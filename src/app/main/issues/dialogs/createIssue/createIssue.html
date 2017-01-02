@@ -12,7 +12,12 @@
         <md-dialog-content ms-scroll>
           <md-input-container class="md-block">
               <label>Title</label>
-              <input ng-model="vm.form.title" type="text">
+              <input ng-model="vm.form.title" type="text" required="">
+              <div ng-messages="">
+                  <div ng-if="vm.error.title">
+                    Title is required
+                  </div>
+              </div>
           </md-input-container>
 
           <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="searchText"
@@ -26,18 +31,32 @@
             </md-not-found>
           </md-autocomplete>
 
+          <div ng-if="vm.error.selectedItem" style="color: red; padding-top: 5px;">
+             Resident is required
+          </div>
+
           <md-input-container class="md-block">
-              <md-select ng-model="vm.form.resolutionTimeframe" placeholder="Time Frame">
+              <md-select ng-model="vm.form.resolutionTimeframe" placeholder="Time Frame"  required="">
                 <md-option value="Hours">Hours</md-option>
                 <md-option value="Days">Days</md-option>
                 <md-option value="Weeks">Weeks</md-option>
                 <md-option value="Months">Months</md-option>
               </md-select>
+              <div ng-messages="">
+                  <div ng-if="vm.error.resolutionTimeframe">
+                     Resolution Timeframe is required
+                  </div>
+              </div>
           </md-input-container>
 
           <md-input-container class="md-block">
               <label>Description</label>
-              <textarea ng-model="vm.form.description" type="text"></textarea>
+              <textarea ng-model="vm.form.description" type="text" required=""></textarea>
+              <div ng-messages="">
+                  <div ng-if="vm.error.description">
+                     Description is required
+                  </div>
+              </div>
           </md-input-container>
 
           <md-input-container class="md-block">

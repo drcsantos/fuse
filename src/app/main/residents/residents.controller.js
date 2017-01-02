@@ -6,7 +6,7 @@
     .controller('MailController', MailController);
 
   /** @ngInject */
-  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia,
+  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
@@ -25,8 +25,8 @@
 
     vm.selectedCategory = "Administrative";
 
-    vm.latitude = 40.77627;
-    vm.longitude = -73.910964;
+    vm.latitude = -1;
+    vm.longitude = -1;
 
     vm.scrollPos = 0;
     vm.scrollEl = angular.element('#content');
@@ -50,8 +50,10 @@
       "Sleep",
       "Vitals",
       "Contacts",
-      "Activity"
+      "Updates"
     ];
+
+    vm.replaceNumberValue = SliderMapping.replaceNumberValue;
 
     // Methods
     vm.selectResident = selectResident;
@@ -73,6 +75,14 @@
       vm.selectedCategory = category;
     };
 
+    vm.displayName = function(resident) {
+      if(resident.aliasName) {
+        return resident.firstName + ' "' + resident.aliasName + '" ' + resident.lastName;
+      } else {
+        return resident.firstName + ' ' + resident.lastName;
+      }
+
+    };
 
     //// INITIAL LOADING  ////
     apilaData.userCommunity(vm.userid)
@@ -88,7 +98,7 @@
           vm.residentList = d;
         })
         .error(function(d) {
-          console.log("Error Retrieving the List of Residents");
+          $log.debug("Error Retrieving the List of Residents");
         });
     }
 
@@ -201,6 +211,7 @@
 
         // community
         carePlanData.communityName = vm.community.name;
+        carePlanData.community = vm.community;
 
         exportCarePlan.exportPdf(carePlanData);
       }, 500);
@@ -230,7 +241,11 @@
         return;
       }
 
-      exportFaceSheet.exportPdf(vm.selectedResident);
+      var exportData = vm.selectedResident;
+
+      exportData.community = vm.community;
+
+      exportFaceSheet.exportPdf(exportData);
     }
 
     function exportBlankPlan() {
@@ -245,10 +260,10 @@
         cat = "PhysicalCondition";
       }
 
-      if (vm.selectedCategory === "Activity") {
+      if (vm.selectedCategory === "Updates") {
         $mdToast.show(
           $mdToast.simple()
-          .textContent("Activity category is not availbe to update")
+          .textContent("Updates category is not available to update")
           .position("top right")
           .hideDelay(2000)
         );

@@ -7,18 +7,29 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService,
+    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService, $log, WeatherService,
                         $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
 
         // Data
         vm.recoveryInfo = {};
+        vm.contactInfo = {};
         vm.currUserId = null;
         vm.bothRoles = 0;
         vm.chosenUser = '';
         vm.username = authentication.currentUser().name;
         vm.userid = authentication.currentUser().id;
+
+        vm.community = authentication.currentUser().community;
+
+        vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
+
+        // Weather data
+        vm.units = "imperial";
+        vm.windDirection = WeatherService.windDirection;
+        vm.getDay = WeatherService.getDay;
+        vm.mapIcon = WeatherService.mapIcon;
 
         // stats
         vm.appointmentsToday = 0;
@@ -55,6 +66,15 @@
         vm.updateBillingModal = BillingService.updateBillingModal;
         vm.selectProject = selectProject;
 
+        vm.updateContactAndRoomInfo = updateContactAndRoomInfo;
+        vm.updateFloors = updateFloors;
+
+        vm.roomDialog = roomDialog;
+        vm.getMatches = getMatches;
+
+        vm.refreshWeather = refreshWeather;
+        vm.changeWeatherUnit = changeWeatherUnit;
+
         vm.cancelSubscription = function() {
           BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
         };
@@ -66,6 +86,12 @@
 
           vm.myCommunity = d;
 
+          vm.contactInfo = vm.myCommunity;
+
+          vm.communityTown = vm.myCommunity.town || "Denever";
+
+          getWeather();
+
           vm.hasCommunity = true;
           vm.isTestCommunity = vm.myCommunity.testCommunity;
 
@@ -73,21 +99,12 @@
 
           setMapLocations(vm.myCommunity._id);
 
+          vm.floors = vm.myCommunity.floors;
+
           formatMembersData();
 
           MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
 
-
-          apilaData.openIssuesCount(vm.userid, vm.myCommunity._id)
-            .success(function(count) {
-              msNavigationService.saveItem('fuse.issues', {
-                badge: {
-                  content: count,
-                  color: '#F44336'
-                }
-              });
-            })
-            .error(function(count) {});
         })
         .error(function(d) {
 
@@ -98,11 +115,11 @@
           apilaData.usersInCommunity(communityid)
           .success(function(response) {
             vm.communityMembers = response;
-            console.log(response);
+            $log.debug(response);
             callback();
           })
           .error(function(response) {
-            console.log("Unable to load community members");
+            $log.debug("Unable to load community members");
           });
         }
 
@@ -111,16 +128,22 @@
           apilaData.getLocations(id)
           .success(function(response) {
 
+            $log.debug(response);
+
             var markers = [];
 
             for(var i = 0; i < response.length; ++i) {
-              markers.push({
-                'id' : i,
-                'coords' : {
-                  latitude : response[i].movedFrom.latitude,
-                  longitude: response[i].movedFrom.longitude
-                }
-              });
+
+              if(response[i].movedFrom) {
+                markers.push({
+                  'id' : i,
+                  'coords' : {
+                    latitude : response[i].movedFrom.latitude,
+                    longitude: response[i].movedFrom.longitude
+                  }
+                });
+              }
+
             }
 
             vm.locationsMap = {
@@ -133,7 +156,7 @@
             };
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
@@ -167,6 +190,8 @@
 
           loadStats(vm.myCommunity._id);
 
+          $log.debug(vm.communityMembers);
+
           vm.communityMemberTable = _.map(vm.communityMembers, function(v) {
             var boss = false;
             var director = false;
@@ -199,7 +224,7 @@
               vm.chosenUser = v.recovery;
 
               if(v.recovery === vm.currUserId) {
-                console.log("You are selected for recovery");
+                $log.debug("You are selected for recovery");
                 recovery = true;
               }
             }
@@ -208,6 +233,8 @@
 
             return [userImage, v.name, v.email, v._id, boss, director, minion, creator, role, recovery];
           });
+
+          $log.debug(vm.communityMemberTable);
 
           vm.pendingMemberTable = _.map(vm.myCommunity.pendingMembers, function(v) {
             var userImage = (v.userImage !== undefined) ? v.userImage : "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
@@ -227,7 +254,7 @@
             vm.appointmentsToday = d;
           })
           .error(function(d) {
-            console.log("Error loading appointments today count");
+            $log.debug("Error loading appointments today count");
           });
 
           apilaData.residentCount(id)
@@ -235,7 +262,7 @@
             vm.residentCount = d;
           })
           .error(function(d) {
-            console.log("Error loading resident count");
+            $log.debug("Error loading resident count");
           });
 
           apilaData.issuesCount(id)
@@ -266,7 +293,7 @@
           .error(function(response) {
             //dont show an error if the user didnt create stripe customer info
             if(response.customer !== null) {
-              console.log(response);
+              $log.debug(response);
             }
           });
         })();
@@ -276,11 +303,13 @@
           vm.activeEmail = response.active;
         })
         .error(function(err) {
-          console.log(err);
-        })
+          $log.debug(err);
+        });
 
         function openCommunityModal(ev)
         {
+          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+
           if(!vm.activeEmail) {
             $mdToast.show(
               $mdToast.simple()
@@ -304,8 +333,27 @@
 
         }
 
+        function getMatches(text) {
+
+          if(text === null) {
+            return vm.roomList;
+          }
+
+          var textLower = text.toLowerCase();
+
+          var ret = vm.roomList.filter(function (d) {
+            if(d) {
+              return d.toLowerCase().indexOf(textLower) > -1;
+            }
+          });
+
+            return ret;
+        }
+
         function openJoinModal(ev)
         {
+          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+
           if(!vm.activeEmail) {
             $mdToast.show(
               $mdToast.simple()
@@ -326,6 +374,104 @@
           }
         }
 
+        /////////////////////////////// WEATHER ///////////////////////////////
+
+
+        function getWeather() {
+          WeatherService.getWeather(vm.communityTown, vm.units)
+          .then(function(response) {
+            vm.tempUnit = WeatherService.getTempUnit();
+            vm.weatherData = response.data;
+          })
+          .catch(function(err) {
+            $log.error(err);
+          });
+
+          WeatherService.currentWeather(vm.communityTown, vm.units)
+          .then(function(response) {
+            vm.tempUnit = WeatherService.getTempUnit();
+            vm.currentWeather  = response.data;
+          })
+          .catch(function(err) {
+            $log.error(err);
+          });
+        }
+
+        function refreshWeather(){
+          getWeather();
+        };
+
+        function changeWeatherUnit() {
+          if(vm.units === 'metric') {
+            vm.units = 'imperial';
+          } else {
+            vm.units = 'metric';
+          }
+
+          getWeather();
+        };
+
+
+        /////////////////////////////// WEATHER ///////////////////////////////
+
+        function updateFloors() {
+
+          apilaData.updateFloor(vm.myCommunity._id, vm.floors)
+          .success(function(resp) {
+            $log.debug(resp);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          })
+        }
+
+        function updateContactAndRoomInfo(type) {
+
+          vm.contactInfo.rooms = vm.myCommunity.rooms;
+
+          if(type === "floors") {
+
+            var newFloors = vm.myCommunity.numFloors - vm.floors.length;
+
+            if(vm.floors.length === 0) { //create floors for first time
+              vm.floors = generateFloors(vm.myCommunity.numFloors, 0);
+
+            } else if(newFloors > 0) {  // adding new floors
+              vm.floors = vm.floors.concat(generateFloors(newFloors, vm.floors.length));
+
+            } else if(newFloors < 0) { // removing new floors
+              vm.floors.splice(newFloors);
+
+            } if(vm.myCommunity.numFloors === 0) { // reset floors
+              vm.floors = [];
+            }
+
+          } else if(type === "town") {
+            vm.communityTown = vm.contactInfo.town;
+            getWeather();
+          }
+
+          vm.contactInfo.floors = vm.floors;
+
+          apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
+          .error(function(err) {
+            $log.debug(err);
+          });
+        }
+
+        function generateFloors(numFloors, startCount) {
+
+          var floorRange = _.range(numFloors);
+
+          var floors = _.map(floorRange, function(floorNumber) {
+           return {
+             floorNumber: floorNumber + startCount,
+             startRoom: null,
+             endRoom: null
+           }});
+
+           return floors;
+        }
 
         function openRecoverModal(userToRecoverId, userToRecoverName, type)
         {
@@ -364,6 +510,23 @@
           });
         }
 
+        function roomDialog(room) {
+
+          $mdDialog.show({
+              controller         : 'RoomStyleController',
+              controllerAs       : 'vm',
+              templateUrl        : 'app/main/dashboard/dialogs/room_style/room_style.html',
+              parent             : angular.element($document.body),
+              locals             : {roomStyles: vm.myCommunity.roomStyle, room: room},
+              clickOutsideToClose: true
+          }).then(function(resp) {
+
+            vm.community.roomStyle = resp;
+
+            vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
+          });
+        }
+
         function createRecovery(callback) {
 
           var data = {};
@@ -375,7 +538,7 @@
             callback(response);
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
             $mdToast.show(
               $mdToast.simple()
                 .textContent(response.message)
@@ -409,21 +572,20 @@
           apilaData.averageAge(id)
           .success(function(response) {
             vm.averageAge = response;
-            console.log("Average age: " + response);
+            $log.debug("Average age: " + response);
           })
           .error(function(response) {
-            console.log(response);
+            $log.debug(response);
           });
         }
 
         function getAverageStayTime(id) {
           apilaData.averageStayTime(id)
-          .success(function(response) {
-            vm.averageStayTime = response;
-            console.log("Average stay: " + response);
+          .success(function(stayTime) {
+            vm.averageStayTime = Math.floor(stayTime);
           })
-          .error(function(response) {
-            console.log(response);
+          .error(function(err) {
+            $log.debug(err);
           });
         }
 

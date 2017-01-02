@@ -1,4 +1,9 @@
 md-dialog {
+
+  .comment-date {
+    margin-left: 18px;
+  }
+
   &.card-dialog {
     width: 90%;
     max-width: 800px;
@@ -28,7 +33,7 @@ md-dialog {
         border: 1px solid rgb(220, 223, 225);
         font-size: 14px;
         margin: 4px 0;
-      
+
     }
 
     md-dialog-content {
@@ -225,6 +230,7 @@ md-dialog {
             }
             .check-items {
               .check-item {
+                margin-bottom: 10px;
                 md-checkbox {
                   .md-label {
                     font-size: 14px;
@@ -266,6 +272,7 @@ md-dialog {
               }
               .comment-bubble {
                 position: relative;
+                white-space: pre;
                 padding: 8px;
                 background-color: white;
                 border: 1px solid rgb(220, 223, 225);

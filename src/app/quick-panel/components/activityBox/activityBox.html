@@ -1,11 +1,9 @@
-<div>
-  <img ng-src="{{$ctrl.activity.userId.userImage}}" class="md-avatar" alt="{{$ctrl.activity.userId.name}}"/>
 
-  <div class="md-list-item-text" layout="column">
-      <h3 class="message">
+<img ng-src="{{$ctrl.activity.userId.userImage}}" class="md-avatar" alt="{{$ctrl.activity.userId.name}}"/>
+<div class="md-list-item-text" layout="row">
+      <span>
         <b>{{$ctrl.activity.userId.name}}</b>
         {{$ctrl.activity.text}}
-      </h3>
-      <p class="time">{{$ctrl.activity.date | date:'m'}}</p>
-  </div>
+      </span>
+    <p class="time">{{$ctrl.activity.date | date:'m'}}</p>
 </div>

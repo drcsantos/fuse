@@ -8,7 +8,7 @@
 
     /** @ngInject */
     function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
-      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, ImageUploadService, UpdateInfoService, MembersService)
+      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, $log, ImageUploadService, UpdateInfoService, MembersService, Utils)
     {
         var vm = this;
 
@@ -26,8 +26,8 @@
         vm.board.labels.map(function(d){d.id = d._id; return d;});
 
         vm.newLabelColor = 'red';
-        vm.members = vm.board.members;
         vm.UpdateInfoService = UpdateInfoService;
+        vm.Utils = Utils;
 
         vm.labels = vm.board.labels;
 
@@ -35,7 +35,7 @@
         var oldData = angular.copy(vm.card);
 
         vm.createdIssue = vm.card.submitBy.name + " created " + vm.card.title + " " +
-                           UpdateInfoService.timeDiff(vm.card.submitDate);
+                           Utils.timeDiff(vm.card.submitDate);
 
         vm.newCheckListTitle = "Checklist";
 
@@ -86,7 +86,7 @@
         vm.removeDueDate = removeDueDate;
         vm.memberUpdate = memberUpdate;
         vm.updateLabel = updateLabel;
-        vm.selectedItemChange = selectedItemChange;
+        vm.addMemberAutoComplete = addMemberAutoComplete;
 
         //Other
         vm.wordCloud = wordCloud;
@@ -100,9 +100,53 @@
 
         vm.formatUpdateArray = UpdateInfoService.formatUpdateArray;
 
+        vm.getMatches = getMatches;
+
+        vm.changeResponsibleParty = changeResponsibleParty;
+
         vm.uploadFiles = function(file, invalidFiles, card) {
           ImageUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
         };
+
+
+        // load of lists of residents for autocomplete selection
+        apilaData.usersList()
+          .success(function(usersList) {
+            vm.residentList = usersList.map(function(elem) {
+
+              if (elem.name === name) {
+                vm.selectedItem = {
+                  value: elem._id,
+                  display: elem.name
+                };
+              }
+
+              return {
+                value: elem._id,
+                display: elem.name
+              };
+            });
+
+          })
+          .error(function(usersList) {
+            $log.debug("Error retriving the list of residents");
+          });
+
+        function getMatches(text) {
+          if(text === null) {
+            return;
+          }
+
+          var textLower = text.toLowerCase();
+
+          var ret = vm.residentList.filter(function (d) {
+              if(d.display != null) {
+                return d.display.toLowerCase().indexOf(textLower) > -1;
+              }
+          });
+
+          return ret;
+        }
 
         // Load comments
         apilaData.issueCommentsList(vm.card._id)
@@ -110,7 +154,7 @@
           vm.card.comments = response;
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
         // Load updateInfo
@@ -119,7 +163,7 @@
           vm.card.updateInfo = response;
         })
         .error(function(response) {
-          console.log(response);
+          $log.debug(response);
         });
 
         apilaData.userCommunity(userid)
@@ -131,11 +175,11 @@
 
           //load member list
           apilaData.usersInCommunity(d._id)
-          .success(function(d) {
-            vm.members = d;
+          .success(function(response) {
+            vm.members = response;
           })
-          .error(function(d) {
-            console.log("error while loading users");
+          .error(function(response) {
+            $log.debug(response);
           });
         });
 
@@ -154,7 +198,7 @@
               vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
             })
             .error(function(d) {
-              console.log(d);
+              $log.debug(d);
             });
         }
 
@@ -186,6 +230,14 @@
 
         }
 
+        function addMemberAutoComplete(selectedMember) {
+          if(selectedMember !== null) {
+            vm.card.addedMember = selectedMember;
+            vm.card.idMembers.push(selectedMember);
+            updateIssue();
+          }
+        }
+
         /////////////////////////// COMMENTS ///////////////////////////////
 
         function addNewComment(newCommentText)
@@ -207,7 +259,7 @@
               vm.card.comments.push(newComment);
 
             }).error(function(data) {
-              console.log("Error while adding comment");
+              $log.debug("Error while adding comment");
             });
 
 
@@ -234,14 +286,19 @@
             updateField : vm.card.updateField
           });
 
-          if(vm.card.submitBy._id) {
-            vm.card.submitBy = vm.card.submitBy._id;
-          }
+          $log.debug(vm.card.idMembers);
 
+          // Set author Id if it is an user object but api needs just an _id
+          setAuthorId(vm.card.comments);
+          setAuthorId(vm.card.finalPlan);
+          setAuthorId(vm.card.checklists);
 
           apilaData.updateIssue(vm.card._id, vm.card)
+          .success(function(response) {
+            vm.card.addedMember = "";
+          })
           .error(function(err) {
-            console.log(err);
+            $log.debug(err);
           });
         }
 
@@ -252,6 +309,25 @@
           vm.card.currdue = '';
 
           updateIssue();
+        }
+
+        function changeResponsibleParty() {
+          if(vm.selectedItem) {
+            vm.card.responsibleParty = vm.selectedItem.value;
+            vm.updateIssue();
+
+            // var changedName = vm.selectedItem.display;
+            //
+            // var newList = _.find(vm.board.lists, {name: changedName});
+            // var oldList = _.find(vm.board.lists, {name: vm.username});
+            //
+            // if(newList && oldList) {
+            //   newList.idCards.push(vm.card.id);
+            // //  _.remove(oldList.idCards, vm.card.id);
+            // }
+
+          }
+
         }
 
         function updateTextFields(type) {
@@ -269,12 +345,6 @@
 
         function updateLabel(labelid) {
           vm.updateIssue();
-        }
-
-        function selectedItemChange(selectedMember) {
-          if(selectedMember !== null) {
-            updateIssue();
-          }
         }
 
         //Update due date
@@ -298,8 +368,35 @@
         ////////////////////////////// OTHER ///////////////////////////////
 
         function exportIssue() {
-          exportIssueDetail.exportPdf(vm.card);
+
+          apilaData.issuePopulateOne(vm.card._id)
+          .success(function(resp) {
+            vm.card.checklists = resp.checklists;
+
+            vm.card.responsibleParty = vm.responsibleParty;
+
+            exportIssueDetail.exportPdf(vm.card);
+
+          });
+
         }
+
+        vm.changeComment = function(comment) {
+          return comment.split(/((?:\w+ ){15})/g).filter(Boolean).join("\n");
+        };
+
+        apilaData.issuePopulateOne(vm.card._id)
+        .success(function(resp) {
+          vm.card.finalPlan = resp.finalPlan;
+
+          vm.responsibleParty = resp.responsibleParty;
+
+          vm.selectedItem = {
+            value: resp.responsibleParty._id,
+            display: resp.responsibleParty.name
+          };
+
+        });
 
         function changeStatus() {
 
@@ -389,7 +486,7 @@
 
                  })
                  .error(function(d) {
-                   console.log(d);
+                   $log.debug(d);
                  });
 
              }, function ()
@@ -412,6 +509,14 @@
                });
          }
 
+         function setAuthorId(subdocument) {
+           subdocument.forEach(function(doc) {
+             if(doc.author._id) {
+               doc.author = doc.author._id;
+             }
+           });
+         }
+
          function addFinalPlan() {
 
            var data = {
@@ -432,7 +537,7 @@
              }
            })
            .error(function(response) {
-             console.log(response);
+             $log.debug(response);
            });
          }
 
@@ -442,7 +547,7 @@
 
            apilaData.issueCommentsUpdate(vm.card._id, comment)
            .error(function(err) {
-             console.log(err);
+             $log.debug(err);
            });
          }
 
@@ -483,7 +588,7 @@
               });
             })
             .error(function(response) {
-              console.log(response);
+              $log.debug(response);
             });
         }
 
