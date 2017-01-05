@@ -30,7 +30,9 @@
         }
       });
 
-      config.startY = y + offset + 5;
+      config.startY = y + offset - 20;
+
+      return config.startY;
 
     };
 
@@ -49,8 +51,6 @@
 
         positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                          (halfSpace * config.halfSpaceOffset));
-      } else if(textLength) {
-          //config.halfSpaceOffset += textLength;
       }
 
       return positionY;
@@ -203,7 +203,7 @@
         data.maidenName = "";
       }
 
-      if (data.movedFrom) {
+      if (data.movedFrom.name) {
         config.halfSpaceOffset++;
         positionX = metaX;
         positionY = calculateY(config);
