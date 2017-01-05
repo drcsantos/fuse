@@ -7,7 +7,7 @@
 
   function exportResidentCensus($filter) {
 
-    function exportPdf(inBuildingResidents) {
+    function exportPdf(inBuildingResidents, community) {
 
       var doc = new jsPDF('p', 'pt');
 
@@ -57,18 +57,25 @@
       doc.text("for logo", 120, 62);
 
       // community info
-      doc.text("Phone", metaStartX, metaStartY);
-      doc.text("(719) 587-3514", 275, metaStartY);
+      if(community.phone) {
+        doc.text("Phone", metaStartX, metaStartY);
+        doc.text(community.phone, 275, metaStartY);
+      }
 
-      doc.text("Fax", metaStartX, metaStartY * 2);
-      doc.text("(719) 589-3614", 275, metaStartY * 2);
+      if(community.fax) {
+        doc.text("Fax", metaStartX, metaStartY * 2);
+        doc.text(community.fax, 275, metaStartY * 2);
+      }
 
-      doc.text("Address", metaStartX, metaStartY * 3);
-      doc.text("3407 Carroll St Alamosa CO, 81101", 275, metaStartY * 3);
+      if(community.address) {
+        doc.text("Address", metaStartX, metaStartY * 3);
+        doc.text(community.address, 275, metaStartY * 3);
+      }
 
-      doc.text("Website", metaStartX, metaStartY * 4);
-      //doc.text("AlamosaBridge.com", 275, metaStartY * 4);
-      doc.text(data.community.website, 275, metaStartY * 4);
+      if(community.website) {
+        doc.text("Website", metaStartX, metaStartY * 4);
+        doc.text(community.website, 275, metaStartY * 4);
+      }
 
       angular.forEach(inBuildingResidents, function(resident, i) {
         filteredbirthDate1 = dateFilter(resident.birthDate, 'MMM');
@@ -155,6 +162,50 @@
         increment++;
 
       });
+
+      // Community rooms
+
+      var residentOffset = residentBlock * increment;
+      var floorOffset = 0;
+      var floorNumber = 0;
+
+      var maxRoomNumber = 0;
+
+      if(community.floors) {
+        angular.forEach(community.floors, function(floor) {
+          
+          var numRooms = (parseInt(floor.endRoom) + 1) - parseInt(floor.startRoom) || 0;
+
+          //calculate max room nums so we can offset to new rows
+          if(numRooms > maxRoomNumber) {
+            maxRoomNumber = numRooms;
+          }
+
+          // if we are over 3 floors go to next row
+          if((floorOffset % 3) == 0 && floorOffset !== 0) {
+            listStartY += (100 * maxRoomNumber);
+            floorOffset = 0;
+            maxRoomNumber = 0;
+          }
+
+          //draw room floor title
+          doc.text("Floor " + (floorNumber + 1), listStartX + (floorOffset * 170), (listStartY + residentOffset));
+
+          // Go through each room in current floor
+          for(var i = 0; i < numRooms; ++i) {
+            var x = listStartX + (floorOffset * 170);
+            var y = (listStartY + residentOffset + 10) + (i * 90);
+
+            doc.text("Room " + (parseInt(floor.startRoom) + i), x + 30, y + 40);
+
+            doc.rect(x, y, 160, 80);
+          }
+
+          floorOffset++;
+          floorNumber++;
+
+        });
+      }
 
       doc.save("ResidentCensus.pdf");
 

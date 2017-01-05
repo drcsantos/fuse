@@ -229,7 +229,8 @@
           .hideDelay(2000)
         );
       } else {
-        exportResidentCensus.exportPdf(inBuildingResidents);
+
+        exportResidentCensus.exportPdf(inBuildingResidents, vm.community);
       }
 
 

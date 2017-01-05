@@ -203,7 +203,7 @@
         data.maidenName = "";
       }
 
-      if (data.movedFrom.name) {
+      if (data.movedFrom && data.movedFrom.name) {
         config.halfSpaceOffset++;
         positionX = metaX;
         positionY = calculateY(config);
