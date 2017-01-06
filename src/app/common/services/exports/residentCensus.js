@@ -7,6 +7,18 @@
 
   function exportResidentCensus($filter) {
 
+    function findRoomStyle(roomStyle, roomNumber) {
+
+      for(var i = 0; i < roomStyle.length; ++i) {
+
+        if(roomStyle[i].rooms.indexOf(roomNumber.toString()) !== -1) {
+          return roomStyle[i].name;
+        }
+      }
+
+      return "";
+    }
+
     function exportPdf(inBuildingResidents, community) {
 
       var doc = new jsPDF('p', 'pt');
@@ -46,6 +58,8 @@
       var newPageRows = 36;
 
       var increment = 0;
+
+      var allRooms = _.flatten(_.map(community.roomStyle, "rooms"));
 
       // export date
       doc.text("Exported on", 10, metaStartY);
@@ -143,10 +157,14 @@
           resident.birthDate = "";
         }
 
-        var string = "one Bedroom Deluxe";
-        var matches = string.match(/\b(\w)/g);
-        var acronym = matches.join('');
-        var capAcronym = acronym.toUpperCase();
+        var capAcronym = "";
+        var roomStyleName = findRoomStyle(community.roomStyle, resident.room);
+
+        var matchedAcronym = roomStyleName.match(/\b(\w)/g);
+
+        if(matchedAcronym) {
+          capAcronym = matchedAcronym.join('').toUpperCase();
+        }
 
         if (resident.room) {
           doc.text(capAcronym.slice(0, 4),
@@ -173,7 +191,7 @@
 
       if(community.floors) {
         angular.forEach(community.floors, function(floor) {
-          
+
           var numRooms = (parseInt(floor.endRoom) + 1) - parseInt(floor.startRoom) || 0;
 
           //calculate max room nums so we can offset to new rows
