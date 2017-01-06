@@ -10,13 +10,60 @@
     function findRoomStyle(roomStyle, roomNumber) {
 
       for(var i = 0; i < roomStyle.length; ++i) {
-
         if(roomStyle[i].rooms.indexOf(roomNumber.toString()) !== -1) {
           return roomStyle[i].name;
         }
       }
 
       return "";
+    }
+
+    function calculateRange(allRooms, start, end) {
+
+      var sortedRooms = _.sortBy(allRooms, function(room) {
+        return +(room.replace(/\D/g, ''));
+      });
+
+      var roomsInRange = [];
+      var counting = false;
+
+      //if the start value is bigger swith it's places
+      if(parseInt(start) > parseInt(end)) {
+        var tmp = end;
+        end = start;
+        start = tmp;
+      }
+
+      sortedRooms.forEach(function(room) {
+        if(room === start) {
+          counting = true;
+        }
+
+        if(counting) {
+          roomsInRange.push(room);
+        }
+
+        if(room === end) {
+          counting = false;
+        }
+
+      });
+
+      return roomsInRange;
+
+    }
+
+    function createAcronym(community, room) {
+      var capAcronym = "";
+      var roomStyleName = room;
+
+      var matchedAcronym = roomStyleName.match(/\b(\w)/g);
+
+      if(matchedAcronym) {
+        capAcronym = matchedAcronym.join('').toUpperCase();
+      }
+
+      return capAcronym;
     }
 
     function exportPdf(inBuildingResidents, community) {
@@ -157,14 +204,7 @@
           resident.birthDate = "";
         }
 
-        var capAcronym = "";
-        var roomStyleName = findRoomStyle(community.roomStyle, resident.room);
-
-        var matchedAcronym = roomStyleName.match(/\b(\w)/g);
-
-        if(matchedAcronym) {
-          capAcronym = matchedAcronym.join('').toUpperCase();
-        }
+        var capAcronym = createAcronym(community, findRoomStyle(community.roomStyle, resident.room));
 
         if (resident.room) {
           doc.text(capAcronym.slice(0, 4),
@@ -192,11 +232,11 @@
       if(community.floors) {
         angular.forEach(community.floors, function(floor) {
 
-          var numRooms = (parseInt(floor.endRoom) + 1) - parseInt(floor.startRoom) || 0;
+          var roomRange = calculateRange(allRooms, floor.startRoom, floor.endRoom) || [];
 
           //calculate max room nums so we can offset to new rows
-          if(numRooms > maxRoomNumber) {
-            maxRoomNumber = numRooms;
+          if(roomRange.length > maxRoomNumber) {
+            maxRoomNumber = roomRange.length;
           }
 
           // if we are over 3 floors go to next row
@@ -210,11 +250,16 @@
           doc.text("Floor " + (floorNumber + 1), listStartX + (floorOffset * 170), (listStartY + residentOffset));
 
           // Go through each room in current floor
-          for(var i = 0; i < numRooms; ++i) {
+          for(var i = 0; i < roomRange.length; ++i) {
             var x = listStartX + (floorOffset * 170);
             var y = (listStartY + residentOffset + 10) + (i * 90);
 
-            doc.text("Room " + (parseInt(floor.startRoom) + i), x + 30, y + 40);
+            doc.text("Room " + roomRange[i], x + 30, y + 40);
+
+            var style = findRoomStyle(community.roomStyle, parseInt(roomRange[i]));
+            var styleAcronym = createAcronym(community, style);
+
+            doc.text("Style " + styleAcronym, x + 30, y + 60);
 
             doc.rect(x, y, 160, 80);
           }
