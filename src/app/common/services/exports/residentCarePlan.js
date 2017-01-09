@@ -30,9 +30,7 @@
         }
       });
 
-      config.startY = y + offset - 20;
-
-      return config.startY;
+      config.startY = y + offset + 5;
 
     };
 
@@ -51,6 +49,8 @@
 
         positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                          (halfSpace * config.halfSpaceOffset));
+      } else if(textLength) {
+          //config.halfSpaceOffset += textLength;
       }
 
       return positionY;
@@ -203,7 +203,7 @@
         data.maidenName = "";
       }
 
-      if (data.movedFrom && data.movedFrom.name) {
+      if (data.movedFrom) {
         config.halfSpaceOffset++;
         positionX = metaX;
         positionY = calculateY(config);
@@ -384,7 +384,6 @@
       config.halfSpaceOffset += 0.5;
       doc.text(title, 297 - (((title.length)/2)  * coordsPerLetter), positionY + 12);
       doc.setFontType("normal");
-      doc.text("positionY: " + positionY, 0, 286);
 
       if (data.religion) {
         positionX = config.startX;
@@ -398,8 +397,6 @@
       } else {
         data.religion = "";
       }
-
-      doc.text("positionY: " + positionY, 0, 298);
 
       if (data.education) {
         positionX = config.startX;
@@ -657,8 +654,6 @@
         data.allergyNotes = "";
       }
 
-      doc.text("positionY 1: " + positionY, 0, 12)
-
 ////////////////////////////////////////// Assistance section
 
       positionY = calculateY(config);
@@ -693,8 +688,6 @@
       doc.text(title, 297 - (((title.length)/2)  * coordsPerLetter), positionY + 12);
       doc.setFontType("normal");
 
-      doc.text("positionY 2: " + positionY, 0, 24)
-
       if (data.hairAssist === true) {
         positionX = config.startX;
         positionY = calculateY(config);
@@ -722,8 +715,6 @@
         data.shaveAssist = "";
       }
 
-      doc.text("positionY 3: " + positionY, 0, 36)
-
       if (data.hairNotes) {
         positionX = config.startX;
         splitText = doc.splitTextToSize(data.hairNotes, textLength);
@@ -736,13 +727,6 @@
       } else {
         data.hairNotes = "";
       }
-
-
-
-
-
-
-
 
 
 /*
