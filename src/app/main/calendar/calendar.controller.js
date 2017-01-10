@@ -205,6 +205,7 @@
     }
 
     function next() {
+      console.log("New Month!!!");
       vm.calendarView.calendar.next();
     }
 

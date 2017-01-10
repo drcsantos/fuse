@@ -439,7 +439,7 @@
 
 //////////////////////////// column one
 
-      if (data.shopping) {
+      if (data.shopping === true) {
         positionX = config.startX;
         positionY = calculateY(config) + columnOneY;
         doc.text("Shopping Person:",
@@ -602,7 +602,7 @@
       doc.text(title, 297 - (((title.length)/2)  * coordsPerLetter), positionY + 12);
       doc.setFontType("normal");
 
-      if (data.foodAllergies) {
+      if (data.foodAllergies === true) {
         positionX = config.startX;
         positionY = calculateY(config);
         doc.text("Food Allergies:",
@@ -615,7 +615,8 @@
         data.foodAllergies = "";
       }
 
-      if (data.medicationAllergies) {
+
+      if (data.medicationAllergies === true) {
         positionX = config.startX;
         positionY = calculateY(config);
         doc.text("Med Allergies:",
@@ -628,7 +629,7 @@
         data.medicationAllergies = "";
       }
 
-      if (data.otherAllergies) {
+      if (data.otherAllergies === true) {
         positionX = config.startX;
         positionY = calculateY(config);
         doc.text("Other Allergies:",
