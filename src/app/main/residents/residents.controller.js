@@ -96,6 +96,8 @@
       apilaData.residentsList(id)
         .success(function(d) {
           vm.residentList = d;
+          vm.residentList = vm.residentList.slice(0, 300);
+          console.log("Resident list loaded!");
         })
         .error(function(d) {
           $log.debug("Error Retrieving the List of Residents");
@@ -103,61 +105,67 @@
     }
 
 
-    function selectResident(resident) {
-      vm.selectedResident = resident;
+    function selectResident(resid) {
 
-      var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
-        if(v._id === resident.handlesFinances) {
-          return true;
+
+      apilaData.residentById(resid._id)
+      .success(function(resident) {
+        vm.selectedResident = resident;
+
+        var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
+          if(v._id === resident.handlesFinances) {
+            return true;
+          }
+        });
+
+        if(contact.length > 0) {
+          vm.handlesFinances = contact[0].firstName + " " + contact[0].lastName;
+        } else {
+          vm.handlesFinances = "";
         }
-      });
 
-      if(contact.length > 0) {
-        vm.handlesFinances = contact[0].firstName + " " + contact[0].lastName;
-      } else {
-        vm.handlesFinances = "";
-      }
+        vm.shownContact = resident.residentContacts[0];
 
-      vm.shownContact = resident.residentContacts[0];
+        drawGraphs(vm.selectedResident);
 
-      drawGraphs(vm.selectedResident);
+        vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
 
-      vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+        if (vm.selectedResident.movedFrom) {
+          vm.latitude = vm.selectedResident.movedFrom.latitude;
+          vm.longitude = vm.selectedResident.movedFrom.longitude;
+        }
 
-      if (vm.selectedResident.movedFrom) {
-        vm.latitude = vm.selectedResident.movedFrom.latitude;
-        vm.longitude = vm.selectedResident.movedFrom.longitude;
-      }
-
-      vm.movedFromMap = {
-        center: {
-          latitude: vm.latitude,
-          longitude: vm.longitude
-        },
-        zoom: 8,
-        marker: {
-          id: 0,
-          coords: {
+        vm.movedFromMap = {
+          center: {
             latitude: vm.latitude,
             longitude: vm.longitude
+          },
+          zoom: 8,
+          marker: {
+            id: 0,
+            coords: {
+              latitude: vm.latitude,
+              longitude: vm.longitude
+            }
           }
-        }
-      };
+        };
 
 
-      $timeout(function() {
-        // If responsive read pane is
-        // active, navigate to it
-        if (angular.isDefined(vm.responsiveReadPane) && vm.responsiveReadPane) {
-          vm.activeMailPaneIndex = 1;
-        }
+        $timeout(function() {
+          // If responsive read pane is
+          // active, navigate to it
+          if (angular.isDefined(vm.responsiveReadPane) && vm.responsiveReadPane) {
+            vm.activeMailPaneIndex = 1;
+          }
 
-        // Store the current scrollPos
-        vm.scrollPos = vm.scrollEl.scrollTop();
+          // Store the current scrollPos
+          vm.scrollPos = vm.scrollEl.scrollTop();
 
-        // Scroll to the top
-        vm.scrollEl.scrollTop(0);
+          // Scroll to the top
+          vm.scrollEl.scrollTop(0);
+        });
       });
+
     }
 
     function selectedResidentToast() {
@@ -253,7 +261,7 @@
       exportBlankCarePlan.exportPdf(vm.selectedResident);
     }
 
-    function updateResident(ev) {
+    function updateResident(resident) {
       //switch form based on category selected
       var cat = vm.selectedCategory;
 
@@ -278,14 +286,20 @@
           controller: 'UpdateController',
           controllerAs: 'vm',
           locals: {
-            currResident: ev
+            currResident: vm.selectedResident,
+            residentDisplay: resident
           },
           templateUrl: templateUrl,
           parent: angular.element($document.body),
-          targetEvent: ev,
+          targetEvent: resident,
           clickOutsideToClose: true
         })
-        .then(function() {
+        .then(function(res) {
+
+          resident.firstName = res.firstName;
+          resident.lastName = res.lastName;
+          resident.aliasName = res.aliasName;
+
           vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
         });
 

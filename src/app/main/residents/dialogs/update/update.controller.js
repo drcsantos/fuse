@@ -6,12 +6,13 @@
 
   /** @ngInject */
   function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping, $log,
-                            currResident, apilaData, authentication, ResidentUpdateInfoService) {
+                            currResident, residentDisplay, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
 
     //DATA
     vm.form = currResident;
+    vm.form.firstName = residentDisplay.firstName;
     vm.form.contact = {};
     vm.selctedTab = "";
 
@@ -83,8 +84,8 @@
     vm.addContact = addContact;
     vm.getMatches = getMatches;
 
-    function closeDialog() {
-      $mdDialog.hide();
+    function closeDialog(data) {
+      $mdDialog.hide(data);
     }
 
     //before sending to server set all the fields and format them correctly
@@ -154,9 +155,7 @@
           pushNewValues();
           resetFields();
 
-          $log.debug(resident);
-
-          closeDialog();
+          closeDialog(currResident);
         })
         .error(function(response) {
           $log.debug(response);
@@ -266,6 +265,11 @@
     }
 
     function setSelectedPainManagedBy(arr) {
+
+      if(!arr) {
+        return;
+      }
+
       for (var i = 0; i < vm.painManagedBy.length; ++i) {
         var checkedElem = _.find(vm.painManagedBy, function(d) {
           if (d.title == arr[i]) {
@@ -281,6 +285,10 @@
 
     // sets which psychosocialStatus is checked
     function setSelectedShopping(arr) {
+
+      if(!arr) {
+        return;
+      }
 
       for (var i = 0; i < vm.shopping.length; ++i) {
         var checkedElem = _.find(vm.shopping, function(d) {
@@ -320,6 +328,10 @@
 
     // sets which psychosocialStatus is checked
     function setSelectedStatuses(arr) {
+
+      if(!arr) {
+        return;
+      }
 
       for (var i = 0; i < vm.status.length; ++i) {
         var checkedElem = _.find(vm.status, function(d) {
