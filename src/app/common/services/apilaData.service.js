@@ -128,8 +128,8 @@
 
     /***************** APPOINTMENTS RESOURCES ***************/
 
-    var appointmentsList = function(communityid) {
-      return $http.get(apiUrl + '/api/appointments/' + communityid, getAuth());
+    var appointmentsList = function(communityid, month) {
+      return $http.get(apiUrl + '/api/appointments/' + communityid + '/month/' + month, getAuth());
     };
 
     var appointmentsListByMonth = function(month) {

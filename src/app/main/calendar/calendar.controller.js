@@ -20,6 +20,8 @@
 
     vm.events = [[]];
 
+    var visitedMonths = {};
+
     var appointments = null;
 
     var username = authentication.currentUser().name;
@@ -47,7 +49,9 @@
     apilaData.userCommunity(userid)
       .success(function(d) {
         vm.community = d;
-        loadAppoitnments(vm.community._id);
+        loadAppoitnments(vm.community._id, moment().format("YYYY M"));
+        visitedMonths[moment().format("YYYY M")] = true; //remember that we loaded curr month
+
         loadIssues(vm.community._id);
         loadBirthdays(vm.community._id);
 
@@ -63,20 +67,20 @@
 
       });
 
-    var loadAppoitnments = function(id) {
+    var loadAppoitnments = function(id, month) {
 
       //load all the events and show them on the callendar
-      apilaData.appointmentsList(id)
+      apilaData.appointmentsList(id, month)
         .success(function(data) {
           appointments = data;
-          var i = 1;
+          var appointLists = [];
           angular.forEach(data, function(value, key) {
             var currAppoint = addAppointment(value);
-            appointList.push(currAppoint);
+            appointLists.push(currAppoint);
 
           });
 
-          vm.events[0] = appointList;
+          vm.events[0] = vm.events[0].concat(appointLists);
 
         })
         .error(function(err) {
@@ -205,12 +209,27 @@
     }
 
     function next() {
-      console.log("New Month!!!");
       vm.calendarView.calendar.next();
+
+      var currMonth = vm.calendar.getDate().format("YYYY M");
+
+      if(!visitedMonths[currMonth]) {
+        console.log("Loaded");
+        loadAppoitnments(vm.community._id, currMonth);
+        visitedMonths[currMonth] = true;
+      }
     }
 
     function prev() {
       vm.calendarView.calendar.prev();
+
+      var currMonth = vm.calendar.getDate().format("YYYY M");
+
+      if(!visitedMonths[currMonth]) {
+        console.log("Loaded");
+        loadAppoitnments(vm.community._id, currMonth);
+        visitedMonths[currMonth] = true;
+      }
     }
 
     function eventDetail(calendarEvent, e) {
