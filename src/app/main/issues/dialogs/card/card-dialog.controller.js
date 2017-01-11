@@ -382,7 +382,8 @@
         }
 
         vm.changeComment = function(comment) {
-          return comment.split(/((?:\w+ ){15})/g).filter(Boolean).join("\n");
+          //add a new line after every 10th word
+          return comment.split(/((?:\w+ ){10})/g).filter(Boolean).join("\n");
         };
 
         apilaData.issuePopulateOne(vm.card._id)
