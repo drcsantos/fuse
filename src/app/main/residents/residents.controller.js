@@ -300,6 +300,8 @@
           resident.lastName = res.lastName;
           resident.aliasName = res.aliasName;
 
+          vm.selectedResident = res;
+
           vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
         });
 
