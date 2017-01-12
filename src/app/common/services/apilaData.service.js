@@ -167,6 +167,11 @@
       return $http.get(apiUrl + '/api/residents/list/' + communityId, getAuth());
     };
 
+    var residentsFullList = function(communityId) {
+      return $http.get(apiUrl + '/api/residents/full-list/' + communityId, getAuth());
+    };
+
+
     var addResident = function(data) {
       return $http.post(apiUrl + '/api/residents/new', data, getAuth());
     };
@@ -384,6 +389,7 @@
 
       //residents
       residentsList: residentsList,
+      residentsFullList: residentsFullList,
       addResident: addResident,
       residentById: residentById,
       updateResident: updateResident,

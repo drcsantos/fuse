@@ -227,20 +227,22 @@
 
     function exportCensus() {
 
-      var inBuildingResidents = _.filter(vm.residentList, ['buildingStatus', 'In Building']);
+      apilaData.residentsFullList(vm.community._id)
+      .success(function(residents) {
 
-      if(inBuildingResidents.length === 0) {
-        $mdToast.show(
-          $mdToast.simple()
-          .textContent("There are not In Building Residents")
-          .position("top right")
-          .hideDelay(2000)
-        );
-      } else {
+        var inBuildingResidents = _.filter(residents, ['buildingStatus', 'In Building']);
 
-        exportResidentCensus.exportPdf(inBuildingResidents, vm.community);
-      }
-
+        if(inBuildingResidents.length === 0) {
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent("There aren't any In Building Residents")
+            .position("top right")
+            .hideDelay(2000)
+          );
+        } else {
+          exportResidentCensus.exportPdf(inBuildingResidents, vm.community);
+        }
+      });
 
     }
 
