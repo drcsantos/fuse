@@ -580,13 +580,13 @@
                                        Refresh
                                    </md-button>
                                </md-menu-item>
-                               <md-menu-item>
+                               <!-- <md-menu-item>
                                    <md-button ng-click="vm.changeWeatherUnit()">
                                        <md-icon md-font-icon="icon-cog" class="icon"></md-icon>
                                        <span ng-if="vm.units === 'metric'">Change to imperial</span>
                                        <span ng-if="vm.units === 'imperial'">Change to metric</span>
                                    </md-button>
-                               </md-menu-item>
+                               </md-menu-item> -->
                            </md-menu-content>
                        </md-menu>
                    </div>
@@ -594,17 +594,17 @@
                    <div class="p-16 pb-32" layout="column" layout-align="center center">
                        <div layout="row" layout-align="center center">
                            <md-icon
-                                   md-font-icon="{{ vm.mapIcon(vm.weatherData.list[0].weather[0].main) }}"
+                                   md-font-icon="{{ vm.mapIcon(vm.weatherData.current.condition.text) }}"
                                    class="icon s40 mr-16">
                              <md-tooltip>
                                {{ vm.currentWeather.weather[0].description }}
                              </md-tooltip>
                            </md-icon>
                            <span class="md-display-2 font-weight-300 secondary-text">
-                               {{vm.currentWeather.main.temp}}
+                               {{vm.weatherData.current.temp_f}}
                            </span>
                            <span class="font-size-48 font-weight-300 hint-text text-super ml-8">&deg;</span>
-                           <span class="md-display-2 font-weight-300 hint-text">{{ vm.tempUnit }}</span>
+                           <span class="md-display-2 font-weight-300 hint-text">F</span>
                        </div>
                    </div>
 
@@ -612,19 +612,18 @@
                        <div layout="row" layout-align="start center">
                            <md-icon md-font-icon="icon-weather-windy" class="icon mr-8 s20"></md-icon>
                            <span>
-                               {{vm.currentWeather.wind.speed}}
+                               {{vm.weatherData.current.wind_mph}}
                            </span>
                            <md-tooltip>
                              Wind Speed
                            </md-tooltip>
-                           <span ng-if="vm.units === 'metric'" class="secondary-text ml-5">M/S</span>
-                           <span ng-if="vm.units === 'imperial'" class="secondary-text ml-5">M/H</span>
+                           <span class="secondary-text ml-5">M/H</span>
 
                        </div>
 
                        <div layout="row" layout-align="start center">
                            <md-icon md-font-icon="icon-compass-outline" class="icon mr-8 s20"></md-icon>
-                           <span>{{vm.windDirection(vm.currentWeather.wind.deg)}}</span>
+                           <span>{{vm.weatherData.current.wind_dir}}</span>
                            <md-tooltip>
                              Wind Direction
                            </md-tooltip>
@@ -638,36 +637,36 @@
 
                    <div class="pv-16">
                        <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
-                           <span class="h4">{{ vm.getDay(vm.weatherData.list[1].dt) }}</span>
+                           <span class="h4">{{ vm.getDay(vm.weatherData.forecast.forecastday[1].date_epoch) }}</span>
                            <div layout="row" layout-align="start center">
-                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[1].weather[0].main) }}" class="icon">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.forecast.forecastday[1].day.condition.text) }}" class="icon">
                                </md-icon>
-                               <span class="h2">{{vm.weatherData.list[1].temp.day}}</span>
+                               <span class="h2">{{vm.weatherData.forecast.forecastday[1].day.avgtemp_f}}</span>
                                <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
-                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                               <span class="h2 font-weight-300 secondary-text">F</span>
                            </div>
                        </div>
 
                        <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
-                           <span class="h4">{{ vm.getDay(vm.weatherData.list[2].dt) }}</span>
+                           <span class="h4">{{ vm.getDay(vm.weatherData.forecast.forecastday[2].date_epoch)  }}</span>
                            <div layout="row" layout-align="start center">
-                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[2].weather[0].main) }}" class="icon">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.forecast.forecastday[2].day.condition.text) }}" class="icon">
                                </md-icon>
-                               <span class="h2">{{vm.weatherData.list[2].temp.day}}</span>
+                               <span class="h2">{{vm.weatherData.forecast.forecastday[2].day.avgtemp_f}}</span>
                                <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
-                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                               <span class="h2 font-weight-300 secondary-text">F</span>
                            </div>
                        </div>
 
 
                        <div class="pv-16 ph-24" layout="row" layout-align="space-between center">
-                           <span class="h4">{{ vm.getDay(vm.weatherData.list[3].dt) }}</span>
+                           <span class="h4">{{ vm.getDay(vm.weatherData.forecast.forecastday[3].date_epoch) }}</span>
                            <div layout="row" layout-align="start center">
-                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.list[3].weather[0].main) }}" class="icon">
+                               <md-icon class="mr-16" md-font-icon="{{ vm.mapIcon(vm.weatherData.forecast.forecastday[2].day.condition.text) }}" class="icon">
                                </md-icon>
-                               <span class="h2">{{vm.weatherData.list[3].temp.day}}</span>
+                               <span class="h2">{{ vm.weatherData.forecast.forecastday[2].day.avgtemp_f }}</span>
                                <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
-                               <span class="h2 font-weight-300 secondary-text">{{vm.tempUnit}}</span>
+                               <span class="h2 font-weight-300 secondary-text">F</span>
                            </div>
                        </div>
                    </div>

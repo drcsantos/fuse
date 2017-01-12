@@ -10,53 +10,16 @@
   /** @ngInject */
   function WeatherService($http, $log) {
 
-    var API_KEY = "f6ae740f7c8d63c065cbaf1ca73ff0ee";
+    var API_KEY = "ed6ec2b3aefd4f6fa5a124152171201";
 
     var tempUnit = "";
 
 
-    function currentWeather(city, units) {
-      units = units || 'metric';
+    function getWeather(city) {
 
-      var url = "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&units=" + units
-                + "&mode=json&APPID=" + API_KEY;
+      var url = "https://api.apixu.com/v1/forecast.json?key=" + API_KEY + "&q=" + city +"&days=4";
 
       return $http.get(url);
-    }
-
-    function getWeather(city, units) {
-
-      var requestUrl = createUrl(city, units);
-
-      return $http.get(requestUrl);
-
-    }
-
-    function windDirection(deg) {
-      if(deg >= 0 && deg <= 90) {
-        return "NW";
-      } else if(deg > 90 && deg <= 180) {
-        return "NE";
-      } else if(deg > 180 && deg <= 270) {
-        return "SE";
-      } else if(deg > 270 && deg <= 360) {
-        return "SW";
-      }
-    }
-
-    function createUrl(city, units, countryCode) {
-
-      countryCode = countryCode || "us";
-      units = units || 'metric';
-
-      if(units === 'metric') {
-        tempUnit = "C";
-      } else {
-        tempUnit = "F";
-      }
-
-      return "http://api.openweathermap.org/data/2.5/forecast/daily?q=" +
-            city + "," + countryCode + "&units=" + units + "&mode=json&APPID=" + API_KEY;
     }
 
     function mapIcon(weather) {
@@ -65,26 +28,16 @@
 
       weather = weather.toLowerCase();
 
-      switch (weather) {
-        case 'clear':
-          return 'icon-weather-sunny'
-        break;
-
-        case 'clouds':
-          return 'icon-weather-cloudy';
-        break;
-
-        case 'snow':
-          return 'icon-weather-snowy'
-        break;
-
-        case 'rain':
-          return 'icon-weather-rainy'
-        break;
-
-        default:
-        return '';
+      if(weather.indexOf('cloud') !== -1) {
+        return 'icon-weather-cloudy';
+      } else if(weather.indexOf('clear') !== -1) {
+        return 'icon-weather-sunny';
+      } else if(weather.indexOf('snow') !== -1) {
+        return 'icon-weather-snowy';
+      } else if(weather.indexOf('rain') !== -1) {
+        return 'icon-weather-rainy';
       }
+
     }
 
     function getDay(date) {
@@ -97,11 +50,9 @@
 
     return {
       getWeather : getWeather,
-      windDirection: windDirection,
       getTempUnit: getTempUnit,
       getDay: getDay,
-      mapIcon: mapIcon,
-      currentWeather: currentWeather
+      mapIcon: mapIcon
     };
 
   }

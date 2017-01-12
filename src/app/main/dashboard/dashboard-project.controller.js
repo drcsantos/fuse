@@ -26,8 +26,6 @@
         vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
 
         // Weather data
-        vm.units = "imperial";
-        vm.windDirection = WeatherService.windDirection;
         vm.getDay = WeatherService.getDay;
         vm.mapIcon = WeatherService.mapIcon;
 
@@ -73,7 +71,6 @@
         vm.getMatches = getMatches;
 
         vm.refreshWeather = refreshWeather;
-        vm.changeWeatherUnit = changeWeatherUnit;
 
         vm.cancelSubscription = function() {
           BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
@@ -378,36 +375,19 @@
 
 
         function getWeather() {
-          WeatherService.getWeather(vm.communityTown, vm.units)
+          WeatherService.getWeather(vm.communityTown)
           .then(function(response) {
             vm.tempUnit = WeatherService.getTempUnit();
             vm.weatherData = response.data;
+            console.log(vm.weatherData);
           })
           .catch(function(err) {
             $log.error(err);
           });
 
-          WeatherService.currentWeather(vm.communityTown, vm.units)
-          .then(function(response) {
-            vm.tempUnit = WeatherService.getTempUnit();
-            vm.currentWeather  = response.data;
-          })
-          .catch(function(err) {
-            $log.error(err);
-          });
         }
 
         function refreshWeather(){
-          getWeather();
-        };
-
-        function changeWeatherUnit() {
-          if(vm.units === 'metric') {
-            vm.units = 'imperial';
-          } else {
-            vm.units = 'metric';
-          }
-
           getWeather();
         };
 

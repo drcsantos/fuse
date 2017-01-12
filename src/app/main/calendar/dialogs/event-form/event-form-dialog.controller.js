@@ -56,7 +56,7 @@
       }
 
       vm.changeComment = function(comment) {
-        return comment.split(/((?:\w+ ){15})/g).filter(Boolean).join("\n");
+        return comment.split(/((?:\w+ ){12})/g).filter(Boolean).join("\n");
       };
 
     function getMatches(text) {
