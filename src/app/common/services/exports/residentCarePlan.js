@@ -49,8 +49,6 @@
 
         positionY = (config.startY + (fullSpace * config.fullSpaceOffset) +
                                          (halfSpace * config.halfSpaceOffset));
-      } else if(textLength) {
-          //config.halfSpaceOffset += textLength;
       }
 
       return positionY;

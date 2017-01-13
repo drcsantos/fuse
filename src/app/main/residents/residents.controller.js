@@ -5,6 +5,7 @@
     .module('app.residents')
     .controller('MailController', MailController);
 
+
   /** @ngInject */
   function MailController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
@@ -84,6 +85,10 @@
 
     };
 
+    vm.showMore = function() {
+      console.log("kek");
+    }
+
     //// INITIAL LOADING  ////
     apilaData.userCommunity(vm.userid)
       .success(function(d) {
@@ -96,7 +101,7 @@
       apilaData.residentsList(id)
         .success(function(d) {
           vm.residentList = d;
-          vm.residentList = vm.residentList.slice(0, 300);
+          vm.residentList = vm.residentList.slice(0, 100);
           console.log("Resident list loaded!");
         })
         .error(function(d) {
