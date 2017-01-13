@@ -53,11 +53,7 @@
           vm.transportation = "We are transporting";
           vm.showCancel = true;
           vm.currentTime =  new Date();
-      }
-
-      vm.changeComment = function(comment) {
-        return comment.split(/((?:\w+ ){12})/g).filter(Boolean).join("\n");
-      };
+    }
 
     function getMatches(text) {
       if(!text) {

@@ -139,7 +139,7 @@
               <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
               <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
             </div>
-            <div class="comment-bubble" onaftersave="vm.updateComment(comment)" e-rows="7" e-cols="50">{{vm.changeComment(comment.commentText)}}</div>
+            <div class="comment-bubble" onaftersave="vm.updateComment(comment)" e-rows="7" e-cols="50">{{comment.commentText}}</div>
           </div>
         </div>
 

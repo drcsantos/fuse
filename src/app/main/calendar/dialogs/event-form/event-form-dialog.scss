@@ -24,7 +24,9 @@ md-dialog {
           .comment-bubble {
             position: relative;
             padding: 8px;
-            white-space: pre;
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-wrap: break-word;
             background-color: white;
             border: 1px solid rgb(220, 223, 225);
             font-size: 14px;

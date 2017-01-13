@@ -518,7 +518,7 @@
                     cols="30"
                     placeholder="Write a comment.."
                     ng-model="vm.newCommentText"
-                    required 
+                    required
                     translate
                     translate-attr-placeholder="SB.WRITE_A_COMMENT">
                   </textarea>
@@ -543,7 +543,7 @@
                     <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
                     <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                   </div>
-                  <div class="comment-bubble" wrap="hard" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.commentText)}}</div>
+                  <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{ comment.commentText }}</div>
                 </div>
               </div>
 

@@ -381,11 +381,6 @@
 
         }
 
-        vm.changeComment = function(comment) {
-          //add a new line after every 10th word
-          return comment.split(/((?:\w+ ){10})/g).filter(Boolean).join("\n");
-        };
-
         apilaData.issuePopulateOne(vm.card._id)
         .success(function(resp) {
           vm.card.finalPlan = resp.finalPlan;
