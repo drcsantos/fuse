@@ -158,7 +158,6 @@
               </md-tab-body>
             </md-tab>
 
-
             <md-tab>
               <md-tab-body>
                 <div class="edit-label-tab-content">
@@ -197,17 +196,17 @@
       <!-- / LABELS -->
 
       <!-- EXPORT -->
-        <md-button class="md-icon-button" ng-click="vm.exportIssue()" aria-label="Options" translate translate-attr-aria-label="SB.OPTIONS">
-          <md-tooltip>Export</md-tooltip>
-          <md-icon md-menu-origin md-font-icon="icon-export"></md-icon>
-        </md-button>
+      <md-button class="md-icon-button" ng-click="vm.exportIssue()" aria-label="Options" translate translate-attr-aria-label="SB.OPTIONS">
+        <md-tooltip>Export</md-tooltip>
+        <md-icon md-menu-origin md-font-icon="icon-export"></md-icon>
+      </md-button>
       <!-- / EXPORT -->
 
       <!-- WORD CLOUD -->
-        <md-button class="md-icon-button" ng-click="vm.wordCloud()" aria-label="WordCloud">
-          <md-tooltip>Word Cloud</md-tooltip>
-          <md-icon md-menu-origin md-font-icon="icon-cloud"></md-icon>
-        </md-button>
+      <md-button class="md-icon-button" ng-click="vm.wordCloud()" aria-label="WordCloud">
+        <md-tooltip>Word Cloud</md-tooltip>
+        <md-icon md-menu-origin md-font-icon="icon-cloud"></md-icon>
+      </md-button>
       <!-- / WORD CLOUD -->
 
       <md-icon ng-if="vm.card.confidential" md-menu-origin md-font-icon="icon-lock">
@@ -255,7 +254,6 @@
       <div class="section">
         <md-input-container class="md-block">
           <label>Title</label>
-          <md-icon md-font-icon="icon-tag-text-outline" class="name"></md-icon>
           <input ng-disabled="vm.userid !== vm.card.submitBy._id" ng-model="vm.card.name" type="text" ng-blur="vm.updateIssue()" focus>
         </md-input-container>
 
@@ -263,7 +261,6 @@
         <!-- DESCRIPTION -->
         <md-input-container class="md-block">
           <label translate="SB.DESCRIPTION">Description</label>
-          <md-icon md-font-icon="icon-note-text s18" class="name"></md-icon>
           <textarea ng-disabled="vm.userid !== vm.card.submitBy._id" ng-model="vm.card.description" ng-blur="vm.updateIssue()" columns="1"></textarea>
         </md-input-container>
         <!-- / DESCRIPTION -->
@@ -271,7 +268,6 @@
         <!-- resolutionTimeframe -->
         <md-input-container class="md-block">
           <label>Resolution Time Frame</label>
-          <md-icon md-font-icon="icon-timetable s18" class="name"></md-icon>
           <md-select ng-disabled="vm.userid !== vm.card.submitBy._id" ng-model="vm.card.resolutionTimeframe" ng-change="vm.updateIssue()" placeholder="Time Frame" required>
             <md-option value="Hours">Hours</md-option>
             <md-option value="Days">Days</md-option>
@@ -282,8 +278,10 @@
 
         <!-- issue status -->
         <md-input-container class="md-block">
+          <md-tooltip ng-if="vm.userRole !== 'directors' && vm.userRole !== 'boss' && vm.userRole !== 'creator'">
+            Not Editable by Minions
+          </md-tooltip>
           <label>Status</label>
-          <md-icon md-font-icon="icon-clipboard-check s18" class="name"></md-icon>
           <md-select ng-disabled="vm.userRole !== 'directors' && vm.userRole !== 'boss' && vm.userRole !== 'creator'" ng-model="vm.card.status" ng-change="vm.changeStatus()" placeholder="Issue Status" required>
             <md-option value="Open">Open</md-option>
             <md-option value="Shelved">Shelved</md-option>
@@ -298,16 +296,12 @@
 
         <!-- Responsible party -->
         <md-input-container class="md-block">
-          <label>Responsible Party</label>
-
-          <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="searchText"
-                md-items="item in vm.getMatches(searchText)" md-item-text="item.display"
-                md-min-length="0" placeholder="Responsible Party" md-selected-item-change="vm.changeResponsibleParty()">
-            <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
-
+          <md-autocomplete required="" md-selected-item="vm.selectedItem" md-search-text="searchText" md-floating-label="Responsible Party" md-items="item in vm.getMatches(searchText)" md-item-text="item.display" md-min-length="0" md-selected-item-change="vm.changeResponsibleParty()">
+            <md-item-template>
+              <span md-highlight-text="searchText">{{item.display}}</span>
             </md-item-template>
             <md-not-found>
-              No Users found.
+              No Users Found
             </md-not-found>
           </md-autocomplete>
         </md-input-container>
@@ -366,20 +360,10 @@
 
             <div class="section-content">
 
-              <!-- <div class="attachment" ng-repeat="item in vm.card.attachments">
-                        <div class="attachment-content" layout="column">
-                            <span class="attachment-url">{{item.url}}</span>
-                            <span class="attachment-time">{{item.type}}</span>
-                        </div>
-                      </div> -->
-
               <div class="attachment" ng-repeat="item in vm.card.attachments">
-
                 <div layout="row">
-
                   <div ng-click="vm.openImage(item.url)" class="attachment-preview md-whiteframe-2dp" ng-style="{'background-image': 'url({{item.url}})'}">
                   </div>
-
                   <div class="attachment-content" layout="column">
 
                     <div layout="row" layout-align="start center">
@@ -390,56 +374,39 @@
                     <span class="attachment-time">{{item.time}}</span>
 
                     <md-menu>
-
                       <md-button class="md-raised attachment-actions-button" ng-click="$mdOpenMenu($event)" aria-label="attachment actions">
                         <span layout="row" layout-align="center center">
-                                               <span translate="SB.ACTIONS">Actions</span>
+                        <span translate="SB.ACTIONS">Actions</span>
                         <i class="icon-chevron-down s20"></i>
                         </span>
                       </md-button>
 
                       <md-menu-content>
-
                         <md-menu-item>
-
-                          <md-button ng-click="vm.removeAttachment(item)" aria-label="Remove Attachment" translate translate-attr-aria-label="SB.REMOVE_ATTACHMENT">
+                          <md-button ng-click="vm.removeAttachment(item)"
+                            aria-label="Remove Attachment"
+                            translate translate-attr-aria-label="SB.REMOVE_ATTACHMENT">
                             <span translate="SB.REMOVE_ATTACHMENT">Remove Attachment</span>
                           </md-button>
                         </md-menu-item>
-
                       </md-menu-content>
-
                     </md-menu>
                   </div>
                 </div>
               </div>
 
-              <!-- <div ng-switch-when="link" layout="row">
-                               <div class="attachment-preview md-whiteframe-2dp" layout="column"
-                                    layout-align="center center">
-                                   <span translate="SB.LINK">LINK</span>
-                               </div>
-                               <div class="attachment-content" layout="column">
-                                   <span class="attachment-url">{{item.url}}</span>
-                                   <span class="attachment-time">{{item.time}}</span>
-                               </div>
-                           </div>
-                       </div>  -->
-
-              <md-button type="file" ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)" class="add-attachment-button" aria-label="add attachment" accept="image/*" ngf-max-height="1000" ngf-max-size="3MB">
-
+              <md-button type="file"
+                ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)"
+                class="add-attachment-button" a
+                ria-label="add attachment"
+                accept="image/*"
+                ngf-max-height="1000"
+                ngf-max-size="3MB">
                 <div layout="row" layout-align="start center">
                   <i class="icon-plus s20"></i>
                   <span translate="SB.ADD_AN_ATTACHMENT">Add an attachment</span>
                 </div>
               </md-button>
-
-              <!-- <md-button class="add-attachment-button" aria-label="add attachment">
-                           <div layout="row" layout-align="start center">
-                               <i class="icon-plus s20"></i>
-                               <span translate="SB.ADD_AN_ATTACHMENT">Add an attachment</span>
-                           </div>
-                       </md-button> -->
             </div>
           </div>
         </div>
@@ -453,7 +420,11 @@
               <span class="section-title" e-rows="1" e-cols="60" editable-textarea="checklist.checklistName">{{checklist.checklistName}}</span>
 
               <md-menu md-position-mode="target-right target" class="options">
-                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="options" translate translate-attr-aria-label="SB.OPTIONS">
+                <md-button class="md-icon-button"
+                  ng-click="$mdOpenMenu($event)"
+                  aria-label="options"
+                  translate
+                  translate-attr-aria-label="SB.OPTIONS">
                   <md-icon md-menu-origin md-font-icon="icon-dots-vertical"></md-icon>
                 </md-button>
 
@@ -484,14 +455,26 @@
                   <md-checkbox ng-model="checkItem.checked" ng-change="vm.updateCheckedCount(checklist, checkItem)" aria-label="{{checkItem.name}}">
                   </md-checkbox>
 
-                  <a ng-if="checkItem.checked" href="#" style="text-decoration: line-through;" editable-textarea="checkItem.name" e-rows="7" e-cols="40" onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}</a>
-
-                  <a ng-if="!checkItem.checked" href="#" editable-textarea="checkItem.name" e-rows="3" e-cols="60" onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}</a>
+                  <a ng-if="checkItem.checked"
+                    href="#" style="text-decoration: line-through;"
+                    editable-textarea="checkItem.name"
+                    e-rows="7"
+                    e-cols="40"
+                    onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}
+                  </a>
+                  <a ng-if="!checkItem.checked"
+                    href="#" editable-textarea="checkItem.name"
+                    e-rows="3" e-cols="60"
+                    onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}
+                  </a>
                 </div>
               </div>
 
-              <form name="newCheckItemForm" class="new-check-item-form" ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);checklist.newCheckItem = ''" layout="row" layout-align="start center">
-
+              <form name="newCheckItemForm"
+                class="new-check-item-form"
+                ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);checklist.newCheckItem = ''"
+                layout="row"
+                layout-align="start center">
                 <md-input-container class="no-errors-spacer" flex>
                   <label layout="row" layout-align="center">
                     <i class="icon-plus s18"></i>
@@ -500,7 +483,10 @@
                   <input type="text" autocomplete="off" ng-model="checklist.newCheckItem">
                 </md-input-container>
 
-                <md-button type="submit" class="md-raised md-accent" aria-label="Add" translate translate-attr-aria-label="SB.ADD">
+                <md-button type="submit"
+                  class="md-raised md-accent"
+                  aria-label="Add"
+                  translate translate-attr-aria-label="SB.ADD">
                   <span translate="SB.ADD">Add</span>
                 </md-button>
               </form>
@@ -520,11 +506,23 @@
             </div>
 
             <div class="section-content">
-              <form name="cardCommentForm" ng-submit="vm.addNewComment(vm.newCommentText); vm.newCommentText =''" class="comment new-comment" layout="column" layout-align="start" no-validate>
+              <form name="cardCommentForm"
+                ng-submit="vm.addNewComment(vm.newCommentText); vm.newCommentText =''"
+                class="comment new-comment"
+                layout="column"
+                layout-align="start"
+                no-validate>
 
-                  <md-input-container flex md-no-float>
-                    <textarea wrap="hard" cols="30" placeholder="Write a comment.." ng-model="vm.newCommentText" required translate translate-attr-placeholder="SB.WRITE_A_COMMENT"></textarea>
-                  </md-input-container>
+                <md-input-container flex md-no-float>
+                  <textarea wrap="hard"
+                    cols="30"
+                    placeholder="Write a comment.."
+                    ng-model="vm.newCommentText"
+                    required 
+                    translate
+                    translate-attr-placeholder="SB.WRITE_A_COMMENT">
+                  </textarea>
+                </md-input-container>
 
                 <div layout="row" layout-align="end center">
                   <md-button type="submit" class="md-raised md-accent" aria-label="Add">
@@ -547,7 +545,7 @@
                   </div>
                   <div class="comment-bubble" wrap="hard" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.commentText)}}</div>
                 </div>
-            </div>
+              </div>
 
             </div>
           </div>
@@ -559,36 +557,36 @@
         <div class="section">
           <div class="comments">
 
-          <div class="section-header" layout="row" layout-align="start center">
-            <i class="icon-clipboard-check s18"></i>
-            <span class="section-title">Plan</span>
-          </div>
+            <div class="section-header" layout="row" layout-align="start center">
+              <i class="icon-clipboard-check s18"></i>
+              <span class="section-title">Plan</span>
+            </div>
 
-          <div class="section-content">
-            <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="comment final-plan-new" layout="column" layout-align="start" no-validate>
+            <div class="section-content">
+              <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="comment final-plan-new" layout="column" layout-align="start" no-validate>
 
                 <md-input-container flex md-no-float>
                   <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newFinalPlanText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
                 </md-input-container>
 
-              <div layout="row" layout-align="end center">
+                <div layout="row" layout-align="end center">
 
-                <span ng-if="vm.finalPlanChecklist">Finshed Item   </span>
-                <span ng-if="!vm.finalPlanChecklist">Add to todo   </span>
+                  <span ng-if="vm.finalPlanChecklist">Finshed Item   </span>
+                  <span ng-if="!vm.finalPlanChecklist">Add to todo   </span>
 
-                <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
-                </md-switch>
+                  <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
+                  </md-switch>
 
-                <md-button type="submit" class="md-raised md-accent" aria-label="Add Item">
-                  <span translate="SB.FINAL_PLAN_ADD">Add Item</span>
-                </md-button>
-              </div>
-            </form>
-          </div>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Add Item">
+                    <span translate="SB.FINAL_PLAN_ADD">Add Item</span>
+                  </md-button>
+                </div>
+              </form>
+            </div>
 
-          <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
+            <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
 
-          <!-- <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
+            <!-- <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
 
             <div class="comment" layout="row">
               <div layout="column">
@@ -606,23 +604,23 @@
            </div>
          </span> -->
 
-         <div class="comment" layout="row" ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
+            <div class="comment" layout="row" ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
 
-           <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
+              <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
 
-           <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+              <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
 
-           <div layout="column">
-             <div class="comment-member-name">
-               {{comment.author.name}}
-               <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
-               <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
-             </div>
-             <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.text)}}</div>
-           </div>
-       </div>
+              <div layout="column">
+                <div class="comment-member-name">
+                  {{comment.author.name}}
+                  <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+                  <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+                </div>
+                <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.text)}}</div>
+              </div>
+            </div>
 
-        </div>
+          </div>
         </div>
 
         <!-- / FINAL PLAN -->
@@ -646,8 +644,7 @@
                 <ul>
 
                   <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) ">
-                    <img class="activity-member-avatar"
-                                 ng-src="{{f.userImage}}">
+                    <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
                     <span>{{ f.infoFormated }}
                       <md-tooltip ng-if="f.tooltip" md-direction="top">
