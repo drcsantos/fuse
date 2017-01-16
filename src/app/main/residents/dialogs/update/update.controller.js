@@ -84,6 +84,8 @@
     vm.addContact = addContact;
     vm.getMatches = getMatches;
 
+    vm.formatFileName = formatFileName;
+
     function closeDialog(data) {
       $mdDialog.hide(data);
     }
@@ -94,19 +96,13 @@
       vm.form.modifiedBy = authentication.currentUser().id;
       vm.form.modifiedDate = new Date();
 
-      $log.debug(currResident.updateInfo);
-
-      if(!vm.form.room) {
-        vm.form.room = vm.searchText;
-      }
-
-      var changedFields =
-        ResidentUpdateInfoService.checkChangedFields(vm.copyResident, vm.form);
-
       addToStatusArray();
       addToShoppingArray();
 
       addToPainManagedBy();
+
+      var changedFields =
+        ResidentUpdateInfoService.checkChangedFields(vm.copyResident, vm.form);
 
       if(!vm.form.movedFrom) {
         vm.form.movedFrom = {};
@@ -125,10 +121,14 @@
     }
 
 
-    function updateResident() {
+    function updateResident(type) {
 
       if(errorCheck.requiredFields(vm.form, vm.error, requiredArray)) {
         return;
+      }
+
+      if(!vm.form.room && type === 'administrative') {
+        vm.form.room = vm.searchText;
       }
 
       formatData();
@@ -146,8 +146,6 @@
 
       apilaData.updateResident(currResident._id, vm.form)
         .success(function(resident) {
-
-          $log.debug(resident);
 
           currResident.updateInfo = resident.updateInfo;
           currResident.carePoints = resident.carePoints;
@@ -173,6 +171,7 @@
         "selectedItem": chip,
         "updateBy": authentication.currentUser().id
       };
+
 
       apilaData.updateListItem(vm.copyResident._id, data)
         .success(function(response) {
@@ -203,6 +202,9 @@
       var uploadUrl = apilaData.getApiUrl() + '/api/residents/' + currResident._id + '/upload';
 
       if (file) {
+
+        vm.fileName = file.name;
+
         file.upload = Upload.upload({
           url: uploadUrl,
           data: {
@@ -215,6 +217,7 @@
 
         file.upload.then(function(response) {
           $timeout(function() {
+
             file.result = response.data;
             vm.fileUploaded = true;
           });
@@ -346,7 +349,10 @@
       }
     }
 
-
+    function formatFileName(file) {
+      var fileName = file.split("/").pop();
+      return unescape(fileName);
+    }
 
     var resetFields = function() {
       vm.form.newrespiration = "";

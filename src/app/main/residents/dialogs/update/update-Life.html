@@ -75,13 +75,15 @@
             <span>Assessment</span>
           </div>
         </md-button>
-        <h4 ng-if="vm.fileUploaded ">The file has been uploaded</h4>
+        <h4 ng-if="vm.fileUploaded ">The file {{ vm.fileName }} has been uploaded!</h4>
       </md-input-container>
 
-      <!-- <label>Uploaded files</label>
-      <span ng-repeat="file in vm.form.outsideAgencyFile">
-        {{ file }},
-      <span> -->
+      <label>Uploaded files: </label>
+      <md-list>
+        <md-list-item ng-repeat="file in vm.form.outsideAgencyFile track by $index">
+          <p>{{ ::vm.formatFileName(file) }}</p>
+        </md-list-item>
+      </md-list>
 
       <!-- Speech -->
       <md-input-container class="md-block">

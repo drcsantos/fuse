@@ -14,7 +14,10 @@
 
     function formatUpdateArray(updateArray, resident) {
 
-      var arrayFields = ['foodAllergies', 'medicationAllergies'];
+      var arrayFields = ['foodAllergies', 'medicationAllergies', 'otherAllergies', 'foodLikes',
+              'foodDislikes', 'outsideAgencyFile', 'psychosocialStatus', 'shopping', 'painManagedBy'];
+
+      var multiArrayFields = [];
 
       var formatedArray = [];
 
@@ -34,7 +37,6 @@
             var field = currField.field;
             var oldValue = SliderMapping.replaceNumberValue(field, currField.old) || currField.old;
             var newValue = SliderMapping.replaceNumberValue(field, currField.new) || currField.new;
-
 
 
             formatEntry.username = entry.updateBy || {};
@@ -61,6 +63,10 @@
 
             //handling of array fields
             if (_.includes(arrayFields, field)) {
+              if(field === "shopping") {
+                console.log(currField);
+              }
+
               if (newValue != "") {
                 formatEntry.text = " has added " + newValue + " to " +
                   _.startCase(field);
@@ -505,19 +511,100 @@
 
       }
 
+      // checking for multi array fields
+      var addedMultiFields = [];
+
+      //shopping
+      if(newData.newShoppingStatus.length > newData.shopping.length) {
+        addedMultiFields = _.difference(newData.newShoppingStatus, newData.shopping);
+
+        diff.push({
+          "field": 'shopping',
+          "old": "",
+          "new": addedMultiFields.toString()
+        });
+
+      } else if(newData.newShoppingStatus.length < newData.shopping.length){
+        addedMultiFields = _.difference(newData.shopping, newData.newShoppingStatus);
+
+        diff.push({
+          "field": 'shopping',
+          "old": addedMultiFields.toString(),
+          "new": ""
+        });
+
+      }
+
+      // painManagedBy
+      if(newData.newPainManagedBy.length > newData.painManagedBy.length) {
+        addedMultiFields = _.difference(newData.newPainManagedBy, newData.painManagedBy);
+
+        diff.push({
+          "field": 'painManagedBy',
+          "old": "",
+          "new": addedMultiFields.toString()
+        });
+
+      } else if(newData.newPainManagedBy.length < newData.painManagedBy.length) {
+        addedMultiFields = _.difference(newData.painManagedBy, newData.newPainManagedBy);
+
+        diff.push({
+          "field": 'painManagedBy',
+          "old": addedMultiFields.toString(),
+          "new": ""
+        });
+
+      }
+
+      // newpsychosocialStatus
+      if(newData.newpsychosocialStatus.length > newData.psychosocialStatus.length) {
+        addedMultiFields = _.difference(newData.newpsychosocialStatus, newData.psychosocialStatus);
+
+        diff.push({
+          "field": 'psychosocialStatus',
+          "old": "",
+          "new": addedMultiFields.toString()
+        });
+
+      } else if(newData.newpsychosocialStatus.length < newData.psychosocialStatus.length) {
+        addedMultiFields = _.difference(newData.psychosocialStatus, newData.newpsychosocialStatus);
+
+        diff.push({
+          "field": 'psychosocialStatus',
+          "old": addedMultiFields.toString(),
+          "new": ""
+        });
+
+      }
+
+
       //checking contacts
       for(i = 0; i < oldData.residentContacts.length; ++i) {
         var contact = oldData.residentContacts[i];
 
         for(var property in contact) {
-          if(oldData.residentContacts[i][property] !== newData.residentContacts[i][property]) {
-            $log.debug(property + " changed!!!");
-            diff.push({
-              "field": property + 'InContacts',
-              "old": oldData.residentContacts[i][property],
-              "new": newData.residentContacts[i][property]
-            });
+
+          if(property === "physicalAddress") {
+            if(oldData.residentContacts[i][property].formatted_address !==
+                       newData.residentContacts[i][property].formatted_address) {
+
+               diff.push({
+                 "field": property + 'InContacts',
+                 "old": oldData.residentContacts[i][property].formatted_address,
+                 "new": newData.residentContacts[i][property].formatted_address
+               });
+            }
+          } else {
+            if(oldData.residentContacts[i][property] !== newData.residentContacts[i][property]) {
+              $log.debug(property + " changed!!!");
+              diff.push({
+                "field": property + 'InContacts',
+                "old": oldData.residentContacts[i][property],
+                "new": newData.residentContacts[i][property]
+              });
+            }
           }
+
         }
       }
 

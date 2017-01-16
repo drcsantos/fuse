@@ -86,7 +86,7 @@
     };
 
     vm.showMore = function() {
-      console.log("kek");
+
     }
 
     //// INITIAL LOADING  ////
@@ -102,7 +102,6 @@
         .success(function(d) {
           vm.residentList = d;
           vm.residentList = vm.residentList.slice(0, 100);
-          console.log("Resident list loaded!");
         })
         .error(function(d) {
           $log.debug("Error Retrieving the List of Residents");
@@ -307,9 +306,14 @@
           resident.lastName = res.lastName;
           resident.aliasName = res.aliasName;
 
-          vm.selectedResident = res;
+          apilaData.residentById(resident._id)
+          .success(function(updatedRes) {
+            vm.selectedResident = updatedRes;
 
-          vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+            vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+          });
+
+
         });
 
     }
