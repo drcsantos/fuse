@@ -18,6 +18,25 @@
       return "";
     }
 
+    function residentInRooms(residents) {
+
+      var roomWithResidents = {};
+
+      residents.forEach(function(resid) {
+
+        if(resid.building !== "Dead" || resid.building !== "Moved Out") {
+          if(!roomWithResidents[resid.room]) {
+            roomWithResidents[resid.room] = [];
+          }
+
+          roomWithResidents[resid.room].push(resid.firstName + " " + resid.lastName);
+        }
+
+      });
+
+      return roomWithResidents;
+    }
+
     function calculateRange(allRooms, start, end) {
 
       var sortedRooms = _.sortBy(allRooms, function(room) {
@@ -66,7 +85,7 @@
       return capAcronym;
     }
 
-    function exportPdf(inBuildingResidents, community) {
+    function exportPdf(residents, inBuildingResidents, community) {
 
       var doc = new jsPDF('p', 'pt');
 
@@ -89,6 +108,8 @@
 
       //sort by room number
       inBuildingResidents = _.sortBy(inBuildingResidents, ['room']);
+
+      var roomWithResidents = residentInRooms(residents);
 
       // config variables
       var coordsPerLetter = (594/82);
@@ -229,6 +250,11 @@
 
       var maxRoomNumber = 0;
 
+      console.log(roomWithResidents);
+
+      doc.setLineWidth(1);
+      doc.setDrawColor(0,0,0);
+
       if(community.floors) {
         angular.forEach(community.floors, function(floor) {
 
@@ -254,12 +280,18 @@
             var x = listStartX + (floorOffset * 170);
             var y = (listStartY + residentOffset + 10) + (i * 90);
 
-            doc.text("Room " + roomRange[i], x + 30, y + 40);
-
             var style = findRoomStyle(community.roomStyle, parseInt(roomRange[i]));
             var styleAcronym = createAcronym(community, style);
+            var resident = roomWithResidents[roomRange[i]];
 
-            doc.text("Style " + styleAcronym, x + 30, y + 60);
+            doc.text("Room " + roomRange[i] + ", " + "Style " + styleAcronym, x + 10, y + 20);
+
+            if(resident && resident.length !== 0) {
+              for(var j = 0; j < resident.length; ++j) {
+                doc.text(resident[j], x + 20, (y + 20) + (j + 1) * 15);
+              }
+
+            }
 
             doc.rect(x, y, 160, 80);
           }

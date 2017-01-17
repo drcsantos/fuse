@@ -12,6 +12,7 @@
 
     //DATA
     vm.form = currResident;
+
     vm.form.firstName = residentDisplay.firstName;
     vm.form.contact = {};
     vm.selctedTab = "";

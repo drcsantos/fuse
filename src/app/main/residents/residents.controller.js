@@ -244,7 +244,7 @@
             .hideDelay(2000)
           );
         } else {
-          exportResidentCensus.exportPdf(inBuildingResidents, vm.community);
+          exportResidentCensus.exportPdf(residents, inBuildingResidents, vm.community);
         }
       });
 
@@ -271,50 +271,57 @@
       //switch form based on category selected
       var cat = vm.selectedCategory;
 
-      if (vm.selectedCategory === "Physical condition") {
-        cat = "PhysicalCondition";
-      }
+      apilaData.residentById(resident._id)
+      .success(function(ress) {
+        vm.selectedResident = ress;
 
-      if (vm.selectedCategory === "Updates") {
-        $mdToast.show(
-          $mdToast.simple()
-          .textContent("Updates category is not available to update")
-          .position("top right")
-          .hideDelay(2000)
-        );
-        return;
-      }
+        selectResident(resident._id);
 
-      var templateUrl = 'app/main/residents/dialogs/update/update-' +
-        cat + '.html';
+        if (vm.selectedCategory === "Physical condition") {
+          cat = "PhysicalCondition";
+        }
 
-      $mdDialog.show({
-          controller: 'UpdateController',
-          controllerAs: 'vm',
-          locals: {
-            currResident: vm.selectedResident,
-            residentDisplay: resident
-          },
-          templateUrl: templateUrl,
-          parent: angular.element($document.body),
-          targetEvent: resident,
-          clickOutsideToClose: true
-        })
-        .then(function(res) {
+        if (vm.selectedCategory === "Updates") {
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent("Updates category is not available to update")
+            .position("top right")
+            .hideDelay(2000)
+          );
+          return;
+        }
 
-          resident.firstName = res.firstName;
-          resident.lastName = res.lastName;
-          resident.aliasName = res.aliasName;
+        var templateUrl = 'app/main/residents/dialogs/update/update-' +
+          cat + '.html';
 
-          apilaData.residentById(resident._id)
-          .success(function(updatedRes) {
-            vm.selectedResident = updatedRes;
+        $mdDialog.show({
+            controller: 'UpdateController',
+            controllerAs: 'vm',
+            locals: {
+              currResident: vm.selectedResident,
+              residentDisplay: resident
+            },
+            templateUrl: templateUrl,
+            parent: angular.element($document.body),
+            targetEvent: resident,
+            clickOutsideToClose: true
+          })
+          .then(function(res) {
 
-            vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+            resident.firstName = res.firstName;
+            resident.lastName = res.lastName;
+            resident.aliasName = res.aliasName;
+
+            apilaData.residentById(resident._id)
+            .success(function(updatedRes) {
+              vm.selectedResident = updatedRes;
+
+              vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+            });
+
           });
+      });
 
-
-        });
 
     }
 

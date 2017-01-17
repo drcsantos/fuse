@@ -2,7 +2,7 @@
 <div class="mail-list-item" ng-repeat="resident in vm.residentList | filter: vm.search | orderBy:'-carePoints' "
      md-ink-ripple
      ng-click="vm.selectResident(resident)"
-     ng-class="{'starred': resident.starred, 'selected': vm.selectedResident === resident, 'checked': vm.isChecked(resident)}">
+     ng-class="{ 'selected': vm.selectedResident._id === resident._id}">
 
     <div layout="row" layout-align="start center">
 

@@ -85,7 +85,7 @@
 
           vm.contactInfo = vm.myCommunity;
 
-          vm.communityTown = vm.myCommunity.town || "Denever";
+          vm.communityTown = vm.myCommunity.town || "Denver";
 
           getWeather();
 
