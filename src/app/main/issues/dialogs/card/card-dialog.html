@@ -368,13 +368,16 @@
 
                     <div layout="row" layout-align="start center">
                       <span class="attachment-name">{{item.name}}</span>
-                      <i ng-if="vm.card.idAttachmentCover === item.id" class="icon-star yellow-700-fg attachment-is-cover s18"></i>
+                      <i ng-if="vm.card.idAttachmentCover === item.id"
+                        class="icon-star yellow-700-fg attachment-is-cover s18"></i>
                     </div>
 
                     <span class="attachment-time">{{item.time}}</span>
 
                     <md-menu>
-                      <md-button class="md-raised attachment-actions-button" ng-click="$mdOpenMenu($event)" aria-label="attachment actions">
+                      <md-button class="md-raised attachment-actions-button"
+                        ng-click="$mdOpenMenu($event)"
+                        aria-label="attachment actions">
                         <span layout="row" layout-align="center center">
                         <span translate="SB.ACTIONS">Actions</span>
                         <i class="icon-chevron-down s20"></i>
@@ -417,7 +420,11 @@
           <div class="checklist">
             <div class="section-header" layout="row" layout-align="start center">
               <i class="icon-checkbox-marked s18"></i>
-              <span class="section-title" e-rows="1" e-cols="60" editable-textarea="checklist.checklistName">{{checklist.checklistName}}</span>
+              <span class="section-title"
+                e-rows="1"
+                e-cols="60"
+                editable-textarea="checklist.checklistName">{{checklist.checklistName}}
+              </span>
 
               <md-menu md-position-mode="target-right target" class="options">
                 <md-button class="md-icon-button"
@@ -430,7 +437,10 @@
 
                 <md-menu-content class="options-menu-content" width="4">
                   <md-menu-item>
-                    <md-button ng-click="vm.removeChecklist(checklist)" aria-label="Remove Checklist" translate translate-attr-aria-label="SB.REMOVE_CHECKLIST">
+                    <md-button ng-click="vm.removeChecklist(checklist)"
+                      aria-label="Remove Checklist"
+                      translate
+                      translate-attr-aria-label="SB.REMOVE_CHECKLIST">
                       <md-icon md-font-icon="icon-delete"></md-icon>
                       <span translate="SB.REMOVE_CHECKLIST">Remove Checklist</span>
                     </md-button>
@@ -446,13 +456,17 @@
                                {{checklist.checkItemsChecked}} / {{checklist.checkItems.length}}
                            </span>
 
-                <md-progress-linear class="md-accent checklist-progressbar" md-mode="determinate" value="{{100 * checklist.checkItemsChecked / checklist.checkItems.length}}">
+                <md-progress-linear class="md-accent checklist-progressbar"
+                  md-mode="determinate"
+                  value="{{100 * checklist.checkItemsChecked / checklist.checkItems.length}}">
                 </md-progress-linear>
               </div>
 
               <div class="check-items">
                 <div class="check-item" ng-repeat="checkItem in checklist.checkItems">
-                  <md-checkbox ng-model="checkItem.checked" ng-change="vm.updateCheckedCount(checklist, checkItem)" aria-label="{{checkItem.name}}">
+                  <md-checkbox ng-model="checkItem.checked"
+                    ng-change="vm.updateCheckedCount(checklist, checkItem)"
+                    aria-label="{{checkItem.name}}">
                   </md-checkbox>
 
                   <a ng-if="checkItem.checked"
@@ -531,11 +545,15 @@
                 </div>
               </form>
 
-              <div class="comment" layout="row" ng-repeat="comment in vm.card.comments.slice().reverse()">
-
-                <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
-
-                <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+              <div class="comment"
+                layout="row"
+                ng-repeat="comment in vm.card.comments.slice().reverse()">
+                <img ng-if="comment.author.userImage !== undefined"
+                  class="comment-member-avatar"
+                  ng-src="{{comment.author.userImage}}">
+                <img ng-if="comment.author.userImage === undefined"
+                  class="comment-member-avatar"
+                  ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
 
                 <div layout="column">
                   <div class="comment-member-name">
@@ -543,17 +561,23 @@
                     <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
                     <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                   </div>
-                  <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.commentText" ng-trim="false" e-rows="7" e-cols="50">{{ comment.commentText }}</div>
+                  <div class="comment-bubble"
+                    wrap="hard"
+                    onaftersave="vm.updateComment(comment)"
+                    editable-textarea="comment.commentText"
+                    ng-trim="false"
+                    e-rows="7"
+                    e-cols="50">{{vm.changeComment(comment.commentText)}}
+                  </div>
                 </div>
               </div>
 
             </div>
           </div>
         </div>
-        <!-- / COMMENTS SECTION -->
+        <!-- / COMMENTS -->
 
-        <!-- FINAL PLAN -->
-
+        <!-- PLAN -->
         <div class="section">
           <div class="comments">
 
@@ -563,10 +587,20 @@
             </div>
 
             <div class="section-content">
-              <form name="cardCommentForm" ng-submit="vm.addFinalPlan()" class="comment final-plan-new" layout="column" layout-align="start" no-validate>
+              <form name="cardCommentForm"
+                ng-submit="vm.addFinalPlan()"
+                class="comment final-plan-new"
+                layout="column"
+                layout-align="start"
+                no-validate>
 
                 <md-input-container flex md-no-float>
-                  <textarea ms-scroll placeholder="What is the solution to the issue?" ng-model="vm.newFinalPlanText" required translate translate-attr-placeholder="SB.FINAL_PLAN"></textarea>
+                  <textarea ms-scroll placeholder="Issue's Plan"
+                    ng-model="vm.newFinalPlanText"
+                    required
+                    translate
+                    translate-attr-placeholder="SB.FINAL_PLAN">
+                  </textarea>
                 </md-input-container>
 
                 <div layout="row" layout-align="end center">
@@ -586,29 +620,16 @@
 
             <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
 
-            <!-- <span ng-repeat="plan in vm.card.finalPlan | orderBy:'-' ">
+            <div class="comment"
+              layout="row"
+              ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
 
-            <div class="comment" layout="row">
-              <div layout="column">
-                <div class="comment-bubble">
-                  <md-tooltip ng-if="plan.checklist != true" md-direction="top">
-                    Added to To-Dos
-                  </md-tooltip>
-
-                  <div class="comment-member-name">
-                  </div>
-
-                  {{plan.text}}
-                </div>
-              </div>
-           </div>
-         </span> -->
-
-            <div class="comment" layout="row" ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
-
-              <img ng-if="comment.author.userImage !== undefined" class="comment-member-avatar" ng-src="{{comment.author.userImage}}">
-
-              <img ng-if="comment.author.userImage === undefined" class="comment-member-avatar" ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+              <img ng-if="comment.author.userImage !== undefined"
+                class="comment-member-avatar"
+                ng-src="{{comment.author.userImage}}">
+              <img ng-if="comment.author.userImage === undefined"
+                class="comment-member-avatar"
+                ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
 
               <div layout="column">
                 <div class="comment-member-name">
@@ -616,33 +637,35 @@
                   <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
                   <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                 </div>
-                <div class="comment-bubble" onaftersave="vm.updateComment(comment)" editable-textarea="comment.text" ng-trim="false" e-rows="7" e-cols="50">{{vm.changeComment(comment.text)}}</div>
+                <div class="comment-bubble"
+                  onaftersave="vm.updateComment(comment)"
+                  editable-textarea="comment.text"
+                  ng-trim="false"
+                  e-rows="7"
+                  e-cols="50">{{vm.changeComment(comment.text)}}
+                </div>
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- / FINAL PLAN -->
+        <!-- / PLAN -->
 
         <!-- UPDATES SECTION -->
         <div class="section">
-
           <div class="activities">
-
             <div class="section-header" layout="row" layout-align="start center">
               <i class="icon-format-list-bulleted s18"></i>
               <span class="section-title">Updates</span>
             </div>
-
             <div class="section-content">
-
               <h5>{{ vm.createdIssue }}</h5>
-
-              <div class="activity" layout="row" layout-align="start center" ng-repeat="update in vm.card.updateInfo.slice().reverse()">
-
+              <div class="activity"
+                layout="row"
+                layout-align="start center"
+                ng-repeat="update in vm.card.updateInfo.slice().reverse()">
                 <ul>
-
                   <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) ">
                     <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
@@ -653,11 +676,9 @@
                     </span>
                     <span class="activity-time secondary-text">{{ f.timeDiff }} </span>
                   </li>
-
                 </ul>
               </div>
             </div>
-
           </div>
         </div>
         <!-- / UPDATES SECTION -->
