@@ -285,7 +285,7 @@
     };
 
     var addRole = function(communityid, userid, data) {
-      return $http.post(apiUrl + '/api/communites/' + communityid + "/role/" + userid, data, getAuth());
+      return $http.post(apiUrl + '/api/communities/' + communityid + "/role/" + userid, data, getAuth());
     };
 
     var acceptMember = function(data, communityid) {
@@ -301,15 +301,19 @@
     };
 
     var removeMember = function(communityid, userid) {
-      return $http.delete(apiUrl + '/api/communites/' + communityid + "/user/" + userid, getAuth());
+      return $http.delete(apiUrl + '/api/communities/' + communityid + "/user/" + userid, getAuth());
+    };
+
+    var deleteRoomStyle = function(communityid, roomid) {
+      return $http.delete(apiUrl + '/api/communities/' + communityid + "/roomstyle/" + roomid, getAuth());
     };
 
     var hasCanceledCommunity = function(userid) {
-      return $http.get(apiUrl + '/api/communites/canceled/' + userid, getAuth());
+      return $http.get(apiUrl + '/api/communities/canceled/' + userid, getAuth());
     };
 
     var restoreCommunity = function(userid, communityid) {
-      return $http.post(apiUrl + '/api/communites/' + communityid + '/restore/' + userid, {}, getAuth());
+      return $http.post(apiUrl + '/api/communities/' + communityid + '/restore/' + userid, {}, getAuth());
     };
 
     var updateContactAndRoomInfo = function(communityid, data) {
@@ -427,6 +431,7 @@
       updateFloor: updateFloor,
       addFloor: addFloor,
       removeMember: removeMember,
+      deleteRoomStyle: deleteRoomStyle,
       hasCanceledCommunity: hasCanceledCommunity,
       restoreCommunity: restoreCommunity,
       updateContactAndRoomInfo: updateContactAndRoomInfo,

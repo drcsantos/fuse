@@ -112,7 +112,6 @@
           apilaData.usersInCommunity(communityid)
           .success(function(response) {
             vm.communityMembers = response;
-            $log.debug(response);
             callback();
           })
           .error(function(response) {
@@ -124,8 +123,6 @@
         function setMapLocations(id) {
           apilaData.getLocations(id)
           .success(function(response) {
-
-            $log.debug(response);
 
             var markers = [];
 
@@ -187,8 +184,6 @@
 
           loadStats(vm.myCommunity._id);
 
-          $log.debug(vm.communityMembers);
-
           vm.communityMemberTable = _.map(vm.communityMembers, function(v) {
             var boss = false;
             var director = false;
@@ -230,8 +225,6 @@
 
             return [userImage, v.name, v.email, v._id, boss, director, minion, creator, role, recovery];
           });
-
-          $log.debug(vm.communityMemberTable);
 
           vm.pendingMemberTable = _.map(vm.myCommunity.pendingMembers, function(v) {
             var userImage = (v.userImage !== undefined) ? v.userImage : "https://s3-us-west-2.amazonaws.com/apilatest2/logo.png";
@@ -336,15 +329,19 @@
             return vm.roomList;
           }
 
+          var sortedRooms = _.sortBy(vm.roomList, function(room) {
+            return +(room.replace(/\D/g, '')); //remove letters and convert to number
+          });
+
           var textLower = text.toLowerCase();
 
-          var ret = vm.roomList.filter(function (d) {
+          var ret = sortedRooms.filter(function (d) {
             if(d) {
               return d.toLowerCase().indexOf(textLower) > -1;
             }
           });
 
-            return ret;
+          return ret;
         }
 
         function openJoinModal(ev)
@@ -379,7 +376,6 @@
           .then(function(response) {
             vm.tempUnit = WeatherService.getTempUnit();
             vm.weatherData = response.data;
-            console.log(vm.weatherData);
           })
           .catch(function(err) {
             $log.error(err);

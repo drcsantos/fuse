@@ -31,6 +31,8 @@
       vm.updateRoom = updateRoom;
       vm.convertUnit = convertUnit;
 
+      vm.deleteRoom = deleteRoom;
+
       function createRoom() {
 
         apilaData.createRoomStyle(communityId, vm.form)
@@ -63,6 +65,19 @@
         // } else {
         //   vm.form.area = vm.form.area * 3.28;
         // }
+      }
+
+      function deleteRoom() {
+        apilaData.deleteRoomStyle(communityId, vm.form._id)
+        .success(function(response) {
+
+          _.remove(roomStyles, {"_id": response});
+
+          $mdDialog.hide();
+        })
+        .error(function(err) {
+          $log.debug(err);
+        })
       }
 
       function closeDialog(resp)
