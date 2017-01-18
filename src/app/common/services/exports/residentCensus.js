@@ -249,8 +249,9 @@
       var floorNumber = 0;
 
       var maxRoomNumber = 0;
-
-      console.log(roomWithResidents);
+      var hasPage = false;
+      var currPage = 1;
+      //var memPage = 1;
 
       doc.setLineWidth(1);
       doc.setDrawColor(0,0,0);
@@ -272,13 +273,48 @@
             maxRoomNumber = 0;
           }
 
+          //switch it back to first page and original offset
+          currPage = 1;
+          doc.setPage(currPage);
+          residentOffset = residentBlock * increment;
+          metaStartY = 24;
+          listStartY = 150;
+
           //draw room floor title
           doc.text("Floor " + (floorNumber + 1), listStartX + (floorOffset * 170), (listStartY + residentOffset));
+
+          var counter = 0;
 
           // Go through each room in current floor
           for(var i = 0; i < roomRange.length; ++i) {
             var x = listStartX + (floorOffset * 170);
-            var y = (listStartY + residentOffset + 10) + (i * 90);
+            var y = (listStartY + residentOffset + 10) + (counter * 90);
+
+            //should we create a new page?
+            if(y + 60 > 780) {
+              if(!hasPage) {
+                doc.addPage();
+              } else {
+
+                if(currPage > 1) {
+                  doc.addPage();
+                }
+
+                currPage++;
+                doc.setPage(currPage);
+              }
+
+              //switch the offsets to the new page
+              counter = 0;
+              residentOffset = 0;
+
+              metaStartY = 0;
+              listStartY = 0;
+
+              y = (listStartY + residentOffset + 10) + (counter * 90);
+
+              hasPage = true;
+            }
 
             var style = findRoomStyle(community.roomStyle, parseInt(roomRange[i]));
             var styleAcronym = createAcronym(community, style);
@@ -294,10 +330,13 @@
             }
 
             doc.rect(x, y, 160, 80);
+
+            counter++;
           }
 
           floorOffset++;
           floorNumber++;
+
 
         });
       }
