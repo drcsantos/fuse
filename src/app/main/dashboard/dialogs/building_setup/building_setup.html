@@ -1,0 +1,68 @@
+<md-dialog class="compose-dialog" aria-label="Update">
+    <form class="md-inline-form">
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title" >Join Community</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+
+          <md-input-container class="md-block">
+            <label>Rooms</label>
+            <input ng-model="vm.community.rooms" type="number">
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Floors</label>
+            <input ng-model="vm.community.numFloors" type="number" ng-blur="vm.updateContactAndRoomInfo('floors')">
+          </md-input-container>
+
+          <div ng-repeat="room in vm.floors">
+            <label><u><b>{{ room.floorNumber + 1 }}. </b> Floor</u></label>
+            <div layout="row" layout-align="space-between start">
+
+              <md-input-container class="md-block">
+                <md-autocomplete md-input-id="select-room" md-selected-item="room.startRoom" md-search-text="room.startRoom"
+                      md-items="item in vm.getMatches(room.startRoom)" md-item-text="item"
+                      md-min-length="0" placeholder="Choose start room">
+                  <md-item-template> <span md-highlight-text="room.startRoom">{{item}}</span>
+
+                  </md-item-template>
+                  <md-not-found>
+                    No room found
+                  </md-not-found>
+                </md-autocomplete>
+              </md-input-container>
+
+              <md-input-container class="md-block">
+                <md-autocomplete md-input-id="select-room" md-selected-item="room.endRoom" md-search-text="room.endRoom"
+                      md-items="item in vm.getMatches(room.endRoom)" md-item-text="item"
+                      md-min-length="0" placeholder="Choose end room">
+                  <md-item-template> <span md-highlight-text="room.endRoom">{{item}}</span>
+
+                  </md-item-template>
+                  <md-not-found>
+                    No room found
+                  </md-not-found>
+                </md-autocomplete>
+              </md-input-container>
+
+            </div>
+          </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <md-button ng-click="vm.save()" id="send-request" class="send-button md-accent md-raised" aria-label="Save">
+                    Save
+                </md-button>
+            </div>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

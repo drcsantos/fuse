@@ -64,11 +64,9 @@
         vm.updateBillingModal = BillingService.updateBillingModal;
         vm.selectProject = selectProject;
 
-        vm.updateContactAndRoomInfo = updateContactAndRoomInfo;
-        vm.updateFloors = updateFloors;
-
         vm.roomDialog = roomDialog;
-        vm.getMatches = getMatches;
+        vm.buildingDialog = buildingDialog;
+        vm.updateContactAndRoomInfo = updateContactAndRoomInfo;
 
         vm.refreshWeather = refreshWeather;
 
@@ -323,27 +321,6 @@
 
         }
 
-        function getMatches(text) {
-
-          if(text === null) {
-            return vm.roomList;
-          }
-
-          var sortedRooms = _.sortBy(vm.roomList, function(room) {
-            return +(room.replace(/\D/g, '')); //remove letters and convert to number
-          });
-
-          var textLower = text.toLowerCase();
-
-          var ret = sortedRooms.filter(function (d) {
-            if(d) {
-              return d.toLowerCase().indexOf(textLower) > -1;
-            }
-          });
-
-          return ret;
-        }
-
         function openJoinModal(ev)
         {
           //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
@@ -390,63 +367,19 @@
 
         /////////////////////////////// WEATHER ///////////////////////////////
 
-        function updateFloors() {
-
-          apilaData.updateFloor(vm.myCommunity._id, vm.floors)
-          .success(function(resp) {
-            $log.debug(resp);
-          })
-          .error(function(err) {
-            $log.debug(err);
-          })
-        }
-
         function updateContactAndRoomInfo(type) {
 
-          vm.contactInfo.rooms = vm.myCommunity.rooms;
-
-          if(type === "floors") {
-
-            var newFloors = vm.myCommunity.numFloors - vm.floors.length;
-
-            if(vm.floors.length === 0) { //create floors for first time
-              vm.floors = generateFloors(vm.myCommunity.numFloors, 0);
-
-            } else if(newFloors > 0) {  // adding new floors
-              vm.floors = vm.floors.concat(generateFloors(newFloors, vm.floors.length));
-
-            } else if(newFloors < 0) { // removing new floors
-              vm.floors.splice(newFloors);
-
-            } if(vm.myCommunity.numFloors === 0) { // reset floors
-              vm.floors = [];
-            }
-
-          } else if(type === "town") {
+          if(type === "town") {
             vm.communityTown = vm.contactInfo.town;
             getWeather();
           }
 
-          vm.contactInfo.floors = vm.floors;
-
-          apilaData.updateContactAndRoomInfo(vm.myCommunity._id, vm.contactInfo)
+          apilaData.updateContactAndRoomInfo(vm.community._id, vm.contactInfo)
+          .success(function(resp) {
+          })
           .error(function(err) {
             $log.debug(err);
           });
-        }
-
-        function generateFloors(numFloors, startCount) {
-
-          var floorRange = _.range(numFloors);
-
-          var floors = _.map(floorRange, function(floorNumber) {
-           return {
-             floorNumber: floorNumber + startCount,
-             startRoom: null,
-             endRoom: null
-           }});
-
-           return floors;
         }
 
         function openRecoverModal(userToRecoverId, userToRecoverName, type)
@@ -501,6 +434,25 @@
 
             vm.roomList = _.flatten(_.map(vm.community.roomStyle, "rooms"));
           });
+        }
+
+        function buildingDialog() {
+
+          apilaData.userCommunity(vm.userid)
+          .success(function(d) {
+            vm.myCommunity = d;
+
+            $mdDialog.show({
+              controller         : 'BuildingSetupController',
+              controllerAs       : 'vm',
+              templateUrl        : 'app/main/dashboard/dialogs/building_setup/building_setup.html',
+              parent             : angular.element($document.body),
+              locals             : {community: vm.myCommunity},
+              clickOutsideToClose: true
+            });
+
+          });
+
         }
 
         function createRecovery(callback) {
