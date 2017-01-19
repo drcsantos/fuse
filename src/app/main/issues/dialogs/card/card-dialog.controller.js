@@ -312,6 +312,7 @@
         }
 
         function changeResponsibleParty() {
+          console.log("Change");
           if(vm.selectedItem) {
             vm.card.responsibleParty = vm.selectedItem.value;
             vm.updateIssue();

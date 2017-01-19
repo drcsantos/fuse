@@ -25,7 +25,7 @@
             <label><u><b>{{ room.floorNumber + 1 }}. </b> Floor</u></label>
             <div layout="row" layout-align="space-between start">
 
-              <md-input-container class="md-block">
+              <div class="md-block">
                 <md-autocomplete md-input-id="select-room" md-selected-item="room.startRoom" md-search-text="room.startRoom"
                       md-items="item in vm.getMatches(room.startRoom)" md-item-text="item"
                       md-min-length="0" placeholder="Choose start room">
@@ -36,9 +36,9 @@
                     No room found
                   </md-not-found>
                 </md-autocomplete>
-              </md-input-container>
+              </div>
 
-              <md-input-container class="md-block">
+              <div class="md-block">
                 <md-autocomplete md-input-id="select-room" md-selected-item="room.endRoom" md-search-text="room.endRoom"
                       md-items="item in vm.getMatches(room.endRoom)" md-item-text="item"
                       md-min-length="0" placeholder="Choose end room">
@@ -49,7 +49,7 @@
                     No room found
                   </md-not-found>
                 </md-autocomplete>
-              </md-input-container>
+              </div>
 
             </div>
           </div>

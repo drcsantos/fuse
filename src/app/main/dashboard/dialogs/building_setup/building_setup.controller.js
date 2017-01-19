@@ -30,11 +30,12 @@
 
       function save() {
         apilaData.updateContactAndRoomInfo(vm.community._id, vm.community)
+        .success(function(resp) {
+            updateFloors();
+        })
         .error(function(err) {
           $log.debug(err);
         });
-
-        updateFloors();
 
         closeDialog();
       }
@@ -60,7 +61,7 @@
             vm.floors = [];
           }
 
-        } 
+        }
 
         vm.contactInfo.floors = vm.floors;
 

@@ -319,14 +319,15 @@
         </md-input-container>
 
         <!-- Responsible party -->
-        <md-input-container class="md-block">
+        <div class="md-block">
           <md-autocomplete required=""
             md-selected-item="vm.selectedItem"
+            md-input-name="vm.selectedItem"
             md-search-text="searchText"
-            md-floating-label="Responsible Party"
             md-items="item in vm.getMatches(searchText)"
             md-item-text="item.display"
             md-min-length="0"
+            md-floating-label="Responsible Party"
             md-selected-item-change="vm.changeResponsibleParty()">
             <md-item-template>
               <span md-highlight-text="searchText">{{item.display}}</span>
@@ -335,7 +336,7 @@
               No Users Found
             </md-not-found>
           </md-autocomplete>
-        </md-input-container>
+        </div>
 
         <!-- SECTIONS -->
 
