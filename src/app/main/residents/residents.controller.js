@@ -85,8 +85,36 @@
 
     };
 
+    var currResidBatch = 100;
+
     vm.showMore = function() {
 
+      // we dont have enough for next page or we loaded everything
+      if(vm.residentList.length < 100 || vm.residentList.length === vm.allResidents.length) {
+        return;
+      }
+
+      // so we dont load the same thing twice
+      if(vm.residentList.length <= currResidBatch) {
+
+        var offset = vm.allResidents.length - currResidBatch;
+
+        offset = (offset < 100) ? offset : 100;
+
+        vm.residentList = vm.residentList.concat(vm.allResidents.slice(currResidBatch, currResidBatch + offset));
+        currResidBatch += offset;
+      }
+    }
+
+    vm.searchResidents = function() {
+
+      var residents = vm.allResidents.filter(function(resid) {
+        var fullName = resid.firstName + resid.aliasName + resid.lastName;
+
+        return fullName.toLowerCase().indexOf(vm.search.toLowerCase()) !== -1;
+      });
+
+      //vm.residentList = residents;
     }
 
     //// INITIAL LOADING  ////
@@ -100,8 +128,9 @@
     function residentList(id) {
       apilaData.residentsList(id)
         .success(function(d) {
-          vm.residentList = d;
-          vm.residentList = vm.residentList.slice(0, 100);
+          vm.allResidents = d;
+          vm.residentList = d.slice(0, 100);
+
         })
         .error(function(d) {
           $log.debug("Error Retrieving the List of Residents");
