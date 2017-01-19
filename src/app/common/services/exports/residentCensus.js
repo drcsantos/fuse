@@ -320,7 +320,10 @@
             var styleAcronym = createAcronym(community, style);
             var resident = roomWithResidents[roomRange[i]];
 
-            doc.text("Room " + roomRange[i] + ", " + "Style " + styleAcronym, x + 10, y + 20);
+            doc.text(
+              "Room " + roomRange[i] + ", " + "Style " + styleAcronym,
+              x + 10,
+              y + 20);
 
             if(resident && resident.length !== 0) {
               for(var j = 0; j < resident.length; ++j) {
