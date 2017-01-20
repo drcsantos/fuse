@@ -63,6 +63,11 @@
           counting = true;
         }
 
+        //if we didnt hit the end mark and we got over are range
+        if(parseInt(room) > parseInt(end)) {
+          counting = false;
+        }
+
         if (counting) {
           roomsInRange.push(room);
         }
@@ -295,7 +300,7 @@
             var y = (listStartY + residentOffset + 10) + (counter * 40);
 
             //should we create a new page?
-            if (y + 60 > 780) {
+            if (y + 34 > 780) {
               if (!hasPage) {
                 doc.addPage();
               } else {
