@@ -59,7 +59,7 @@
       }
 
       sortedRooms.forEach(function(room) {
-        if (room === start) {
+        if (room === start || parseInt(room) > parseInt(start)) {
           counting = true;
         }
 
@@ -252,15 +252,24 @@
       });
 
       // Community rooms
+      var floorStartY = residentBlock * increment;
+
+      var freeYSpace = 780 - (listStartY + floorStartY);
+
+      var blockSize = 34;
+
+      var firstPageMaxRooms = Math.floor(freeYSpace / (blockSize + 6));
 
       var residentOffset = residentBlock * increment;
       var floorOffset = 0;
+      var pageOffset = 0;
       var floorNumber = 0;
 
       var maxRoomNumber = 0;
       var hasPage = false;
       var currPage = 1;
-      //var memPage = 1;
+
+      var mostRooms = 0;
 
       doc.setLineWidth(1);
       doc.setDrawColor(0, 0, 0);
@@ -270,24 +279,49 @@
 
           var roomRange = calculateRange(allRooms, floor.startRoom, floor.endRoom) || [];
 
-          //calculate max room nums so we can offset to new rows
-          if (roomRange.length > maxRoomNumber) {
-            maxRoomNumber = roomRange.length;
-          }
+        //  console.log(roomRange);
 
-          // if we are over 3 floors go to next row
-          if ((floorOffset % 3) == 0 && floorOffset !== 0) {
-            listStartY += (100 * maxRoomNumber);
-            floorOffset = 0;
-            maxRoomNumber = 0;
-          }
 
-          //switch it back to first page and original offset
-          currPage = 1;
-          doc.setPage(currPage);
+          // original offset
+
           residentOffset = residentBlock * increment;
           metaStartY = 24;
           listStartY = 150;
+
+          // if we are over 3 floors go to next row
+          if (pageOffset >= 3) {
+            listStartY = 50;
+
+            var tmp = mostRooms;
+            console.log(mostRooms);
+
+            // figuring out the y offset
+            if(mostRooms > firstPageMaxRooms) {
+              mostRooms -= firstPageMaxRooms;
+
+              residentOffset = mostRooms * (blockSize + 6);
+              currPage = 2;
+
+              var pageNum = Math.floor(mostRooms / 20);
+
+              currPage = pageNum > 0 ? (currPage + pageNum) : currPage;
+            }
+
+            mostRooms = tmp;
+            floorOffset = pageOffset - 3;
+
+            console.log(floor);
+
+            doc.setPage(currPage);
+          } else {
+            currPage = 1;
+            doc.setPage(currPage);
+          }
+
+          //calculate max room nums so we can offset to new rows
+          if(roomRange.length > mostRooms && pageOffset < 3) {
+            mostRooms = roomRange.length;
+          }
 
           //draw room floor title
           doc.text("Floor " + (floorNumber + 1), listStartX + (floorOffset * 190), (listStartY + residentOffset));
@@ -300,7 +334,7 @@
             var y = (listStartY + residentOffset + 10) + (counter * 40);
 
             //should we create a new page?
-            if (y + 34 > 780) {
+            if (y + blockSize > 780) {
               if (!hasPage) {
                 doc.addPage();
               } else {
@@ -347,11 +381,12 @@
                   (y - 1) + (j + 1) * 12);
               }
             }
-            doc.rect(x, y, 180, 34);
+            doc.rect(x, y, 180, blockSize);
             counter++;
           }
 
           floorOffset++;
+          pageOffset++;
           floorNumber++;
 
         });
