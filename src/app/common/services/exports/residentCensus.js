@@ -9,8 +9,8 @@
 
     function findRoomStyle(roomStyle, roomNumber) {
 
-      for(var i = 0; i < roomStyle.length; ++i) {
-        if(roomStyle[i].rooms.indexOf(roomNumber.toString()) !== -1) {
+      for (var i = 0; i < roomStyle.length; ++i) {
+        if (roomStyle[i].rooms.indexOf(roomNumber.toString()) !== -1) {
           return roomStyle[i].name;
         }
       }
@@ -24,16 +24,21 @@
 
       residents.forEach(function(resid) {
 
-        if(resid.building !== "Dead" || resid.building !== "Moved Out") {
-          if(!roomWithResidents[resid.room]) {
+        if (resid.building !== "Dead" || resid.building !== "Moved Out") {
+
+          if (!roomWithResidents[resid.room]) {
             roomWithResidents[resid.room] = [];
           }
 
-          roomWithResidents[resid.room].push(resid.firstName + " " + resid.lastName);
+          if (resid.aliasName) {
+            roomWithResidents[resid.room].push(resid.aliasName + " " + resid.lastName);
+          } else {
+            roomWithResidents[resid.room].push(resid.firstName + " " + resid.lastName);
+          }
+
+          //roomWithResidents[resid.room].push(resid.firstName + " " + resid.lastName);
         }
-
       });
-
       return roomWithResidents;
     }
 
@@ -46,30 +51,29 @@
       var roomsInRange = [];
       var counting = false;
 
-      //if the start value is bigger swith it's places
-      if(parseInt(start) > parseInt(end)) {
+      //if the start value is bigger, switch it's places
+      if (parseInt(start) > parseInt(end)) {
         var tmp = end;
         end = start;
         start = tmp;
       }
 
       sortedRooms.forEach(function(room) {
-        if(room === start) {
+        if (room === start) {
           counting = true;
         }
 
-        if(counting) {
+        if (counting) {
           roomsInRange.push(room);
         }
 
-        if(room === end) {
+        if (room === end) {
           counting = false;
         }
 
       });
 
       return roomsInRange;
-
     }
 
     function createAcronym(community, room) {
@@ -78,7 +82,7 @@
 
       var matchedAcronym = roomStyleName.match(/\b(\w)/g);
 
-      if(matchedAcronym) {
+      if (matchedAcronym) {
         capAcronym = matchedAcronym.join('').toUpperCase();
       }
 
@@ -104,7 +108,7 @@
       doc.setFontType("normal");
       doc.setFontSize(12);
       doc.setLineWidth(1);
-      doc.setDrawColor(33,33,33);
+      doc.setDrawColor(33, 33, 33);
 
       //sort by room number
       inBuildingResidents = _.sortBy(inBuildingResidents, ['room']);
@@ -112,7 +116,7 @@
       var roomWithResidents = residentInRooms(residents);
 
       // config variables
-      var coordsPerLetter = (594/82);
+      var coordsPerLetter = (594 / 82);
       var metaStartX = 215;
       var metaStartY = 24;
       var listStartX = 14;
@@ -139,22 +143,22 @@
       doc.text("for logo", 120, 62);
 
       // community info
-      if(community.phone) {
+      if (community.phone) {
         doc.text("Phone", metaStartX, metaStartY);
         doc.text(community.phone, 275, metaStartY);
       }
 
-      if(community.fax) {
+      if (community.fax) {
         doc.text("Fax", metaStartX, metaStartY * 2);
         doc.text(community.fax, 275, metaStartY * 2);
       }
 
-      if(community.address) {
+      if (community.address) {
         doc.text("Address", metaStartX, metaStartY * 3);
         doc.text(community.address, 275, metaStartY * 3);
       }
 
-      if(community.website) {
+      if (community.website) {
         doc.text("Website", metaStartX, metaStartY * 4);
         doc.text(community.website, 275, metaStartY * 4);
       }
@@ -165,7 +169,7 @@
         filteredbirthDate3 = dateFilter(resident.birthDate, 'yyyy');
 
         //creates a new page after newPageRows
-        if(((increment+1) % newPageRows === 0)) {
+        if (((increment + 1) % newPageRows === 0)) {
           newPageRows = 42; // number of entries on remaining pages
           listStartX = 14;
           listStartY = 20;
@@ -176,16 +180,16 @@
         }
 
         //draw line on every third resident
-        if((i+1) % 3 === 0) {
+        if ((i + 1) % 3 === 0) {
           doc.setLineWidth(16);
-          doc.setDrawColor(224,224,224);
+          doc.setDrawColor(224, 224, 224);
           doc.line(10,
             listStartY - 3 + (residentBlock * increment),
             585,
             listStartY - 3 + (residentBlock * increment));
         }
 
-        if(resident.aliasName) {
+        if (resident.aliasName) {
           doc.text(resident.aliasName.slice(0, 12),
             listStartX,
             listStartY + (residentBlock * increment));
@@ -195,7 +199,7 @@
             listStartY + (residentBlock * increment));
         }
 
-        if(resident.middleName) {
+        if (resident.middleName) {
           doc.text(resident.middleName.slice(0, 12),
             listStartX,
             listStartY + 10 + (residentBlock * increment));
@@ -203,7 +207,7 @@
           resident.middleName = "";
         }
 
-        if(resident.lastName) {
+        if (resident.lastName) {
           doc.text(resident.lastName.slice(0, 12),
             listStartX,
             listStartY + 20 + (residentBlock * increment));
@@ -211,7 +215,7 @@
           resident.lastName = "";
         }
 
-        if(resident.birthDate) {
+        if (resident.birthDate) {
           doc.text(filteredbirthDate1,
             listStartX + (14 * coordsPerLetter),
             listStartY + (residentBlock * increment));
@@ -254,20 +258,20 @@
       //var memPage = 1;
 
       doc.setLineWidth(1);
-      doc.setDrawColor(0,0,0);
+      doc.setDrawColor(0, 0, 0);
 
-      if(community.floors) {
+      if (community.floors) {
         angular.forEach(community.floors, function(floor) {
 
           var roomRange = calculateRange(allRooms, floor.startRoom, floor.endRoom) || [];
 
           //calculate max room nums so we can offset to new rows
-          if(roomRange.length > maxRoomNumber) {
+          if (roomRange.length > maxRoomNumber) {
             maxRoomNumber = roomRange.length;
           }
 
           // if we are over 3 floors go to next row
-          if((floorOffset % 3) == 0 && floorOffset !== 0) {
+          if ((floorOffset % 3) == 0 && floorOffset !== 0) {
             listStartY += (100 * maxRoomNumber);
             floorOffset = 0;
             maxRoomNumber = 0;
@@ -281,22 +285,22 @@
           listStartY = 150;
 
           //draw room floor title
-          doc.text("Floor " + (floorNumber + 1), listStartX + (floorOffset * 170), (listStartY + residentOffset));
+          doc.text("Floor " + (floorNumber + 1), listStartX + (floorOffset * 190), (listStartY + residentOffset));
 
           var counter = 0;
 
           // Go through each room in current floor
-          for(var i = 0; i < roomRange.length; ++i) {
-            var x = listStartX + (floorOffset * 170);
-            var y = (listStartY + residentOffset + 10) + (counter * 90);
+          for (var i = 0; i < roomRange.length; ++i) {
+            var x = listStartX + (floorOffset * 180);
+            var y = (listStartY + residentOffset + 10) + (counter * 40);
 
             //should we create a new page?
-            if(y + 60 > 780) {
-              if(!hasPage) {
+            if (y + 60 > 780) {
+              if (!hasPage) {
                 doc.addPage();
               } else {
 
-                if(currPage > 1) {
+                if (currPage > 1) {
                   doc.addPage();
                 }
 
@@ -321,37 +325,39 @@
             var resident = roomWithResidents[roomRange[i]];
 
             doc.text(
-              "Room " + roomRange[i] + ", " + "Style " + styleAcronym,
-              x + 10,
-              y + 20);
+              styleAcronym,
+              x + 150,
+              y + 23);
 
-            if(resident && resident.length !== 0) {
-              for(var j = 0; j < resident.length; ++j) {
-                doc.text(resident[j], x + 20, (y + 20) + (j + 1) * 15);
+            doc.text(
+              roomRange[i],
+              x + 150,
+              y + 11);
+
+            if (resident && resident.length !== 0) {
+              for (var j = 0; j < resident.length; ++j) {
+                doc.text(
+                  resident[j].slice(0, 20),
+                  x + 2,
+                  (y - 1) + (j + 1) * 12);
               }
-
             }
-
-            doc.rect(x, y, 160, 80);
-
+            doc.rect(x, y, 180, 34);
             counter++;
           }
 
           floorOffset++;
           floorNumber++;
 
-
         });
       }
 
       doc.save("ResidentCensus.pdf");
-
     }
 
     return {
-      exportPdf : exportPdf
+      exportPdf: exportPdf
     };
-
   }
 
 })();
