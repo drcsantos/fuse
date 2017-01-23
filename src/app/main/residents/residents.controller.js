@@ -108,13 +108,20 @@
 
     vm.searchResidents = function() {
 
-      var residents = vm.allResidents.filter(function(resid) {
-        var fullName = resid.firstName + resid.aliasName + resid.lastName;
+      if(vm.search === "") {
+        vm.residentList = vm.originalList;
+      }
 
-        return fullName.toLowerCase().indexOf(vm.search.toLowerCase()) !== -1;
-      });
+      if(vm.search.length > 1) {
+        var residents = vm.allResidents.filter(function(resid) {
+          var fullName = (resid.firstName + resid.aliasName + resid.lastName).toLowerCase();
 
-      //vm.residentList = residents;
+          return fullName.indexOf(vm.search.toLowerCase()) !== -1;
+        });
+
+        vm.residentList = residents;
+      }
+
     }
 
     //// INITIAL LOADING  ////
@@ -130,6 +137,7 @@
         .success(function(d) {
           vm.allResidents = d;
           vm.residentList = d.slice(0, 100);
+          vm.originalList = angular.copy(vm.residentList);
 
         })
         .error(function(d) {

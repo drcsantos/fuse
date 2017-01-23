@@ -1,5 +1,5 @@
 <!-- resident LIST ITEMS -->
-<div class="mail-list-item" ng-repeat="resident in vm.residentList | filter: vm.search | orderBy:'-carePoints' "
+<div class="mail-list-item" ng-repeat="resident in vm.residentList"
      md-ink-ripple
      ng-click="vm.selectResident(resident)"
      ng-class="{ 'selected': vm.selectedResident._id === resident._id}">
