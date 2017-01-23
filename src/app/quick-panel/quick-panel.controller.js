@@ -105,14 +105,20 @@
           .emit('authenticate', {token: authentication.getToken()})
           .on('authenticated', function () {
             socket.emit('join-community', {community: userCommunity, userid: userid});
-            socket.emit('get-activities', userCommunity);
+            socket.emit('get-activities', userCommunity, userid);
 
             socket.on('recent-activities', function(activities) {
               vm.activities = activities;
             });
 
             socket.on('add-activity', function(activity) {
-              vm.activities.push(activity);
+
+              var exists = _.find(vm.activities, {_id: activity});
+
+              if(!exists) {
+                vm.activities.push(activity);
+              }
+
             });
 
             socket.on('member-accepted', function(data) {
