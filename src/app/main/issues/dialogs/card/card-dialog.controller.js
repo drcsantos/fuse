@@ -41,7 +41,8 @@
 
         vm.username = authentication.currentUser().name;
         var userid = authentication.currentUser().id;
-        vm.userid = authentication.currentUser().id;
+        vm.userid = userid;
+        vm.communityId = authentication.currentUser().communityId;
 
         vm.now = new Date();
 
@@ -110,7 +111,7 @@
 
 
         // load of lists of residents for autocomplete selection
-        apilaData.usersList()
+        apilaData.usersInCommunity(vm.communityId)
           .success(function(usersList) {
             vm.residentList = usersList.map(function(elem) {
 
@@ -292,6 +293,12 @@
           setAuthorId(vm.card.comments);
           setAuthorId(vm.card.finalPlan);
           setAuthorId(vm.card.checklists);
+
+
+          // Remember if responsible party changes
+          if(oldData.responsibleParty !== vm.card.responsibleParty) {
+            vm.card.oldResponsibleParty = oldData.responsibleParty;
+          }
 
           apilaData.updateIssue(vm.card._id, vm.card)
           .success(function(response) {
