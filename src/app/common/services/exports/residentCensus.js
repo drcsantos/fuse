@@ -168,6 +168,8 @@
         doc.text(community.website, 275, metaStartY * 4);
       }
 
+      /*
+
       angular.forEach(inBuildingResidents, function(resident, i) {
         filteredbirthDate1 = dateFilter(resident.birthDate, 'MMM');
         filteredbirthDate2 = dateFilter(resident.birthDate, 'dd');
@@ -251,12 +253,14 @@
 
       });
 
+      */
+
       // Community rooms
       var floorStartY = residentBlock * increment;
 
       var freeYSpace = 780 - (listStartY + floorStartY);
 
-      var blockSize = 34;
+      var blockSize = 36;
 
       var firstPageMaxRooms = Math.floor(freeYSpace / (blockSize + 6));
 
@@ -330,7 +334,7 @@
 
           // Go through each room in current floor
           for (var i = 0; i < roomRange.length; ++i) {
-            var x = listStartX + (floorOffset * 180);
+            var x = listStartX + (floorOffset * 190);
             var y = (listStartY + residentOffset + 10) + (counter * 40);
 
             //should we create a new page?
@@ -381,6 +385,7 @@
                   (y - 1) + (j + 1) * 12);
               }
             }
+            doc.setDrawColor(189,189,189) // draw red lines
             doc.rect(x, y, 180, blockSize);
             counter++;
           }
