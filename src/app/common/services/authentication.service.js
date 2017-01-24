@@ -55,6 +55,7 @@
                     name: name,
                     id: payload._id,
                     community: community,
+                    communityId: payload.community,
                     todoid: payload.todoid
                 };
             }

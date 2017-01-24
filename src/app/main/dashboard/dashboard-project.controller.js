@@ -41,7 +41,6 @@
         vm.checkbox = true;
         vm.hasCommunity = false;
 
-        vm.title = 'Join or create a new community';
         vm.selectedProject = {"name" : "Create a new community"};
 
         vm.myComunity = null;
@@ -233,6 +232,8 @@
           setWidget();
 
           vm.title = "Welcome to " + vm.myCommunity.name + " Community";
+
+          console.log(vm.title);
         }
 
         // Setting stats data
@@ -296,7 +297,7 @@
 
         function openCommunityModal(ev)
         {
-          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
 
           if(!vm.activeEmail) {
             $mdToast.show(
@@ -323,7 +324,7 @@
 
         function openJoinModal(ev)
         {
-          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
 
           if(!vm.activeEmail) {
             $mdToast.show(

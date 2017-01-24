@@ -18,8 +18,12 @@
             password: ""
         };
 
-        // Methods
-        vm.register = function() {
+        // Functions
+        vm.register = register;
+        vm.doRegister = doRegister;
+
+
+        function register() {
 
             vm.credentials.name = vm.form.username;
             vm.credentials.email = vm.form.email;
@@ -28,7 +32,7 @@
             vm.doRegister();
         };
 
-        vm.doRegister = function() {
+        function doRegister() {
 
           vm.notSamePass = "";
           vm.userExists = "";
@@ -39,19 +43,21 @@
             return;
           }
 
+          console.log('do register');
+
           authentication
             .register(vm.credentials)
             .error(function(error) {
 
-              if (error.err.indexOf("name_1") !== -1) {
+              if (error.errmsg.indexOf("name_1") !== -1) {
                 vm.userExists = "This username already exists";
               }
 
-              if (error.err.indexOf("email") !== -1) {
+              if (error.errmsg.indexOf("email") !== -1) {
                 vm.emailExists = "This email already exists";
               }
 
-              if(error.err.indexOf("failed_send") !== -1) {
+              if(error.errmsg.indexOf("failed_send") !== -1) {
                 showToast("Unable to send verification email. Please contact the administrators.");
               }
             })
