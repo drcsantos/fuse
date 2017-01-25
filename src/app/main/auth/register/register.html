@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <md-button type="submit" ng-click="vm.register()" class="md-raised md-accent submit-button" aria-label="CREATE MY ACCOUNT" ng-disabled="registerForm.$invalid || registerForm.$pristine" translate="REGISTER.CREATE_ACCOUNT" translate-attr-aria-label="REGISTER.CREATE_ACCOUNT">
+        <md-button type="submit" ng-click="vm.register()" class="md-raised md-accent submit-button" aria-label="CREATE MY ACCOUNT" ng-disabled="registerForm.$invalid || registerForm.$pristine || vm.disabled" translate="REGISTER.CREATE_ACCOUNT" translate-attr-aria-label="REGISTER.CREATE_ACCOUNT">
           CREATE MY ACCOUNT
         </md-button>
       </form>

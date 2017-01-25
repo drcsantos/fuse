@@ -12,6 +12,8 @@
         // Data
         var vm = this;
 
+        vm.disabled = false;
+
          vm.credentials = {
             name: "",
             email: "",
@@ -43,28 +45,34 @@
             return;
           }
 
-          console.log('do register');
-
           authentication
             .register(vm.credentials)
             .error(function(error) {
 
-              if (error.errmsg.indexOf("name_1") !== -1) {
-                vm.userExists = "This username already exists";
+              if(error.errmsg) {
+                if (error.errmsg.indexOf("name_1") !== -1) {
+                  vm.userExists = "This username already exists";
+                }
+
+                if (error.errmsg.indexOf("email") !== -1) {
+                  vm.emailExists = "This email already exists";
+                }
+
+                if(error.errmsg.indexOf("failed_send") !== -1) {
+                  showToast("Unable to send verification email. Please contact the administrators.");
+                }
+              } else {
+                  showToast("Error while registring contact administrator");
               }
 
-              if (error.errmsg.indexOf("email") !== -1) {
-                vm.emailExists = "This email already exists";
-              }
-
-              if(error.errmsg.indexOf("failed_send") !== -1) {
-                showToast("Unable to send verification email. Please contact the administrators.");
-              }
             })
             .then(function() {
               $log.debug("success register: " + authentication.currentUser().name);
               $location.path('/auth/login');
             });
+
+            vm.disabled = true;
+
         };
 
 
