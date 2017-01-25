@@ -287,20 +287,19 @@
             updateField : vm.card.updateField
           });
 
-          $log.debug(vm.card.idMembers);
-
-          // Set author Id if it is an user object but api needs just an _id
-          setAuthorId(vm.card.comments);
-          setAuthorId(vm.card.finalPlan);
-          setAuthorId(vm.card.checklists);
-
-
           // Remember if responsible party changes
           if(oldData.responsibleParty !== vm.card.responsibleParty) {
             vm.card.oldResponsibleParty = oldData.responsibleParty;
           }
 
-          apilaData.updateIssue(vm.card._id, vm.card)
+          // Set author Id if it is an user object but api needs just an _id
+          var populatedCard = angular.copy(vm.card);
+
+          setAuthorId(populatedCard.comments);
+          setAuthorId(populatedCard.finalPlan);
+          setAuthorId(populatedCard.checklists);
+
+          apilaData.updateIssue(vm.card._id, populatedCard)
           .success(function(response) {
             vm.card.addedMember = "";
           })
@@ -546,10 +545,11 @@
          }
 
          function updateComment(comment) {
+           var copyComment = angular.copy(comment);
 
-           comment.author = comment.author._id;
+           copyComment.author = comment.author._id;
 
-           apilaData.issueCommentsUpdate(vm.card._id, comment)
+           apilaData.issueCommentsUpdate(vm.card._id, copyComment)
            .error(function(err) {
              $log.debug(err);
            });

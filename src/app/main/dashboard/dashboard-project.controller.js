@@ -80,6 +80,8 @@
 
           vm.myCommunity = d;
 
+          console.log(vm.myCommunity);
+
           vm.contactInfo = vm.myCommunity;
 
           vm.communityTown = vm.myCommunity.town || "Denver";
@@ -177,7 +179,11 @@
             }
           }
 
-          vm.currUserId = (_.find(vm.communityMembers, {'name' : vm.username}))._id;
+          var foundUser = (_.find(vm.communityMembers, {'name' : vm.username}));
+
+          if(foundUser) {
+            vm.currUserId = foundUser._id;
+          }
 
           loadStats(vm.myCommunity._id);
 
@@ -297,7 +303,7 @@
 
         function openCommunityModal(ev)
         {
-          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
 
           if(!vm.activeEmail) {
             $mdToast.show(
@@ -324,7 +330,7 @@
 
         function openJoinModal(ev)
         {
-          vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
+          //vm.activeEmail = true; //TODO: REMOVE THIS VERY BAD MUCH JUST FOR TEST
 
           if(!vm.activeEmail) {
             $mdToast.show(

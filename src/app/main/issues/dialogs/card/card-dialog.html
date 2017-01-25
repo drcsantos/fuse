@@ -609,11 +609,20 @@
                   </div>
                   <div class="comment-bubble"
                     wrap="hard"
+                    ng-if="comment.author._id == vm.userid"
                     onaftersave="vm.updateComment(comment)"
                     editable-textarea="comment.commentText"
                     ng-trim="false"
                     e-rows="7"
-                    e-cols="50">{{vm.changeComment(comment.commentText)}}
+                    e-cols="50">{{ comment.commentText }}
+                  </div>
+
+                  <div class="comment-bubble"
+                    wrap="hard"
+                    ng-if="comment.author._id != vm.userid"
+                    ng-trim="false"
+                    e-rows="7"
+                    e-cols="50">{{ comment.commentText }}
                   </div>
                 </div>
               </div>
@@ -688,7 +697,7 @@
                   editable-textarea="comment.text"
                   ng-trim="false"
                   e-rows="7"
-                  e-cols="50">{{vm.changeComment(comment.text)}}
+                  e-cols="50">{{ comment.text }}
                 </div>
               </div>
             </div>
