@@ -1,6 +1,6 @@
 (function ()
 {
-    'use strict';
+    //'use strict';
 
     angular
         .module('app.issues')
@@ -270,6 +270,8 @@
 
         function updateIssue(deletedMember) {
 
+          console.log(updateIssue.caller.name);
+
           vm.card.title = vm.card.name;
 
           //add updateInfo Data
@@ -287,9 +289,12 @@
             updateField : vm.card.updateField
           });
 
+          var oldResponsibleParty = oldData.responsibleParty._id ?
+                                 oldData.responsibleParty._id : oldData.responsibleParty;
+
           // Remember if responsible party changes
-          if(oldData.responsibleParty !== vm.card.responsibleParty) {
-            vm.card.oldResponsibleParty = oldData.responsibleParty;
+          if(oldResponsibleParty !== vm.card.responsibleParty) {
+            vm.card.oldResponsibleParty = oldResponsibleParty;
           }
 
           // Set author Id if it is an user object but api needs just an _id
@@ -318,20 +323,11 @@
         }
 
         function changeResponsibleParty() {
-          console.log("Change");
-          if(vm.selectedItem) {
+
+          if(vm.selectedItem && (vm.selectedItem.value !== oldData.responsibleParty)) {
+
             vm.card.responsibleParty = vm.selectedItem.value;
             vm.updateIssue();
-
-            // var changedName = vm.selectedItem.display;
-            //
-            // var newList = _.find(vm.board.lists, {name: changedName});
-            // var oldList = _.find(vm.board.lists, {name: vm.username});
-            //
-            // if(newList && oldList) {
-            //   newList.idCards.push(vm.card.id);
-            // //  _.remove(oldList.idCards, vm.card.id);
-            // }
 
           }
 
@@ -514,7 +510,7 @@
 
          function setAuthorId(subdocument) {
            subdocument.forEach(function(doc) {
-             if(doc.author._id) {
+             if(doc.author && doc.author._id) {
                doc.author = doc.author._id;
              }
            });

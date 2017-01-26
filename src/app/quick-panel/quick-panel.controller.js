@@ -105,10 +105,13 @@
           .emit('authenticate', {token: authentication.getToken()})
           .on('authenticated', function () {
             socket.emit('join-community', {community: userCommunity, userid: userid});
+
+            console.log('activity requests sent');
             socket.emit('get-activities', userCommunity, userid);
 
             socket.on('recent-activities', function(activities) {
               vm.activities = activities;
+              console.log("Activities loaded");
             });
 
             socket.on('add-activity', function(activity) {
