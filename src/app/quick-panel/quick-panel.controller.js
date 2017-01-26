@@ -113,7 +113,9 @@
 
             socket.on('add-activity', function(activity) {
 
-              var exists = _.find(vm.activities, {_id: activity});
+              var exists = _.find(vm.activities, {_id: activity._id});
+
+              console.log("Activity Added!");
 
               if(!exists) {
                 vm.activities.push(activity);

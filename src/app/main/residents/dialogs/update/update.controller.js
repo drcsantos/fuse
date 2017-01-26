@@ -154,6 +154,8 @@
           pushNewValues();
           resetFields();
 
+          console.log(currResident);
+
           closeDialog(currResident);
         })
         .error(function(response) {

@@ -148,64 +148,66 @@
 
     function selectResident(resid) {
 
+      if(resid) {
+        console.log(resid);
+        apilaData.residentById(resid._id)
+        .success(function(resident) {
+          vm.selectedResident = resident;
 
-      apilaData.residentById(resid._id)
-      .success(function(resident) {
-        vm.selectedResident = resident;
+          var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
+            if(v._id === resident.handlesFinances) {
+              return true;
+            }
+          });
 
-        var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
-          if(v._id === resident.handlesFinances) {
-            return true;
+          if(contact.length > 0) {
+            vm.handlesFinances = contact[0].firstName + " " + contact[0].lastName;
+          } else {
+            vm.handlesFinances = "";
           }
-        });
 
-        if(contact.length > 0) {
-          vm.handlesFinances = contact[0].firstName + " " + contact[0].lastName;
-        } else {
-          vm.handlesFinances = "";
-        }
+          vm.shownContact = resident.residentContacts[0];
 
-        vm.shownContact = resident.residentContacts[0];
+          drawGraphs(vm.selectedResident);
 
-        drawGraphs(vm.selectedResident);
+          vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
 
-        vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+          if (vm.selectedResident.movedFrom) {
+            vm.latitude = vm.selectedResident.movedFrom.latitude;
+            vm.longitude = vm.selectedResident.movedFrom.longitude;
+          }
 
-        if (vm.selectedResident.movedFrom) {
-          vm.latitude = vm.selectedResident.movedFrom.latitude;
-          vm.longitude = vm.selectedResident.movedFrom.longitude;
-        }
-
-        vm.movedFromMap = {
-          center: {
-            latitude: vm.latitude,
-            longitude: vm.longitude
-          },
-          zoom: 8,
-          marker: {
-            id: 0,
-            coords: {
+          vm.movedFromMap = {
+            center: {
               latitude: vm.latitude,
               longitude: vm.longitude
+            },
+            zoom: 8,
+            marker: {
+              id: 0,
+              coords: {
+                latitude: vm.latitude,
+                longitude: vm.longitude
+              }
             }
-          }
-        };
+          };
 
 
-        $timeout(function() {
-          // If responsive read pane is
-          // active, navigate to it
-          if (angular.isDefined(vm.responsiveReadPane) && vm.responsiveReadPane) {
-            vm.activeMailPaneIndex = 1;
-          }
+          $timeout(function() {
+            // If responsive read pane is
+            // active, navigate to it
+            if (angular.isDefined(vm.responsiveReadPane) && vm.responsiveReadPane) {
+              vm.activeMailPaneIndex = 1;
+            }
 
-          // Store the current scrollPos
-          vm.scrollPos = vm.scrollEl.scrollTop();
+            // Store the current scrollPos
+            vm.scrollPos = vm.scrollEl.scrollTop();
 
-          // Scroll to the top
-          vm.scrollEl.scrollTop(0);
+            // Scroll to the top
+            vm.scrollEl.scrollTop(0);
+          });
         });
-      });
+      }
 
     }
 
@@ -308,57 +310,60 @@
       //switch form based on category selected
       var cat = vm.selectedCategory;
 
-      apilaData.residentById(resident._id)
-      .success(function(ress) {
-        vm.selectedResident = ress;
+      if(resident) {
+        apilaData.residentById(resident._id)
+        .success(function(ress) {
+          vm.selectedResident = ress;
 
-        selectResident(resident._id);
+          selectResident(resident);
 
-        if (vm.selectedCategory === "Physical condition") {
-          cat = "PhysicalCondition";
-        }
+          if (vm.selectedCategory === "Physical condition") {
+            cat = "PhysicalCondition";
+          }
 
-        if (vm.selectedCategory === "Updates") {
-          $mdToast.show(
-            $mdToast.simple()
-            .textContent("Updates category is not available to update")
-            .position("top right")
-            .hideDelay(2000)
-          );
-          return;
-        }
+          if (vm.selectedCategory === "Updates") {
+            $mdToast.show(
+              $mdToast.simple()
+              .textContent("Updates category is not available to update")
+              .position("top right")
+              .hideDelay(2000)
+            );
+            return;
+          }
 
-        var templateUrl = 'app/main/residents/dialogs/update/update-' +
-          cat + '.html';
+          var templateUrl = 'app/main/residents/dialogs/update/update-' +
+            cat + '.html';
 
-        $mdDialog.show({
-            controller: 'UpdateController',
-            controllerAs: 'vm',
-            locals: {
-              currResident: vm.selectedResident,
-              residentDisplay: resident
-            },
-            templateUrl: templateUrl,
-            parent: angular.element($document.body),
-            targetEvent: resident,
-            clickOutsideToClose: true
-          })
-          .then(function(res) {
+          $mdDialog.show({
+              controller: 'UpdateController',
+              controllerAs: 'vm',
+              locals: {
+                currResident: vm.selectedResident,
+                residentDisplay: resident
+              },
+              templateUrl: templateUrl,
+              parent: angular.element($document.body),
+              targetEvent: resident,
+              clickOutsideToClose: true
+            })
+            .then(function(res) {
 
-            resident.firstName = res.firstName;
-            resident.lastName = res.lastName;
-            resident.aliasName = res.aliasName;
+              if(res) {
+                resident.firstName = res.firstName;
+                resident.lastName = res.lastName;
+                resident.aliasName = res.aliasName;
 
-            apilaData.residentById(resident._id)
-            .success(function(updatedRes) {
-              vm.selectedResident = updatedRes;
+                apilaData.residentById(resident._id)
+                .success(function(updatedRes) {
+                  vm.selectedResident = updatedRes;
 
-              vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+                  vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
+                });
+              }
+
             });
-
-          });
-      });
-
+        });
+      }
 
     }
 
