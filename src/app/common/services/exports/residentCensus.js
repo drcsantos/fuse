@@ -385,7 +385,7 @@
                   (y - 1) + (j + 1) * 12);
               }
             }
-            doc.setDrawColor(189,189,189) // draw red lines
+            doc.setDrawColor(189,189,189);
             doc.rect(x, y, 180, blockSize);
             counter++;
           }

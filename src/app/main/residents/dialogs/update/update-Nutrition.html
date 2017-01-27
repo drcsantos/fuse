@@ -96,13 +96,15 @@
         </md-select>
       </md-input-container>
 
-      <label>Food likes </label>
+      <br/>
+
+      <label>Food Likes</label>
       <md-chips ng-model="vm.foodLikes" md-separator-keys="vm.seperators" readonly="false" md-on-add="vm.updateChip(vm.foodLikes, 'foodLikes', $chip, 'add')" md-on-remove="vm.updateChip(vm.foodLikes, 'foodLikes', $chip, 'remove')" md-removable="true" placeholder="Add new food">
       </md-chips>
 
-      <br />
+      <br/>
 
-      <label>Food dislikes </label>
+      <label>Food Dislikes</label>
       <md-chips ng-model="vm.foodDislikes" md-separator-keys="vm.seperators" readonly="false" md-on-add="vm.updateChip(vm.foodDislikes, 'foodDislikes', $chip, 'add')" md-on-remove="vm.updateChip(vm.foodDislikes, 'foodDislikes', $chip, 'remove')" md-removable="true" placeholder="Add new food">
       </md-chips>
 

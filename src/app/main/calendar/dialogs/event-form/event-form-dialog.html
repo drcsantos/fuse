@@ -26,19 +26,28 @@
         </div>
       </md-input-container>
 
-      <md-autocomplete md-selected-item="vm.selectedItem" required="" md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.display" md-selected-item-change="vm.updateIssue()" md-min-length="0" placeholder="Select a resident">
-        <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
+      <div class="md-block">
+        <md-autocomplete md-selected-item="vm.selectedItem"
+          required=""
+          md-search-text="searchText"
+          md-floating-label="Resident"
+          md-items="item in vm.getMatches(searchText)"
+          md-item-text="item.display"
+          md-selected-item-change="vm.updateIssue()"
+          md-min-length="0">
+          <md-item-template> <span md-highlight-text="searchText">{{item.display}}</span>
 
-        </md-item-template>
-        <md-not-found>
-          No Resident found.
-        </md-not-found>
-        <div ng-messages="">
-            <div ng-if="vm.error.selectedItem">
-              Resident is required
-            </div>
-        </div>
-      </md-autocomplete>
+          </md-item-template>
+          <md-not-found>
+            No Resident found.
+          </md-not-found>
+          <div ng-messages="">
+              <div ng-if="vm.error.selectedItem">
+                Resident is required
+              </div>
+          </div>
+        </md-autocomplete>
+      </div>
 
       <div ng-if="vm.error.selectedItem" style="color:red; padding-top:5px;">
         Resident is required

@@ -40,10 +40,14 @@
         </div>
       </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-autocomplete md-input-id="select-room" md-selected-item="vm.form.room" md-search-text="vm.searchText"
-              md-items="item in vm.getMatches(vm.searchText)" md-item-text="item"
-              md-min-length="0" placeholder="Choose a room">
+      <div class="md-block">
+        <md-autocomplete md-input-id="select-room"
+          md-selected-item="vm.form.room"
+          md-search-text="vm.searchText"
+          md-items="item in vm.getMatches(vm.searchText)"
+          md-floating-label="Room"
+          md-item-text="item"
+          md-min-length="0">
           <md-item-template> <span md-highlight-text="vm.searchText">{{item}}</span>
 
           </md-item-template>
@@ -51,7 +55,7 @@
             No room found
           </md-not-found>
         </md-autocomplete>
-      </md-input-container>
+      </div>
 
       <md-input-container class="md-block">
         <md-checkbox ng-model="vm.form.veteran" aria-label="Veteran">
