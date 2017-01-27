@@ -270,8 +270,6 @@
 
         function updateIssue(deletedMember) {
 
-          console.log(updateIssue.caller.name);
-
           vm.card.title = vm.card.name;
 
           //add updateInfo Data
