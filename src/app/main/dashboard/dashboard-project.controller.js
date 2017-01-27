@@ -7,7 +7,7 @@
         .controller('DashboardProjectController', DashboardProjectController);
 
     /** @ngInject */
-    function DashboardProjectController($scope, $interval, $mdSidenav, $mdToast, msNavigationService, $log, WeatherService,
+    function DashboardProjectController($scope, $interval, $mdSidenav, SearchService, $mdToast, msNavigationService, $log, WeatherService,
                         $mdDialog, $document, apilaData, authentication, $window, Idle, MemberService, BillingService)
     {
         var vm = this;
@@ -50,6 +50,8 @@
 
         vm.currentStep = 0;
 
+        SearchService.setData([], []);
+
         // Functions
         vm.acceptMember = MemberService.acceptMember;
         vm.declineMember = MemberService.declineMember;
@@ -79,8 +81,6 @@
         .success(function(d) {
 
           vm.myCommunity = d;
-
-          console.log(vm.myCommunity);
 
           vm.contactInfo = vm.myCommunity;
 

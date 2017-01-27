@@ -41,7 +41,7 @@
           });
         });
 
-        apilaData.openIssuesCount(authentication.currentUser().id, community._id)
+        apilaData.openIssuesCount(authentication.currentUser().id, authentication.currentUser().communityId)
           .success(function(count) {
             msNavigationService.saveItem('fuse.issues', {
               badge: {

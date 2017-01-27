@@ -311,7 +311,8 @@
             <md-option value="Shelved">Shelved</md-option>
             <md-option value="Closed">
               <span ng-if="vm.card.finalPlan.length <= 0" style="color: lightgrey">
-              Closed
+              Closed (must have final plan)
+
               </span>
               <span ng-if="vm.card.finalPlan.length > 0">Closed</span>
             </md-option>
@@ -677,27 +678,27 @@
 
             <div class="comment"
               layout="row"
-              ng-repeat="comment in vm.card.finalPlan.slice().reverse()">
+              ng-repeat="plan in vm.card.finalPlan.slice().reverse()">
 
-              <img ng-if="comment.author.userImage !== undefined"
+              <img ng-if="plan.author.userImage !== undefined"
                 class="comment-member-avatar"
-                ng-src="{{comment.author.userImage}}">
-              <img ng-if="comment.author.userImage === undefined"
+                ng-src="{{plan.author.userImage}}">
+              <img ng-if="plan.author.userImage === undefined"
                 class="comment-member-avatar"
                 ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
 
               <div layout="column">
                 <div class="comment-member-name">
-                  {{comment.author.name}}
-                  <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
-                  <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+                  {{plan.author.name}}
+                  <span class="comment-time secondary-text">{{vm.Utils.timeDiff(plan.createdOn)}}</span>
+                  <span class="comment-time secondary-text comment-date">{{ plan.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                 </div>
                 <div class="comment-bubble"
-                  onaftersave="vm.updateComment(comment)"
-                  editable-textarea="comment.text"
+                  onaftersave="vm.updateComment(plan)"
+                  editable-textarea="plan.text"
                   ng-trim="false"
                   e-rows="7"
-                  e-cols="50">{{ comment.text }}
+                  e-cols="50">{{ plan.text }}
                 </div>
               </div>
             </div>

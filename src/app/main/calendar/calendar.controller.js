@@ -24,6 +24,9 @@
 
     var appointments = null;
 
+    var searchParams = ["title", "transportation", "locationDoctor", "reason", "locationName",
+                        "cancel", "appointmentDate"];
+
     var username = authentication.currentUser().name;
     var userid = authentication.currentUser().id;
     var communityid = authentication.currentUser().communityId;
@@ -54,17 +57,6 @@
         loadIssues(vm.community._id);
         loadBirthdays(vm.community._id);
 
-        var searchParams = ["title", "transportation", "locationDoctor", "reason", "locationName",
-                            "cancel", "appointmentDate"];
-
-        SearchService.setData(appointList, searchParams);
-
-        SearchService.subscribe($scope, function() {
-
-        vm.events[0] = SearchService.getResult();
-
-        });
-
       });
 
     var loadAppoitnments = function(id, month) {
@@ -81,6 +73,11 @@
           });
 
           vm.events[0] = vm.events[0].concat(appointLists);
+
+          SearchService.setData(appointLists, searchParams);
+          SearchService.subscribe($scope, function() {
+            vm.events[0] = SearchService.getResult();
+          });
 
         })
         .error(function(err) {

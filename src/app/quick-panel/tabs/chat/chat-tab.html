@@ -67,7 +67,7 @@
              ng-class="msg.userSend">
             <img ng-if="msg.userSend ==='contact'" ng-src="{{vm.chat.contact.avatar}}" class="avatar"
                  alt="{{vm.chat.contact.name}}"/>
-            <img class="avatar" src="{{ msg.userSend.userImage }}">
+            <img class="avatar" ng-src="{{ msg.userSend.userImage }}">
 
             <div class="bubble" flex>
                 <div class="message">{{ msg.message }}</div>

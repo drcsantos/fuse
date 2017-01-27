@@ -527,6 +527,12 @@
 
            apilaData.addFinalPlan(vm.card._id, data)
            .success(function(response) {
+
+             response.author = {
+               name: vm.username,
+               userImage: authentication.currentUser().userImage
+             };
+
              vm.card.finalPlan.push(response);
              vm.newFinalPlanText = "";
 

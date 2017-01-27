@@ -42,6 +42,10 @@
           unfiltered = [];
           var deferred = $q.defer();
 
+          if(searchBy === undefined || searchBy === []) {
+            return;
+          }
+
           if ( query )
           {
               resultData = data.filter(function (item)
@@ -97,7 +101,7 @@
       }
 
       function searchResultClick(item) {
-
+        console.log(item);
       }
 
       return {
