@@ -26,7 +26,7 @@
 
     var username = authentication.currentUser().name;
     var userid = authentication.currentUser().id;
-    var communityid = authentication.currentUser().community._id;
+    var communityid = authentication.currentUser().communityId;
 
     // Functions
     vm.addEvent = addEvent;
@@ -34,7 +34,6 @@
     vm.prev = prev;
     vm.exportAppointments = exportAppoint;
     vm.openAppointmentMapDialog = openAppointmentMapDialog;
-
 
     apilaData.residentsList(communityid)
       .success(function(residentList) {
@@ -63,6 +62,7 @@
         SearchService.subscribe($scope, function() {
 
         vm.events[0] = SearchService.getResult();
+
         });
 
       });

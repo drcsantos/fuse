@@ -1,6 +1,6 @@
 (function ()
 {
-    //'use strict';
+    'use strict';
 
     angular
         .module('app.issues')
@@ -257,6 +257,7 @@
 
               //only updating frontend view with our comment so we can use our user data
               var newComment = createComment(newCommentText, data.createdOn);
+              console.log(newComment);
               vm.card.comments.push(newComment);
 
             }).error(function(data) {
@@ -556,6 +557,7 @@
               idMember: '',
               commentText : text,
               author    : {
+                _id: authentication.currentUser().id,
                 name: authentication.currentUser().name,
                 userImage: authentication.getUserImage()
               },
