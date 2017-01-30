@@ -407,14 +407,15 @@
 
               <div class="attachment" ng-repeat="item in vm.card.attachments">
                 <div layout="row">
-                  <div ng-click="vm.openImage(item.url)"
+                  <img ng-click="vm.openImage(item.url)"
                     class="attachment-preview md-whiteframe-2dp"
-                    ng-style="{'background-image': 'url({{item.url}})'}">
-                  </div>
+                    alt="Not an image no preview"
+                    ng-src="{{item.url}}">
+                  </img>
                   <div class="attachment-content" layout="column">
 
                     <div layout="row" layout-align="start center">
-                      <span class="attachment-name">{{item.name}}</span>
+                      <a class="attachment-name" ng-href="{{ item.url }}">{{item.name}}</a>
                       <i ng-if="vm.card.idAttachmentCover === item.id"
                         class="icon-star yellow-700-fg attachment-is-cover s18"></i>
                     </div>
@@ -449,9 +450,8 @@
                 ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)"
                 class="add-attachment-button" a
                 ria-label="add attachment"
-                accept="image/*"
                 ngf-max-height="1000"
-                ngf-max-size="3MB">
+                ngf-max-size="5MB">
                 <div layout="row" layout-align="start center">
                   <i class="icon-plus s20"></i>
                   <span translate="SB.ADD_AN_ATTACHMENT">Add an attachment</span>
@@ -717,11 +717,11 @@
             </div>
             <div class="section-content">
               <h5>{{ vm.createdIssue }}</h5>
-              <div class="activity"
-                layout="row"
-                layout-align="start center"
-                ng-repeat="update in vm.card.updateInfo.slice().reverse()">
-                <ul>
+                <ul style="border: solid;" class="activity"
+                  layout="row"
+                  layout-align="start center"
+                  ng-repeat="update in vm.card.updateInfo.slice().reverse()">
+
                   <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) ">
                     <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
@@ -732,8 +732,8 @@
                     </span>
                     <span class="activity-time secondary-text">{{ f.timeDiff }} </span>
                   </li>
+
                 </ul>
-              </div>
             </div>
           </div>
         </div>

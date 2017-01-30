@@ -109,7 +109,6 @@
           ImageUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
         };
 
-
         // load of lists of residents for autocomplete selection
         apilaData.usersInCommunity(vm.communityId)
           .success(function(usersList) {

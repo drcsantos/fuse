@@ -273,6 +273,8 @@
         apilaData.addAppointment(vm.calendarEvent)
           .success(function(appoint) {
 
+            console.log("Appointment added!");
+
             vm.calendarEvent = appoint;
             vm.calendarEvent.appointId = appoint._id;
             vm.calendarEvent.title = appoint.reason;
@@ -280,6 +282,8 @@
               type: vm.dialogData.type,
               calendarEvent: vm.calendarEvent
             };
+
+            console.log(response);
 
             $mdDialog.hide(response);
 

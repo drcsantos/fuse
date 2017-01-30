@@ -41,7 +41,10 @@
     apilaData.residentsList(communityid)
       .success(function(residentList) {
         vm.residentList = residentList.map(function(elem) {
-          return {value: elem._id, display: elem.firstName + " " + elem.lastName};
+
+          var name = elem.aliasName ? elem.aliasName : elem.firstName;
+
+          return {value: elem._id, display: name + " " + elem.lastName};
         });
       })
       .error(function(err) {
@@ -73,6 +76,8 @@
           });
 
           vm.events[0] = vm.events[0].concat(appointLists);
+
+          console.log(vm.events[0].length);
 
           SearchService.setData(appointLists, searchParams);
           SearchService.subscribe($scope, function() {
@@ -371,6 +376,7 @@
       }).then(function(response) {
 
         if (response.type === 'add') {
+          console.log("We got the response so we add an appointment");
           vm.events[0].push(addAppointment(response.calendarEvent));
 
         } else {
