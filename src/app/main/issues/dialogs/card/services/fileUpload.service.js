@@ -4,10 +4,10 @@
 
     angular
         .module('app.issues')
-        .service('ImageUploadService', ImageUploadService);
+        .service('FileUploadService', FileUploadService);
 
     /** @ngInject */
-    function ImageUploadService(apilaData, Upload, authentication, $timeout) {
+    function FileUploadService(apilaData, Upload, authentication, $timeout) {
 
       var uploadFiles = function(file, errFiles, card, setUpdateInfo) {
 

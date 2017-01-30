@@ -84,10 +84,10 @@
          //formating for attachemnts
          if(v.field === "attachments") {
            if(v.old === "") {
-             v.infoFormated =  " uploaded an attachment ";
+             v.infoFormated =  " added a Attachment ";
              v.tooltip = v.new;
            } else {
-             v.infoFormated =  " removed an attachment ";
+             v.infoFormated =  " removed an Aattachment ";
              v.tooltip = v.old;
            }
          }
@@ -178,8 +178,10 @@
            v.infoFormated =  " changed the issue status to " + v.new ;
          }
 
-         if(v.field === "description") {
-           v.infoFormated =  " changed " + v.field + " to " + v.new;
+         if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe") {
+           v.infoFormated =  " changed the " + _.startCase(v.field) + " - "; // + v.field + " to " + v.new;
+           v.oldTip = "old";
+           v.newTip = "new";
          }
 
          v.timeDiff = timeDiff(updateDate);

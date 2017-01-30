@@ -8,7 +8,7 @@
 
     /** @ngInject */
     function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
-      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, $log, ImageUploadService, UpdateInfoService, MembersService, Utils)
+      fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, $log, FileUploadService, UpdateInfoService, MembersService, Utils)
     {
         var vm = this;
 
@@ -106,7 +106,7 @@
         vm.changeResponsibleParty = changeResponsibleParty;
 
         vm.uploadFiles = function(file, invalidFiles, card) {
-          ImageUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
+          FileUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
         };
 
         // load of lists of residents for autocomplete selection
@@ -287,6 +287,8 @@
             updateField : vm.card.updateField
           });
 
+          console.log(vm.card.updateField);
+
           var oldResponsibleParty = oldData.responsibleParty._id ?
                                  oldData.responsibleParty._id : oldData.responsibleParty;
 
@@ -305,6 +307,7 @@
           apilaData.updateIssue(vm.card._id, populatedCard)
           .success(function(response) {
             vm.card.addedMember = "";
+            vm.card.updateField = "";
           })
           .error(function(err) {
             $log.debug(err);

@@ -717,15 +717,33 @@
             </div>
             <div class="section-content">
               <h5>{{ vm.createdIssue }}</h5>
-                <ul style="border: solid;" class="activity"
-                  layout="row"
-                  layout-align="start center"
-                  ng-repeat="update in vm.card.updateInfo.slice().reverse()">
-
+              <div class="activity"
+                layout="row"
+                layout-align="start center"
+                ng-repeat="update in vm.card.updateInfo.slice().reverse()">
+                <ul>
                   <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) ">
                     <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
-                    <span>{{ f.infoFormated }}
+                    <span>
+                      {{ f.infoFormated }}
+
+                      <span>
+                        {{ f.oldTip }}
+
+                        <md-tooltip md-direction="top">
+                          {{ f.old }}
+                        </md-tooltip>
+                      </span>
+
+                      <span>
+                        {{ f.newTip }}
+
+                        <md-tooltip md-direction="top">
+                          {{ f.new }}
+                        </md-tooltip>
+                      </span>
+
                       <md-tooltip ng-if="f.tooltip" md-direction="top">
                         {{ f.tooltip }}
                       </md-tooltip>
@@ -735,6 +753,7 @@
 
                 </ul>
             </div>
+          </div>
           </div>
         </div>
         <!-- / UPDATES SECTION -->
