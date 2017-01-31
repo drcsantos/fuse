@@ -27,6 +27,7 @@
 
         vm.newLabelColor = 'red';
         vm.UpdateInfoService = UpdateInfoService;
+
         vm.Utils = Utils;
 
         vm.labels = vm.board.labels;
@@ -161,6 +162,7 @@
         apilaData.issueUpdateInfo(vm.card._id)
         .success(function(response) {
           vm.card.updateInfo = response;
+          UpdateInfoService.setData(vm.card._id, vm.card.updateInfo);
         })
         .error(function(response) {
           $log.debug(response);
@@ -195,7 +197,7 @@
             apilaData.deleteAttachment(vm.card._id, item._id, vm.card)
             .success(function(d) {
               vm.card.attachments.splice(vm.card.attachments.indexOf(item), 1);
-              vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
+              vm.card.updateInfo.push(updateInfo);
             })
             .error(function(d) {
               $log.debug(d);
@@ -209,7 +211,7 @@
           if(!isLabelInCard(id)) {
             vm.card.labels.push(vm.board.labels.getById(id));
 
-            vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('labels', vm.board.labels.getById(id).name, "")));
+            vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('labels', vm.board.labels.getById(id).name, ""));
           } else {
             removeLabelFromCard(id);
           }
@@ -224,7 +226,7 @@
 
             msUtils.toggleInArray(item, array);
 
-            vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('idMembers', item.name, "")));
+            vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('idMembers', item.name, ""));
 
             updateIssue();
 
@@ -249,14 +251,13 @@
               author: authentication.currentUser().id
             };
 
-            vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('comments', commentData.commentText, "")));
+            UpdateInfoService.addUpdateInfo('comments', commentData.commentText, "");
 
             apilaData.addIssueCommentById(issueid, commentData)
             .success(function(data) {
 
               //only updating frontend view with our comment so we can use our user data
               var newComment = createComment(newCommentText, data.createdOn);
-              console.log(newComment);
               vm.card.comments.push(newComment);
 
             }).error(function(data) {
@@ -268,26 +269,24 @@
 
         ///////////////////////////// UPDATE ////////////////////////////////
 
-        function updateIssue(deletedMember) {
+        function updateIssue() {
 
           vm.card.title = vm.card.name;
 
           //add updateInfo Data
-          vm.card.modifiedBy = authentication.currentUser().id;
-          vm.card.modifiedDate = new Date();
+          // vm.card.modifiedBy = authentication.currentUser().id;
+          // vm.card.modifiedDate = new Date();
+          //
+          // vm.card.updateField = UpdateInfoService.checkChangedFields(oldData, vm.card, deletedMember);
 
-          vm.card.updateField = UpdateInfoService.checkChangedFields(oldData, vm.card, deletedMember);
-
-          vm.card.updateInfo.push({
-            updateBy : {
-              name: authentication.currentUser().name,
-              userImage : authentication.getUserImage()
-            },
-            updateDate : vm.card.modifiedDate,
-            updateField : vm.card.updateField
-          });
-
-          console.log(vm.card.updateField);
+          // vm.card.updateInfo.push({
+          //   updateBy : {
+          //     name: authentication.currentUser().name,
+          //     userImage : authentication.getUserImage()
+          //   },
+          //   updateDate : vm.card.modifiedDate,
+          //   updateField : vm.card.updateField
+          // });
 
           var oldResponsibleParty = oldData.responsibleParty._id ?
                                  oldData.responsibleParty._id : oldData.responsibleParty;
@@ -317,7 +316,7 @@
         ///////////////////////// UPDATE MAIN FIELDS //////////////////////////
 
        function removeDueDate() {
-          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('due', "" , vm.card.currdue)));
+          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('due', "" , vm.card.currdue));
           vm.card.currdue = '';
 
           updateIssue();
@@ -335,13 +334,13 @@
         }
 
         function updateTextFields(type) {
-          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo(type, vm.card[type], "")));
+          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo(type, vm.card[type], ""));
           vm.updateIssue();
         }
 
         function memberUpdate(selectedMember) {
           vm.card.deletedMember = selectedMember;
-          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('idMembers', "" , selectedMember)));
+          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('idMembers', "" , selectedMember));
 
           updateIssue(selectedMember);
 
@@ -359,7 +358,7 @@
               if(vm.card.currdue !== "2016") {
                 vm.card.due = vm.card.currdue;
                 if(vm.card.due !== "") {
-                  vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('due', vm.card.currdue, "")));
+                  vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('due', vm.card.currdue, ""));
                 }
 
                 vm.updateIssue();
@@ -380,6 +379,8 @@
             vm.card.responsibleParty = vm.responsibleParty;
 
             exportIssueDetail.exportPdf(vm.card);
+
+            UpdateInfoService.addUpdateInfo('export', vm.card.title, "");
 
           });
 
@@ -411,7 +412,7 @@
             vm.card.shelvedDate = new Date();
           }
 
-          vm.card.updateInfo.push(transformUpdateInfo(UpdateInfoService.setUpdateInfo('status', vm.card.status, "")));
+          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('status', vm.card.status, ""));
 
           vm.updateIssue();
 
@@ -550,12 +551,20 @@
          function updateComment(comment) {
            var copyComment = angular.copy(comment);
 
-           copyComment.author = comment.author._id;
+           var oldComment = _.find(oldData.comments, {createdOn: comment.createdOn});
 
-           apilaData.issueCommentsUpdate(vm.card._id, copyComment)
-           .error(function(err) {
-             $log.debug(err);
-           });
+           if(oldComment) {
+             copyComment.author = comment.author._id;
+
+             apilaData.issueCommentsUpdate(vm.card._id, copyComment)
+             .success(function(resp) {
+               UpdateInfoService.addUpdateInfo('comment', comment.commentText, oldComment.commentText);
+             })
+             .error(function(err) {
+               $log.debug(err);
+             });
+           }
+
          }
 
         ///////////////////////// HELPER FUNCTIONS ////////////////////////////
@@ -598,18 +607,6 @@
             .error(function(response) {
               $log.debug(response);
             });
-        }
-
-        //why this? when adding something new we want it to show imidiately right?
-        //But we store userId in updateInfo not the whole object as everything that
-        //is pushed imidiately is by us push our username and id
-        function transformUpdateInfo(updateInfo) {
-          updateInfo.updateBy = {
-            'name' : authentication.currentUser().name,
-            'userImage' : authentication.getUserImage()
-          };
-
-          return updateInfo;
         }
 
         function setUserRole() {

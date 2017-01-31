@@ -11,6 +11,9 @@
     function UpdateInfoService(apilaData, authentication) {
 
 
+      var update = "";
+      var issueid = "";
+
       function checkChangedFields(oldData, newData, selectedMember) {
 
          var diff = [];
@@ -158,13 +161,12 @@
 
          if(v.field === "comments") {
            if(v.old === "") {
-             v.infoFormated =  " added a comment ";
+             v.infoFormated =  " created a Comment ";
              v.tooltip = v.new;
-           } else {
-             v.infoFormated =  " removed a comment";
-             v.tooltip = v.old;
            }
          }
+
+
 
          if(v.field === "due") {
            if(v.old === "") {
@@ -178,10 +180,15 @@
            v.infoFormated =  " changed the issue status to " + v.new ;
          }
 
-         if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe") {
+         if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe"
+         || v.field === "comment") {
            v.infoFormated =  " changed the " + _.startCase(v.field) + " - "; // + v.field + " to " + v.new;
            v.oldTip = "old";
            v.newTip = "new";
+         }
+
+         if(v.field === "export") {
+           v.infoFormated = " downloaded " + v.new;
          }
 
          v.timeDiff = timeDiff(updateDate);
@@ -197,7 +204,10 @@
       function setUpdateInfo(fieldName, newField, oldField) {
         var updateInfo = {};
 
-        updateInfo.updateBy = authentication.currentUser().id;
+        updateInfo.updateBy = {
+          'name' : authentication.currentUser().name,
+          'userImage' : authentication.getUserImage()
+        };
         updateInfo.updateDate = new Date();
         updateInfo.updateField = [];
         updateInfo.updateField.push({
@@ -207,6 +217,38 @@
         });
 
         return updateInfo;
+      }
+
+      function setData(issueId, updateInfo) {
+        update = updateInfo;
+        issueid = issueId;
+      }
+
+      function addUpdateInfo(fieldName, newField, oldField) {
+
+        var updateInfo = {
+          updateBy : authentication.currentUser().id,
+          updateDate : new Date(),
+          updateField : [{
+            "field": fieldName,
+            "new": newField,
+            "old": oldField
+          }]
+        };
+
+        apilaData.addUpdateInfo(issueid, updateInfo)
+        .success(function(u) {
+          console.log(u);
+          updateInfo.updateBy = {
+            'name' : authentication.currentUser().name,
+            'userImage' : authentication.getUserImage()
+          };
+          update.push(updateInfo);
+        })
+        .error(function(err) {
+          console.log(err);
+        });
+
       }
 
       function timeDiff(date) {
@@ -235,6 +277,8 @@
         setUpdateInfo : setUpdateInfo,
         formatUpdateArray : formatUpdateArray,
         checkChangedFields : checkChangedFields,
+        addUpdateInfo : addUpdateInfo,
+        setData : setData,
         timeDiff : timeDiff
       };
     }
