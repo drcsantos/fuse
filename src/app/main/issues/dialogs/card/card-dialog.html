@@ -265,7 +265,7 @@
           <input ng-disabled="vm.userid !== vm.card.submitBy._id"
             ng-model="vm.card.name"
             type="text"
-            ng-blur="vm.updateIssue()"
+            ng-blur="vm.updateIssue('name')"
             focus>
         </md-input-container>
 
@@ -275,7 +275,7 @@
           <label translate="SB.DESCRIPTION">Description</label>
           <textarea ng-disabled="vm.userid !== vm.card.submitBy._id"
             ng-model="vm.card.description"
-            ng-blur="vm.updateIssue()"
+            ng-blur="vm.updateIssue('description')"
             columns="1"></textarea>
         </md-input-container>
         <!-- / DESCRIPTION -->
@@ -285,7 +285,7 @@
           <label>Resolution Time Frame</label>
           <md-select ng-disabled="vm.userid !== vm.card.submitBy._id"
             ng-model="vm.card.resolutionTimeframe"
-            ng-change="vm.updateIssue()"
+            ng-change="vm.updateIssue('resolutionTimeframe')"
             placeholder="Time Frame"
             required>
             <md-option value="Hours">Hours</md-option>
@@ -329,7 +329,7 @@
             md-item-text="item.display"
             md-min-length="0"
             md-floating-label="Responsible Party"
-            md-selected-item-change="vm.changeResponsibleParty()">
+            md-selected-item-change="vm.changeResponsibleParty('responsibleParty')">
             <md-item-template>
               <span md-highlight-text="searchText">{{item.display}}</span>
             </md-item-template>
@@ -716,7 +716,25 @@
               <span class="section-title">Updates</span>
             </div>
             <div class="section-content">
-              <h5>{{ vm.createdIssue }}</h5>
+              <h5>{{ vm.createdIssue }}
+                <span>Description,
+                  <md-tooltip md-direction="top">
+                    {{ vm.card.description }}
+                  </md-tooltip>
+                </span>
+
+                <span>Responsile Party,
+                  <md-tooltip md-direction="top">
+                    {{ vm.card.responsibleParty }}
+                  </md-tooltip>
+                </span>
+
+                <span> and Time Frame
+                  <md-tooltip md-direction="top">
+                    {{ vm.card.resolutionTimeframe }}
+                  </md-tooltip>
+                </span>
+              </h5>
               <div class="activity"
                 layout="row"
                 layout-align="start center"

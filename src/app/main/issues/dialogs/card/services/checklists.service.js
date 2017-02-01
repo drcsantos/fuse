@@ -13,6 +13,7 @@
 
       function setViewModel(viewModel) {
         vm = viewModel;
+        //UpdateInfoService.setData(vm.card._id, vm.card.updateInfo);
       }
 
       function updateCheckedCount(list, checkedItem)
@@ -74,12 +75,13 @@
 
           checkList.checkItems.push(newCheckItem);
 
-          checkList.updateInfo = UpdateInfoService.setUpdateInfo('checkitem', newCheckItem.name, "");
+          //checkList.updateInfo = UpdateInfoService.setUpdateInfo('checkitem', newCheckItem.name, "");
 
           apilaData.updateCheckList(vm.card._id, checkList._id, checkList)
           .success(function(d) {
 
-              vm.card.updateInfo.push(transformUpdateInfo(checkList.updateInfo));
+              //vm.card.updateInfo.push(transformUpdateInfo(checkList.updateInfo));
+              UpdateInfoService.addUpdateInfo('checkitem', newCheckItem.name, "");
               updateCheckedCount(checkList, newCheckItem);
               text = "";
 
@@ -124,14 +126,15 @@
               checkItems       : []
           };
 
-          data.updateInfo = UpdateInfoService.setUpdateInfo('checklists', data.name, "");
+          vm.card.submitBy = vm.card.submitBy._id;
 
           vm.newCheckListTitle = '';
 
           apilaData.addCheckList(vm.card._id, data)
           .success(function(d) {
               vm.card.checklists.push(d);
-              vm.card.updateInfo.push(transformUpdateInfo(data.updateInfo));
+              
+              UpdateInfoService.addUpdateInfo('checklists', data.name, "");
               vm.newCheckListTitle = "Checklist";
           })
           .error(function(err) {

@@ -35,9 +35,6 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
-        vm.createdIssue = vm.card.submitBy.name + " created " + vm.card.title + " " +
-                           Utils.timeDiff(vm.card.submitDate);
-
         vm.newCheckListTitle = "Checklist";
 
         vm.username = authentication.currentUser().name;
@@ -269,24 +266,9 @@
 
         ///////////////////////////// UPDATE ////////////////////////////////
 
-        function updateIssue() {
+        function updateIssue(type) {
 
           vm.card.title = vm.card.name;
-
-          //add updateInfo Data
-          // vm.card.modifiedBy = authentication.currentUser().id;
-          // vm.card.modifiedDate = new Date();
-          //
-          // vm.card.updateField = UpdateInfoService.checkChangedFields(oldData, vm.card, deletedMember);
-
-          // vm.card.updateInfo.push({
-          //   updateBy : {
-          //     name: authentication.currentUser().name,
-          //     userImage : authentication.getUserImage()
-          //   },
-          //   updateDate : vm.card.modifiedDate,
-          //   updateField : vm.card.updateField
-          // });
 
           var oldResponsibleParty = oldData.responsibleParty._id ?
                                  oldData.responsibleParty._id : oldData.responsibleParty;
@@ -303,10 +285,13 @@
           setAuthorId(populatedCard.finalPlan);
           setAuthorId(populatedCard.checklists);
 
+          populatedCard.submitBy = populatedCard.submitBy._id;
+
           apilaData.updateIssue(vm.card._id, populatedCard)
           .success(function(response) {
             vm.card.addedMember = "";
             vm.card.updateField = "";
+            updateMainFields(type);
           })
           .error(function(err) {
             $log.debug(err);
@@ -322,12 +307,31 @@
           updateIssue();
         }
 
-        function changeResponsibleParty() {
+        function updateMainFields(type) {
+
+          if(type === 'responsibleParty') {
+            return;
+            if(vm.selectedItem.value !== oldData.responsibleParty._id) {
+              //UpdateInfoService.addUpdateInfo('responsibleParty', vm.selectedItem.display, oldData.responsibleParty.name);
+
+            }
+          }
+
+          var oldValue = oldData[type];
+          var newValue = vm.card[type];
+
+          // we changed it
+          if(oldValue !== newValue) {
+            UpdateInfoService.addUpdateInfo(type, newValue, oldValue);
+          }
+        }
+
+        function changeResponsibleParty(type) {
 
           if(vm.selectedItem && (vm.selectedItem.value !== oldData.responsibleParty)) {
 
             vm.card.responsibleParty = vm.selectedItem.value;
-            vm.updateIssue();
+            vm.updateIssue(type);
 
           }
 
@@ -391,6 +395,8 @@
           vm.card.finalPlan = resp.finalPlan;
 
           vm.responsibleParty = resp.responsibleParty;
+
+          vm.createdIssue = resp.submitBy.name + " created " + vm.card.title;
 
           vm.selectedItem = {
             value: resp.responsibleParty._id,

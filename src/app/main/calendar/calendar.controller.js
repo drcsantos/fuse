@@ -40,11 +40,11 @@
 
     apilaData.residentsList(communityid)
       .success(function(residentList) {
-        vm.residentList = residentList.map(function(elem) {
+        vm.residentList = residentList.map(function(resid) {
 
-          var name = elem.aliasName ? elem.aliasName : elem.firstName;
+          var name = resid.aliasName ? resid.aliasName : resid.firstName;
 
-          return {value: elem._id, display: name + " " + elem.lastName};
+          return {value:resid._id, display: name + " " + resid.lastName};
         });
       })
       .error(function(err) {

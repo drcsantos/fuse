@@ -73,6 +73,11 @@
 
           v.userImage = updatedBy.userImage || authentication.getUserImage();
 
+
+         if(v.field === "name") {
+           v.field = "title";
+         }
+
          //formating for members
          if(v.field === "idMembers") {
            if(v.old === "") {
@@ -109,8 +114,7 @@
          //formating for checklists
          if(v.field === "checklists") {
            if(v.old === "") {
-             v.infoFormated =  " added a checklist ";
-             v.tooltip = v.new;
+             v.infoFormated =  " created the " + v.new + " Checklist";
            } else {
              v.infoFormated =  " removed a checklist ";
              v.tooltip = v.old;
@@ -166,8 +170,6 @@
            }
          }
 
-
-
          if(v.field === "due") {
            if(v.old === "") {
              v.infoFormated =  " added a due date " + moment(+v.new).format('MMMM Do YYYY, h:mm:ss a') ;
@@ -181,8 +183,8 @@
          }
 
          if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe"
-         || v.field === "comment") {
-           v.infoFormated =  " changed the " + _.startCase(v.field) + " - "; // + v.field + " to " + v.new;
+         || v.field === "comment" || v.field === "responsibleParty") {
+           v.infoFormated =  " changed the " + _.startCase(v.field) + " - ";
            v.oldTip = "old";
            v.newTip = "new";
          }
