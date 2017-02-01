@@ -740,7 +740,7 @@
                 layout-align="start center"
                 ng-repeat="update in vm.card.updateInfo.slice().reverse()">
                 <ul>
-                  <li style="border : solid;" ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) track by $index">
+                  <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) track by $index">
                     <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
                     <span>

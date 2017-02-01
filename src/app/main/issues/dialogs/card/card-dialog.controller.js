@@ -189,12 +189,16 @@
                 vm.card.idAttachmentCover = '';
             }
 
-            var updateInfo = UpdateInfoService.setUpdateInfo('attachments', "" , item.name);
+            var fileExtension = item.name.split('.').pop();
+
+            if(!fileExtension) {
+              fileExtension = item.name;
+            }
 
             apilaData.deleteAttachment(vm.card._id, item._id, vm.card)
             .success(function(d) {
               vm.card.attachments.splice(vm.card.attachments.indexOf(item), 1);
-              vm.card.updateInfo.push(updateInfo);
+              UpdateInfoService.addUpdateInfo('attachments', "" , fileExtension);
             })
             .error(function(d) {
               $log.debug(d);
@@ -536,6 +540,12 @@
 
            apilaData.addFinalPlan(vm.card._id, data)
            .success(function(response) {
+
+             if(!vm.finalPlanChecklist) {
+               UpdateInfoService.addUpdateInfo('plan-todo', vm.newFinalPlanText, "");
+             } else {
+               UpdateInfoService.addUpdateInfo('plan', vm.newFinalPlanText, "");
+             }
 
              response.author = {
                name: vm.username,

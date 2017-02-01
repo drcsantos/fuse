@@ -7,18 +7,22 @@
         .service('FileUploadService', FileUploadService);
 
     /** @ngInject */
-    function FileUploadService(apilaData, Upload, authentication, $timeout) {
+    function FileUploadService(apilaData, Upload, authentication, $timeout, UpdateInfoService) {
 
       var uploadFiles = function(file, errFiles, card, setUpdateInfo) {
 
         var uploadUrl = apilaData.getApiUrl() + '/api/issues/'+ card._id + '/attachments/new';
 
-        var updateInfo = setUpdateInfo('attachments',file.name , "");
+        var fileExtension = file.name.split('.').pop();
+
+        if(!fileExtension) {
+          fileExtension = file.name;
+        }
 
         if (file) {
             file.upload = Upload.upload({
                 url: uploadUrl,
-                data: {file: file, updateInfo: updateInfo},
+                data: {file: file},
                 headers: {
                     Authorization: 'Bearer ' + authentication.getToken()
                 }
@@ -28,7 +32,8 @@
                 $timeout(function () {
                     file.result = response.data;
                     card.attachments.push(response.data);
-                    card.updateInfo.push(updateInfo);
+
+                    UpdateInfoService.addUpdateInfo("attachments", fileExtension, "");
                 });
             }, function (response) {
 

@@ -92,10 +92,10 @@
          //formating for attachemnts
          if(v.field === "attachments") {
            if(v.old === "") {
-             v.infoFormated =  " added a Attachment ";
+             v.infoFormated =  " added a ." + v.new  + " Attachment";
              v.tooltip = v.new;
            } else {
-             v.infoFormated =  " removed an Aattachment ";
+             v.infoFormated =  " removed a ." + v.old + " Attachment";
              v.tooltip = v.old;
            }
          }
@@ -116,32 +116,18 @@
            if(v.old === "") {
              v.infoFormated =  " created the " + v.new + " Checklist";
            } else {
-             v.infoFormated =  " removed a checklist ";
-             v.tooltip = v.old;
+             v.infoFormated =  " removed the " + v.old + " Checklist";
            }
          }
 
          //formating for checklists item
          if(v.field === "checkitem") {
            if(v.old === "") {
-             v.infoFormated =  " created a checklist item ";
-             v.tooltip = v.new;
+             v.infoFormated =  " added a Checklist item to " + v.new;
            } else {
-             v.infoFormated =  " removed a checklist item";
-              v.tooltip = v.old;
+             v.infoFormated =  " removed a Checklist item in " + v.old;
            }
          }
-
-         if(v.field === "checkitem_complete") {
-           if(v.old === "") {
-             v.infoFormated =  " completed a checklist item ";
-             v.tooltip = v.new;
-           } else {
-             v.infoFormated =  " uncompleted a checklist item";
-             v.tooltip = v.old;
-           }
-         }
-
 
          if(v.field === "checkitem_change") {
              v.infoFormated =  " changed a checklist item ";
@@ -149,13 +135,11 @@
          }
 
          if(v.field === "checkitem_remove") {
-             v.infoFormated =  " removed a checklist item ";
-             v.tooltip = v.old;
+             v.infoFormated =  " removed a checklist item in " + v.old;
          }
 
          if(v.field === "checkitem_checked") {
-             v.infoFormated =  " completed a checklist item ";
-             v.tooltip = v.new;
+              v.infoFormated =  " completed a checklist item in " + v.new;
          }
 
          if(v.field === "checkitem_unchecked") {
@@ -180,6 +164,16 @@
 
          if(v.field === "status") {
            v.infoFormated =  " changed the issue status to " + v.new ;
+         }
+
+         if(v.field === "plan") {
+           v.infoFormated =  " crated a Plan";
+           v.tooltip = v.new;
+         }
+
+         if(v.field === "plan-todo") {
+           v.infoFormated =  " crated a Plan and added it to their To-Do";
+           v.tooltip = v.new;
          }
 
          if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe"
@@ -226,7 +220,7 @@
         issueid = issueId;
       }
 
-      function addUpdateInfo(fieldName, newField, oldField) {
+      function addUpdateInfo(fieldName, newField, oldField, finished) {
 
         var updateInfo = {
           updateBy : authentication.currentUser().id,
@@ -238,18 +232,28 @@
           }]
         };
 
-        apilaData.addUpdateInfo(issueid, updateInfo)
-        .success(function(u) {
-          console.log(u);
-          updateInfo.updateBy = {
-            'name' : authentication.currentUser().name,
-            'userImage' : authentication.getUserImage()
-          };
-          update.push(updateInfo);
-        })
-        .error(function(err) {
-          console.log(err);
-        });
+        if(updateInfo) {
+          apilaData.addUpdateInfo(issueid, updateInfo)
+          .success(function(u) {
+            console.log(u);
+            updateInfo.updateBy = {
+              'name' : authentication.currentUser().name,
+              'userImage' : authentication.getUserImage()
+            };
+            update.push(updateInfo);
+
+            if(finished) {
+              finished(true);
+            }
+
+          })
+          .error(function(err) {
+            console.log(err);
+            if(finished) {
+              finished(false);
+            }
+          });
+        }
 
       }
 
