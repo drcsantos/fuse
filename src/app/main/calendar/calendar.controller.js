@@ -67,6 +67,11 @@
       //load all the events and show them on the callendar
       apilaData.appointmentsList(id, month)
         .success(function(data) {
+
+          if(data.length === 0) {
+            return;
+          }
+
           appointments = data;
           var appointLists = [];
           angular.forEach(data, function(value, key) {
@@ -81,6 +86,7 @@
 
           SearchService.setData(appointLists, searchParams);
           SearchService.subscribe($scope, function() {
+            console.log("Search stuff");
             vm.events[0] = SearchService.getResult();
           });
 
@@ -325,7 +331,7 @@
         cancel: appointment.cancel,
         appointmentComment: appointment.appointmentComment,
         residentGoing: resident,
-        stick: true,
+        stick: true
       };
 
       if(type === "add") {
