@@ -231,6 +231,7 @@
         return;
       }
 
+      var savedCategory = angular.copy(vm.selectedCategory);
       vm.selectedCategory = "Vitals";
 
       $timeout(function() {
@@ -265,7 +266,10 @@
         carePlanData.community = vm.community;
 
         exportCarePlan.exportPdf(carePlanData);
-      }, 500);
+
+        vm.selectedCategory = savedCategory;
+      }, 700);
+
     }
 
     function exportCensus() {
