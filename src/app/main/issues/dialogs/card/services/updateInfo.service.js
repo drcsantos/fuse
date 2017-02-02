@@ -168,7 +168,7 @@
            v.infoFormated = "downloaded a " + v.new + " Attachment";
          }
 
-         if(v.field === "plan") {
+         if(v.field === "plan-create") {
            v.infoFormated =  " crated a Plan";
            v.tooltip = v.new;
          }
@@ -178,8 +178,9 @@
            v.tooltip = v.new;
          }
 
+
          if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe"
-         || v.field === "comment" || v.field === "responsibleParty") {
+         || v.field === "comment" || v.field === "responsibleParty" || v.field === "plan") {
            v.infoFormated =  " changed the " + _.startCase(v.field) + " - ";
            v.oldTip = "old";
            v.newTip = "new";

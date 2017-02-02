@@ -118,6 +118,10 @@
       return $http.put(apiUrl + '/api/issues/' + issueid + '/updateinfo', data,  getAuth());
     };
 
+    var updateFinalPlan = function(issueid, planid, data) {
+      return $http.put(apiUrl + '/api/issues/' + issueid + '/plan/' + planid, data, getAuth());
+    };
+
     var issuePopulateOne = function(issueid) {
       return $http.get(apiUrl + '/api/issues/' + issueid + '/populate', getAuth());
     };
@@ -392,6 +396,7 @@
       dueIssuesList: dueIssuesList,
       issueUpdateInfo: issueUpdateInfo,
       addUpdateInfo: addUpdateInfo,
+      updateFinalPlan: updateFinalPlan,
       createIssueRecovery: createIssueRecovery,
       verifyPassword: verifyPassword,
       issuePopulateOne: issuePopulateOne,

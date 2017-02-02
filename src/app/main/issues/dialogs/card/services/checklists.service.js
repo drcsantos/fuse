@@ -137,11 +137,19 @@
         var checkItemName = checklist.checkItems[i].name;
         checklist.checkItems.splice(i, 1);
 
-        UpdateInfoService.addUpdateInfo('checkitem_remove', "" , checklist.checklistName, function(err) {
-          if(!err) {
-            vm.updateIssue();
-          }
+        console.log("Removing a check item");
+
+        apilaData.updateCheckList(vm.card._id, checklist._id, checklist)
+        .success(function(d) {
+
+          UpdateInfoService.addUpdateInfo('checkitem_remove', "" , checklist.checklistName);
+
+        })
+        .error(function() {
+          $log.debug("Error while updateing checklist");
         });
+
+
 
       }
 

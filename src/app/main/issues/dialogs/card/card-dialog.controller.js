@@ -1,6 +1,6 @@
 (function ()
 {
-    //'use strict';
+    'use strict';
 
     angular
         .module('app.issues')
@@ -79,6 +79,8 @@
         vm.addNewComment = addNewComment;
         vm.updateComment = updateComment;
         vm.updateIssue = updateIssue;
+
+        vm.updatePlan = updatePlan;
 
         // Main field update
         vm.updateTextFields = updateTextFields;
@@ -377,7 +379,7 @@
         $scope.$watch('vm.card.currdue', function() {
           if(unchangedDueDate !== vm.card.currdue) {
 
-            if(vm.card.currdue != null) {
+            if(vm.card.currdue !== null) {
               if(vm.card.currdue !== "2016") {
                 vm.card.due = vm.card.currdue;
                 if(vm.card.due !== "") {
@@ -567,7 +569,7 @@
              if(!vm.finalPlanChecklist) {
                UpdateInfoService.addUpdateInfo('plan-todo', vm.newFinalPlanText, "");
              } else {
-               UpdateInfoService.addUpdateInfo('plan', vm.newFinalPlanText, "");
+               UpdateInfoService.addUpdateInfo('plan-create', vm.newFinalPlanText, "");
              }
 
              response.author = {
@@ -585,6 +587,25 @@
            .error(function(response) {
              $log.debug(response);
            });
+         }
+
+         function updatePlan(plan) {
+
+           var copyPlan = angular.copy(plan);
+           var oldPlan = _.find(oldData.finalPlan, {createdOn: plan.createdOn});
+
+           if(oldPlan) {
+             apilaData.updateFinalPlan(vm.card._id, plan._id, plan)
+             .success(function(resp) {
+               console.log(resp);
+
+               UpdateInfoService.addUpdateInfo('plan', plan.text, oldPlan.text);
+
+             })
+             .error(function(err) {
+               $log.debug(err);
+             });
+           }
          }
 
          function updateComment(comment) {

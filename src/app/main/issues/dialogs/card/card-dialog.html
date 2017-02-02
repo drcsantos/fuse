@@ -55,7 +55,7 @@
         <md-menu-content class="options-menu-content" width="4">
           <md-menu-item>
             <md-button type="file" ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)" accept="image/*" ngf-max-height="1000" ngf-max-size="3MB">
-              <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+              <md-icon md-font-icon="icon-attachment" md-menu-align-target></md-icon>
               <span>Add attachment</span>
             </md-button>
           </md-menu-item>
@@ -694,7 +694,7 @@
                   <span class="comment-time secondary-text comment-date">{{ plan.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
                 </div>
                 <div class="comment-bubble"
-                  onaftersave="vm.updateComment(plan)"
+                  onaftersave="vm.updatePlan(plan)"
                   editable-textarea="plan.text"
                   ng-trim="false"
                   e-rows="7"
