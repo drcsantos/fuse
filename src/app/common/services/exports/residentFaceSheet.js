@@ -81,35 +81,55 @@
       positionX = metaX;
       config.halfSpaceOffset = 0;
       positionY = calculateY(config);
-      doc.text(data.community.name, positionX, positionY);
+      if (data.community.name) {
+        doc.text(data.community.name, positionX, positionY);
+      } else {
+        doc.text("Testing Community", positionX, positionY);
+      }
 
       config.fullSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Phone: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      doc.text(data.community.phone, positionX, positionY);
+      if (data.community.phone) {
+        doc.text(data.community.phone, positionX, positionY);
+      } else {
+        doc.text("Enter a Phone Number", positionX, positionY);
+      }
 
       config.halfSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Fax: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      doc.text(data.community.fax, positionX, positionY);
+      if (data.community.fax) {
+        doc.text(data.community.fax, positionX, positionY);
+      } else {
+        doc.text("Enter a Fax Number", positionX, positionY);
+      }
 
       config.halfSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Address: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      doc.text(data.community.address, positionX, positionY);
+      if (data.community.address) {
+        doc.text(data.community.address, positionX, positionY);
+      } else {
+        doc.text("Enter an Address", positionX, positionY);
+      }
 
       config.halfSpaceOffset++;
       positionX = metaX;
       positionY = calculateY(config);
       doc.text("Website: ", positionX, positionY);
       positionX = metaX + offsetFromLabel;
-      doc.text(data.community.website, positionX, positionY);
+      if (data.community.website) {
+        doc.text(data.community.website, positionX, positionY);
+      } else {
+        doc.text("Enter a Website", positionX, positionY);
+      }
 
       doc.addPage();
 
