@@ -79,13 +79,11 @@
          }
 
          //formating for members
-         if(v.field === "idMembers") {
+         if(v.field === "members") {
            if(v.old === "") {
-             v.infoFormated =  " added a member ";
-             v.tooltip = v.new;
+             v.infoFormated =  "added " + v.new + " as a Member";
            } else {
-             v.infoFormated =  " removed a member ";
-             v.tooltip = v.old;
+             v.infoFormated =  "removed " + v.old + " as a Member";
            }
          }
 
@@ -166,6 +164,10 @@
            v.infoFormated =  " changed the issue status to " + v.new ;
          }
 
+         if(v.field === "downloaded") {
+           v.infoFormated = "downloaded a " + v.new + " Attachment";
+         }
+
          if(v.field === "plan") {
            v.infoFormated =  " crated a Plan";
            v.tooltip = v.new;
@@ -235,7 +237,7 @@
         if(updateInfo) {
           apilaData.addUpdateInfo(issueid, updateInfo)
           .success(function(u) {
-            console.log(u);
+
             updateInfo.updateBy = {
               'name' : authentication.currentUser().name,
               'userImage' : authentication.getUserImage()

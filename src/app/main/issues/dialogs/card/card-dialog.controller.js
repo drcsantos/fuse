@@ -1,6 +1,6 @@
 (function ()
 {
-    'use strict';
+    //'use strict';
 
     angular
         .module('app.issues')
@@ -96,6 +96,8 @@
         vm.changeStatus = changeStatus;
         vm.exportIssue = exportIssue;
         vm.addFinalPlan = addFinalPlan;
+
+        vm.downloadedInfo = downloadedInfo;
 
         vm.formatUpdateArray = UpdateInfoService.formatUpdateArray;
 
@@ -236,8 +238,15 @@
         function addMemberAutoComplete(selectedMember) {
           if(selectedMember !== null) {
             vm.card.addedMember = selectedMember;
+
             vm.card.idMembers.push(selectedMember);
-            updateIssue();
+
+            UpdateInfoService.addUpdateInfo('members', selectedMember.name, "", function(resp) {
+              if(resp) {
+                updateIssue();
+              }
+            });
+
           }
         }
 
@@ -271,6 +280,8 @@
         ///////////////////////////// UPDATE ////////////////////////////////
 
         function updateIssue(type) {
+
+          //console.log(updateIssue.caller.name);
 
           vm.card.title = vm.card.name;
 
@@ -332,7 +343,9 @@
 
         function changeResponsibleParty(type) {
 
-          if(vm.selectedItem && (vm.selectedItem.value !== oldData.responsibleParty)) {
+          var responsibleParty = oldData.responsibleParty._id ? oldData.responsibleParty._id : oldData.responsibleParty;
+
+          if(vm.selectedItem && (vm.selectedItem.value !== responsibleParty)) {
 
             vm.card.responsibleParty = vm.selectedItem.value;
             vm.updateIssue(type);
@@ -348,9 +361,11 @@
 
         function memberUpdate(selectedMember) {
           vm.card.deletedMember = selectedMember;
-          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('idMembers', "" , selectedMember));
 
-          updateIssue(selectedMember);
+          UpdateInfoService.addUpdateInfo('members', "" , selectedMember, function(resp) {
+            vm.card.deletedMember = true;
+            updateIssue();
+          });
 
         }
 
@@ -526,6 +541,14 @@
                doc.author = doc.author._id;
              }
            });
+         }
+
+         function downloadedInfo(name) {
+           var extension = name.split('.').pop();
+
+           if(extension) {
+             UpdateInfoService.addUpdateInfo('downloaded', extension, "");
+           }
          }
 
          function addFinalPlan() {

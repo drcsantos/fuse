@@ -415,7 +415,7 @@
                   <div class="attachment-content" layout="column">
 
                     <div layout="row" layout-align="start center">
-                      <a class="attachment-name" ng-href="{{ item.url }}">{{item.name}}</a>
+                      <a class="attachment-name" ng-mousedown="vm.downloadedInfo(item.name)" ng-href="{{item.url}}">{{item.name}}</a>
                       <i ng-if="vm.card.idAttachmentCover === item.id"
                         class="icon-star yellow-700-fg attachment-is-cover s18"></i>
                     </div>
