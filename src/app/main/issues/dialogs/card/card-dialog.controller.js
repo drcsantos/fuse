@@ -84,6 +84,7 @@
         // Checklist
         vm.updateCheckedCount = ChecklistsService.updateCheckedCount;
         vm.addCheckItem = ChecklistsService.addCheckItem;
+        vm.updateCheckListName = ChecklistsService.updateCheckListName;
         vm.removeChecklist = ChecklistsService.removeChecklist;
         vm.createCheckList = ChecklistsService.createCheckList;
         vm.removeCheckItem = ChecklistsService.removeCheckItem;

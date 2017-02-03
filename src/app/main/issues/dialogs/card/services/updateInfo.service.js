@@ -101,11 +101,9 @@
          //formating for labels
          if(v.field === "labels") {
            if(v.old === "") {
-             v.infoFormated =  "added a label ";
-             v.tooltip = v.new;
+             v.infoFormated =  "added the " + v.new + " label";
            } else {
-             v.infoFormated =  "removed a label ";
-             v.tooltip = v.old;
+             v.infoFormated =  "removed the " + v.old + " label";
            }
          }
 

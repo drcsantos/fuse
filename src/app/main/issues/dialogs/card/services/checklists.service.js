@@ -60,6 +60,20 @@
           });
       }
 
+
+      function updateCheckListName(list) {
+
+        console.log(list);
+
+        apilaData.updateCheckList(vm.card._id, list._id, list)
+        .success(function(d) {
+
+        })
+        .error(function(response) {
+          $log.debug(response);
+        });
+      }
+
       function addCheckItem(text, checkList)
       {
           if ( !text || text === '' ) { return; }
@@ -177,6 +191,7 @@
       return {
         setViewModel : setViewModel,
         updateCheckedCount : updateCheckedCount,
+        updateCheckListName : updateCheckListName,
         addCheckItem : addCheckItem,
         removeChecklist : removeChecklist,
         createCheckList : createCheckList,

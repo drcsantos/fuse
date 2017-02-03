@@ -182,7 +182,7 @@
                     </div>
 
                     <div layout="row" layout-align="end center" flex>
-                      <md-button class="remove-button md-icon-button" type="submit" md-prevent-menu-close ng-click="vm.removeLabel(); vm.labelTabIndex=0" aria-label="remove" translate translate-attr-aria-label="SB.REMOVE">
+                      <md-button class="remove-button md-icon-button" type="submit" md-prevent-menu-close ng-click="vm.removeLabel(vm.board.labels.getById(vm.editLabelId)); vm.labelTabIndex=0" aria-label="remove" translate translate-attr-aria-label="SB.REMOVE">
                         <md-icon md-font-icon="icon-delete"></md-icon>
                       </md-button>
                     </div>
@@ -470,7 +470,10 @@
               <span class="section-title"
                 e-rows="1"
                 e-cols="60"
-                editable-textarea="checklist.checklistName">{{checklist.checklistName}}
+                editable-textarea="checklist.checklistName"
+                onaftersave="vm.updateCheckListName(checklist)"
+                >{{checklist.checklistName}}
+
               </span>
 
               <md-menu md-position-mode="target-right target" class="options">
