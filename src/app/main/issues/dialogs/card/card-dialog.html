@@ -32,7 +32,7 @@
           </md-menu-item>
 
           <md-menu-item class="member" ng-repeat="member in vm.members  | filter: vm.filterMember">
-            <md-button ng-fclick="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
+            <md-button ng-click="vm.addMembers(member, vm.card.idMembers)" md-prevent-menu-close aria-label="toggle member" translate translate-attr-aria-label="SB.TOGGLE_MEMBER">
               <div layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                   <img class="avatar" alt="{{member.name}}" ng-src="{{member.userImage || 'assets/images/avatars/userDefaultProfile.png'}}" />
@@ -723,7 +723,7 @@
                   </md-tooltip>
                 </span>
 
-                <span>Responsile Party,
+                <span>Responsible Party,
                   <md-tooltip md-direction="top">
                     {{ vm.card.responsibleParty }}
                   </md-tooltip>

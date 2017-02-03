@@ -49,7 +49,20 @@
         vm.rgba = fuseGenerator.rgba;
         vm.toggleInArray = msUtils.toggleInArray;
         vm.exists = msUtils.exists;
-        vm.existsMembers = msUtils.exists;
+
+        vm.existsMembers = function(item, arr) {
+          return _.find(arr, {_id: item._id}) ? true : false;
+        };
+
+        vm.toggleMember = function(item, arr) {
+          var exists = _.find(arr, {_id: item._id}) ? true : false;
+
+          if(exists) {
+            arr.splice(arr.indexOf(item), 1);
+          } else {
+            arr.push(item);
+          }
+        };
 
         vm.removeAttachment = removeAttachment;
 
@@ -229,11 +242,23 @@
 
         function addMembers(item, array) {
 
-            msUtils.toggleInArray(item, array);
+            var exists = vm.existsMembers(item, array);
 
-            vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('idMembers', item.name, ""));
+            vm.toggleMember(item, array);
 
-            updateIssue();
+            if(exists) {
+              UpdateInfoService.addUpdateInfo('members', "", item.name, function(resp) {
+                if(resp) {
+                  updateIssue();
+                }
+              });
+            } else {
+              UpdateInfoService.addUpdateInfo('members', item.name, "", function(resp) {
+                if(resp) {
+                  updateIssue();
+                }
+              });
+            }
 
         }
 
