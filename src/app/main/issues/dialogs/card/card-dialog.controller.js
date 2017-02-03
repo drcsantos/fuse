@@ -343,10 +343,21 @@
         ///////////////////////// UPDATE MAIN FIELDS //////////////////////////
 
        function removeDueDate() {
-          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('due', "" , vm.card.currdue));
+         vm.card.due = "";
+
+         var currdue = vm.card.currdue;
+
+          if(isNaN(vm.card.currdue)) {
+           currdue = moment(vm.card.currdue).toDate().getTime();
+          }
+
+          UpdateInfoService.addUpdateInfo('due', '', currdue, function(resp) {
+            if(resp) {
+              updateIssue();
+            }
+          })
           vm.card.currdue = '';
 
-          updateIssue();
         }
 
         function updateMainFields(type) {
@@ -404,15 +415,14 @@
         $scope.$watch('vm.card.currdue', function() {
           if(unchangedDueDate !== vm.card.currdue) {
 
-            if(vm.card.currdue !== null) {
-              if(vm.card.currdue !== "2016") {
-                vm.card.due = vm.card.currdue;
-                if(vm.card.due !== "") {
-                  vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('due', vm.card.currdue, ""));
-                }
+            if(vm.card.currdue) {
+              vm.card.due = vm.card.currdue;
 
-                vm.updateIssue();
-              }
+              UpdateInfoService.addUpdateInfo('due', vm.card.currdue, "", function(resp) {
+                if(resp) {
+                  vm.updateIssue();
+                }
+              });
             }
 
           }

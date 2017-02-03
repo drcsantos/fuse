@@ -154,9 +154,11 @@
 
          if(v.field === "due") {
            if(v.old === "") {
-             v.infoFormated =  " added a due date " + moment(+v.new).format('MMMM Do YYYY, h:mm:ss a') ;
+             v.infoFormated = " set a Due Date ";
+             v.tooltip = moment(+v.new).format('MMMM Do YYYY, h:mm:ss a');
            } else {
-             v.infoFormated =  " removed a due date " + moment(+v.old).format('MMMM Do YYYY, h:mm:ss a') ;
+             v.infoFormated =  " removed a Due Date ";
+             v.tooltip = moment(+v.old).format('MMMM Do YYYY, h:mm:ss a');
            }
          }
 
