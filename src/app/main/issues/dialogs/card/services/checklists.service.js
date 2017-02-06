@@ -16,7 +16,7 @@
         //UpdateInfoService.setData(vm.card._id, vm.card.updateInfo);
       }
 
-      function updateCheckedCount(list, checkedItem)
+      function updateCheckedCount(list, checkedItem, type)
       {
           var checkItems = list.checkItems;
           var checkedItems = 0;
@@ -49,11 +49,14 @@
           apilaData.updateCheckList(vm.card._id, list._id, list)
           .success(function(d) {
 
+            if(type !== 'add') {
               if(checkedItem.checked) {
                 UpdateInfoService.addUpdateInfo("checkitem_checked", list.checklistName, "");
               } else {
-                //UpdateInfoService.addUpdateInfo("checkitem_unchecked", list.checklistName, "");
+                UpdateInfoService.addUpdateInfo("checkitem_unchecked", list.checklistName, "");
               }
+            }
+
           })
           .error(function(response) {
             $log.debug(response);
@@ -61,13 +64,14 @@
       }
 
 
-      function updateCheckListName(list) {
+      function updateCheckListName(list, oldLists) {
 
-        console.log(list);
+
+        var currList = _.find(oldLists, {_id: list._id});
 
         apilaData.updateCheckList(vm.card._id, list._id, list)
         .success(function(d) {
-
+          UpdateInfoService.addUpdateInfo("checklist_name", list.checklistName, currList.checklistName);
         })
         .error(function(response) {
           $log.debug(response);
@@ -89,7 +93,7 @@
           .success(function(d) {
 
               UpdateInfoService.addUpdateInfo('checkitem', checkList.checklistName, "");
-              updateCheckedCount(checkList, newCheckItem);
+              updateCheckedCount(checkList, newCheckItem, 'add');
               text = "";
 
           })
@@ -170,7 +174,7 @@
       function updateCheckItem(checklist, checkitemId, text) {
         checklist.checkItems[checkitemId] = text;
 
-        UpdateInfoService.addUpdateInfo('checkitem_change', "" , text.name, checkItemName, function(err) {
+        UpdateInfoService.addUpdateInfo('checkitem_change', "" , text.name, checklist.checkItems[checkitemId].checkItemName, function(err) {
           if(!err) {
             vm.updateIssue();
           }

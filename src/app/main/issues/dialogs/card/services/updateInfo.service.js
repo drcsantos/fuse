@@ -125,9 +125,10 @@
            }
          }
 
-         if(v.field === "checkitem_change") {
-             v.infoFormated =  " changed a checklist item ";
-             v.tooltip = v.old;
+         if(v.field === "checklist_name") {
+           v.infoFormated =  " changed a checklist title - ";
+           v.oldTip = "old";
+           v.newTip = "new";
          }
 
          if(v.field === "checkitem_remove") {
@@ -139,8 +140,7 @@
          }
 
          if(v.field === "checkitem_unchecked") {
-             v.infoFormated =  " uncompleted a checklist item ";
-             v.tooltip = v.new;
+             v.infoFormated =  " uncompleted a Checklist item in " + v.new;
          }
 
          if(v.field === "comments") {

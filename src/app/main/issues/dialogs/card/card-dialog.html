@@ -471,7 +471,7 @@
                 e-rows="1"
                 e-cols="60"
                 editable-textarea="checklist.checklistName"
-                onaftersave="vm.updateCheckListName(checklist)"
+                onaftersave="vm.updateCheckListName(checklist, vm.oldData.checklists)"
                 >{{checklist.checklistName}}
 
               </span>
