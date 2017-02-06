@@ -35,6 +35,8 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
+        console.log(oldData);
+
         vm.newCheckListTitle = "Checklist";
 
         vm.username = authentication.currentUser().name;
@@ -384,10 +386,23 @@
 
           var responsibleParty = oldData.responsibleParty._id ? oldData.responsibleParty._id : oldData.responsibleParty;
 
+          console.log(vm.board);
+
           if(vm.selectedItem && (vm.selectedItem.value !== responsibleParty)) {
 
             vm.card.responsibleParty = vm.selectedItem.value;
+            UpdateInfoService.addUpdateInfo('responsibleParty', vm.selectedItem.display, oldData.responsibleParty.name);
+
+            var newList = _.find(vm.board.lists, {name: vm.selectedItem.display});
+            var oldList = _.find(vm.board.lists, {name: oldData.responsibleParty.name});
+
+            oldList.idCards = _.without(oldList.idCards, vm.card.id);
+
+            newList.idCards.push(vm.card.id);
+
             vm.updateIssue(type);
+
+            closeDialog();
 
           }
 
