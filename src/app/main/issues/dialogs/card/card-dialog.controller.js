@@ -468,6 +468,8 @@
         .success(function(resp) {
           vm.card.finalPlan = resp.finalPlan;
 
+          console.log(resp.finalPlan);
+
           vm.responsibleParty = resp.responsibleParty;
 
           vm.createdIssue = resp.submitBy.name + " created " + vm.card.title;
@@ -627,8 +629,10 @@
 
              response.author = {
                name: vm.username,
-               userImage: authentication.currentUser().userImage
+               userImage: authentication.getUserImage()
              };
+
+             console.log(response);
 
              vm.card.finalPlan.push(response);
              vm.newFinalPlanText = "";
@@ -693,6 +697,7 @@
               },
               createdOn: createdOn
           };
+
 
           return newComment;
         }
