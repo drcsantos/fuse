@@ -22,9 +22,6 @@
 
         vm.card.currdue = vm.card.due;
 
-        vm.card.labels.map(function(d){d.id = d._id; return d;});
-        vm.board.labels.map(function(d){d.id = d._id; return d;});
-
         vm.newLabelColor = 'red';
         vm.UpdateInfoService = UpdateInfoService;
 
@@ -231,15 +228,28 @@
 
 
         function addLabelToCard(id) {
-          if(!isLabelInCard(id)) {
-            vm.card.labels.push(vm.board.labels.getById(id));
 
-            vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('labels', vm.board.labels.getById(id).name, ""));
-          } else {
-            removeLabelFromCard(id);
-          }
+          var label = _.find(vm.board.labels, {_id: id});
 
-          updateIssue();
+          console.log(label);
+
+          apilaData.addLabelToCard(vm.card._id, label)
+          .success(function(resp) {
+             vm.card.labels.push(label);
+             console.log(vm.card.labels);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          })
+
+          // if(!isLabelInCard(id)) {
+          //   vm.card.labels.push(vm.board.labels.getById(id));
+          //
+          // } else {
+          //   vm.removeLabelFromCard(id);
+          // }
+          //
+          // updateIssue();
 
         }
 
@@ -467,8 +477,6 @@
         apilaData.issuePopulateOne(vm.card._id)
         .success(function(resp) {
           vm.card.finalPlan = resp.finalPlan;
-
-          console.log(resp.finalPlan);
 
           vm.responsibleParty = resp.responsibleParty;
 
@@ -704,7 +712,7 @@
 
         function isLabelInCard(id) {
           for(var i = 0; i < vm.card.labels.length; ++i) {
-            if(vm.card.labels[i].id === id) {
+            if(vm.card.labels[i]._id === id) {
               return true;
             }
           }

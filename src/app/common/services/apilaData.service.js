@@ -49,8 +49,12 @@
       return $http.put(apiUrl + '/api/issues/' + issueid, data, getAuth());
     };
 
-    var addIssueLabelById = function(issueid, data) {
-      return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/new', data, getAuth());
+    var createLabel = function(communityid, data) {
+      return $http.post(apiUrl + '/api/issues/labels/' + communityid, data, getAuth());
+    }
+
+    var addLabelToCard = function(issueid, data) {
+      return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/' + data._id, data, getAuth());
     };
 
     var deleteIssueLabelById = function(issueid, labelid) {
@@ -380,7 +384,8 @@
       addIssueCommentById: addIssueCommentById,
       updateIssue: updateIssue,
       listIssueByUsername: listIssueByUsername,
-      addIssueLabelById: addIssueLabelById,
+      addLabelToCard: addLabelToCard,
+      createLabel: createLabel,
       deleteIssueLabelById: deleteIssueLabelById,
       updateIssueLabelById: updateIssueLabelById,
       addCheckList: addCheckList,

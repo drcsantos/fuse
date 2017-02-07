@@ -58,6 +58,9 @@
           populateLists(vm.myCommunity._id);
           issuesCount(vm.myCommunity._id);
 
+          vm.board.labels = vm.myCommunity.labels;
+          console.log(vm.myCommunity.labels);
+
           setUserRole();
 
           listCopy = angular.copy(vm.board.lists);
@@ -86,8 +89,6 @@
                 return true;
               }
             });
-
-            vm.board.labels = vm.board.labels.concat(_.flatten(_.map(issues, "labels")));
 
             addCardsToList(currUserIssues, vm.board.lists[0]);
           })

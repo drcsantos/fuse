@@ -11,12 +11,16 @@
 
       var vm = null;
 
+      var communityId = authentication.currentUser().communityId;
+
       function setViewModel(viewModel) {
         vm = viewModel;
       }
 
       function addNewLabel()
       {
+        console.log("Adding label");
+
           var label = {
               id   : msUtils.guidGenerator(),
               name : vm.newLabelName,
@@ -24,20 +28,22 @@
               author: authentication.currentUser().name
           };
 
-          label.updateInfo = UpdateInfoService.setUpdateInfo('labels', label.name, "");
+          //label.updateInfo = UpdateInfoService.setUpdateInfo('labels', label.name, "");
+
+          //vm.card.labels.push(vm.board.labels.getById(id));
 
           //send data to the api
-          apilaData.addIssueLabelById(vm.card._id, label)
+          apilaData.createLabel(communityId, label)
           .success(function(data) {
             data.id = data._id;
             vm.board.labels.push(data);
-            vm.card.updateInfo.push(transformUpdateInfo(label.updateInfo));
+            //vm.card.updateInfo.push(transformUpdateInfo(label.updateInfo));
 
             vm.newLabelName = '';
 
           })
-          .error(function(data) {
-            $log.debug("Error while adding label");
+          .error(function(err) {
+            $log.debug(err);
           });
 
       }
@@ -47,12 +53,12 @@
           var arr = vm.board.labels;
           arr.splice(arr.indexOf(arr.getById(vm.editLabelId)), 1);
 
-          var updateInfo = UpdateInfoService.setUpdateInfo('labels', "", id.name);
+          //var updateInfo = UpdateInfoService.setUpdateInfo('labels', "", id.name);
 
           apilaData.deleteIssueLabelById(vm.card._id, id._id)
           .success(function(d) {
 
-            vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
+            //vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
 
             angular.forEach(vm.board.cards, function (card)
             {
@@ -71,6 +77,8 @@
       }
 
       function editLabel(id) {
+        console.log("Toggling a label");
+
         vm.labelTabIndex = 2;
         vm.editLabelId = id;
       }
