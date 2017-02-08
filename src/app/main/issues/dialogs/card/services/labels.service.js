@@ -50,15 +50,9 @@
 
       function removeLabel(id)
       {
-          var arr = vm.board.labels;
-          arr.splice(arr.indexOf(arr.getById(vm.editLabelId)), 1);
 
-          //var updateInfo = UpdateInfoService.setUpdateInfo('labels', "", id.name);
-
-          apilaData.deleteIssueLabelById(vm.card._id, id._id)
+          apilaData.deleteLabel(communityId, id.name)
           .success(function(d) {
-
-            //vm.card.updateInfo.push(transformUpdateInfo(updateInfo));
 
             angular.forEach(vm.board.cards, function (card)
             {
@@ -81,6 +75,8 @@
 
         vm.labelTabIndex = 2;
         vm.editLabel = label;
+        vm.editLabel.newName = label.name;
+
       }
 
 

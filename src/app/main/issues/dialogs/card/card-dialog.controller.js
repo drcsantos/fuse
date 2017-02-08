@@ -451,10 +451,13 @@
 
         }
 
-        function updateLabel(labelname) {
-          apilaData.updateIssueLabel(vm.card._id, labelname)
+        function updateLabel(label) {
+
+
+          apilaData.updateIssueLabel(vm.communityId, label.name, label)
           .success(function(resp) {
-            console.log(resp);
+            var index = _.findIndex(vm.board.labels, {name: label.name});
+            vm.board.labels[index] = label;
           })
           .error(function(err) {
             $log.debug(err);
