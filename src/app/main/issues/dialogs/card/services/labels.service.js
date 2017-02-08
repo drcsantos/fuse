@@ -76,28 +76,13 @@
           vm.newLabelName = '';
       }
 
-      function editLabel(id) {
-        console.log("Toggling a label");
+      function editLabel(label) {
+        console.log("Editing a label");
 
         vm.labelTabIndex = 2;
-        vm.editLabelId = id;
+        vm.editLabel = label;
       }
 
-      function removeLabelFromCard(id) {
-
-        var index = null;
-        for(var i = 0; i < vm.card.labels.length; ++i) {
-          if(vm.card.labels[i].id === id) {
-            index = i;
-            break;
-          }
-        }
-
-        if(index != null) {
-          vm.card.labels.splice(index, 1);
-        }
-
-      }
 
       function labelQuerySearch(query)
       {
@@ -139,7 +124,6 @@
         addNewLabel : addNewLabel,
         removeLabel : removeLabel,
         editLabel : editLabel,
-        removeLabelFromCard : removeLabelFromCard,
         labelQuerySearch : labelQuerySearch,
         filterLabel : filterLabel,
         setViewModel : setViewModel

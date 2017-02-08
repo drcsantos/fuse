@@ -72,7 +72,7 @@
         vm.filterLabel = LabelsService.filterLabel;
         vm.addNewLabel = LabelsService.addNewLabel;
         vm.removeLabel = LabelsService.removeLabel;
-        vm.removeLabelFromCard = LabelsService.removeLabelFromCard;
+        vm.removeLabelFromCard = removeLabelFromCard;
         vm.editLabel = LabelsService.editLabel;
         vm.addLabelToCard = addLabelToCard;
         vm.isLabelInCard = isLabelInCard;
@@ -231,25 +231,41 @@
 
           var label = _.find(vm.board.labels, {_id: id});
 
-          console.log(label);
+          if(!isLabelInCard(label.name)) {
 
-          apilaData.addLabelToCard(vm.card._id, label)
+            apilaData.addLabelToCard(vm.card._id, label)
+            .success(function(resp) {
+               vm.card.labels.push(label);
+            })
+            .error(function(err) {
+              $log.debug(err);
+            });
+
+          } else {
+            vm.removeLabelFromCard(label.name);
+          }
+
+        }
+
+        function removeLabelFromCard(labelname, fromchip) {
+
+          console.log(fromchip);
+
+          apilaData.removeLabelFromCard(vm.card._id, labelname)
           .success(function(resp) {
-             vm.card.labels.push(label);
-             console.log(vm.card.labels);
+
+            if(!fromchip) {
+              var index = _.findIndex(vm.card.labels, {name: labelname});
+
+              if(index != null) {
+                vm.card.labels.splice(index, 1);
+              }
+            }
+
           })
           .error(function(err) {
             $log.debug(err);
-          })
-
-          // if(!isLabelInCard(id)) {
-          //   vm.card.labels.push(vm.board.labels.getById(id));
-          //
-          // } else {
-          //   vm.removeLabelFromCard(id);
-          // }
-          //
-          // updateIssue();
+          });
 
         }
 
@@ -435,8 +451,14 @@
 
         }
 
-        function updateLabel(labelid) {
-          vm.updateIssue();
+        function updateLabel(labelname) {
+          apilaData.updateIssueLabel(vm.card._id, labelname)
+          .success(function(resp) {
+            console.log(resp);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          });
         }
 
         //Update due date
@@ -479,6 +501,8 @@
           vm.card.finalPlan = resp.finalPlan;
 
           vm.responsibleParty = resp.responsibleParty;
+
+          LabelsService.setViewModel(vm);
 
           vm.createdIssue = resp.submitBy.name + " created " + vm.card.title;
 
@@ -710,14 +734,11 @@
           return newComment;
         }
 
-        function isLabelInCard(id) {
-          for(var i = 0; i < vm.card.labels.length; ++i) {
-            if(vm.card.labels[i]._id === id) {
-              return true;
-            }
-          }
+        function isLabelInCard(name) {
 
-          return false;
+          var label = _.find(vm.card.labels, {name: name});
+
+          return (label) ? true : false;
         }
 
         function updateIssueCount() {

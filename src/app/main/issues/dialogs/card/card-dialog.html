@@ -106,10 +106,10 @@
                   <md-button class="label-toggle-button" md-prevent-menu-close ng-class="'md-'+label.color+'-bg'" ng-click="vm.addLabelToCard(label._id)" aria-label="Toggle Label" translate translate-attr-aria-label="SB.TOGGLE_LABEL">
                     <div layout="row" layout-align="space-between center">
                       <span>{{label.name}}</span>
-                      <i ng-if="vm.isLabelInCard(label._id)" class="icon-check s16"></i>
+                      <i ng-if="vm.isLabelInCard(label.name)" class="icon-check s16"></i>
                     </div>
                   </md-button>
-                  <md-button class="md-icon-button label-edit-button" md-prevent-menu-close ng-click="vm.editLabel(label._id)" aria-label="Edit Label" translate translate-attr-aria-label="SB.EDIT_LABEL">
+                  <md-button class="md-icon-button label-edit-button" md-prevent-menu-close ng-click="vm.editLabel(label)" aria-label="Edit Label" translate translate-attr-aria-label="SB.EDIT_LABEL">
                     <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
                   </md-button>
                 </md-menu-item>
@@ -171,18 +171,18 @@
 
                   <div class="content" layout="column" layout-align="start stretch">
                     <md-input-container class="no-errors-spacer" md-no-float>
-                      <input placeholder="Label Name" type="text" ng-blur="vm.updateLabel(vm.editLabelId)" ng-model="vm.board.labels.getById(vm.editLabelId).name" translate translate-attr-placeholder="SB.LABEL_NAME">
+                      <input placeholder="Label Name" type="text" ng-blur="vm.updateLabel(vm.editLabel.name)" ng-model="vm.editLabel.name" translate translate-attr-placeholder="SB.LABEL_NAME">
                     </md-input-container>
 
                     <div class="label-color-picker" layout="row" layout-wrap>
                       <label class="color" ng-repeat="(palette, hues) in vm.palettes" ng-style="{'background-color': vm.rgba(hues['500'].value), 'color': vm.rgba(hues['500'].contrast, 1)}" layout="column" layout-align="center center">
-                        <input class="ng-hide" type="radio" ng-model="vm.board.labels.getById(vm.editLabelId).color" ng-value="palette" ng-click="vm.updateLabel(vm.editLabelId)" aria-label="{{palette}}">
-                        <i ng-if="vm.board.labels.getById(vm.editLabelId).color === palette" class="icon-check s18"></i>
+                        <input class="ng-hide" type="radio" ng-model="vm.editLabel.color" ng-value="palette" ng-click="vm.updateLabel(vm.editLabel.name)" aria-label="{{palette}}">
+                        <i ng-if="vm.editLabel.color === palette" class="icon-check s18"></i>
                       </label>
                     </div>
 
                     <div layout="row" layout-align="end center" flex>
-                      <md-button class="remove-button md-icon-button" type="submit" md-prevent-menu-close ng-click="vm.removeLabel(vm.board.labels.getById(vm.editLabelId)); vm.labelTabIndex=0" aria-label="remove" translate translate-attr-aria-label="SB.REMOVE">
+                      <md-button class="remove-button md-icon-button" type="submit" md-prevent-menu-close ng-click="vm.removeLabel(vm.editLabel); vm.labelTabIndex=0" aria-label="remove" translate translate-attr-aria-label="SB.REMOVE">
                         <md-icon md-font-icon="icon-delete"></md-icon>
                       </md-button>
                     </div>
@@ -360,7 +360,7 @@
               <md-chip-template class="label-chip" ng-class="'md-'+$chip.color+'-bg'">
                 <span>{{$chip.name}}</span>
               </md-chip-template>
-              <button md-chip-remove class="md-primary" ng-click="vm.removeLabel($chip)">
+              <button md-chip-remove class="md-primary" ng-click="vm.removeLabelFromCard($chip.name, 'chip')">
                 <md-icon md-font-icon="icon-close" class="s18"></md-icon>
               </button>
             </md-chips>

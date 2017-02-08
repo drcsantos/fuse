@@ -57,12 +57,12 @@
       return $http.post(apiUrl + '/api/issues/' + issueid + '/labels/' + data._id, data, getAuth());
     };
 
-    var deleteIssueLabelById = function(issueid, labelid) {
-      return $http.delete(apiUrl + '/api/issues/' + issueid + '/labels/' + labelid, getAuth());
+    var removeLabelFromCard = function(issueid, labelname) {
+      return $http.delete(apiUrl + '/api/issues/' + issueid + '/labels/' + labelname, getAuth());
     };
 
-    var updateIssueLabelById = function(issueId, labelid, data) {
-      return $http.put(apiUrl + '/api/issues/' + issueId + '/labels/' + labelid, data, getAuth());
+    var updateIssueLabel = function(issueId, labelname, data) {
+      return $http.put(apiUrl + '/api/issues/' + issueId + '/labels/' + labelname, data, getAuth());
     };
 
     var addIssueCommentById = function(issueid, data) {
@@ -386,8 +386,8 @@
       listIssueByUsername: listIssueByUsername,
       addLabelToCard: addLabelToCard,
       createLabel: createLabel,
-      deleteIssueLabelById: deleteIssueLabelById,
-      updateIssueLabelById: updateIssueLabelById,
+      removeLabelFromCard: removeLabelFromCard,
+      updateIssueLabel: updateIssueLabel,
       addCheckList: addCheckList,
       updateCheckList: updateCheckList,
       issueCommentsUpdate: issueCommentsUpdate,
