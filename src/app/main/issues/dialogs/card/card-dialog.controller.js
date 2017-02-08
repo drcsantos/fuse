@@ -7,7 +7,7 @@
         .controller('ScrumboardCardDialogController', ScrumboardCardDialogController);
 
     /** @ngInject */
-    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
+    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $window, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
       fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, $log, FileUploadService, UpdateInfoService, MembersService, Utils)
     {
         var vm = this;
@@ -229,20 +229,22 @@
 
         function addLabelToCard(id) {
 
-          var label = _.find(vm.board.labels, {_id: id});
+          if(id) {
+            var label = _.find(vm.board.labels, {_id: id});
 
-          if(!isLabelInCard(label.name)) {
+            if(!isLabelInCard(label.name)) {
 
-            apilaData.addLabelToCard(vm.card._id, label)
-            .success(function(resp) {
-               vm.card.labels.push(label);
-            })
-            .error(function(err) {
-              $log.debug(err);
-            });
+              apilaData.addLabelToCard(vm.card._id, label)
+              .success(function(resp) {
+                 vm.card.labels.push(label);
+              })
+              .error(function(err) {
+                $log.debug(err);
+              });
 
-          } else {
-            vm.removeLabelFromCard(label.name);
+            } else {
+              vm.removeLabelFromCard(label.name);
+            }
           }
 
         }
@@ -453,11 +455,9 @@
 
         function updateLabel(label) {
 
-
           apilaData.updateIssueLabel(vm.communityId, label.name, label)
           .success(function(resp) {
-            var index = _.findIndex(vm.board.labels, {name: label.name});
-            vm.board.labels[index] = label;
+            $window.location.reload();
           })
           .error(function(err) {
             $log.debug(err);

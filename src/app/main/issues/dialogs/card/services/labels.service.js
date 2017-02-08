@@ -7,7 +7,7 @@
         .service('LabelsService', LabelsService);
 
     /** @ngInject */
-    function LabelsService(apilaData, msUtils, $log, authentication, UpdateInfoService) {
+    function LabelsService(apilaData, $window, msUtils, $log, authentication, UpdateInfoService) {
 
       var vm = null;
 
@@ -61,6 +61,8 @@
                     card.idLabels.splice(card.idLabels.indexOf(vm.editLabelId), 1);
                 }
             });
+
+            $window.location.reload();
 
           })
           .error(function(response) {

@@ -354,7 +354,8 @@
                 md-search-text="vm.searchLabelText"
                 md-items="label in vm.labelQuerySearch(vm.searchLabelText)"
                 md-item-text="label.name"
-                placeholder="Search for a label">
+                placeholder="Search for a label"
+                md-selected-item-change="vm.addLabelToCard(label._id)">
                 <span md-highlight-text="vm.searchLabelText">{{label.name}}</span>
               </md-autocomplete>
               <md-chip-template class="label-chip" ng-class="'md-'+$chip.color+'-bg'">
