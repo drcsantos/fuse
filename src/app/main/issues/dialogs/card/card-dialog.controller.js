@@ -522,12 +522,12 @@
 
             if(vm.userRole === 'minions' || vm.userRole === 'creator') {
 
-              if(!vm.submitBy) {
+              if(!vm.card.responsibleParty._id) {
                 return true;
               }
 
               // if our own issue
-              if(vm.userid === vm.submitBy._id) {
+              if(vm.userid === vm.card.responsibleParty._id) {
                 if(type === 'status' || type === 'responsibleParty') {
                   return true;
                 } else {
