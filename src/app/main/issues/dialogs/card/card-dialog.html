@@ -9,7 +9,7 @@
       <!-- DUE DATE -->
       <div class="due-date">
         <div ng-if="!vm.card.currdue" moment-picker="vm.card.currdue" format="x" min-view="year" max-view="month" start-view="month">
-          <md-button class="md-icon-button" aria-label="Due date" translate translate-attr-aria-label="SB.DUE_DATE" ng-click="$mdOpenMenu($event)">
+          <md-button class="md-icon-button" ng-disabled="vm.editPermissions('')" aria-label="Due date" translate translate-attr-aria-label="SB.DUE_DATE" ng-click="$mdOpenMenu($event)">
             <md-tooltip>Due Date</md-tooltip>
             <md-icon md-font-icon="icon-calendar"></md-icon>
           </md-button>
@@ -19,7 +19,7 @@
 
       <!-- MEMBERS -->
       <md-menu md-offset="0 48" class="members">
-        <md-button class="md-icon-button" aria-label="Members" ng-click="$mdOpenMenu($event)">
+        <md-button class="md-icon-button" ng-disabled="vm.editPermissions('')" aria-label="Members" ng-click="$mdOpenMenu($event)">
           <md-tooltip>Members</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-account-multiple"></md-icon>
         </md-button>
@@ -48,7 +48,7 @@
 
       <!-- ATTACHMENT -->
       <md-menu md-offset="0 48px" class="options">
-        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Attachment" translate translate-attr-aria-label="SB.ATTACHMENT">
+        <md-button class="md-icon-button" ng-disabled="vm.editPermissions('')" ng-click="$mdOpenMenu($event)" aria-label="Attachment" translate translate-attr-aria-label="SB.ATTACHMENT">
           <md-tooltip>Attachments</md-tooltip>
           <md-icon md-font-icon="icon-attachment"></md-icon>
         </md-button>
@@ -65,7 +65,7 @@
 
       <!-- CHECKLIST -->
       <md-menu md-offset="0 48px" class="checklist">
-        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="checklist" translate translate-attr-aria-label="SB.CHECKLIST">
+        <md-button class="md-icon-button" ng-disabled="vm.editPermissions('')" ng-click="$mdOpenMenu($event)" aria-label="checklist" translate translate-attr-aria-label="SB.CHECKLIST">
           <md-tooltip>Checklists</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-checkbox-marked"></md-icon>
         </md-button>
@@ -86,7 +86,7 @@
 
       <!-- LABELS -->
       <md-menu md-offset="0 48" class="labels">
-        <md-button class="md-icon-button" aria-label="Label" translate translate-attr-aria-label="SB.LABEL" ng-click="vm.labelTabIndex = 0;$mdOpenMenu($event)">
+        <md-button class="md-icon-button" ng-disabled="vm.editPermissions('')" aria-label="Label" translate translate-attr-aria-label="SB.LABEL" ng-click="vm.labelTabIndex = 0;$mdOpenMenu($event)">
           <md-tooltip>Labels</md-tooltip>
           <md-icon md-menu-origin md-font-icon="icon-label-outline"></md-icon>
         </md-button>
@@ -198,6 +198,7 @@
       <!-- EXPORT -->
       <md-button class="md-icon-button"
         ng-click="vm.exportIssue()"
+        ng-disabled="vm.editPermissions('')"
         aria-label="Options"
         translate
         translate-attr-aria-label="SB.OPTIONS">
@@ -207,7 +208,7 @@
       <!-- / EXPORT -->
 
       <!-- WORD CLOUD -->
-      <md-button class="md-icon-button" ng-click="vm.wordCloud()" aria-label="WordCloud">
+      <md-button class="md-icon-button" ng-click="vm.wordCloud()" ng-disabled="vm.editPermissions('')" aria-label="WordCloud">
         <md-tooltip>Word Cloud</md-tooltip>
         <md-icon md-menu-origin md-font-icon="icon-cloud"></md-icon>
       </md-button>
@@ -262,7 +263,7 @@
       <div class="section">
         <md-input-container class="md-block">
           <label>Title</label>
-          <input ng-disabled="vm.userid !== vm.card.submitBy._id"
+          <input ng-disabled="vm.editPermissions('title')"
             ng-model="vm.card.name"
             type="text"
             ng-blur="vm.updateIssue('name')"
@@ -273,7 +274,7 @@
         <!-- DESCRIPTION -->
         <md-input-container class="md-block">
           <label translate="SB.DESCRIPTION">Description</label>
-          <textarea ng-disabled="vm.userid !== vm.card.submitBy._id"
+          <textarea ng-disabled="vm.editPermissions('description')"
             ng-model="vm.card.description"
             ng-blur="vm.updateIssue('description')"
             columns="1"></textarea>
@@ -283,7 +284,7 @@
         <!-- resolutionTimeframe -->
         <md-input-container class="md-block">
           <label>Resolution Time Frame</label>
-          <md-select ng-disabled="vm.userid !== vm.card.submitBy._id"
+          <md-select ng-disabled="vm.editPermissions('resolutionTimeframe')"
             ng-model="vm.card.resolutionTimeframe"
             ng-change="vm.updateIssue('resolutionTimeframe')"
             placeholder="Time Frame"
@@ -297,12 +298,12 @@
 
         <!-- issue status -->
         <md-input-container class="md-block">
-          <md-tooltip ng-if="vm.userRole !== 'directors' && vm.userRole !== 'boss' && vm.userRole !== 'creator'">
+          <md-tooltip ng-if="vm.editPermissions('status')">
             Not Editable by Minions
           </md-tooltip>
           <label>Status</label>
           <md-select
-            ng-disabled="vm.userRole !== 'directors' && vm.userRole !== 'boss' && vm.userRole !== 'creator'"
+            ng-disabled="vm.editPermissions('status')"
             ng-model="vm.card.status"
             ng-change="vm.changeStatus()"
             placeholder="Issue Status"
@@ -322,6 +323,7 @@
         <!-- Responsible party -->
         <div class="md-block">
           <md-autocomplete required=""
+            ng-disabled="vm.editPermissions('responsibleParty')"
             md-selected-item="vm.selectedItem"
             md-input-name="vm.selectedItem"
             md-search-text="searchText"
@@ -355,13 +357,14 @@
                 md-items="label in vm.labelQuerySearch(vm.searchLabelText)"
                 md-item-text="label.name"
                 placeholder="Search for a label"
+                ng-disabled="vm.editPermissions('')"
                 md-selected-item-change="vm.addLabelToCard(label._id)">
                 <span md-highlight-text="vm.searchLabelText">{{label.name}}</span>
               </md-autocomplete>
               <md-chip-template class="label-chip" ng-class="'md-'+$chip.color+'-bg'">
                 <span>{{$chip.name}}</span>
               </md-chip-template>
-              <button md-chip-remove class="md-primary" ng-click="vm.removeLabelFromCard($chip.name, 'chip')">
+              <button md-chip-remove class="md-primary" ng-disabled="vm.editPermissions('')" ng-click="vm.removeLabelFromCard($chip.name, 'chip')">
                 <md-icon md-font-icon="icon-close" class="s18"></md-icon>
               </button>
             </md-chips>
@@ -379,6 +382,7 @@
             md-autocomplete-snap md-require-match="true">
             <md-autocomplete md-selected-item="vm.selectedMember"
               md-search-text="vm.searchText"
+              ng-disabled="vm.editPermissions('')"
               md-items="member in vm.memberQuerySearch(vm.searchText)"
               md-item-text="member.name"
               placeholder="Search for a member"
@@ -388,7 +392,7 @@
             <md-chip-template class="member-chip">
               <span>{{ $chip.name }}</span>
             </md-chip-template>
-            <button md-chip-remove class="md-primary" ng-click="vm.memberUpdate($chip.name)">
+            <button md-chip-remove class="md-primary" ng-disabled="vm.editPermissions('')" ng-click="vm.memberUpdate($chip.name)">
               <md-icon md-font-icon="icon-close" class="s18"></md-icon>
             </button>
           </md-chips>
@@ -452,6 +456,7 @@
                 class="add-attachment-button" a
                 ria-label="add attachment"
                 ngf-max-height="1000"
+                ng-disabled="vm.editPermissions('')"
                 ngf-max-size="5MB">
                 <div layout="row" layout-align="start center">
                   <i class="icon-plus s20"></i>
@@ -481,6 +486,7 @@
                 <md-button class="md-icon-button"
                   ng-click="$mdOpenMenu($event)"
                   aria-label="options"
+                  ng-disabled="vm.editPermissions('')"
                   translate
                   translate-attr-aria-label="SB.OPTIONS">
                   <md-icon md-menu-origin md-font-icon="icon-dots-vertical"></md-icon>
@@ -490,6 +496,7 @@
                   <md-menu-item>
                     <md-button ng-click="vm.removeChecklist(checklist)"
                       aria-label="Remove Checklist"
+                      ng-disabled="vm.editPermissions('')"
                       translate
                       translate-attr-aria-label="SB.REMOVE_CHECKLIST">
                       <md-icon md-font-icon="icon-delete"></md-icon>
@@ -516,6 +523,7 @@
               <div class="check-items">
                 <div class="check-item" ng-repeat="checkItem in checklist.checkItems">
                   <md-checkbox ng-model="checkItem.checked"
+                    ng-disabled="vm.editPermissions('')"
                     ng-change="vm.updateCheckedCount(checklist, checkItem)"
                     aria-label="{{checkItem.name}}">
                   </md-checkbox>
@@ -540,7 +548,7 @@
                 ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);checklist.newCheckItem = ''"
                 layout="row"
                 layout-align="start center">
-                <md-input-container class="no-errors-spacer" flex>
+                <md-input-container class="no-errors-spacer" ng-disabled="vm.editPermissions('')" flex>
                   <label layout="row" layout-align="center">
                     <i class="icon-plus s18"></i>
                     <span translate="SB.ADD_AN_ITEM">Add an item</span>
@@ -551,6 +559,7 @@
                 <md-button type="submit"
                   class="md-raised md-accent"
                   aria-label="Add"
+                  ng-disabled="vm.editPermissions('')"
                   translate translate-attr-aria-label="SB.ADD">
                   <span translate="SB.ADD">Add</span>
                 </md-button>
@@ -657,6 +666,7 @@
                 <md-input-container flex md-no-float>
                   <textarea ms-scroll placeholder="Issue's Plan"
                     ng-model="vm.newFinalPlanText"
+                    ng-disabled="vm.editPermissions('')"
                     required
                     translate
                     translate-attr-placeholder="SB.FINAL_PLAN">
@@ -671,7 +681,7 @@
                   <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
                   </md-switch>
 
-                  <md-button type="submit" class="md-raised md-accent" aria-label="Add Item">
+                  <md-button ng-disabled="vm.editPermissions('')" type="submit" class="md-raised md-accent" aria-label="Add Item">
                     <span translate="SB.FINAL_PLAN_ADD">Add Item</span>
                   </md-button>
                 </div>

@@ -34,8 +34,6 @@
 
         vm.oldData = oldData;
 
-        console.log(oldData);
-
         vm.newCheckListTitle = "Checklist";
 
         vm.username = authentication.currentUser().name;
@@ -96,6 +94,40 @@
         vm.updateIssue = updateIssue;
 
         vm.updatePlan = updatePlan;
+
+        vm.editPermissions = function(type) {
+          if(vm.userRole) {
+
+            if(vm.userRole === 'boss') {
+              return false;
+            }
+
+            if(vm.userRole === 'directors') {
+              return false;
+            }
+
+            if(vm.userRole === 'minions' || vm.userRole === 'creator') {
+
+              if(!vm.submitBy) {
+                return true;
+              }
+
+              // if our own issue
+              if(vm.userid === vm.submitBy._id) {
+                if(type === 'status' || type === 'responsibleParty') {
+                  return true;
+                } else {
+                  return false;
+                }
+              } else {
+                return true;
+              }
+
+            }
+          }
+
+          return true;
+        }
 
         // Main field update
         vm.updateTextFields = updateTextFields;
@@ -251,8 +283,6 @@
 
         function removeLabelFromCard(labelname, fromchip) {
 
-          console.log(fromchip);
-
           apilaData.removeLabelFromCard(vm.card._id, labelname)
           .success(function(resp) {
 
@@ -341,8 +371,6 @@
 
         function updateIssue(type) {
 
-          //console.log(updateIssue.caller.name);
-
           vm.card.title = vm.card.name;
 
           var oldResponsibleParty = oldData.responsibleParty._id ?
@@ -415,8 +443,6 @@
         function changeResponsibleParty(type) {
 
           var responsibleParty = oldData.responsibleParty._id ? oldData.responsibleParty._id : oldData.responsibleParty;
-
-          console.log(vm.board);
 
           if(vm.selectedItem && (vm.selectedItem.value !== responsibleParty)) {
 
@@ -506,6 +532,8 @@
           vm.responsibleParty = resp.responsibleParty;
 
           LabelsService.setViewModel(vm);
+
+          vm.submitBy = resp.submitBy;
 
           vm.createdIssue = resp.submitBy.name + " created " + vm.card.title;
 
@@ -667,8 +695,6 @@
                userImage: authentication.getUserImage()
              };
 
-             console.log(response);
-
              vm.card.finalPlan.push(response);
              vm.newFinalPlanText = "";
 
@@ -689,8 +715,7 @@
            if(oldPlan) {
              apilaData.updateFinalPlan(vm.card._id, plan._id, plan)
              .success(function(resp) {
-               console.log(resp);
-
+               
                UpdateInfoService.addUpdateInfo('plan', plan.text, oldPlan.text);
 
              })
@@ -762,12 +787,14 @@
         function setUserRole() {
           if(vm.myCommunity.creator.name === vm.username) {
             vm.userRole = "creator";
-          } else if(vm.myCommunity.boss.name === vm.username) {
-            vm.userRole = "boss";
           } else if(_.find(vm.myCommunity.directors, {"name" : vm.username}) !== undefined) {
             vm.userRole = "directors";
           } else if(_.find(vm.myCommunity.minions, {"name" : vm.username}) !== undefined) {
             vm.userRole = "minions";
+          }
+
+          if(vm.myCommunity.boss.name === vm.username) {
+            vm.userRole = "boss";
           }
         }
 
