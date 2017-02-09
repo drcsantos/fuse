@@ -747,7 +747,7 @@
         data.hairNotes = "";
       }
 
-////////////////////////////////////////// Assistance section
+////////////////////////////////////////// mobility section
 
       positionY = calculateY(config);
       title = "Mobility";
@@ -797,6 +797,19 @@
         config.halfSpaceOffset++;
       } else {
         data.insideApartment.useOfAssistiveDevice = "";
+      }
+
+      if (data.insideApartment.assitanceWithDevice) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.insideApartment.assitanceWithDevice, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Device Notes:",
+          (config.startX + offsetFromLabel) - ("Device Notes: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.insideApartment.assitanceWithDevice = "";
       }
 
       positionX = config.startX;
