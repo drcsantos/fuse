@@ -14,52 +14,6 @@
       var update = "";
       var issueid = "";
 
-      function checkChangedFields(oldData, newData, selectedMember) {
-
-         var diff = [];
-         var attributeArr = ["title", "resolutionTimeframe", "description"];
-
-         for (var i = 0; i < attributeArr.length; ++i) {
-
-             if (oldData[attributeArr[i]] !== newData[attributeArr[i]]) {
-
-                 diff.push({
-                     "field": attributeArr[i],
-                     "old": oldData[attributeArr[i]],
-                     "new": newData[attributeArr[i]]
-                 });
-             }
-         }
-
-         var memDiff = null;
-
-         //member updates, deleted
-         if(selectedMember !== undefined) {
-
-             diff.push({
-               "field" : "idMemebers",
-               "old" : selectedMember,
-               "new" : ""
-             });
-         }
-         //added some member
-         else if(oldData.idMembers.length < newData.idMembers.length) {
-           memDiff = _.differenceBy(newData.idMembers,
-                oldData.idMembers, "name");
-
-           if(memDiff.length > 0) {
-             diff.push({
-               "field" : "idMemebers",
-               "old" : "",
-               "new" : newData.idMembers[newData.idMembers.length-1].name
-             });
-           }
-       }
-
-         return diff;
-     }
-
-
 
       /**
       * Gets an array of updateFields and formates them from proper display
@@ -135,6 +89,12 @@
              v.infoFormated =  " removed a checklist item in " + v.old;
          }
 
+         if(v.field === "checkitem_change") {
+           v.infoFormated = " changed a checklist item - ";
+           v.oldTip = "old";
+           v.newTip = "new";
+         }
+
          if(v.field === "checkitem_checked") {
               v.infoFormated =  " completed a checklist item in " + v.new;
          }
@@ -192,27 +152,6 @@
 
          v.timeDiff = timeDiff(updateDate);
 
-        });
-
-        return updateInfo;
-      }
-
-      /**
-      * Sets the update info for updating label/attachemnts/checklists
-      */
-      function setUpdateInfo(fieldName, newField, oldField) {
-        var updateInfo = {};
-
-        updateInfo.updateBy = {
-          'name' : authentication.currentUser().name,
-          'userImage' : authentication.getUserImage()
-        };
-        updateInfo.updateDate = new Date();
-        updateInfo.updateField = [];
-        updateInfo.updateField.push({
-          "field": fieldName,
-          "new": newField,
-          "old": oldField
         });
 
         return updateInfo;
@@ -283,9 +222,7 @@
       }
 
       return {
-        setUpdateInfo : setUpdateInfo,
         formatUpdateArray : formatUpdateArray,
-        checkChangedFields : checkChangedFields,
         addUpdateInfo : addUpdateInfo,
         setData : setData,
         timeDiff : timeDiff

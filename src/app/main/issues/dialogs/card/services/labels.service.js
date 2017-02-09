@@ -19,7 +19,6 @@
 
       function addNewLabel()
       {
-        console.log("Adding label");
 
           var label = {
               id   : msUtils.guidGenerator(),
@@ -28,16 +27,11 @@
               author: authentication.currentUser().name
           };
 
-          //label.updateInfo = UpdateInfoService.setUpdateInfo('labels', label.name, "");
-
-          //vm.card.labels.push(vm.board.labels.getById(id));
-
           //send data to the api
           apilaData.createLabel(communityId, label)
           .success(function(data) {
             data.id = data._id;
             vm.board.labels.push(data);
-            //vm.card.updateInfo.push(transformUpdateInfo(label.updateInfo));
 
             vm.newLabelName = '';
 
@@ -73,7 +67,6 @@
       }
 
       function editLabel(label) {
-        console.log("Editing a label");
 
         vm.labelTabIndex = 2;
         vm.editLabel = label;

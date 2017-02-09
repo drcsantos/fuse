@@ -95,42 +95,8 @@
 
         vm.updatePlan = updatePlan;
 
-        vm.editPermissions = function(type) {
-          if(vm.userRole) {
-
-            if(vm.userRole === 'boss') {
-              return false;
-            }
-
-            if(vm.userRole === 'directors') {
-              return false;
-            }
-
-            if(vm.userRole === 'minions' || vm.userRole === 'creator') {
-
-              if(!vm.submitBy) {
-                return true;
-              }
-
-              // if our own issue
-              if(vm.userid === vm.submitBy._id) {
-                if(type === 'status' || type === 'responsibleParty') {
-                  return true;
-                } else {
-                  return false;
-                }
-              } else {
-                return true;
-              }
-
-            }
-          }
-
-          return true;
-        }
-
+        vm.editPermissions = editPermissions;
         // Main field update
-        vm.updateTextFields = updateTextFields;
         vm.removeDueDate = removeDueDate;
         vm.memberUpdate = memberUpdate;
         vm.updateLabel = updateLabel;
@@ -155,7 +121,7 @@
         vm.changeResponsibleParty = changeResponsibleParty;
 
         vm.uploadFiles = function(file, invalidFiles, card) {
-          FileUploadService.uploadFiles(file, invalidFiles, card, UpdateInfoService.setUpdateInfo);
+          FileUploadService.uploadFiles(file, invalidFiles, card);
         };
 
         // load of lists of residents for autocomplete selection
@@ -269,6 +235,8 @@
               apilaData.addLabelToCard(vm.card._id, label)
               .success(function(resp) {
                  vm.card.labels.push(label);
+
+                 UpdateInfoService.addUpdateInfo('labels', label.name, "");
               })
               .error(function(err) {
                 $log.debug(err);
@@ -276,6 +244,8 @@
 
             } else {
               vm.removeLabelFromCard(label.name);
+
+               UpdateInfoService.addUpdateInfo('labels', "", label.name);
             }
           }
 
@@ -464,11 +434,6 @@
 
         }
 
-        function updateTextFields(type) {
-          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo(type, vm.card[type], ""));
-          vm.updateIssue();
-        }
-
         function memberUpdate(selectedMember) {
           vm.card.deletedMember = selectedMember;
 
@@ -544,6 +509,41 @@
 
         });
 
+        function editPermissions(type) {
+          if(vm.userRole) {
+
+            if(vm.userRole === 'boss') {
+              return false;
+            }
+
+            if(vm.userRole === 'directors') {
+              return false;
+            }
+
+            if(vm.userRole === 'minions' || vm.userRole === 'creator') {
+
+              if(!vm.submitBy) {
+                return true;
+              }
+
+              // if our own issue
+              if(vm.userid === vm.submitBy._id) {
+                if(type === 'status' || type === 'responsibleParty') {
+                  return true;
+                } else {
+                  return false;
+                }
+              } else {
+                return true;
+              }
+
+            }
+          }
+
+          return true;
+        }
+
+
         function changeStatus() {
 
           //if we switched it to Close and we dont have a final plan show Error
@@ -556,8 +556,6 @@
           if(vm.card.status === "Shelved") {
             vm.card.shelvedDate = new Date();
           }
-
-          vm.card.updateInfo.push(UpdateInfoService.setUpdateInfo('status', vm.card.status, ""));
 
           vm.updateIssue();
 
@@ -715,7 +713,7 @@
            if(oldPlan) {
              apilaData.updateFinalPlan(vm.card._id, plan._id, plan)
              .success(function(resp) {
-               
+
                UpdateInfoService.addUpdateInfo('plan', plan.text, oldPlan.text);
 
              })

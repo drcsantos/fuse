@@ -9,7 +9,7 @@
     /** @ngInject */
     function FileUploadService(apilaData, Upload, authentication, $timeout, UpdateInfoService) {
 
-      var uploadFiles = function(file, errFiles, card, setUpdateInfo) {
+      var uploadFiles = function(file, errFiles, card) {
 
         var uploadUrl = apilaData.getApiUrl() + '/api/issues/'+ card._id + '/attachments/new';
 

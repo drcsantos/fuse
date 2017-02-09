@@ -155,8 +155,6 @@
         var checkItemName = checklist.checkItems[i].name;
         checklist.checkItems.splice(i, 1);
 
-        console.log("Removing a check item");
-
         apilaData.updateCheckList(vm.card._id, checklist._id, checklist)
         .success(function(d) {
 
@@ -174,9 +172,16 @@
       function updateCheckItem(checklist, checkitemId, text) {
         checklist.checkItems[checkitemId] = text;
 
-        UpdateInfoService.addUpdateInfo('checkitem_change', "" , text.name, checklist.checkItems[checkitemId].checkItemName, function(err) {
-          if(!err) {
-            vm.updateIssue();
+        var oldChecklist = _.find(vm.oldData.checklists, {_id: checklist._id});
+        var oldName = "";
+
+        if(oldChecklist) {
+          oldName = oldChecklist.checkItems[checkitemId].name;
+        }
+
+        UpdateInfoService.addUpdateInfo('checkitem_change', checklist.checkItems[checkitemId].name , oldName , function(resp) {
+          if(resp) {
+            apilaData.updateCheckList(vm.card._id, checklist._id, checklist);
           }
         });
 
