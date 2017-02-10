@@ -7,7 +7,7 @@
         .controller('ToolbarController', ToolbarController);
 
     /** @ngInject */
-    function ToolbarController($rootScope, $mdSidenav, $translate, $mdToast, $log,
+    function ToolbarController($rootScope, $mdSidenav, $translate, $mdToast, $log, socket, $window,
                               $location, $state, authentication, msNavigationService, $q, $timeout, SearchService)
     {
         var vm = this;
@@ -16,7 +16,6 @@
         $rootScope.global = {
             search: ''
         };
-
 
         vm.userImage = authentication.getUserImage();
 
@@ -135,7 +134,10 @@
             // Do logout here..
             $log.debug("Logout");
             authentication.logout();
-            $location.path('/auth/login');
+            socket.disconnect();
+            //$location.url('/auth/login');
+            $window.location.reload();
+
         }
 
         SearchService.setData(msNavigationService.getFlatNavigation());

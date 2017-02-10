@@ -19,6 +19,7 @@
             retro : true
         };
 
+
         vm.activities = [];
 
         var todoid = authentication.currentUser().todoid;
@@ -106,7 +107,6 @@
           .on('authenticated', function () {
             socket.emit('join-community', {community: userCommunity, userid: userid});
 
-            console.log('activity requests sent');
             socket.emit('get-activities', userCommunity, userid);
 
             socket.on('recent-activities', function(activities) {
