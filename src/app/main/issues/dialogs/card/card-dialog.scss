@@ -4,6 +4,10 @@ md-dialog {
     margin-left: 18px;
   }
 
+  .item-checklist {
+    margin-bottom: 0px;
+  }
+
   &.card-dialog {
     width: 90%;
     max-width: 800px;
@@ -231,7 +235,7 @@ md-dialog {
             }
             .check-items {
               .check-item {
-                margin-bottom: 10px;
+                margin-bottom: 15px;
                 md-checkbox {
                   .md-label {
                     font-size: 14px;

@@ -522,7 +522,7 @@
 
               <div class="check-items">
                 <div class="check-item" ng-repeat="checkItem in checklist.checkItems">
-                  <md-checkbox ng-model="checkItem.checked"
+                  <md-checkbox class="item-checklist" ng-model="checkItem.checked"
                     ng-disabled="vm.editPermissions('')"
                     ng-change="vm.updateCheckedCount(checklist, checkItem)"
                     aria-label="{{checkItem.name}}">
