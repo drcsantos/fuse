@@ -420,7 +420,7 @@
                   <div class="attachment-content" layout="column">
 
                     <div layout="row" layout-align="start center">
-                      <a class="attachment-name" ng-mousedown="vm.downloadedInfo(item.name)" ng-href="{{item.url}}">{{item.name}}</a>
+                      <a class="attachment-name">{{item.name}}</a>
                       <i ng-if="vm.card.idAttachmentCover === item.id"
                         class="icon-star yellow-700-fg attachment-is-cover s18"></i>
                     </div>
@@ -443,6 +443,15 @@
                             aria-label="Remove Attachment"
                             translate translate-attr-aria-label="SB.REMOVE_ATTACHMENT">
                             <span translate="SB.REMOVE_ATTACHMENT">Remove Attachment</span>
+                          </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                          <md-button ng-click="vm.downloadedInfo(item.name);"
+                            aria-label="Download Attachment"
+                            ng-href="{{item.url}}"
+                            translate translate-attr-aria-label="SB.DOWNLOAD_ATTACHMENT">
+                            <span class="download-attachment" translate="SB.DOWNLOAD_ATTACHMENT">Download attachment</span>
                           </md-button>
                         </md-menu-item>
                       </md-menu-content>

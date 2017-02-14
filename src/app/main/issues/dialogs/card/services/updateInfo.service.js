@@ -113,10 +113,10 @@
          if(v.field === "due") {
            if(v.old === "") {
              v.infoFormated = " set a Due Date ";
-             v.tooltip = moment(+v.new).format('MMMM Do YYYY, h:mm:ss a');
+             v.tooltip = moment(+v.new).format('MMMM Do YYYY');
            } else {
              v.infoFormated =  " removed a Due Date ";
-             v.tooltip = moment(+v.old).format('MMMM Do YYYY, h:mm:ss a');
+             v.tooltip = moment(+v.old).format('MMMM Do YYYY');
            }
          }
 
