@@ -73,7 +73,11 @@
          //formating for checklists item
          if(v.field === "checkitem") {
            if(v.old === "") {
-             v.infoFormated =  " added a Checklist item to " + v.new;
+             v.firstPart =  " added a ";
+             v.checklist = "Checklist";
+             v.secondPart =  "item to " + v.new;
+             v.differentLayout = true;
+
            } else {
              v.infoFormated =  " removed a Checklist item in " + v.old;
            }
@@ -86,7 +90,10 @@
          }
 
          if(v.field === "checkitem_remove") {
-             v.infoFormated =  " removed a checklist item in " + v.old;
+             v.firstPart =  " removed a ";
+             v.checklist = "Checklist";
+             v.secondPart =  " item in " + v.old;
+             v.differentLayout = true;
          }
 
          if(v.field === "checkitem_change") {
@@ -96,11 +103,17 @@
          }
 
          if(v.field === "checkitem_checked") {
-              v.infoFormated =  " completed a checklist item in " + v.new;
+              v.firstPart =  " completed a ";
+              v.checklist = "Checklist";
+              v.secondPart = " item in " + v.new;
+              v.differentLayout = true;
          }
 
          if(v.field === "checkitem_unchecked") {
-             v.infoFormated =  " uncompleted a Checklist item in " + v.new;
+             v.firstPart =  " uncompleted a ";
+             v.checklist = "Checklist";
+             v.secondPart = " item in " + v.new;
+             v.differentLayout = true;
          }
 
          if(v.field === "comments") {
@@ -162,7 +175,7 @@
         issueid = issueId;
       }
 
-      function addUpdateInfo(fieldName, newField, oldField, finished) {
+      function addUpdateInfo(checktooltip, fieldName, newField, oldField, finished) {
 
         var updateInfo = {
           updateBy : authentication.currentUser().id,
@@ -170,7 +183,8 @@
           updateField : [{
             "field": fieldName,
             "new": newField,
-            "old": oldField
+            "old": oldField,
+            "checktooltip": checktooltip
           }]
         };
 

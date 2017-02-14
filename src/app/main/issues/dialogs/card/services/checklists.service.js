@@ -51,9 +51,9 @@
 
             if(type !== 'add') {
               if(checkedItem.checked) {
-                UpdateInfoService.addUpdateInfo("checkitem_checked", list.checklistName, "");
+                UpdateInfoService.addUpdateInfo(checkedItem.name, "checkitem_checked", list.checklistName, "");
               } else {
-                UpdateInfoService.addUpdateInfo("checkitem_unchecked", list.checklistName, "");
+                UpdateInfoService.addUpdateInfo(checkedItem.name, "checkitem_unchecked", list.checklistName, "");
               }
             }
 
@@ -71,7 +71,7 @@
 
         apilaData.updateCheckList(vm.card._id, list._id, list)
         .success(function(d) {
-          UpdateInfoService.addUpdateInfo("checklist_name", list.checklistName, currList.checklistName);
+          UpdateInfoService.addUpdateInfo('', "checklist_name", list.checklistName, currList.checklistName);
         })
         .error(function(response) {
           $log.debug(response);
@@ -92,7 +92,7 @@
           apilaData.updateCheckList(vm.card._id, checkList._id, checkList)
           .success(function(d) {
 
-              UpdateInfoService.addUpdateInfo('checkitem', checkList.checklistName, "");
+              UpdateInfoService.addUpdateInfo(newCheckItem.name, 'checkitem', checkList.checklistName, "");
               updateCheckedCount(checkList, newCheckItem, 'add');
               text = "";
 
@@ -111,7 +111,7 @@
           .success(function(d) {
             vm.card.checklists.splice(vm.card.checklists.indexOf(item), 1);
 
-            UpdateInfoService.addUpdateInfo("checklists", "", item.checklistName);
+            UpdateInfoService.addUpdateInfo('', "checklists", "", item.checklistName);
 
             angular.forEach(vm.card.checklists, function (list)
             {
@@ -135,15 +135,13 @@
               checkItems       : []
           };
 
-          vm.card.submitBy = vm.card.submitBy._id;
-
           vm.newCheckListTitle = '';
 
           apilaData.addCheckList(vm.card._id, data)
           .success(function(d) {
               vm.card.checklists.push(d);
 
-              UpdateInfoService.addUpdateInfo('checklists', data.name, "");
+              UpdateInfoService.addUpdateInfo('', 'checklists', data.name, "");
               vm.newCheckListTitle = "Checklist";
           })
           .error(function(err) {
@@ -158,7 +156,7 @@
         apilaData.updateCheckList(vm.card._id, checklist._id, checklist)
         .success(function(d) {
 
-          UpdateInfoService.addUpdateInfo('checkitem_remove', "" , checklist.checklistName);
+          UpdateInfoService.addUpdateInfo(checkItemName, 'checkitem_remove', "" , checklist.checklistName);
 
         })
         .error(function() {
@@ -179,7 +177,7 @@
           oldName = oldChecklist.checkItems[checkitemId].name;
         }
 
-        UpdateInfoService.addUpdateInfo('checkitem_change', checklist.checkItems[checkitemId].name , oldName , function(resp) {
+        UpdateInfoService.addUpdateInfo('', 'checkitem_change', checklist.checkItems[checkitemId].name , oldName , function(resp) {
           if(resp) {
             apilaData.updateCheckList(vm.card._id, checklist._id, checklist);
           }

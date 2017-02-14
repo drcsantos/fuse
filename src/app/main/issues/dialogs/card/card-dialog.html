@@ -767,7 +767,18 @@
                     <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
                     <span>
-                      {{ f.infoFormated }}
+                      <span ng-if="!f.differentLayout">{{ f.infoFormated }}</span>
+
+                      <span ng-if="f.differentLayout">
+                        {{ f.firstPart }}
+                        <span>
+                          {{ f.checklist }}
+                          <md-tooltip md-direction="top">
+                            {{ f.checktooltip }}
+                          </md-tooltip>
+                        </span>
+                        {{ f.secondPart }}
+                      </span>
 
                       <span>
                         {{ f.oldTip }}

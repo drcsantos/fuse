@@ -33,7 +33,7 @@
                     file.result = response.data;
                     card.attachments.push(response.data);
 
-                    UpdateInfoService.addUpdateInfo("attachments", fileExtension, "");
+                    UpdateInfoService.addUpdateInfo('', "attachments", fileExtension, "");
                 });
             }, function (response) {
 

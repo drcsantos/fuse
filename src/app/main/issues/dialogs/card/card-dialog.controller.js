@@ -215,7 +215,7 @@
             apilaData.deleteAttachment(vm.card._id, item._id, vm.card)
             .success(function(d) {
               vm.card.attachments.splice(vm.card.attachments.indexOf(item), 1);
-              UpdateInfoService.addUpdateInfo('attachments', "" , fileExtension);
+              UpdateInfoService.addUpdateInfo('', 'attachments', "" , fileExtension);
             })
             .error(function(d) {
               $log.debug(d);
@@ -236,7 +236,7 @@
               .success(function(resp) {
                  vm.card.labels.push(label);
 
-                 UpdateInfoService.addUpdateInfo('labels', label.name, "");
+                 UpdateInfoService.addUpdateInfo('', 'labels', label.name, "");
               })
               .error(function(err) {
                 $log.debug(err);
@@ -245,7 +245,7 @@
             } else {
               vm.removeLabelFromCard(label.name);
 
-               UpdateInfoService.addUpdateInfo('labels', "", label.name);
+               UpdateInfoService.addUpdateInfo('', 'labels', "", label.name);
             }
           }
 
@@ -280,13 +280,13 @@
             vm.toggleMember(item, array);
 
             if(exists) {
-              UpdateInfoService.addUpdateInfo('members', "", item.name, function(resp) {
+              UpdateInfoService.addUpdateInfo('', 'members', "", item.name, function(resp) {
                 if(resp) {
                   updateIssue();
                 }
               });
             } else {
-              UpdateInfoService.addUpdateInfo('members', item.name, "", function(resp) {
+              UpdateInfoService.addUpdateInfo('', 'members', item.name, "", function(resp) {
                 if(resp) {
                   updateIssue();
                 }
@@ -301,7 +301,7 @@
 
             vm.card.idMembers.push(selectedMember);
 
-            UpdateInfoService.addUpdateInfo('members', selectedMember.name, "", function(resp) {
+            UpdateInfoService.addUpdateInfo('', 'members', selectedMember.name, "", function(resp) {
               if(resp) {
                 updateIssue();
               }
@@ -321,7 +321,7 @@
               author: authentication.currentUser().id
             };
 
-            UpdateInfoService.addUpdateInfo('comments', commentData.commentText, "");
+            UpdateInfoService.addUpdateInfo('', 'comments', commentData.commentText, "");
 
             apilaData.addIssueCommentById(issueid, commentData)
             .success(function(data) {
@@ -383,7 +383,7 @@
            currdue = moment(vm.card.currdue).toDate().getTime();
           }
 
-          UpdateInfoService.addUpdateInfo('due', '', currdue, function(resp) {
+          UpdateInfoService.addUpdateInfo('', 'due', '', currdue, function(resp) {
             if(resp) {
               updateIssue();
             }
@@ -407,7 +407,7 @@
 
           // we changed it
           if(oldValue !== newValue) {
-            UpdateInfoService.addUpdateInfo(type, newValue, oldValue);
+            UpdateInfoService.addUpdateInfo('', type, newValue, oldValue);
           }
         }
 
@@ -418,7 +418,7 @@
           if(vm.selectedItem && (vm.selectedItem.value !== responsibleParty)) {
 
             vm.card.responsibleParty = vm.selectedItem.value;
-            UpdateInfoService.addUpdateInfo('responsibleParty', vm.selectedItem.display, oldData.responsibleParty.name);
+            UpdateInfoService.addUpdateInfo('', 'responsibleParty', vm.selectedItem.display, oldData.responsibleParty.name);
 
             var newList = _.find(vm.board.lists, {name: vm.selectedItem.display});
             var oldList = _.find(vm.board.lists, {name: oldData.responsibleParty.name});
@@ -438,7 +438,7 @@
         function memberUpdate(selectedMember) {
           vm.card.deletedMember = selectedMember;
 
-          UpdateInfoService.addUpdateInfo('members', "" , selectedMember, function(resp) {
+          UpdateInfoService.addUpdateInfo('', 'members', "" , selectedMember, function(resp) {
             vm.card.deletedMember = true;
             updateIssue();
           });
@@ -463,7 +463,7 @@
             if(vm.card.currdue) {
               vm.card.due = vm.card.currdue;
 
-              UpdateInfoService.addUpdateInfo('due', vm.card.currdue, "", function(resp) {
+              UpdateInfoService.addUpdateInfo('', 'due', vm.card.currdue, "", function(resp) {
                 if(resp) {
                   vm.updateIssue();
                 }
@@ -485,7 +485,7 @@
 
             exportIssueDetail.exportPdf(vm.card);
 
-            UpdateInfoService.addUpdateInfo('export', vm.card.title, "");
+            UpdateInfoService.addUpdateInfo('', 'export', vm.card.title, "");
 
           });
 
@@ -668,7 +668,7 @@
            var extension = name.split('.').pop();
 
            if(extension) {
-             UpdateInfoService.addUpdateInfo('downloaded', extension, "");
+             UpdateInfoService.addUpdateInfo('', 'downloaded', extension, "");
            }
          }
 
@@ -686,9 +686,9 @@
            .success(function(response) {
 
              if(!vm.finalPlanChecklist) {
-               UpdateInfoService.addUpdateInfo('plan-todo', vm.newFinalPlanText, "");
+               UpdateInfoService.addUpdateInfo('', 'plan-todo', vm.newFinalPlanText, "");
              } else {
-               UpdateInfoService.addUpdateInfo('plan-create', vm.newFinalPlanText, "");
+               UpdateInfoService.addUpdateInfo('', 'plan-create', vm.newFinalPlanText, "");
              }
 
 
@@ -722,7 +722,7 @@
              apilaData.updateFinalPlan(vm.card._id, plan._id, plan)
              .success(function(resp) {
 
-               UpdateInfoService.addUpdateInfo('plan', plan.text, oldPlan.text);
+               UpdateInfoService.addUpdateInfo('', 'plan', plan.text, oldPlan.text);
 
              })
              .error(function(err) {
@@ -742,7 +742,7 @@
 
              apilaData.issueCommentsUpdate(vm.card._id, copyComment)
              .success(function(resp) {
-               UpdateInfoService.addUpdateInfo('comment', comment.commentText, oldComment.commentText);
+               UpdateInfoService.addUpdateInfo('', 'comment', comment.commentText, oldComment.commentText);
              })
              .error(function(err) {
                $log.debug(err);
