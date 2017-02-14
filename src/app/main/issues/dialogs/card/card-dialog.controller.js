@@ -328,6 +328,7 @@
 
               //only updating frontend view with our comment so we can use our user data
               var newComment = createComment(newCommentText, data.createdOn);
+              newComment._id = data._id;
               vm.card.comments.push(newComment);
 
             }).error(function(data) {
@@ -493,6 +494,8 @@
         apilaData.issuePopulateOne(vm.card._id)
         .success(function(resp) {
           vm.card.finalPlan = resp.finalPlan;
+
+          console.log(resp.finalPlan);
 
           vm.responsibleParty = resp.responsibleParty;
 
@@ -688,7 +691,9 @@
                UpdateInfoService.addUpdateInfo('plan-create', vm.newFinalPlanText, "");
              }
 
+
              response.author = {
+               _id: vm.userid,
                name: vm.username,
                userImage: authentication.getUserImage()
              };
@@ -708,9 +713,12 @@
          function updatePlan(plan) {
 
            var copyPlan = angular.copy(plan);
-           var oldPlan = _.find(oldData.finalPlan, {createdOn: plan.createdOn});
+           var oldPlan = _.find(vm.card.finalPlan, {createdOn: plan.createdOn});
 
            if(oldPlan) {
+
+             copyPlan.author = plan.author._id;
+
              apilaData.updateFinalPlan(vm.card._id, plan._id, plan)
              .success(function(resp) {
 
@@ -724,9 +732,10 @@
          }
 
          function updateComment(comment) {
+
            var copyComment = angular.copy(comment);
 
-           var oldComment = _.find(oldData.comments, {createdOn: comment.createdOn});
+           var oldComment = _.find(vm.card.comments, {createdOn: comment.createdOn});
 
            if(oldComment) {
              copyComment.author = comment.author._id;
