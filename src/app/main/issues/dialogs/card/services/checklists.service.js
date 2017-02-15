@@ -95,6 +95,7 @@
               UpdateInfoService.addUpdateInfo(newCheckItem.name, 'checkitem', checkList.checklistName, "");
               updateCheckedCount(checkList, newCheckItem, 'add');
               text = "";
+              vm.oldData.checklists = d;
 
           })
           .error(function() {
