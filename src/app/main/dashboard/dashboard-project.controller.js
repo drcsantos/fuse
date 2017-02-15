@@ -71,6 +71,8 @@
 
         vm.refreshWeather = refreshWeather;
 
+        vm.listLogs = listLogs;
+
         vm.cancelSubscription = function() {
           BillingService.cancelSubscription(vm.userid, vm.subscriptionCanceled);
         };
@@ -98,6 +100,7 @@
           vm.floors = vm.myCommunity.floors;
 
           formatMembersData();
+          listLogs(vm.myCommunity._id);
 
           MemberService.setData(vm.pendingMemberTable, vm.communityMemberTable, vm.myCommunity._id);
 
@@ -326,6 +329,16 @@
             });
           }
 
+        }
+
+        function listLogs(communitid) {
+          apilaData.listLogs(communitid)
+          .success(function(resp) {
+            console.log(resp);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          })
         }
 
         function openJoinModal(ev)

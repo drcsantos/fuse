@@ -371,6 +371,14 @@
       return $http.post(apiUrl + '/api/activity/' + todoId, data, getAuth());
     };
 
+    /*********************** LOGS  *********************/
+
+    var listLogs = function(communityid) {
+      return $http.get(apiUrl + '/api/logs/' + communityid, getAuth());
+    };
+
+    /****************************************************/
+
     return {
       //appointments
       appointmentsList: appointmentsList,
@@ -464,6 +472,9 @@
       addTask: addTask,
       updateTask: updateTask,
       deleteTask: deleteTask,
+
+      //logs
+      listLogs: listLogs,
 
       //activity
       createToDoActivity: createToDoActivity
