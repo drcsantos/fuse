@@ -29,7 +29,7 @@
             userImage: authentication.getUserImage()
         };
 
-        var communityid = authentication.currentUser().community._id;
+        var communityid = authentication.currentUser().communityId;
 
         var tasks = [];
 

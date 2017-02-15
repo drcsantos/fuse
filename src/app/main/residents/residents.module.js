@@ -15,7 +15,7 @@
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/residents/residents.html',
-                    controller : 'MailController as vm'
+                    controller : 'ResidentController as vm'
                 }
             },
             bodyClass: 'residents'

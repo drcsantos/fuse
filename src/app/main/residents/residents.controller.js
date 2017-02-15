@@ -3,11 +3,11 @@
 
   angular
     .module('app.residents')
-    .controller('MailController', MailController);
+    .controller('ResidentController', ResidentController);
 
 
   /** @ngInject */
-  function MailController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log,
+  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
