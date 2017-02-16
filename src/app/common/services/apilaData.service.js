@@ -377,6 +377,10 @@
       return $http.get(apiUrl + '/api/logs/' + communityid, getAuth());
     };
 
+    var listUserLogs = function(communityid, userid) {
+      return $http.get(apiUrl + '/api/user_logs/' + communityid + "/user/" + userid, getAuth());
+    };
+
     /****************************************************/
 
     return {
@@ -475,6 +479,7 @@
 
       //logs
       listLogs: listLogs,
+      listUserLogs: listUserLogs,
 
       //activity
       createToDoActivity: createToDoActivity

@@ -64,6 +64,7 @@
         vm.openRecoverModal = openRecoverModal;
         vm.openJoinModal = openJoinModal;
         vm.openCommunityModal = openCommunityModal;
+        vm.openLogsModal = openLogsModal;
 
         vm.updateBillingModal = BillingService.updateBillingModal;
         vm.selectProject = selectProject;
@@ -402,6 +403,18 @@
           })
           .error(function(err) {
             $log.debug(err);
+          });
+        }
+
+        function openLogsModal(id, name) {
+
+          $mdDialog.show({
+              controller         : 'LogsController',
+              controllerAs       : 'vm',
+              templateUrl        : 'app/main/dashboard/dialogs/logs/logs.html',
+              parent             : angular.element($document.body),
+              locals             : {name: name, userId: id},
+              clickOutsideToClose: true
           });
         }
 

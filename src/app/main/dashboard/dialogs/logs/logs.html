@@ -1,0 +1,27 @@
+<md-dialog class="compose-dialog" aria-label="Update">
+    <form class="md-inline-form">
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">{{ vm.userName }}  login time and locations</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+
+        <md-dialog-content ms-scroll>
+
+          <md-list>
+            <md-list-item ng-repeat="entry in vm.ipLogs | orderBy: '-loggedOn'">
+              <p><b>{{ vm.userName }}</b> logged in from <b>{{ entry.ipAddress }}</b> on {{ entry.loggedOn | date:'medium'}}</p>
+            </md-list-item>
+          </md-list>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

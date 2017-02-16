@@ -112,7 +112,6 @@
 
                       <!-- Fab button -->
                       <td>
-                        <!-- <md-button ng-if="row[1] !== vm.username" ng-click="vm.openRecoverModal(row[3], row[1], 'boss')" class="md-raised md-primary">Recover</md-button> -->
                         <md-fab-speed-dial md-direction="up" md-open="false" class="md-scale">
                           <md-fab-trigger>
                             <md-button aria-label="menu" class="md-fab md-warn">
@@ -121,7 +120,7 @@
                           </md-fab-trigger>
 
                           <md-fab-actions style="position: absolute; bottom: 60px;">
-                            <md-button aria-label="Logs" class="md-fab md-raised md-mini">
+                            <md-button aria-label="Logs"  ng-click="vm.openLogsModal(row[3], row[1])" class="md-fab md-raised md-mini">
                               <md-icon md-font-icon="icon-account-network" aria-label="Logs"></md-icon>
                               <md-tooltip md-direction="left"> Ip Logs <md-tooltip>
                             </md-button>
@@ -136,11 +135,6 @@
                           </md-fab-actions>
                         </md-fab-speed-dial>
                       </td>
-
-                      <!-- Remove member button -->
-                      <!-- <td>
-                        <md-button ng-if="row[1] !== vm.username" class="md-raised" ng-click="vm.removeMember(row[3], row[1])">Remove</md-button>
-                      </td> -->
 
                       <!-- Confidential you were choosen to enter recovery pass as random user -->
                       <td>
