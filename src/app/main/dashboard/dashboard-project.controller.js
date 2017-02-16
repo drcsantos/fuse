@@ -13,6 +13,9 @@
         var vm = this;
 
         // Data
+
+        vm.isOpen = false;
+
         vm.recoveryInfo = {};
         vm.contactInfo = {};
         vm.currUserId = null;

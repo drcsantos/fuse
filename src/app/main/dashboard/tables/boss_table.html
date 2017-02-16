@@ -1,6 +1,6 @@
 
     <!-- WIDGET 11 -->
-    <ms-widget layout="row" flex="100">
+    <ms-widget layout="row" flex="100" ng-cloak="">
 
         <!-- Front -->
         <ms-widget-front class="white-bg">
@@ -53,14 +53,14 @@
 
                       <th class="secondary-text">
                           <div class="table-header">
-                              <span class="column-title">Recover</span>
+                              <span class="column-title">Fab</span>
                           </div>
                       </th>
-                      <th class="secondary-text">
+                      <!-- <th class="secondary-text">
                           <div class="table-header">
                               <span class="column-title">Remove</span>
                           </div>
-                      </th>
+                      </th> -->
 
 
                       <th class="secondary-text">
@@ -110,15 +110,37 @@
                         <input type="radio" name="creator" ng-value="true" ng-model="row[4]" ng-change="vm.addRole(row[3], 'boss')"> Boss<br>
                       </td>
 
-                      <!-- Recovery button -->
+                      <!-- Fab button -->
                       <td>
-                        <md-button ng-if="row[1] !== vm.username" ng-click="vm.openRecoverModal(row[3], row[1], 'boss')" class="md-raised md-primary">Recover</md-button>
+                        <!-- <md-button ng-if="row[1] !== vm.username" ng-click="vm.openRecoverModal(row[3], row[1], 'boss')" class="md-raised md-primary">Recover</md-button> -->
+                        <md-fab-speed-dial md-direction="up" md-open="false" class="md-scale">
+                          <md-fab-trigger>
+                            <md-button aria-label="menu" class="md-fab md-warn">
+                              <md-icon md-font-icon="icon-menu"></md-icon>
+                            </md-button>
+                          </md-fab-trigger>
+
+                          <md-fab-actions style="position: absolute; bottom: 60px;">
+                            <md-button aria-label="Logs" class="md-fab md-raised md-mini">
+                              <md-icon md-font-icon="icon-account-network" aria-label="Logs"></md-icon>
+                              <md-tooltip md-direction="left"> Ip Logs <md-tooltip>
+                            </md-button>
+                            <md-button aria-label="Recover" ng-if="row[1] !== vm.username" ng-click="vm.openRecoverModal(row[3], row[1], 'boss')" class="md-fab md-raised md-mini">
+                              <md-icon md-font-icon="icon-account-key" aria-label="Recover"></md-icon>
+                              <md-tooltip md-direction="left"> Recover <md-tooltip>
+                            </md-button>
+                            <md-button aria-label="Remove" ng-if="row[1] !== vm.username" ng-click="vm.removeMember(row[3], row[1])" class="md-fab md-raised md-mini">
+                              <md-icon md-font-icon="icon-account-remove" aria-label="Remove"></md-icon>
+                              <md-tooltip md-direction="left"> Remove <md-tooltip>
+                            </md-button>
+                          </md-fab-actions>
+                        </md-fab-speed-dial>
                       </td>
 
                       <!-- Remove member button -->
-                      <td>
+                      <!-- <td>
                         <md-button ng-if="row[1] !== vm.username" class="md-raised" ng-click="vm.removeMember(row[3], row[1])">Remove</md-button>
-                      </td>
+                      </td> -->
 
                       <!-- Confidential you were choosen to enter recovery pass as random user -->
                       <td>
