@@ -740,22 +740,13 @@
             </div>
             <div class="section-content">
               <h5>{{ vm.createdIssue }}
-                <span>Description,
-                  <md-tooltip md-direction="top">
-                    {{ vm.card.description }}
-                  </md-tooltip>
+                <span tooltip="{{ vm.card.description }}" class="tooltip">Description,
                 </span>
 
-                <span>Responsible Party,
-                  <md-tooltip md-direction="top">
-                    {{ vm.card.responsibleParty.name }}
-                  </md-tooltip>
+                <span tooltip="{{ vm.card.responsibleParty.name }}" class="tooltip">Responsible Party,
                 </span>
 
-                <span> and Time Frame
-                  <md-tooltip md-direction="top">
-                    {{ vm.card.resolutionTimeframe }}
-                  </md-tooltip>
+                <span tooltip="{{ vm.card.resolutionTimeframe }}" class="tooltip"> and Time Frame
                 </span>
               </h5>
               <div class="activity"
@@ -771,29 +762,18 @@
 
                       <span ng-if="f.differentLayout">
                         {{ f.firstPart }}
-                        <span>
+                        <span tooltip="{{ f.checktooltip }}" class="tooltip">
                           {{ f.checklist }}
-                          <md-tooltip md-direction="top">
-                            {{ f.checktooltip }}
-                          </md-tooltip>
                         </span>
                         {{ f.secondPart }}
                       </span>
 
-                      <span>
+                      <span tooltip="{{ f.old }}" class="tooltip">
                         {{ f.oldTip }}
-
-                        <md-tooltip md-direction="top">
-                          {{ f.old }}
-                        </md-tooltip>
                       </span>
 
-                      <span>
+                      <span tooltip="{{ f.new }}" class="tooltip">
                         {{ f.newTip }}
-
-                        <md-tooltip md-direction="top">
-                          {{ f.new }}
-                        </md-tooltip>
                       </span>
 
                       <md-tooltip ng-if="f.tooltip" md-direction="top">
