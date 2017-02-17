@@ -19,15 +19,15 @@
        </md-slider>
      </div>
 
-      <md-input-container>
+      <!-- <md-input-container>
         <label>Overall Nutrition</label>
         <md-select ng-model="vm.form.overallNutrition">
           <md-option value="Good">Good</md-option>
           <md-option value="Poor">Poor</md-option>
         </md-select>
-      </md-input-container>
+      </md-input-container> -->
 
-      <md-input-container ng-if="vm.form.overallNutrition == 'Poor'">
+      <md-input-container ng-if="vm.form.overallNutrition == 1">
         <label>Poor Nutrition Describtion</label>
         <md-select ng-model="vm.form.poorNutritionDescribe">
           <md-option value="Shake">Shake</md-option>
