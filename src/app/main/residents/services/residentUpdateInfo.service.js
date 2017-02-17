@@ -34,6 +34,7 @@
               'username': ''
             };
 
+
             var field = currField.field;
             var oldValue = SliderMapping.replaceNumberValue(field, currField.old) || currField.old;
             var newValue = SliderMapping.replaceNumberValue(field, currField.new) || currField.new;
