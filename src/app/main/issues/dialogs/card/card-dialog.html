@@ -754,11 +754,15 @@
                 layout-align="start center"
                 ng-repeat="update in vm.card.updateInfo.slice().reverse()">
                 <ul>
-                  <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) track by $index">
+                  <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate, update.ipAddress) track by $index">
                     <img class="activity-member-avatar" ng-src="{{f.userImage}}">
                     <span class="activity-member-name"> {{ f.userName }} </span>
                     <span>
-                      <span ng-if="!f.differentLayout">{{ f.infoFormated }}</span>
+                      <span ng-if="f.tooltip" tooltip="{{ f.tooltip }}" class="tooltip">
+                        <span ng-if="!f.differentLayout">{{ f.infoFormated }}</span>
+                      </span>
+
+                      <span ng-if="!f.differentLayout && !f.tooltip">{{ f.infoFormated }}</span>
 
                       <span ng-if="f.differentLayout">
                         {{ f.firstPart }}
@@ -776,11 +780,10 @@
                         {{ f.newTip }}
                       </span>
 
-                      <md-tooltip ng-if="f.tooltip" md-direction="top">
-                        {{ f.tooltip }}
-                      </md-tooltip>
+
                     </span>
                     <span class="activity-time secondary-text">{{ f.timeDiff }} </span>
+                    <span ng-if="vm.userRole === 'boss'" class="activity-time"> - {{ f.ipAddress }} </span>
                   </li>
 
                 </ul>

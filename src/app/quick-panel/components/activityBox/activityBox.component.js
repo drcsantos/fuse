@@ -17,6 +17,10 @@
     function activityBoxController() {
       var vm = this;
 
+      vm.timeAgo = function(date) {
+        return moment(date).fromNow();
+      }
+
       if(!vm.activity.userId.userImage) {
         vm.activity.userId.userImage = "assets/images/avatars/userDefaultProfile.png";
       }

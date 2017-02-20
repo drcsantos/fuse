@@ -24,13 +24,12 @@
   bottom: 26px;
   color: #fff;
   content: attr(tooltip);
-  word-wrap: break-word;
   left: 20%;
   padding: 5px 15px;
   position: absolute;
   z-index: 98;
   max-width: 400px;
-  width: auto;
+  width: 300px;
 }
 
 .tooltip:hover:before{

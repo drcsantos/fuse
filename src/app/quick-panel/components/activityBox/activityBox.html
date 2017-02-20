@@ -3,7 +3,7 @@
 <div class="md-list-item-text" layout="row">
       <span>
         <b>{{$ctrl.activity.userId.name}}</b>
+        <span class="time-ago">   {{ $ctrl.timeAgo($ctrl.activity.createdOn) }}</span>
         {{$ctrl.activity.text}}
       </span>
-    <p class="time">{{$ctrl.activity.date | date:'m'}}</p>
 </div>

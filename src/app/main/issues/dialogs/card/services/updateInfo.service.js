@@ -18,12 +18,13 @@
       /**
       * Gets an array of updateFields and formates them from proper display
       */
-      function formatUpdateArray(updateInfo, updatedBy, updateDate) {
+      function formatUpdateArray(updateInfo, updatedBy, updateDate, ipAddress) {
         _.forEach(updateInfo, function(v, k) {
           v.infoFormated = " changed " + v.field +
                             " from " + v.old + " to " + v.new;
 
           v.userName = updatedBy.name;
+          v.ipAddress = ipAddress;
 
           v.userImage = updatedBy.userImage || authentication.getUserImage();
 
@@ -142,7 +143,7 @@
          }
 
          if(v.field === "plan-create") {
-           v.infoFormated =  " crated a Plan";
+           v.infoFormated =  " created a Plan";
            v.tooltip = v.new;
          }
 
