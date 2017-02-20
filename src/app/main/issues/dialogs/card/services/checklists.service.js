@@ -7,7 +7,7 @@
         .service('ChecklistsService', ChecklistsService);
 
     /** @ngInject */
-    function ChecklistsService(apilaData, $log, msUtils, authentication, UpdateInfoService) {
+    function ChecklistsService(apilaData, $log, msUtils, authentication, UpdateInfoService, $mdToast, UndoService) {
 
       var vm = null;
 
@@ -104,28 +104,31 @@
 
       }
 
+
       function removeChecklist(item)
       {
+        //send remove request to the api
+        apilaData.deleteCheckList(vm.card._id, item._id)
+        .success(function(d) {
+          vm.card.checklists.splice(vm.card.checklists.indexOf(item), 1);
 
-          //send remove request to the api
-          apilaData.deleteCheckList(vm.card._id, item._id)
-          .success(function(d) {
-            vm.card.checklists.splice(vm.card.checklists.indexOf(item), 1);
+          UpdateInfoService.addUpdateInfo('', "checklists", "", item.checklistName);
 
-            UpdateInfoService.addUpdateInfo('', "checklists", "", item.checklistName);
-
-            angular.forEach(vm.card.checklists, function (list)
-            {
-                updateCheckedCount(list);
-            });
-          })
-          .error(function(d){
-            $log.debug("Error while removing checklist");
+          angular.forEach(vm.card.checklists, function (list)
+          {
+              updateCheckedCount(list);
           });
+
+          UndoService.setItem(item);
+          UndoService.showActionToast(function(){ createCheckList('restore'); });
+        })
+        .error(function(d){
+          $log.debug("Error while removing checklist");
+        });
 
       }
 
-      function createCheckList()
+      function createCheckList(type)
       {
 
           var data = {
@@ -138,11 +141,17 @@
 
           vm.newCheckListTitle = '';
 
+          if(type === 'restore') {
+            data = UndoService.getItem();
+          }
+
           apilaData.addCheckList(vm.card._id, data)
           .success(function(d) {
               vm.card.checklists.push(d);
 
-              UpdateInfoService.addUpdateInfo('', 'checklists', data.name, "");
+              if(type !== 'restore') {
+                UpdateInfoService.addUpdateInfo('', 'checklists', data.name, "");
+              }
               vm.newCheckListTitle = "Checklist";
           })
           .error(function(err) {
