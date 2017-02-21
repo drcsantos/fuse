@@ -142,6 +142,10 @@
       return $http.post(apiUrl + '/api/issues/recovery/verify/' + userid, data, getAuth());
     };
 
+    var restoreAttachment = function(issueid, data) {
+      return $http.put(apiUrl + '/api/issues/' + issueid +'/attachments/restore', data, getAuth());
+    };
+
     /***************** APPOINTMENTS RESOURCES ***************/
 
     var appointmentsList = function(communityid, month) {
@@ -422,6 +426,7 @@
       createIssueRecovery: createIssueRecovery,
       verifyPassword: verifyPassword,
       issuePopulateOne: issuePopulateOne,
+      restoreAttachment: restoreAttachment,
 
       //residents
       residentsList: residentsList,

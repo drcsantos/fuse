@@ -11,10 +11,16 @@
 
       var savedItem = {};
 
-      function showActionToast(callback) {
+      var description = {
+        'checklist' : 'Do you want to undo checklist deletion?',
+        'checkitem' : 'Do you want to undo checkitem deletion?',
+        'attachment' : 'Do you want to undo attachment deletion?'
+      };
+
+      function showActionToast(text, callback) {
 
          var toast = $mdToast.simple()
-           .textContent('Do you want to undo checklist deletion?')
+           .textContent(description[text])
            .action('UNDO')
            .highlightAction(true)
            .highlightClass('md-accent')
@@ -23,19 +29,17 @@
 
          $mdToast.show(toast).then(function(response) {
            if ( response == 'ok' ) {
-
-             //createCheckList('restore');
              callback();
            }
          });
        };
 
-       function setItem(item) {
-         savedItem = item;
+       function setItem(item, type) {
+         savedItem[type] = item;
        }
 
-       function getItem() {
-         return savedItem;
+       function getItem(type) {
+         return savedItem[type];
        }
 
        return {

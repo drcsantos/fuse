@@ -78,6 +78,22 @@
         });
       }
 
+      function restoreCheckItem() {
+        var checklistOfItem = UndoService.getItem('checkitem');
+
+        if(checklistOfItem) {
+
+          var cardIndex = _.findIndex(vm.card.checklists, {_id: checklistOfItem._id});
+
+          vm.card.checklists[cardIndex] = checklistOfItem;
+
+          apilaData.updateCheckList(vm.card._id, checklistOfItem._id, checklistOfItem)
+          .success(function(d) {
+
+          });
+        }
+      }
+
       function addCheckItem(text, checkList)
       {
           if ( !text || text === '' ) { return; }
@@ -119,8 +135,8 @@
               updateCheckedCount(list);
           });
 
-          UndoService.setItem(item);
-          UndoService.showActionToast(function(){ createCheckList('restore'); });
+          UndoService.setItem(item, 'checklist');
+          UndoService.showActionToast('checklist', function(){ createCheckList('restore'); });
         })
         .error(function(d){
           $log.debug("Error while removing checklist");
@@ -142,7 +158,7 @@
           vm.newCheckListTitle = '';
 
           if(type === 'restore') {
-            data = UndoService.getItem();
+            data = UndoService.getItem('checklist');
           }
 
           apilaData.addCheckList(vm.card._id, data)
@@ -161,12 +177,17 @@
 
       function removeCheckItem(checklist, i) {
         var checkItemName = checklist.checkItems[i].name;
+        var copyChecklist = angular.copy(checklist);
+
         checklist.checkItems.splice(i, 1);
 
         apilaData.updateCheckList(vm.card._id, checklist._id, checklist)
         .success(function(d) {
 
           UpdateInfoService.addUpdateInfo(checkItemName, 'checkitem_remove', "" , checklist.checklistName);
+
+          UndoService.setItem(copyChecklist, 'checkitem');
+          UndoService.showActionToast('checkitem', function(){ restoreCheckItem(); });
 
         })
         .error(function() {

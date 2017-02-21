@@ -7,7 +7,7 @@
         .controller('ScrumboardCardDialogController', ScrumboardCardDialogController);
 
     /** @ngInject */
-    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $window, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
+    function ScrumboardCardDialogController($document, $mdDialog, fuseTheming, $scope, $window, UndoService, $timeout, exportIssueDetail, LabelsService, ChecklistsService, $mdToast,
       fuseGenerator, msUtils, BoardService, cardId, apilaData, authentication, msNavigationService, $log, FileUploadService, UpdateInfoService, MembersService, Utils)
     {
         var vm = this;
@@ -199,6 +199,20 @@
           });
         });
 
+        function restoreAttachment() {
+          var deletedAttachment = UndoService.getItem('attachment');
+
+          console.log(deletedAttachment);
+          console.log(vm.card.attachments.indexOf(deletedAttachment));
+
+          vm.card.attachments.push(deletedAttachment);
+
+          apilaData.restoreAttachment(vm.card._id, deletedAttachment)
+          .success(function(resp) {
+
+          });
+        }
+
 
         function removeAttachment(item)
         {
@@ -216,6 +230,9 @@
             .success(function(d) {
               vm.card.attachments.splice(vm.card.attachments.indexOf(item), 1);
               UpdateInfoService.addUpdateInfo('', 'attachments', "" , fileExtension);
+
+              UndoService.setItem(item, 'attachment');
+              UndoService.showActionToast('attachment', function() { restoreAttachment(); })
             })
             .error(function(d) {
               $log.debug(d);
