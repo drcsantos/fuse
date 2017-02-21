@@ -485,10 +485,18 @@
               <span class="section-title"
                 e-rows="1"
                 e-cols="60"
+                ng-if="!vm.editPermissions('')"
                 editable-textarea="checklist.checklistName"
-                onaftersave="vm.updateCheckListName(checklist, vm.oldData.checklists)"
-                >{{checklist.checklistName}}
+                onaftersave="vm.updateCheckListName(checklist, vm.oldData.checklists)">
+                {{checklist.checklistName}}
+              </span>
 
+              <!-- Checklist name uneditable -->
+              <span class="section-title"
+                e-rows="1"
+                e-cols="60"
+                ng-if="vm.editPermissions('')">
+              {{checklist.checklistName}}
               </span>
 
               <md-menu md-position-mode="target-right target" class="options">
@@ -537,18 +545,24 @@
                     aria-label="{{checkItem.name}}">
                   </md-checkbox>
 
-                  <a ng-if="checkItem.checked"
-                    href="#" style="text-decoration: line-through;"
+                  <a
+                    href="#" ng-class="checkItem.checked ? 'underline_item' : 'standard_item'"
                     editable-textarea="checkItem.name"
                     e-rows="7"
                     e-cols="40"
+                    ng-if="!vm.editPermissions('')"
                     onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}
                   </a>
-                  <a ng-if="!checkItem.checked"
-                    href="#" editable-textarea="checkItem.name"
-                    e-rows="3" e-cols="60"
-                    onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}
-                  </a>
+
+                  <!-- Uneditable check item name -->
+                  <span
+                    ng-class="checkItem.checked ? 'underline_item' : 'standard_item'"
+                    e-rows="7"
+                    e-cols="40"
+                    ng-if="vm.editPermissions('')">
+                    {{checkItem.name}}
+                  </span>
+
                 </div>
               </div>
 
@@ -632,7 +646,7 @@
                   </div>
                   <div class="comment-bubble"
                     wrap="hard"
-                    ng-if="comment.author._id == vm.userid"
+                    ng-if="!vm.editPermissions('')"
                     onaftersave="vm.updateComment(comment)"
                     editable-textarea="comment.commentText"
                     ng-trim="false"
@@ -642,7 +656,7 @@
 
                   <div class="comment-bubble"
                     wrap="hard"
-                    ng-if="comment.author._id != vm.userid"
+                    ng-if="vm.editPermissions('')"
                     ng-trim="false"
                     e-rows="7"
                     e-cols="50">{{ comment.commentText }}
@@ -684,8 +698,8 @@
 
                 <div layout="row" layout-align="end center">
 
-                  <span ng-if="vm.finalPlanChecklist">Finshed Item   </span>
-                  <span ng-if="!vm.finalPlanChecklist">Add to todo   </span>
+                  <span ng-if="!vm.finalPlanChecklist">Finshed Item   </span>
+                  <span ng-if="vm.finalPlanChecklist">Add to todo   </span>
 
                   <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
                   </md-switch>
@@ -719,7 +733,15 @@
                 <div class="comment-bubble"
                   onaftersave="vm.updatePlan(plan)"
                   editable-textarea="plan.text"
+                  ng-if="!vm.editPermissions('')"
                   ng-trim="false"
+                  e-rows="7"
+                  e-cols="50">{{ plan.text }}
+                </div>
+
+                <div class="comment-bubble"
+                  ng-trim="false"
+                  ng-if="vm.editPermissions('')"
                   e-rows="7"
                   e-cols="50">{{ plan.text }}
                 </div>

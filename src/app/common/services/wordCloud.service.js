@@ -32,7 +32,7 @@
 
             var fill = d3.scale.category20();
 
-            d3.layout.cloud().size([500, 400])
+            d3.layout.cloud().size([400, 400])
                 .words(filteredElements.map(function(d) {
                     return {
                         text: d.text,

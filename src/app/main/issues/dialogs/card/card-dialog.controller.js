@@ -685,7 +685,7 @@
            apilaData.addFinalPlan(vm.card._id, data)
            .success(function(response) {
 
-             if(!vm.finalPlanChecklist) {
+             if(vm.finalPlanChecklist) {
                UpdateInfoService.addUpdateInfo('', 'plan-todo', vm.newFinalPlanText, "");
              } else {
                UpdateInfoService.addUpdateInfo('', 'plan-create', vm.newFinalPlanText, "");
@@ -701,7 +701,7 @@
              vm.card.finalPlan.push(response);
              vm.newFinalPlanText = "";
 
-             if(!vm.finalPlanChecklist) {
+             if(vm.finalPlanChecklist) {
                showToast("Created a new task in the todo section");
              }
            })
