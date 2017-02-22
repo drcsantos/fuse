@@ -57,9 +57,6 @@
         loadAppoitnments(vm.community._id, moment().format("YYYY M"));
         visitedMonths[moment().format("YYYY M")] = true; //remember that we loaded curr month
 
-        loadIssues(vm.community._id);
-        loadBirthdays(vm.community._id);
-
       });
 
     var loadAppoitnments = function(id, month) {
@@ -90,6 +87,8 @@
             vm.events[0] = SearchService.getResult();
           });
 
+          loadIssues(id);
+
         })
         .error(function(err) {
           $log.debug(err);
@@ -102,19 +101,23 @@
       .success(function(response) {
         angular.forEach(response, function(value, key) {
 
-          var dueDate =  new Date(value.due);
+          if(value.due) {
+            var dueDate = new Date(value.due);
 
-          var calEvent = {
-            title: value.title,
-            start: dueDate,
-            end: null,
-            stick: true,
-            color: "#228B22"
-          };
+            var calEvent = {
+              title: value.title,
+              start: dueDate,
+              end: null,
+              stick: true,
+              color: "#228B22"
+            };
 
-          appointList.push(calEvent);
+            vm.events[0].push(calEvent);
+          }
 
         });
+
+        loadBirthdays(id);
       })
       .error(function(response) {
         $log.debug(response);
@@ -141,7 +144,7 @@
               color: "#9C27B0"
             };
 
-            vm.events[0].push(calEvent);
+            //vm.events[0].push(calEvent);
           }
 
 

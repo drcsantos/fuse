@@ -647,7 +647,7 @@
                   </div>
                   <div class="comment-bubble"
                     wrap="hard"
-                    ng-if="!vm.editPermissions('')"
+                    ng-if="comment.author._id === vm.userid"
                     onaftersave="vm.updateComment(comment)"
                     editable-textarea="comment.commentText"
                     ng-trim="false"
@@ -657,7 +657,7 @@
 
                   <div class="comment-bubble"
                     wrap="hard"
-                    ng-if="vm.editPermissions('')"
+                    ng-if="comment.author._id !== vm.userid"
                     ng-trim="false"
                     e-rows="7"
                     e-cols="50">{{ comment.commentText }}
@@ -734,7 +734,7 @@
                 <div class="comment-bubble"
                   onaftersave="vm.updatePlan(plan)"
                   editable-textarea="plan.text"
-                  ng-if="!vm.editPermissions('')"
+                  ng-if="plan.author._id === vm.userid"
                   ng-trim="false"
                   e-rows="7"
                   e-cols="50">{{ plan.text }}
@@ -742,7 +742,7 @@
 
                 <div class="comment-bubble"
                   ng-trim="false"
-                  ng-if="vm.editPermissions('')"
+                  ng-if="plan.author._id !== vm.userid"
                   e-rows="7"
                   e-cols="50">{{ plan.text }}
                 </div>
