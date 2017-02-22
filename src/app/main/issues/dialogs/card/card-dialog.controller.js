@@ -27,6 +27,8 @@
 
         vm.Utils = Utils;
 
+        vm.issueTimeAgo = moment(vm.card.submitDate).fromNow();
+
         vm.labels = vm.board.labels;
 
         var unchangedDueDate = angular.copy(vm.card.due);
@@ -45,6 +47,11 @@
 
         // Functions
         vm.palettes = fuseTheming.getRegisteredPalettes();
+
+        //remove colors we had problem with
+        delete vm.palettes['fuse-pale-blue'];
+        delete vm.palettes['fuse-blue'];
+
         vm.rgba = fuseGenerator.rgba;
         vm.toggleInArray = msUtils.toggleInArray;
         vm.exists = msUtils.exists;

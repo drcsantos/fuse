@@ -54,7 +54,9 @@
         </md-button>
         <md-menu-content class="options-menu-content" width="4">
           <md-menu-item>
-            <md-button type="file" ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)" accept="image/*" ngf-max-height="1000" ngf-max-size="3MB">
+            <md-button type="file"
+                       ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)"
+                       ngf-max-size="5MB">
               <md-icon md-font-icon="icon-attachment" md-menu-align-target></md-icon>
               <span>Add attachment</span>
             </md-button>
@@ -464,7 +466,6 @@
                 ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)"
                 class="add-attachment-button" a
                 ria-label="add attachment"
-                ngf-max-height="1000"
                 ng-disabled="vm.editPermissions('')"
                 ngf-max-size="5MB">
                 <div layout="row" layout-align="start center">
@@ -770,6 +771,8 @@
 
                 <span tooltip="{{ vm.card.resolutionTimeframe }}" class="tooltip"> and Time Frame
                 </span>
+
+                <span class="activity-time secondary-text">{{ vm.issueTimeAgo }}</span>
               </h5>
               <div class="activity"
                 layout="row"
