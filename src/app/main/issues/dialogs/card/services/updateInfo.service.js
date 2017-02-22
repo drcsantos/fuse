@@ -121,6 +121,7 @@
            if(v.old === "") {
              v.infoFormated =  " created a Comment ";
              v.tooltip = v.new;
+             v.multiline = true;
            }
          }
 
@@ -145,11 +146,13 @@
          if(v.field === "plan-create") {
            v.infoFormated =  " created a Plan";
            v.tooltip = v.new;
+           v.multiline = true;
          }
 
          if(v.field === "plan-todo") {
            v.infoFormated =  " crated a Plan and added it to their To-Do";
            v.tooltip = v.new;
+           v.multiline = true;
          }
 
 
