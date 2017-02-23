@@ -803,7 +803,12 @@
                         {{ f.secondPart }}
                       </span>
 
-                      <span>
+                      <!-- Custom tooltip -->
+                      <span ng-if="f.twoToltips" class="tooltip" tooltip="{{ f.old }}" >
+                        {{ f.oldTip }}
+                      </span>
+
+                      <span ng-if="!f.twoToltips">
                         {{ f.oldTip }}
 
                         <md-tooltip md-direction="top">
@@ -811,7 +816,12 @@
                         </md-tooltip>
                       </span>
 
-                      <span>
+                      <!-- Custom tooltip -->
+                      <span ng-if="f.twoToltips" class="tooltip" tooltip="{{ f.new }}" >
+                        {{ f.newTip }}
+                      </span>
+
+                      <span ng-if="!f.twoToltips">
                         {{ f.newTip }}
 
                         <md-tooltip md-direction="top">

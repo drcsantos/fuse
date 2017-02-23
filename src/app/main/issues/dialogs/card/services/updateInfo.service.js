@@ -155,6 +155,9 @@
            v.multiline = true;
          }
 
+         if(v.field === "description" || v.field === "comment" || v.field === "plan") {
+           v.twoToltips = true;
+         }
 
          if(v.field === "description" || v.field === "title" || v.field === "resolutionTimeframe"
          || v.field === "comment" || v.field === "responsibleParty" || v.field === "plan") {
