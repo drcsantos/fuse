@@ -1,0 +1,85 @@
+<!-- PLAN -->
+<div class="sections">
+<div class="section">
+  <div class="comments">
+
+    <div class="section-header" layout="row" layout-align="start center">
+      <i class="icon-clipboard-check s18"></i>
+      <span class="section-title">Plan</span>
+    </div>
+
+    <div class="section-content">
+      <form name="cardCommentForm"
+        ng-submit="vm.addFinalPlan()"
+        class="comment final-plan-new"
+        layout="column"
+        layout-align="start"
+        no-validate>
+
+        <md-input-container flex md-no-float>
+          <textarea ms-scroll placeholder="Issue's Plan"
+            ng-model="vm.newFinalPlanText"
+            ng-disabled="vm.editPermissions('')"
+            required
+            translate
+            translate-attr-placeholder="SB.FINAL_PLAN">
+          </textarea>
+        </md-input-container>
+
+        <div layout="row" layout-align="end center">
+
+          <span ng-if="!vm.finalPlanChecklist">Finshed Item   </span>
+          <span ng-if="vm.finalPlanChecklist">Add to todo   </span>
+
+          <md-switch ng-model="vm.finalPlanChecklist" aria-label="">
+          </md-switch>
+
+          <md-button ng-disabled="vm.editPermissions('')" type="submit" class="md-raised md-accent" aria-label="Add Item">
+            <span translate="SB.FINAL_PLAN_ADD">Add Item</span>
+          </md-button>
+        </div>
+      </form>
+    </div>
+
+    <h3 ng-if="vm.card.finalPlan.length > 0">The plan to solve the issue: </h3>
+
+    <div class="comment"
+      layout="row"
+      ng-repeat="plan in vm.card.finalPlan.slice().reverse()">
+
+      <img ng-if="plan.author.userImage !== undefined"
+        class="comment-member-avatar"
+        ng-src="{{plan.author.userImage}}">
+      <img ng-if="plan.author.userImage === undefined"
+        class="comment-member-avatar"
+        ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+
+      <div layout="column">
+        <div class="comment-member-name">
+          {{plan.author.name}}
+          <span class="comment-time secondary-text">{{vm.Utils.timeDiff(plan.createdOn)}}</span>
+          <span class="comment-time secondary-text comment-date">{{ plan.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+        </div>
+        <div class="comment-bubble"
+          onaftersave="vm.updatePlan(plan)"
+          editable-textarea="plan.text"
+          ng-if="plan.author._id === vm.userid"
+          ng-trim="false"
+          e-rows="7"
+          e-cols="50">{{ plan.text }}
+        </div>
+
+        <div class="comment-bubble"
+          ng-trim="false"
+          ng-if="plan.author._id !== vm.userid"
+          e-rows="7"
+          e-cols="50">{{ plan.text }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- / PLAN -->

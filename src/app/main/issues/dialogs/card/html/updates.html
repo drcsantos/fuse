@@ -1,0 +1,91 @@
+<!-- UPDATES SECTION -->
+<div class="sections">
+<div class="section">
+  <div class="activities">
+    <div class="section-header" layout="row" layout-align="start center">
+      <i class="icon-format-list-bulleted s18"></i>
+      <span class="section-title">Updates</span>
+    </div>
+    <div class="section-content">
+      <h5>{{ vm.createdIssue }}
+        <span tooltip="{{ vm.card.description }}" class="tooltip">Description,
+        </span>
+
+        <span>Responsible Party,
+         <md-tooltip md-direction="top">
+           {{ vm.card.responsibleParty.name }}
+         </md-tooltip>
+       </span>
+
+       <span> and Time Frame
+          <md-tooltip md-direction="top">
+            {{ vm.card.resolutionTimeframe }}
+          </md-tooltip>
+     </span>
+
+        <span class="activity-time secondary-text">{{ vm.issueTimeAgo }}</span>
+      </h5>
+      <div class="activity"
+        layout="row"
+        layout-align="start center"
+        ng-repeat="update in vm.card.updateInfo.slice().reverse()">
+        <ul>
+          <li ng-repeat="f in vm.formatUpdateArray(update.updateField, update.updateBy, update.updateDate) track by $index">
+            <img class="activity-member-avatar" ng-src="{{f.userImage}}">
+            <span class="activity-member-name"> {{ f.userName }} </span>
+            <span>
+              <span tooltip="{{ f.tooltip }}" ng-if="f.multiline" class="tooltip">{{ f.infoFormated }}</span>
+              <span ng-if="!f.differentLayout && !f.multiline">{{ f.infoFormated }}</span>
+
+              <span ng-if="f.differentLayout">
+                {{ f.firstPart }}
+                <span>
+                  {{ f.checklist }}
+                  <md-tooltip md-direction="top">
+                    {{ f.checktooltip }}
+                  </md-tooltip>
+                </span>
+                {{ f.secondPart }}
+              </span>
+
+              <!-- Custom tooltip -->
+              <span ng-if="f.twoToltips" class="tooltip" tooltip="{{ f.old }}" >
+                {{ f.oldTip }}
+              </span>
+
+              <span ng-if="!f.twoToltips">
+                {{ f.oldTip }}
+
+                <md-tooltip md-direction="top">
+                  {{ f.old }}
+                </md-tooltip>
+              </span>
+
+              <!-- Custom tooltip -->
+              <span ng-if="f.twoToltips" class="tooltip" tooltip="{{ f.new }}" >
+                {{ f.newTip }}
+              </span>
+
+              <span ng-if="!f.twoToltips">
+                {{ f.newTip }}
+
+                <md-tooltip md-direction="top">
+                  {{ f.new }}
+                </md-tooltip>
+              </span>
+
+              <md-tooltip ng-if="f.tooltip && !f.multiline" md-direction="top">
+                {{ f.tooltip }}
+              </md-tooltip>
+
+            </span>
+            <span class="activity-time secondary-text">{{ f.timeDiff }} </span>
+          </li>
+
+        </ul>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+<!-- / UPDATES SECTION -->

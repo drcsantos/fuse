@@ -1,0 +1,29 @@
+<md-dialog class="card-dialog" aria-label="Card Dialog" ng-cloak>
+    <md-toolbar ng-include="'app/main/issues/dialogs/card/html/header.html'" class="md-accent" ng-class="'md-'+vm.board.settings.color+'-bg'">
+    </md-toolbar>
+    <md-dialog-content ms-scroll>
+      <md-tabs style="min-height: 420px; height: auto;">
+        <md-tab label="Main">
+          <md-dialog-content ng-include="'app/main/issues/dialogs/card/html/main.html'" ms-scroll>
+          </<md-dialog-content>
+        </md-tab>
+
+        <md-tab label="Comments">
+          <md-dialog-content ng-include="'app/main/issues/dialogs/card/html/comments.html'" ms-scroll>
+          </<md-dialog-content>
+        </md-tab>
+
+        <md-tab label="Plans">
+          <md-dialog-content ng-include="'app/main/issues/dialogs/card/html/plans.html'" ms-scroll>
+          </<md-dialog-content>
+        </md-tab>
+
+        <md-tab label="Updates">
+          <md-dialog-content ng-include="'app/main/issues/dialogs/card/html/updates.html'" ms-scroll>
+          </<md-dialog-content>
+        </md-tab>
+
+      </md-tabs>
+    </md-dialog-content>
+
+</md-dialog>

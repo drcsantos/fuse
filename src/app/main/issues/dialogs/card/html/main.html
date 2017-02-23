@@ -1,0 +1,352 @@
+<!-- DUE DATE -->
+<div ng-if="vm.card.currdue" class="due-date" layout="row" layout-align="space-between center">
+  <div class="section-header" layout="row" layout-align="start center">
+    <i class="icon-attachment s18"></i>
+    <span class="section-title" translate="SB.DUE_DATE">Due Date</span>
+  </div>
+
+  <div ng-if="vm.card.currdue" class="due-date" layout="row" layout-align="end center">
+    <div layout="row" layout-align="start center">
+      <i class="s18 icon icon-calendar"></i>
+      <span>{{vm.card.currdue | date}}</span>
+    </div>
+
+    <div class="remove-due-date" layout="row" layout-align="center center" ng-click="vm.removeDueDate()">
+      <i class="s16 icon icon-close"></i>
+    </div>
+  </div>
+</div>
+<!-- / DUE DATE -->
+
+<div class="sections">
+  <div class="section">
+    <md-input-container class="md-block">
+      <label>Title</label>
+      <input ng-disabled="vm.editPermissions('title')"
+        ng-model="vm.card.name"
+        type="text"
+        ng-blur="vm.updateIssue('name')"
+        focus>
+    </md-input-container>
+
+
+    <!-- DESCRIPTION -->
+    <md-input-container class="md-block">
+      <label translate="SB.DESCRIPTION">Description</label>
+      <textarea ng-disabled="vm.editPermissions('description')"
+        ng-model="vm.card.description"
+        ng-blur="vm.updateIssue('description')"
+        columns="1"></textarea>
+    </md-input-container>
+    <!-- / DESCRIPTION -->
+
+    <!-- resolutionTimeframe -->
+    <md-input-container class="md-block">
+      <label>Resolution Time Frame</label>
+      <md-select ng-disabled="vm.editPermissions('resolutionTimeframe')"
+        ng-model="vm.card.resolutionTimeframe"
+        ng-change="vm.updateIssue('resolutionTimeframe')"
+        placeholder="Time Frame"
+        required>
+        <md-option value="Hours">Hours</md-option>
+        <md-option value="Days">Days</md-option>
+        <md-option value="Weeks">Weeks</md-option>
+        <md-option value="Months">Months</md-option>
+      </md-select>
+    </md-input-container>
+
+    <!-- issue status -->
+    <md-input-container class="md-block">
+      <md-tooltip ng-if="vm.editPermissions('status')">
+        Not Editable by Minions
+      </md-tooltip>
+      <label>Status</label>
+      <md-select
+        ng-disabled="vm.editPermissions('status')"
+        ng-model="vm.card.status"
+        ng-change="vm.changeStatus()"
+        placeholder="Issue Status"
+        required>
+        <md-option value="Open">Open</md-option>
+        <md-option value="Shelved">Shelved</md-option>
+        <md-option value="Closed">
+          <span ng-if="vm.card.finalPlan.length <= 0" style="color: lightgrey">
+          Closed (must have final plan)
+
+          </span>
+          <span ng-if="vm.card.finalPlan.length > 0">Closed</span>
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+    <!-- Responsible party -->
+    <div class="md-block">
+      <md-autocomplete required=""
+        ng-disabled="vm.editPermissions('responsibleParty')"
+        md-selected-item="vm.selectedItem"
+        md-input-name="vm.selectedItem"
+        md-search-text="searchText"
+        md-items="item in vm.getMatches(searchText)"
+        md-item-text="item.display"
+        md-min-length="0"
+        md-floating-label="Responsible Party"
+        md-selected-item-change="vm.changeResponsibleParty('responsibleParty')">
+        <md-item-template>
+          <span md-highlight-text="searchText">{{item.display}}</span>
+        </md-item-template>
+        <md-not-found>
+          No Users Found
+        </md-not-found>
+      </md-autocomplete>
+    </div>
+
+    <!-- SECTIONS -->
+
+    <!-- LABELS SECTION -->
+
+    <div flex class="labels">
+      <div class="section-header" layout="row" layout-align="start center">
+        <i class="icon-label-outline s18"></i>
+        <span class="section-title" translate="SB.LABELS">Labels</span>
+      </div>
+      <div class="section-content">
+        <md-chips class="label-chips" ng-model="vm.card.labels" md-transform-chip="$chip">
+          <md-autocomplete md-selected-item="vm.selectedLabel"
+            md-search-text="vm.searchLabelText"
+            md-items="label in vm.labelQuerySearch(vm.searchLabelText)"
+            md-item-text="label.name"
+            placeholder="Search for a label"
+            ng-disabled="vm.editPermissions('')"
+            md-selected-item-change="vm.addLabelToCard(label._id)">
+            <span md-highlight-text="vm.searchLabelText">{{label.name}}</span>
+          </md-autocomplete>
+          <md-chip-template class="label-chip" ng-class="'md-'+$chip.color+'-bg'">
+            <span>{{$chip.name}}</span>
+          </md-chip-template>
+          <button md-chip-remove class="md-primary" ng-disabled="vm.editPermissions('')" ng-click="vm.removeLabelFromCard($chip.name, 'chip')">
+            <md-icon md-font-icon="icon-close" class="s18"></md-icon>
+          </button>
+        </md-chips>
+      </div>
+    </div>
+
+    <div class="section-header" layout="row" layout-align="start center">
+      <i class="icon-account-multiple s18"></i>
+      <span class="section-title" translate="SB.MEMBERS">Members</span>
+    </div>
+    <div class="section-content">
+      <md-chips class="member-chips"
+        ng-model="vm.card.idMembers"
+        md-transform-chip="$chip.id"
+        md-autocomplete-snap md-require-match="true">
+        <md-autocomplete md-selected-item="vm.selectedMember"
+          md-search-text="vm.searchText"
+          ng-disabled="vm.editPermissions('')"
+          md-items="member in vm.memberQuerySearch(vm.searchText)"
+          md-item-text="member.name"
+          placeholder="Search for a member"
+          md-selected-item-change="vm.addMemberAutoComplete(vm.selectedMember)">
+          <span md-highlight-text="vm.searchText">{{member.name}}</span>
+        </md-autocomplete>
+        <md-chip-template class="member-chip">
+          <span>{{ $chip.name }}</span>
+        </md-chip-template>
+        <button md-chip-remove class="md-primary" ng-disabled="vm.editPermissions('')" ng-click="vm.memberUpdate($chip.name)">
+          <md-icon md-font-icon="icon-close" class="s18"></md-icon>
+        </button>
+      </md-chips>
+    </div>
+
+
+    <!-- ATTACHMENTS SECTION -->
+    <div class="section">
+      <div class="attachments">
+
+        <div class="section-header" layout="row" layout-align="start center">
+          <i class="icon-attachment s18"></i>
+          <span class="section-title" translate="SB.ATTACHMENTS">Attachments</span>
+        </div>
+
+        <div class="section-content">
+
+          <div class="attachment" ng-repeat="item in vm.card.attachments">
+            <div layout="row">
+              <img ng-click="vm.openImage(item.url)"
+                class="attachment-preview md-whiteframe-2dp"
+                alt="Not an image no preview"
+                ng-src="{{item.url}}">
+              </img>
+              <div class="attachment-content" layout="column">
+
+                <div layout="row" layout-align="start center">
+                  <a class="attachment-name">{{item.name}}</a>
+                  <i ng-if="vm.card.idAttachmentCover === item.id"
+                    class="icon-star yellow-700-fg attachment-is-cover s18"></i>
+                </div>
+
+                <span class="attachment-time">{{item.time}}</span>
+
+                <md-menu>
+                  <md-button class="md-raised attachment-actions-button"
+                    ng-click="$mdOpenMenu($event)"
+                    aria-label="attachment actions">
+                    <span layout="row" layout-align="center center">
+                    <span translate="SB.ACTIONS">Actions</span>
+                    <i class="icon-chevron-down s20"></i>
+                    </span>
+                  </md-button>
+
+                  <md-menu-content>
+                    <md-menu-item>
+                      <md-button ng-click="vm.removeAttachment(item)"
+                        aria-label="Remove Attachment"
+                        translate translate-attr-aria-label="SB.REMOVE_ATTACHMENT">
+                        <span translate="SB.REMOVE_ATTACHMENT">Remove Attachment</span>
+                      </md-button>
+                    </md-menu-item>
+
+                    <md-menu-item>
+                      <md-button ng-click="vm.downloadedInfo(item.name);"
+                        aria-label="Download Attachment"
+                        ng-href="{{item.url}}"
+                        translate translate-attr-aria-label="SB.DOWNLOAD_ATTACHMENT">
+                        <span class="download-attachment" translate="SB.DOWNLOAD_ATTACHMENT">Download attachment</span>
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </div>
+            </div>
+          </div>
+
+          <md-button type="file"
+            ngf-select="vm.uploadFiles($file, $invalidFiles, vm.card)"
+            class="add-attachment-button" a
+            ria-label="add attachment"
+            ng-disabled="vm.editPermissions('')"
+            ngf-max-size="5MB">
+            <div layout="row" layout-align="start center">
+              <i class="icon-plus s20"></i>
+              <span translate="SB.ADD_AN_ATTACHMENT">Add an attachment</span>
+            </div>
+          </md-button>
+        </div>
+      </div>
+    </div>
+    <!-- / ATTACHMENTS SECTION -->
+
+    <!-- CHECKLISTS SECTION -->
+    <div class="section" ng-repeat="checklist in vm.card.checklists">
+      <div class="checklist">
+        <div class="section-header" layout="row" layout-align="start center">
+          <i class="icon-checkbox-marked s18"></i>
+          <span class="section-title"
+            e-rows="1"
+            e-cols="60"
+            ng-if="!vm.editPermissions('')"
+            editable-textarea="checklist.checklistName"
+            onaftersave="vm.updateCheckListName(checklist, vm.oldData.checklists)">
+            {{checklist.checklistName}}
+          </span>
+
+          <!-- Checklist name uneditable -->
+          <span class="section-title"
+            e-rows="1"
+            e-cols="60"
+            ng-if="vm.editPermissions('')">
+          {{checklist.checklistName}}
+          </span>
+
+          <md-menu md-position-mode="target-right target" class="options">
+            <md-button class="md-icon-button"
+              ng-click="$mdOpenMenu($event)"
+              aria-label="options"
+              ng-disabled="vm.editPermissions('')"
+              translate
+              translate-attr-aria-label="SB.OPTIONS">
+              <md-icon md-menu-origin md-font-icon="icon-dots-vertical"></md-icon>
+            </md-button>
+
+            <md-menu-content class="options-menu-content" width="4">
+              <md-menu-item>
+                <md-button ng-click="vm.removeChecklist(checklist)"
+                  aria-label="Remove Checklist"
+                  ng-disabled="vm.editPermissions('')"
+                  translate
+                  translate-attr-aria-label="SB.REMOVE_CHECKLIST">
+                  <md-icon md-font-icon="icon-delete"></md-icon>
+                  <span translate="SB.REMOVE_CHECKLIST">Remove Checklist</span>
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </div>
+
+        <div class="section-content">
+
+          <div class="checklist-progress" layout="row" layout-align="start center">
+            <span class="checklist-progress-value">
+                           {{checklist.checkItemsChecked}} / {{checklist.checkItems.length}}
+                       </span>
+
+            <md-progress-linear class="md-accent checklist-progressbar"
+              md-mode="determinate"
+              value="{{100 * checklist.checkItemsChecked / checklist.checkItems.length}}">
+            </md-progress-linear>
+          </div>
+
+          <div class="check-items">
+            <div class="check-item" ng-repeat="checkItem in checklist.checkItems">
+              <md-checkbox class="item-checklist" ng-model="checkItem.checked"
+                ng-disabled="vm.editPermissions('')"
+                ng-change="vm.updateCheckedCount(checklist, checkItem)"
+                aria-label="{{checkItem.name}}">
+              </md-checkbox>
+
+              <a
+                href="#" ng-class="checkItem.checked ? 'underline_item' : 'standard_item'"
+                editable-textarea="checkItem.name"
+                e-rows="7"
+                e-cols="40"
+                ng-if="!vm.editPermissions('')"
+                onaftersave="vm.updateCheckItem(checklist, $index, checkItem)">{{checkItem.name}}
+              </a>
+
+              <!-- Uneditable check item name -->
+              <span
+                ng-class="checkItem.checked ? 'underline_item' : 'standard_item'"
+                e-rows="7"
+                e-cols="40"
+                ng-if="vm.editPermissions('')">
+                {{checkItem.name}}
+              </span>
+
+            </div>
+          </div>
+
+          <form name="newCheckItemForm"
+            class="new-check-item-form"
+            ng-submit="vm.addCheckItem(checklist.newCheckItem, checklist);checklist.newCheckItem = ''"
+            layout="row"
+            layout-align="start center">
+            <md-input-container class="no-errors-spacer" ng-disabled="vm.editPermissions('')" flex>
+              <label layout="row" layout-align="center">
+                <i class="icon-plus s18"></i>
+                <span translate="SB.ADD_AN_ITEM">Add an item</span>
+              </label>
+              <input type="text" autocomplete="off" ng-model="checklist.newCheckItem">
+            </md-input-container>
+
+            <md-button type="submit"
+              class="md-raised md-accent"
+              aria-label="Add"
+              ng-disabled="vm.editPermissions('')"
+              translate translate-attr-aria-label="SB.ADD">
+              <span translate="SB.ADD">Add</span>
+            </md-button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <!-- / CHECKLISTS SECTION -->

@@ -1,0 +1,77 @@
+<!-- COMMENTS SECTION -->
+<div class="sections">
+<div class="section">
+  <div class="comments">
+
+    <div class="section-header" layout="row" layout-align="start center">
+      <i class="icon-comment s18"></i>
+      <span class="section-title">Comments</span>
+    </div>
+
+    <div class="section-content">
+      <form name="cardCommentForm"
+        ng-submit="vm.addNewComment(vm.newCommentText); vm.newCommentText =''"
+        class="comment new-comment"
+        layout="column"
+        layout-align="start"
+        no-validate>
+
+        <md-input-container flex md-no-float>
+          <textarea wrap="hard"
+            cols="30"
+            placeholder="Write a comment.."
+            ng-model="vm.newCommentText"
+            required
+            translate
+            translate-attr-placeholder="SB.WRITE_A_COMMENT">
+          </textarea>
+        </md-input-container>
+
+        <div layout="row" layout-align="end center">
+          <md-button type="submit" class="md-raised md-accent" aria-label="Add">
+            <span translate="SB.ADD">Add</span>
+          </md-button>
+        </div>
+      </form>
+
+      <div class="comment"
+        layout="row"
+        ng-repeat="comment in vm.card.comments.slice().reverse()">
+        <img ng-if="comment.author.userImage !== undefined"
+          class="comment-member-avatar"
+          ng-src="{{comment.author.userImage}}">
+        <img ng-if="comment.author.userImage === undefined"
+          class="comment-member-avatar"
+          ng-src="https://s3-us-west-2.amazonaws.com/apilatest2/logo.png">
+
+        <div layout="column">
+          <div class="comment-member-name">
+            {{comment.author.name}}
+            <span class="comment-time secondary-text">{{vm.Utils.timeDiff(comment.createdOn)}}</span>
+            <span class="comment-time secondary-text comment-date">{{ comment.createdOn | date:'h:mm a MMM dd, yyyy'}} </span>
+          </div>
+          <div class="comment-bubble"
+            wrap="hard"
+            ng-if="comment.author._id === vm.userid"
+            onaftersave="vm.updateComment(comment)"
+            editable-textarea="comment.commentText"
+            ng-trim="false"
+            e-rows="7"
+            e-cols="50">{{ comment.commentText }}
+          </div>
+
+          <div class="comment-bubble"
+            wrap="hard"
+            ng-if="comment.author._id !== vm.userid"
+            ng-trim="false"
+            e-rows="7"
+            e-cols="50">{{ comment.commentText }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+<!-- / COMMENTS -->
