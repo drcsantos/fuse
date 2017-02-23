@@ -1,0 +1,17 @@
+A guide to running the frontend separate from visual studio
+
+1. Make sure you ran npm install and webpack in you app directory
+2. Install webpack-dev-server (you can install it with npm like 'npm i webpack-dev-server -g')
+3. Copy Scripts folder, index.html and favicon.ico from BoxOfWords.Web to BoxOfWords.Web/app/dist
+4. Edit the index.html you copied so it doesn't link to /app/dist/something just to /something
+edits will be in lines (7, 17, 18)
+
+5. Ok this is a bit weird go to app/node_modules/fetch-intercept/lib/index.js and change line 61 to this
+	var ENVIRONMENT_IS_NODE = false;
+
+6. Run webpack-dev-server in app folder
+
+7. Visit localhost:8080 Profit???
+
+Some known issues are that in the world the images arent loading also if you want to change client
+ port you can do it in the webpack.config.js
