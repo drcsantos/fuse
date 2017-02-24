@@ -637,8 +637,9 @@
           (config.startX + offsetFromLabel) - ("Food Allergies: ".length * coordsPerLetter),
           positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(data.foodAllergies, positionX, positionY);
-        config.halfSpaceOffset += data.foodAllergies.length;
+        var splitfoodAllergies = doc.splitTextToSize(data.foodAllergies.join(', '), textLength);
+        doc.text(splitfoodAllergies, positionX, positionY);
+        config.halfSpaceOffset += splitfoodAllergies.length;
       } else {
         data.foodAllergies = "";
       }
@@ -651,8 +652,9 @@
           (config.startX + offsetFromLabel) - ("Med Allergies: ".length * coordsPerLetter),
           positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(data.medicationAllergies, positionX, positionY);
-        config.halfSpaceOffset += data.medicationAllergies.length;
+        var splitmedicationAllergies = doc.splitTextToSize(data.medicationAllergies.join(', '), textLength);
+        doc.text(splitmedicationAllergies, positionX, positionY);
+        config.halfSpaceOffset += splitmedicationAllergies.length;
       } else {
         data.medicationAllergies = "";
       }
@@ -664,8 +666,9 @@
           (config.startX + offsetFromLabel) - ("Other Allergies: ".length * coordsPerLetter),
           positionY);
         positionX = config.startX + offsetFromLabel;
-        doc.text(data.otherAllergies, positionX, positionY);
-        config.halfSpaceOffset += data.otherAllergies.length;
+        var splitOtherAllergies = doc.splitTextToSize(data.otherAllergies.join(', '), textLength);
+        doc.text(splitOtherAllergies, positionX, positionY);
+        config.halfSpaceOffset += splitOtherAllergies.length;
       } else {
         data.otherAllergies = "";
       }
