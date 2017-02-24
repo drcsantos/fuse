@@ -32,6 +32,16 @@
 
       config.startY = y + offset + 5;
 
+      var calculatedY  = calculateOffset(doc, 24, 16, config);
+
+      console.log("CalculatedY: " + calculatedY + " : " + config.startY);
+
+      //if there are offsets substract for Y to take that in account
+      if(calculatedY !== config.startY) {
+        var diff = (calculatedY - config.startY);
+        config.startY -= diff;
+      }
+
     };
 
     function calculateOffset(doc, fullSpace, halfSpace, config, textLength) {
@@ -668,7 +678,9 @@
           (config.startX + offsetFromLabel) - ("Notes: ".length * coordsPerLetter),
           positionY);
         positionX = config.startX + offsetFromLabel;
+
         multilineText(doc, splitText, positionX, positionY, config);
+
       } else {
         data.allergyNotes = "";
       }
