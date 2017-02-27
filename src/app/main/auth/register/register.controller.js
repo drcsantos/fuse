@@ -71,7 +71,7 @@
               $location.path('/auth/login');
             });
 
-            vm.disabled = true;
+            //vm.disabled = true;
 
         };
 
