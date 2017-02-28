@@ -34,6 +34,8 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
+        console.log(oldData);
+
         vm.oldData = oldData;
 
         vm.newCheckListTitle = "Checklist";

@@ -32,6 +32,7 @@
         var communityid = authentication.currentUser().communityId;
 
         var tasks = [];
+        var issueCount = 0;
 
         apilaData.activeTasksCount(todoid).then(function(response) {
           msNavigationService.saveItem('fuse.to-do', {
@@ -42,14 +43,19 @@
           });
         });
 
+        function updateIssueBadge(count) {
+          msNavigationService.saveItem('fuse.issues', {
+            badge: {
+              content: count,
+              color: '#F44336'
+            }
+          });
+        }
+
         apilaData.openIssuesCount(authentication.currentUser().id, authentication.currentUser().communityId)
           .success(function(count) {
-            msNavigationService.saveItem('fuse.issues', {
-              badge: {
-                content: count,
-                color: '#F44336'
-              }
-            });
+            issueCount = count;
+            updateIssueBadge(count);
           });
 
         // Funtions
@@ -112,6 +118,15 @@
             socket.on('recent-activities', function(activities) {
               vm.activities = activities;
               console.log("Activities loaded");
+            });
+
+            socket.on('issue-count-update', function(type) {
+              console.log("In issue update count");
+              if(type === 'increment') {
+                updateIssueBadge(++issueCount);
+              } else if(type === 'decrement') {
+                updateIssueBadge(--issueCount);
+              }
             });
 
             socket.on('add-activity', function(activity) {
