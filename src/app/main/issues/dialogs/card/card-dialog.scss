@@ -4,8 +4,14 @@ md-dialog {
     text-decoration: line-through
   }
 
-  .standard_item {
+  .issue-tabs {
+    min-height: 420px;
+    height: auto;
+  }
 
+  .issue-content {
+    padding: 5px 15px 5px 15px;
+    margin-left: 5px;
   }
 
   .md-fuse-pale-blue-bg {
@@ -119,7 +125,7 @@ md-dialog {
             border-bottom: none;
             margin-bottom: 0;
             .section-content {
-              padding-bottom: 0;
+              padding-bottom: 8px;
             }
           }
           .section-header {
@@ -228,6 +234,7 @@ md-dialog {
             }
             .add-attachment-button {
               margin: 0;
+              margin-left: 24px;
               i {
                 color: rgba(0, 0, 0, 0.6);
                 margin-right: 8px;
@@ -267,6 +274,7 @@ md-dialog {
             }
             .new-check-item-form {
               padding-top: 16px;
+              padding-left: 20px;
               md-input-container {
                 margin: 0;
               }
