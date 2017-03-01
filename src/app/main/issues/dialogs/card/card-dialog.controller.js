@@ -143,6 +143,7 @@
                   value: elem._id,
                   display: elem.name
                 };
+
               }
 
               return {
@@ -446,8 +447,10 @@
             vm.card.responsibleParty = vm.selectedItem.value;
             UpdateInfoService.addUpdateInfo('', 'responsibleParty', vm.selectedItem.display, oldData.responsibleParty.name);
 
+            console.log("new: " + vm.selectedItem.display + " old: " + vm.oldSelectedItem.display);
+
             var newList = _.find(vm.board.lists, {name: vm.selectedItem.display});
-            var oldList = _.find(vm.board.lists, {name: oldData.responsibleParty.name});
+            var oldList = _.find(vm.board.lists, {name: vm.oldSelectedItem.display});
 
             oldList.idCards = _.without(oldList.idCards, vm.card.id);
 
@@ -535,6 +538,8 @@
             value: resp.responsibleParty._id,
             display: resp.responsibleParty.name
           };
+
+          vm.oldSelectedItem = angular.copy(vm.selectedItem);
 
         });
 

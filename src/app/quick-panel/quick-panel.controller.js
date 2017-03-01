@@ -43,6 +43,18 @@
           });
         });
 
+        //Update every 5 min. for task cound update
+        setInterval(function() {
+          apilaData.activeTasksCount(todoid).then(function(response) {
+            msNavigationService.saveItem('fuse.to-do', {
+              badge: {
+                content: response.data,
+                color: '#FF6F00'
+              }
+            });
+          });
+        }, 5*60000);
+
         function updateIssueBadge(count) {
           msNavigationService.saveItem('fuse.issues', {
             badge: {
@@ -121,7 +133,7 @@
             });
 
             socket.on('issue-count-update', function(type) {
-              console.log("In issue update count");
+              console.log("In issue update count " + issueCount);
               if(type === 'increment') {
                 updateIssueBadge(++issueCount);
               } else if(type === 'decrement') {

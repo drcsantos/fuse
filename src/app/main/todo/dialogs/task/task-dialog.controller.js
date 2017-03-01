@@ -7,7 +7,7 @@
         .controller('TaskDialogController', TaskDialogController);
 
     /** @ngInject */
-    function TaskDialogController($mdDialog, $log, Task, Tasks, event, $mdToast, authentication, apilaData, ToDoUtilsService)
+    function TaskDialogController($mdDialog, $log, Task, Tasks, event, $mdToast, msNavigationService, authentication, apilaData, ToDoUtilsService)
     {
         var vm = this;
 
@@ -109,6 +109,15 @@
         function errorMessages(task, action) {
           if(!isInActiveCycle(task)) {
             showToast("The task is " + action +" but it's not currently active");
+          } else {
+            apilaData.activeTasksCount(vm.todoid).then(function(response) {
+              msNavigationService.saveItem('fuse.to-do', {
+                badge: {
+                  content: response.data,
+                  color: '#FF6F00'
+                }
+              });
+            });
           }
         }
 
