@@ -16,9 +16,12 @@
                 </div>
 
                 <span class="text-truncate">{{vm.displayName(resident)}}</span>
-
-                <md-icon md-font-icon="icon-paperclip" class="has-attachment s16" ng-if="resident.hasAttachments"></md-icon>
             </div>
+        </div>
+
+        <div ng-if="resident.fieldType" class="md-item-text md-whiteframe-z1 field-type">
+          <b>{{resident.fieldType}}</b>
+
         </div>
 
         <div class="md-item-text md-whiteframe-z1 care-points">

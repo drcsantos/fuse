@@ -106,17 +106,82 @@
       }
     }
 
+    var arrayFields = ['foodAllergies', 'medicationAllergies', 'otherAllergies', 'foodLikes',
+            'foodDislikes', 'outsideAgencyFile', 'psychosocialStatus', 'shopping', 'painManagedBy'];
+
+    function transformResidentForSearch(resident) {
+
+      var searchString = "";
+
+      var fieldsTypes = {};
+
+      for(var key in resident) {
+        if(resident.hasOwnProperty(key)) {
+
+          //skip over there fields
+          if(key === "_id" || key === '$$hashKey' || key === 'community' || key === 'submitBy' || key === 'submitDate') {
+            continue;
+          }
+
+          //format dates
+          if(key === 'birthDate') {
+            fieldsTypes[searchString.length] = key;
+            searchString += moment(resident[key]).format('YYYY MM DD') + ' ';
+            continue;
+          }
+
+          //handling boolean fields
+          if(resident[key] == true) {
+            fieldsTypes[searchString.length] = key;
+            searchString += key + ' ';
+            continue;
+          }
+
+          //handle arrays
+          if(_.includes(arrayFields, key)) {
+            fieldsTypes[searchString.length] = key;
+            searchString += resident[key].join(' ');
+            continue;
+          }
+
+          //skip objects for now
+          if(angular.isObject(resident[key])) {
+            continue;
+          }
+
+          if(resident[key]) {
+            fieldsTypes[searchString.length] = key;
+            searchString += resident[key] + ' ';
+          }
+
+        }
+      }
+
+      return { searchString, fieldsTypes };
+    }
+
     vm.searchResidents = function() {
 
       if(vm.search === "") {
         vm.residentList = vm.originalList;
       }
 
-      if(vm.search.length > 1) {
+      if(vm.search.length > 0) {
         var residents = vm.allResidents.filter(function(resid) {
           var fullName = (resid.firstName + resid.aliasName + resid.lastName).toLowerCase();
 
-          return fullName.indexOf(vm.search.toLowerCase()) !== -1;
+          var searchObject = transformResidentForSearch(resid);
+
+          var indexValue  = searchObject.searchString.toLowerCase().indexOf(vm.search.toLowerCase());
+
+          if(indexValue !== -1) {
+            console.log(indexValue);
+            console.log(searchObject.fieldsTypes[indexValue.toString()]);
+            resid.fieldType = searchObject.fieldsTypes[indexValue.toString()];
+          }
+
+
+          return indexValue !== -1;
         });
 
         vm.residentList = residents;
@@ -131,11 +196,14 @@
         residentList(vm.community._id);
       });
 
+
+
     //loading the list of residents
     function residentList(id) {
-      apilaData.residentsList(id)
+      apilaData.residentsFullList(id)
         .success(function(d) {
           vm.allResidents = d;
+          console.log(vm.allResidents);
           vm.residentList = d.slice(0, 100);
           vm.originalList = angular.copy(vm.residentList);
 
