@@ -9,10 +9,14 @@
   </div>
 
   <div class="mail-content">
+
+      <span>Resident added by: <b>{{ vm.selectedResident.submitName }}</b> </span>
+
     <div class="info" layout="row" layout-align="space-between start">
 
         <!-- Update fields -->
         <md-list>
+
           <md-list-item class="md-3-line" ng-repeat="updateField in vm.updateInfoList.slice().reverse() track by $index">
             <div class="md-list-item-text">
               <img class="activity-member-avatar"

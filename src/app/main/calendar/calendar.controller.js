@@ -66,6 +66,7 @@
         .success(function(data) {
 
           if(data.length === 0) {
+            loadIssues(id);
             return;
           }
 
@@ -79,7 +80,7 @@
 
           vm.events[0] = vm.events[0].concat(appointLists);
 
-          console.log(vm.events[0].length);
+          console.log("Loading appointments");
 
           SearchService.setData(appointLists, searchParams);
           SearchService.subscribe($scope, function() {
@@ -117,6 +118,7 @@
 
         });
 
+        console.log('Loading birthdays');
         loadBirthdays(id);
       })
       .error(function(response) {
@@ -125,6 +127,7 @@
     };
 
     var loadBirthdays = function(id) {
+
 
       apilaData.residentsList(id)
       .success(function(response) {

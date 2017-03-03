@@ -157,7 +157,7 @@
         }
       }
 
-      return { searchString, fieldsTypes };
+      return { searchString: searchString, fieldsTypes: fieldsTypes };
     }
 
     vm.searchResidents = function() {
@@ -174,10 +174,16 @@
 
           var indexValue  = searchObject.searchString.toLowerCase().indexOf(vm.search.toLowerCase());
 
+          var matched = searchObject.searchString.toLowerCase().match(new RegExp(vm.search.toLowerCase(), 'g'));
+
+          if(matched) {
+            console.log(matched);
+          }
+
           if(indexValue !== -1) {
-            console.log(indexValue);
-            console.log(searchObject.fieldsTypes[indexValue.toString()]);
-            resid.fieldType = searchObject.fieldsTypes[indexValue.toString()];
+            // console.log(searchObject.fieldsTypes);
+            // console.log(indexValue);
+            resid.fieldType = _.startCase(searchObject.fieldsTypes[indexValue.toString()]);
           }
 
 
@@ -203,7 +209,7 @@
       apilaData.residentsFullList(id)
         .success(function(d) {
           vm.allResidents = d;
-          console.log(vm.allResidents);
+
           vm.residentList = d.slice(0, 100);
           vm.originalList = angular.copy(vm.residentList);
 
@@ -220,6 +226,10 @@
         console.log(resid);
         apilaData.residentById(resid._id)
         .success(function(resident) {
+
+          resident.submitName = resident.submitBy.name;
+          resident.submitBy = resident.submitBy._id;
+
           vm.selectedResident = resident;
 
           var contact = _.filter(vm.selectedResident.residentContacts, function(v) {
@@ -385,6 +395,10 @@
       if(resident) {
         apilaData.residentById(resident._id)
         .success(function(ress) {
+
+          ress.submitName = ress.submitBy.name;
+          ress.submitBy = ress.submitBy._id;
+
           vm.selectedResident = ress;
 
           selectResident(resident);
@@ -427,6 +441,10 @@
 
                 apilaData.residentById(resident._id)
                 .success(function(updatedRes) {
+
+                  updatedRes.submitName = updatedRes.submitBy.name;
+                  updatedRes.submitBy = updatedRes.submitBy._id;
+
                   vm.selectedResident = updatedRes;
 
                   vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
