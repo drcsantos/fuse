@@ -160,6 +160,12 @@
       return { searchString: searchString, fieldsTypes: fieldsTypes };
     }
 
+    vm.clearSearch = function() {
+      if(vm.search === "") {
+        vm.residentList = vm.originalList;
+      }
+    }
+
     vm.searchResidents = function() {
 
       if(vm.search === "") {
@@ -174,15 +180,13 @@
 
           var indexValue  = searchObject.searchString.toLowerCase().indexOf(vm.search.toLowerCase());
 
-          var matched = searchObject.searchString.toLowerCase().match(new RegExp(vm.search.toLowerCase(), 'g'));
+          // var matched = searchObject.searchString.toLowerCase().match(new RegExp(vm.search.toLowerCase(), 'g'));
 
-          if(matched) {
-            console.log(matched);
-          }
+          // if(matched) {
+          //   console.log(matched);
+          // }
 
           if(indexValue !== -1) {
-            // console.log(searchObject.fieldsTypes);
-            // console.log(indexValue);
             resid.fieldType = _.startCase(searchObject.fieldsTypes[indexValue.toString()]);
           }
 
@@ -193,6 +197,35 @@
         vm.residentList = residents;
       }
 
+    }
+
+    //small helper function for resident filtering
+    function filterResident(condition) {
+      return vm.allResidents.filter(function(resid) {
+          var buildingStatus = resid.buildingStatus;
+
+          resid.fieldType = buildingStatus;
+
+          if(condition.indexOf(buildingStatus) !== -1) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+    }
+
+    vm.filterByStatus = function(status) {
+      if(status === 'all') {
+        vm.residentList = vm.originalList;
+      } else if(status === 'active') {
+        var activeStatuses = ['In Building', 'Rehab', 'Hospital', 'Out of Building'];
+
+        vm.residentList = filterResident(activeStatuses);
+      } else {
+        var activeStatuses = ['Dead', 'Moved Out'];
+
+        vm.residentList = filterResident(activeStatuses);
+      }
     }
 
     //// INITIAL LOADING  ////
