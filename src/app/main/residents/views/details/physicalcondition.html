@@ -12,6 +12,10 @@
 
       <div layout="column" layout-align="start start">
 
+        <!--<div class="section-header">
+          <div class="subject"> Skin </div>
+        </div>-->
+
         <!-- Skin and wound -->
         <h4>Skin Condition: {{ vm.selectedResident.skinCondition }}</h4>
         <h4>Has wound: {{ vm.selectedResident.hasWound }}</h4>
@@ -23,6 +27,8 @@
         </h4>
 
         <h4>Skin Breakdown: {{vm.selectedResident.skinBreakdown}}</h4>
+
+        <h4>Skin Notes: {{vm.selectedResident.skinNotes}}</h4>
 
         <!-- Hearing -->
         <h4>Hearing Assist : {{vm.selectedResident.hearingAssist}}</h4>
@@ -68,9 +74,9 @@
         <h4>Pneumonia Risk: {{vm.selectedResident.pneumoniaRisk}}</h4>
 
         <!-- Medication -->
+        <h4>Medications: {{ vm.selectedResident.medications }}</h4>
+
         <h4>Meds At Bedside: {{vm.selectedResident.medsAtBedside}}</h4>
-        <h4>Self Meds: {{vm.selectedResident.selfMeds}}</h4>
-        <h4>Meds: {{vm.selectedResident.meds}}</h4>
         <h4>Swallow Assist: {{vm.selectedResident.swallowAssist}}</h4>
         <h4>Chemotherapy: {{vm.selectedResident.chemotherapy}}</h4>
         <h4>Dialysis: {{vm.selectedResident.dialysis}}</h4>

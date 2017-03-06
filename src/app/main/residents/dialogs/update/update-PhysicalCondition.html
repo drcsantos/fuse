@@ -44,6 +44,12 @@
           </md-checkbox>
         </md-input-container>
 
+         <md-input-container flex class="md-block textarea-container">
+          <label>Skin Notes</label>
+          <textarea ng-model="vm.form.skinNotes"></textarea>
+        </md-input-container>
+
+
       </md-dialog-content>
     </md-tab>
 
@@ -306,29 +312,27 @@
   <md-tab label="Medications">
     <md-dialog-content ms-scroll>
 
+       <md-input-container>
+          <label>Medications</label>
+          <md-select ng-model="vm.form.medications">
+            <md-option value="Care Giver Provides">Care Giver Provides</md-option>
+            <md-option value="Self Meds">Self Meds</md-option>
+            <md-option value="No Meds">No Meds</md-option>
+          </md-select>
+        </md-input-container>
+
       <div layout="row" layout-align="space-around end">
+
+
+      </div>
+
+      <div layout="row" layout-align="space-around center">
 
           <md-input-container class="md-block">
             <md-checkbox ng-model="vm.form.medsAtBedside"  aria-label="Meds At Bedside">
               Meds At Bedside
             </md-checkbox>
           </md-input-container>
-
-          <md-input-container class="md-block">
-            <md-checkbox ng-model="vm.form.selfMeds"  aria-label="Self Meds">
-              Self Meds
-            </md-checkbox>
-          </md-input-container>
-
-          <md-input-container class="md-block">
-            <md-checkbox ng-model="vm.form.meds"  aria-label="Meds">
-              On Meds
-            </md-checkbox>
-          </md-input-container>
-
-      </div>
-
-      <div layout="row" layout-align="space-around center">
 
           <md-input-container class="md-block">
             <md-checkbox ng-model="vm.form.swallowAssist"  aria-label="Swallow Assist">

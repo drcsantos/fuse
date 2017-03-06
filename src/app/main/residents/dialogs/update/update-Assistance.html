@@ -88,41 +88,52 @@
       </md-input-container>
 
       <!-- dressing -->
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.layoutCloths" aria-label="layoutCloths">
-          Layout Cloths
-        </md-checkbox>
-      </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.shoesAssist" aria-label="Shoes Assist">
-          Shoes Assist
-        </md-checkbox>
-      </md-input-container>
+       <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.dressingAssist" aria-label="dressingAssist">
+            Dressing Assist
+          </md-checkbox>
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.topAssist" aria-label="Top Assist">
-          Top Assist
-        </md-checkbox>
-      </md-input-container>
+      <div layout="row" layout-align="space-around center" ng-if="vm.form.dressingAssist">
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.layoutCloths" aria-label="layoutCloths">
+            Layout Cloths
+          </md-checkbox>
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.bottomAssist" aria-label="Bottom Assist">
-          Bottom Assist
-        </md-checkbox>
-      </md-input-container>
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.shoesAssist" aria-label="Shoes Assist">
+            Shoes Assist
+          </md-checkbox>
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.buttonAssist" aria-label="Button Assist">
-          Button Assist
-        </md-checkbox>
-      </md-input-container>
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.topAssist" aria-label="Top Assist">
+            Top Assist
+          </md-checkbox>
+        </md-input-container>
+      </div>
 
-      <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.zipperAssist" aria-label="Zipper Assist">
-         Zipper Assist
-        </md-checkbox>
-      </md-input-container>
+      <div layout="row" layout-align="space-around center" ng-if="vm.form.dressingAssist">
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.bottomAssist" aria-label="Bottom Assist">
+            Bottom Assist
+          </md-checkbox>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.buttonAssist" aria-label="Button Assist">
+            Button Assist
+          </md-checkbox>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-checkbox ng-model="vm.form.zipperAssist" aria-label="Zipper Assist">
+          Zipper Assist
+          </md-checkbox>
+        </md-input-container>
+      </div>
 
       <md-input-container class="md-block">
         <label>Dressing Notes</label>
