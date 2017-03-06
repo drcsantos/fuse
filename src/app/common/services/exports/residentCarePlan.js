@@ -827,6 +827,33 @@
         data.insideApartment.assitanceWithDevice = "";
       }
 
+      if (data.insideApartment.specialAmbulationNeeds) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.insideApartment.specialAmbulationNeeds, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Special Needs:",
+          (config.startX + offsetFromLabel) - ("Special Needs: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.insideApartment.specialAmbulationNeeds = "";
+      }
+
+      if (data.insideApartment.apartmentMobilityDevices.length !== 0) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Devices:",
+          (config.startX + offsetFromLabel) - ("Devices: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        var splitOtherAllergies = doc.splitTextToSize(data.insideApartment.apartmentMobilityDevices.join(', '), textLength);
+        doc.text(splitOtherAllergies, positionX, positionY);
+        config.halfSpaceOffset += splitOtherAllergies.length;
+      } else {
+        data.insideApartment.apartmentMobilityDevices = "";
+      }
+
       positionX = config.startX;
       positionY = calculateY(config);
       doc.text("Outside their Apartment", positionX, positionY);

@@ -13,7 +13,7 @@
 
       <md-input-container class="md-block">
         <md-checkbox ng-model="vm.form.continentIndependent" aria-label="">
-          Continent Independent
+          Incontinent Independent
         </md-checkbox>
       </md-input-container>
 
@@ -31,7 +31,7 @@
       <div layout="row" layout-align="space-around center">
           <div class="md-block">
             <label>
-              <span>Bowel Continent : {{vm.replaceNumberValue('bowelContinent', vm.form.bowelContinent)}}</span>
+              <span>Bowel Incontinent: {{vm.replaceNumberValue('bowelContinent', vm.form.bowelContinent)}}</span>
             </label>
           <md-slider flex min="0" max="2" ng-model="vm.form.bowelContinent" aria-label="blue">
           </md-slider>
@@ -53,7 +53,7 @@
 
         <div class="md-block">
            <label>
-             <span>Bladder Continent : {{vm.replaceNumberValue('bladderContinent', vm.form.bladderContinent)}}</span>
+             <span>Bladder Incontinent : {{vm.replaceNumberValue('bladderContinent', vm.form.bladderContinent)}}</span>
            </label>
            <md-slider flex min="0" max="2" ng-model="vm.form.bladderContinent" aria-label="blue">
            </md-slider>
