@@ -886,7 +886,8 @@
       doc.text("Outside their Apartment", positionX, positionY);
       config.halfSpaceOffset++;
 
-      if (data.outsideApartment.useOfAssistiveDevice) {
+
+      if (data.outsideApartment && data.outsideApartment.useOfAssistiveDevice) {
         positionX = config.startX;
         positionY = calculateY(config);
         doc.text("Assistive Device:",
@@ -896,8 +897,34 @@
         doc.text(data.outsideApartment.useOfAssistiveDevice, positionX, positionY);
         config.halfSpaceOffset++;
       } else {
-        data.outsideApartment.useOfAssistiveDevice = "";
+        if(data.outsideApartment) {
+          data.outsideApartment.useOfAssistiveDevice = "";
+        }     
       }
+
+      //draw the graphs page 
+      doc.addPage();
+
+      doc.text("Temperature", 40, 40);
+      doc.addImage(data.temperature, "JPEG", 40, 60);
+
+      doc.text("Blood", 340, 40);
+      doc.addImage(data.bloodCanvas, "JPEG", 340, 60);
+
+      doc.text("Oxygen", 40, 240);
+      doc.addImage(data.oxygen, "JPEG", 40, 260);
+
+      doc.text("Pulse", 340, 240);
+      doc.addImage(data.pulse, "JPEG", 340, 260);
+
+      doc.text("Vitals", 40, 440);
+      doc.addImage(data.vitals, "JPEG", 40, 460);
+
+      doc.text("Resp", 340, 440);
+      doc.addImage(data.resp, "JPEG", 340, 460);
+
+      doc.text("Weight", 40, 640);
+      doc.addImage(data.weight, "JPEG", 40, 660);
 
 
       doc.save(fileName);

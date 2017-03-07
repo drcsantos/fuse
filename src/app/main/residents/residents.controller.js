@@ -352,9 +352,10 @@
         var pulseCanvas = angular.element("#plusCanvas")[0];
         var vitalsCanvas = angular.element("#vitalsPainCanvas")[0];
         var respCanvas = angular.element("#respirationCanvas")[0];
-        //var weightCanvas = angular.element("#weightCanvas")[0];
+        var weightCanvas = angular.element("#weightCanvas")[0];
 
         var carePlanData = {};
+
 
         // setting all the properties from selectedResident to carePlanData to export
         for (var prop in vm.selectedResident) {
@@ -362,7 +363,7 @@
             carePlanData[prop] = vm.selectedResident[prop];
           }
         }
-
+        
         // vitals graphing
         carePlanData.temperature = tempCanvas.toDataURL();
         carePlanData.bloodCanvas = bloodCanvas.toDataURL();
@@ -370,7 +371,7 @@
         carePlanData.pulse = pulseCanvas.toDataURL();
         carePlanData.vitals = vitalsCanvas.toDataURL();
         carePlanData.resp = respCanvas.toDataURL();
-        //carePlanData.weight = weightCanvas.toDataURL();
+        carePlanData.weight = weightCanvas.toDataURL();
 
         // community
         carePlanData.communityName = vm.community.name;
