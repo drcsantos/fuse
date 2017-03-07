@@ -839,7 +839,7 @@
       } else {
         data.insideApartment.specialAmbulationNeeds = "";
       }
-
+/*
       if (data.insideApartment.apartmentMobilityDevices.length !== 0) {
         positionX = config.startX;
         positionY = calculateY(config);
@@ -847,17 +847,57 @@
           (config.startX + offsetFromLabel) - ("Devices: ".length * coordsPerLetter),
           positionY);
         positionX = config.startX + offsetFromLabel;
-        var splitOtherAllergies = doc.splitTextToSize(data.insideApartment.apartmentMobilityDevices.join(', '), textLength);
-        doc.text(splitOtherAllergies, positionX, positionY);
+        var splitMobilityDevices = doc.splitTextToSize(data.insideApartment.apartmentMobilityDevices.join(', '), textLength);
+        doc.text(splitMobilityDevices, positionX, positionY);
         config.halfSpaceOffset += splitOtherAllergies.length;
       } else {
         data.insideApartment.apartmentMobilityDevices = "";
+      }
+
+      if (data.insideApartment.apartmentMobilityDevices.length !== 0) {
+        positionX = config.startX;
+        splitText = doc.splitTextToSize(data.insideApartment.apartmentMobilityDevices, textLength);
+        positionY = calculateY(config, splitText.length);
+        doc.text("Devices:",
+          (config.startX + offsetFromLabel) - ("Devices: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        multilineText(doc, splitText, positionX, positionY, config);
+      } else {
+        data.insideApartment.apartmentMobilityDevices = "";
+      }
+*/
+
+      if (data.insideApartment.mobilitySafetyAssessment) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Assessment:",
+          (config.startX + offsetFromLabel) - ("Assessment: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.insideApartment.mobilitySafetyAssessment, positionX, positionY);
+        config.halfSpaceOffset++;
+      } else {
+        data.insideApartment.mobilitySafetyAssessment = "";
       }
 
       positionX = config.startX;
       positionY = calculateY(config);
       doc.text("Outside their Apartment", positionX, positionY);
       config.halfSpaceOffset++;
+
+      if (data.outsideApartment.useOfAssistiveDevice) {
+        positionX = config.startX;
+        positionY = calculateY(config);
+        doc.text("Assistive Device:",
+          (config.startX + offsetFromLabel) - ("Assistive Device: ".length * coordsPerLetter),
+          positionY);
+        positionX = config.startX + offsetFromLabel;
+        doc.text(data.outsideApartment.useOfAssistiveDevice, positionX, positionY);
+        config.halfSpaceOffset++;
+      } else {
+        data.outsideApartment.useOfAssistiveDevice = "";
+      }
 
 
       doc.save(fileName);
