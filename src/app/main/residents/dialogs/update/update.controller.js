@@ -23,6 +23,13 @@
 
     vm.replaceNumberValue = SliderMapping.replaceNumberValue;
 
+    var community = authentication.currentUser().community;
+    var userid = authentication.currentUser().id;
+
+    if(community.boss._id === userid) {
+      vm.isBoss = true;
+    }
+
     var requiredArray = ["firstName", "lastName", "buildingStatus"];
 
     vm.status = createMultiSelect(["Alert", "Friendly", "Disoriented",
@@ -84,6 +91,7 @@
     vm.uploadFiles = uploadFiles;
     vm.addContact = addContact;
     vm.getMatches = getMatches;
+    vm.deleteResident = deleteResident;
 
     vm.formatFileName = formatFileName;
 
@@ -244,6 +252,17 @@
       });
 
         return ret;
+    }
+
+    function deleteResident() {
+
+      apilaData.deleteResident(currResident._id)
+      .success(function() {
+        vm.closeDialog('deleted');
+      })
+      .error(function(err) {
+        console.log(err);
+      })
     }
 
 

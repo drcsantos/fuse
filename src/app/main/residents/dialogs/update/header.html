@@ -1,0 +1,13 @@
+<md-toolbar class="md-accent md-hue-2">
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+    <span class="title">{{ (vm.form.aliasName) ? vm.form.aliasName : vm.form.firstName}} {{vm.form.lastName}} - Administrative</span>
+    <div>
+    <md-button class="md-icon-button" ng-if="vm.isBoss" ng-click="vm.deleteResident()" aria-label="Close dialog">
+        <md-icon md-font-icon="icon-delete"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog">
+        <md-icon md-font-icon="icon-close"></md-icon>
+    </md-button>
+    </div>
+    </div>
+</md-toolbar>

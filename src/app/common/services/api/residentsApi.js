@@ -16,7 +16,6 @@
           return $http.get(apiUrl + '/api/residents/full-list/' + communityId, getAuth());
         };
 
-
         var addResident = function(data) {
           return $http.post(apiUrl + '/api/residents/new', data, getAuth());
         };
@@ -55,6 +54,10 @@
           return $http.post(apiUrl + '/api/residents/' + residentid + '/contact', data, getAuth());
         };
 
+        var deleteResident = function(residentid) {
+          return $http.delete(apiUrl + '/api/residents/' + residentid, getAuth());
+        };
+
 
     function getResidentsRoutes() {
       return {
@@ -68,7 +71,8 @@
         averageStayTime: averageStayTime,
         getLocations: getLocations,
         updateListItem: updateListItem,
-        addContact: addContact
+        addContact: addContact,
+        deleteResident: deleteResident
       };
 
     }

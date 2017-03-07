@@ -468,6 +468,23 @@
             .then(function(res) {
 
               if(res) {
+
+                //resident deleted 
+                if(res === 'deleted') {
+                  vm.selectedResident = null;
+                  _.remove(vm.residentList, {_id: resident._id});
+                  _.remove(vm.allResidents, {_id: resident._id});
+                  _.remove(vm.originalList, {_id: resident._id});
+
+                  $mdToast.show(
+                    $mdToast.simple()
+                    .textContent("You removed " + resident.firstName + " " + resident.lastName)
+                    .position("top right")
+                    .hideDelay(2000));
+                      
+                  return;
+                }
+
                 resident.firstName = res.firstName;
                 resident.lastName = res.lastName;
                 resident.aliasName = res.aliasName;
