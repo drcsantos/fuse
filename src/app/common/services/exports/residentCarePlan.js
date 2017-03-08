@@ -34,8 +34,6 @@
 
       var calculatedY  = calculateOffset(doc, 24, 16, config);
 
-      console.log("CalculatedY: " + calculatedY + " : " + config.startY);
-
       //if there are offsets substract for Y to take that in account
       if(calculatedY !== config.startY) {
         var diff = (calculatedY - config.startY);
@@ -733,25 +731,31 @@
       doc.addPage();
 
       doc.text("Temperature", 40, 40);
-      doc.addImage(data.temperature, "JPEG", 40, 60);
 
-      doc.text("Blood", 340, 40);
-      doc.addImage(data.bloodCanvas, "JPEG", 340, 60);
+      //it is an array of data, date fields
+      if(data.temperature.length > 0) {
 
-      doc.text("Oxygen", 40, 240);
-      doc.addImage(data.oxygen, "JPEG", 40, 260);
+        console.log(data.temperature);
 
-      doc.text("Pulse", 340, 240);
-      doc.addImage(data.pulse, "JPEG", 340, 260);
+        var maxData = _.max(_.map(data.temperature,"data"));
+        var minData = _.min(_.map(data.temperature,"data"));
 
-      doc.text("Vitals", 40, 440);
-      doc.addImage(data.vitals, "JPEG", 40, 460);
+        console.log(maxData + " : " + minData); //get the max and min of our data
 
-      doc.text("Resp", 340, 440);
-      doc.addImage(data.resp, "JPEG", 340, 460);
+        _.forEach(data.temperature, function(point) {
+          //point.data and point.date
+        });
 
-      doc.text("Weight", 40, 640);
-      doc.addImage(data.weight, "JPEG", 40, 660);
+        doc.text(data.temperature[0].data.toString(), 40, 60);
+        doc.text(data.temperature[0].date, 40, 80);
+      }
+
+      // other fields you can use
+      // data.oxygenSaturation
+      // data.pulse
+      // data.vitalsPain
+      // data.respiration
+      // data.weight
 
 
       doc.save(fileName);

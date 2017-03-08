@@ -369,13 +369,16 @@
         }
 
         // vitals graphing
-        carePlanData.temperature = tempCanvas.toDataURL();
-        carePlanData.bloodCanvas = bloodCanvas.toDataURL();
-        carePlanData.oxygen = oxygenCanvas.toDataURL();
-        carePlanData.pulse = pulseCanvas.toDataURL();
-        carePlanData.vitals = vitalsCanvas.toDataURL();
-        carePlanData.resp = respCanvas.toDataURL();
-        carePlanData.weight = weightCanvas.toDataURL();
+        // carePlanData.temperature = tempCanvas.toDataURL();
+        // carePlanData.bloodCanvas = bloodCanvas.toDataURL();
+        // carePlanData.oxygen = oxygenCanvas.toDataURL();
+        // carePlanData.pulse = pulseCanvas.toDataURL();
+        // carePlanData.vitals = vitalsCanvas.toDataURL();
+        // carePlanData.resp = respCanvas.toDataURL();
+        // carePlanData.weight = weightCanvas.toDataURL();
+
+        console.log(vm.selectedResident.temperature);
+        console.log(createGraphData(vm.selectedResident.temperature, 'Temperature'));
 
         // community
         carePlanData.communityName = vm.community.name;
