@@ -281,6 +281,9 @@
 
           drawGraphs(vm.selectedResident);
 
+          //GRAPHS TESTING 
+       
+
           vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
 
           if (vm.selectedResident.movedFrom) {
@@ -336,6 +339,7 @@
       }
     }
 
+
     function exportResident() {
 
       if(!selectedResidentToast()){
@@ -363,7 +367,7 @@
             carePlanData[prop] = vm.selectedResident[prop];
           }
         }
-        
+
         // vitals graphing
         carePlanData.temperature = tempCanvas.toDataURL();
         carePlanData.bloodCanvas = bloodCanvas.toDataURL();

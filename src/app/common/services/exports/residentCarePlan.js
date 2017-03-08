@@ -122,6 +122,49 @@
       var positionY = calculateY(config);
       var positionX = config.startX;
 
+
+      function drawField(field, text, offset, filter) {
+
+        filter = filter || field;
+
+        if (field) {
+          if(offset === 'half') {
+            config.halfSpaceOffset++;
+          } else {
+            config.fullSpaceOffset++;
+          }
+          
+          positionX = metaX;
+          positionY = calculateY(config);
+          doc.text(text, positionX, positionY);
+          positionX = metaX + offsetFromLabel;
+          doc.text(filter, positionX, positionY);
+        } else {
+          field = "";
+        }
+      }
+
+      function drawMultiline(field, text, offset) {
+        if (field) {
+          positionX = config.startX;
+          splitText = doc.splitTextToSize(field, textLength);
+          positionY = calculateY(config, splitText.length);
+
+          if(offset) {
+            doc.text(text, positionX, positionY);
+          } else {
+            doc.text(text, (config.startX + offsetFromLabel) - (text.length * coordsPerLetter), positionY);
+          }
+          
+          positionX = config.startX + offsetFromLabel;
+
+          multilineText(doc, splitText, positionX, positionY, config);
+
+        } else {
+          field = "";
+        }
+      }
+
       // export date
       doc.text("Exported on", positionX, positionY);
 
@@ -220,71 +263,19 @@
       doc.text(" " + data.lastName, positionX, positionY);
       doc.setFontType("normal");
 
-      if (data.maidenName) {
-        config.fullSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Maiden Name: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.maidenName, positionX, positionY);
-      } else {
-        data.maidenName = "";
-      }
+      drawField(data.maidenName, "Maiden Name: ", "half");
 
-      if (data.movedFrom) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("From: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.movedFrom.name, positionX, positionY);
-      } else {
-        data.movedFrom = "";
-      }
+      if(data.movedFrom) {
+        drawField(data.movedFrom.name, "From: ", "half");
+      }  
 
-      if (data.birthDate) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Date of Birth: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(residentFilteredBirthDate, positionX, positionY);
-      } else {
-        data.birthDate = "";
-      }
+      drawField(data.birthDate, "Date of Birth: ", "half", residentFilteredBirthDate);
 
-      if (data.admissionDate) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Admission Date: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(residentFilteredAdmissionDate, positionX, positionY);
-      } else {
-        data.admissionDate = "";
-      }
+      drawField(data.admissionDate, "Admission Date: ", "half", residentFilteredAdmissionDate);
 
-      if (data.sex) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Sex: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.sex, positionX, positionY);
-      } else {
-        data.sex = "";
-      }
+      drawField(data.sex, "Sex: ", "half");
 
-      if (data.maritalStatus) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Marital Status: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.maritalStatus, positionX, positionY);
-      } else {
-        data.maritalStatus = "";
-      }
+      drawField(data.maritalStatus, "Marital Status: ", "half");
 
       if (data.veteran === true) {
         config.halfSpaceOffset++;
@@ -293,49 +284,14 @@
         doc.text("Veteran", positionX, positionY);
       }
 
-      if (data.primaryDoctor) {
-        config.fullSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Primary Doctor: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.primaryDoctor, positionX, positionY);
-      } else {
-        data.primaryDoctor = "";
-      }
+      drawField(data.primaryDoctor, "Primary Doctor: ", "full");
 
-      if (data.pharmacy) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Pharmacy: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.pharmacy, positionX, positionY);
-      } else {
-        data.pharmacy = "";
-      }
+      drawField(data.pharmacy, "Pharmacy: ", "half");
 
-      if (data.buildingStatus) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Building Status: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.buildingStatus, positionX, positionY);
-      } else {
-        data.buildingStatus = "";
-      }
+      drawField(data.buildingStatus, "Building Status: ", "half");
 
-      if (data.admittedFrom) {
-        config.halfSpaceOffset++;
-        positionX = metaX;
-        positionY = calculateY(config);
-        doc.text("Admitted From: ", positionX, positionY);
-        positionX = metaX + offsetFromLabel;
-        doc.text(data.admittedFrom, positionX, positionY);
-      } else {
-        data.admittedFrom = "";
-      }
+      drawField(data.admittedFrom, "Admitted From: ", "half");
+
 
       if (data.longTermCareInsurance === true && data.receiveingLongTermCareInsurance === true) {
         positionX = metaX;
@@ -368,16 +324,7 @@
       config.fullSpaceOffset = 0;
       config.startY = 420;
 
-      if (data.administrativeNotes) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.administrativeNotes, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Notes:", positionX, positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.administrativeNotes = "";
-      }
+      drawMultiline(data.administrativeNotes, "Notes:", true);
 
       /////////////////////////////////////////// life section
 
@@ -413,57 +360,13 @@
       doc.text(title, 297 - (((title.length) / 2) * coordsPerLetter), positionY + 12);
       doc.setFontType("normal");
 
-      if (data.religion) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.religion, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Religion:",
-          (config.startX + offsetFromLabel) - ("Religion: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.religion = "";
-      }
+      drawMultiline(data.religion, "Religion: ");
 
-      if (data.education) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.education, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Education:",
-          (config.startX + offsetFromLabel) - ("Education: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.education = "";
-      }
+      drawMultiline(data.education, "Education: ");
 
-      if (data.occupation) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.occupation, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Occupation:",
-          (config.startX + offsetFromLabel) - ("Occupation: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.occupation = "";
-      }
+      drawMultiline(data.occupation, "Occupation: ");
 
-      if (data.contribution) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.contribution, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Contribution:",
-          (config.startX + offsetFromLabel) - ("Contribution: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.contribution = "";
-      }
+      drawMultiline(data.contribution, "Contribution: ");
 
       //////////////////////////// column one
 
@@ -521,42 +424,27 @@
 
       ////////////////////// column two
 
-      if (data.supportGroup === true) {
-        positionX = twoColumnSplitX;
-        positionY = calculateY(config) + columnTwoY;
-        doc.text("Has a Support Group", positionX, positionY);
-        config.columnTwoOffset++;
-        columnTwoY = (config.columnTwoOffset * halfSpace);
+      function drawBoolean(field, text) {
+        if (field === true) {
+          positionX = twoColumnSplitX;
+          positionY = calculateY(config) + columnTwoY;
+          doc.text(text, positionX, positionY);
+          config.columnTwoOffset++;
+          columnTwoY = (config.columnTwoOffset * halfSpace);
+        }
       }
 
-      if (data.heatingPad === true) {
-        positionX = twoColumnSplitX;
-        positionY = calculateY(config) + columnTwoY;
-        doc.text("Has a Heating Pad", positionX, positionY);
-        config.columnTwoOffset++;
-        columnTwoY = (config.columnTwoOffset * halfSpace);
-      }
+      drawBoolean(data.supportGroup, "Has a Support Group");
 
-      if (data.microwave === true) {
-        positionX = twoColumnSplitX;
-        positionY = calculateY(config) + columnTwoY;
-        doc.text("Has a Microwave", positionX, positionY);
-        config.columnTwoOffset++;
-        columnTwoY = (config.columnTwoOffset * halfSpace);
-      }
+      drawBoolean(data.heatingPad, "Has a Heating Pad");
 
-      if (data.extensionCord === true) {
-        positionX = twoColumnSplitX;
-        positionY = calculateY(config) + columnTwoY;
-        doc.text("Uses Extension Cords", positionX, positionY);
-        config.columnTwoOffset++;
-        columnTwoY = (config.columnTwoOffset * halfSpace);
-      }
+      drawBoolean(data.microwave, "Has a Microwave");
+
+      drawBoolean(data.extensionCord, "Uses Extension Cords");
 
       if (data.extensionCord === true || data.microwave === true || data.heatingPad === true) {
         positionX = twoColumnSplitX;
         positionY = calculateY(config) + columnTwoY;
-        //doc.text("test:" + accessorySafetyAssessment, positionX, positionY);
         doc.text("These devices have been assessed", positionX, positionY);
         doc.text("for safety.", positionX, positionY + 12);
         config.columnTwoOffset += 1.75;
@@ -583,18 +471,7 @@
         data.otherLanguage = "";
       }
 
-      if (data.lifeNotes) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.lifeNotes, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Notes:",
-          (config.startX + offsetFromLabel) - ("Notes: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.lifeNotes = "";
-      }
+      drawMultiline(data.lifeNotes, "Notes: ");
 
       ////////////////////////////////////////// allergy section
 
@@ -673,20 +550,7 @@
         data.otherAllergies = "";
       }
 
-      if (data.allergyNotes) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.allergyNotes, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Notes:",
-          (config.startX + offsetFromLabel) - ("Notes: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-
-        multilineText(doc, splitText, positionX, positionY, config);
-
-      } else {
-        data.allergyNotes = "";
-      }
+      drawMultiline(data.allergyNotes, "Notes: ");
 
       ////////////////////////////////////////// Assistance section
 
@@ -749,18 +613,7 @@
         data.shaveAssist = "";
       }
 
-      if (data.hairNotes) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.hairNotes, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Hair Notes:",
-          (config.startX + offsetFromLabel) - ("Hair Notes: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.hairNotes = "";
-      }
+      drawMultiline(data.hairNotes, "Hair Notes: ");
 
 ////////////////////////////////////////// mobility section
 
@@ -814,31 +667,14 @@
         data.insideApartment.useOfAssistiveDevice = "";
       }
 
-      if (data.insideApartment.assitanceWithDevice) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.insideApartment.assitanceWithDevice, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Device Notes:",
-          (config.startX + offsetFromLabel) - ("Device Notes: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.insideApartment.assitanceWithDevice = "";
+      if(data.insideApartment) {
+        drawMultiline(data.insideApartment.assitanceWithDevice, "Device Notes: ");
       }
 
-      if (data.insideApartment.specialAmbulationNeeds) {
-        positionX = config.startX;
-        splitText = doc.splitTextToSize(data.insideApartment.specialAmbulationNeeds, textLength);
-        positionY = calculateY(config, splitText.length);
-        doc.text("Special Needs:",
-          (config.startX + offsetFromLabel) - ("Special Needs: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        multilineText(doc, splitText, positionX, positionY, config);
-      } else {
-        data.insideApartment.specialAmbulationNeeds = "";
+      if(data.insideApartment) {
+        drawMultiline(data.insideApartment.specialAmbulationNeeds, "Special Needs: ");
       }
+
 /*
       if (data.insideApartment.apartmentMobilityDevices.length !== 0) {
         positionX = config.startX;
@@ -868,17 +704,8 @@
       }
 */
 
-      if (data.insideApartment.mobilitySafetyAssessment) {
-        positionX = config.startX;
-        positionY = calculateY(config);
-        doc.text("Assessment:",
-          (config.startX + offsetFromLabel) - ("Assessment: ".length * coordsPerLetter),
-          positionY);
-        positionX = config.startX + offsetFromLabel;
-        doc.text(data.insideApartment.mobilitySafetyAssessment, positionX, positionY);
-        config.halfSpaceOffset++;
-      } else {
-        data.insideApartment.mobilitySafetyAssessment = "";
+      if(data.insideApartment) {
+        drawMultiline(data.insideApartment.mobilitySafetyAssessment, "Assessment: ");
       }
 
       positionX = config.startX;
