@@ -161,6 +161,86 @@
       doc.text("609", 609, 600);
       doc.text("610", 610, 620);
 
+      // used to get height of page in coordinates = 850
+      doc.text("800", 10, 800);
+      doc.text("810", 10, 810);
+      doc.text("820", 10, 820);
+      doc.text("830", 10, 830);
+      doc.text("840", 10, 840);
+      doc.text("841", 30, 841);
+      doc.text("842", 50, 842);
+      doc.text("843", 70, 843);
+      doc.text("844", 90, 844);
+      doc.text("845", 110, 845);
+      doc.text("846", 130, 846);
+      doc.text("847", 150, 847);
+      doc.text("848", 170, 848);
+      doc.text("849", 190, 849);
+
+
+
+
+
+
+
+      doc.addPage();
+      var chartTitle;
+
+      doc.rect(
+        10,
+        10,
+        574,
+        108)
+      chartTitle = "Temperature";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 20);
+
+      doc.rect(
+        10,
+        128,
+        574,
+        108)
+      chartTitle = "Blood Pressure";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 138);
+
+      doc.rect(
+        10,
+        246,
+        574,
+        108)
+      chartTitle = "Oxygen";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 256);
+
+      doc.rect(
+        10,
+        364,
+        574,
+        108)
+      chartTitle = "Pulse";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 374);
+
+      doc.rect(
+        10,
+        482,
+        574,
+        108)
+      chartTitle = "Pain";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 492);
+
+      doc.rect(
+        10,
+        600,
+        574,
+        108)
+      chartTitle = "Respiration";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 610);
+
+      doc.rect(
+        10,
+        718,
+        574,
+        108)
+      chartTitle = "Weight";
+      doc.text(chartTitle, 582 - (chartTitle.length * coordsPerLetter), 728);
 
 
 
