@@ -178,11 +178,6 @@
       doc.text("849", 190, 849);
 
 
-
-
-
-
-
       doc.addPage();
       var chartTitle;
 
