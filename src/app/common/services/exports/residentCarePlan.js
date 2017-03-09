@@ -743,6 +743,13 @@
 
       graphs.drawGraph(doc, data.weight, "Weight", 0, 650);
 
+
+      //Graph with 2 lines
+      // doc.addPage();
+
+      // graphs.drawGraph(doc, data.bloodPressureDiastolic, "bloodPressureDiastolic",  0, 0);
+      // graphs.drawGraph(doc, data.bloodPressureSystolic, "bloodPressureSystolic",  0, 0);
+
       //it is an array of data, date fields
       // if(data.oxygenSaturation.length > 0) {
       //   doc.setDrawColor(0,0,0);
@@ -813,6 +820,8 @@
       // data.vitalsPain
       // data.respiration
       // data.weight
+      // data.bloodPressureDiastolic
+      // data.bloodPressureSystolic
 
 
       doc.save(fileName);

@@ -20,12 +20,18 @@
                 var maxData = _.max(_.map(data,"data"));
                 var minData = _.min(_.map(data,"data"));
 
-                var maxDate = _.max(_.map(data,"date"));
-                var minDate = _.min(_.map(data,"date"));
+                var maxDate = moment(data[data.length - 1].date).utc();
+                var minDate = moment(data[0].date).utc();
 
                 var graphSpacingY = (594/(data.length-1));
                 var coordsPerDataUnitY = 108/(maxData - minData);
+                var coordsPerDateUnitX = 594/(maxDate - minDate);
                 var yValue;
+
+                console.log(minDate + " " + maxDate);
+
+                console.log('X coords: ' + coordsPerDateUnitX);
+                console.log('Y coords: ' + coordsPerDateUnitX);
 
                 for (i = 0; i < data.length; i++) {
                 doc.setFillColor(255,0,0);

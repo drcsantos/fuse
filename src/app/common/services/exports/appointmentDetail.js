@@ -1,9 +1,9 @@
 (function() {
   angular.module("app.core").service("exportAppointDetail", exportAppointDetail);
 
-  exportAppointDetail.$inject = ['$filter', 'imageData'];
+  exportAppointDetail.$inject = ['$filter', 'imageData', 'graphs'];
 
-  function exportAppointDetail($filter, imageData) {
+  function exportAppointDetail($filter, imageData, graphs) {
 
     function exportPdf(name, data) {
       var doc = new jsPDF('p', 'pt', 'letter');
@@ -89,6 +89,23 @@
           doc.text(50, 325 + i * 35 + leftofPoint, "Text: " + comment.commentText);
         }
       }
+
+      //draw the graphs page
+      doc.addPage();
+
+      //it is an array of data, date fields
+      graphs.drawGraph(doc, data.residentGoing.temperature, "Temperature",  0, 0);
+
+      graphs.drawGraph(doc, data.residentGoing.oxygenSaturation, "Oxygen Saturation", 0, 130);
+
+      graphs.drawGraph(doc, data.residentGoing.pulse, "Pulse", 0, 260);
+
+      graphs.drawGraph(doc, data.residentGoing.vitalsPain, "Vitals Pain", 0, 390);
+
+      graphs.drawGraph(doc, data.residentGoing.respiration, "Respiration", 0, 520);
+
+      graphs.drawGraph(doc, data.residentGoing.weight, "Weight", 0, 650);
+
       doc.save(name);
     }
 
