@@ -3,9 +3,9 @@
 (function() {
   angular.module("app.core").service("exportCarePlan", exportCarePlan);
 
-  exportCarePlan.$inject = ['$filter', 'imageData'];
+  exportCarePlan.$inject = ['$filter', 'imageData', 'graphs'];
 
-  function exportCarePlan($filter, imageData) {
+  function exportCarePlan($filter, imageData, graphs) {
 
 
     function multilineText(doc, textArr, x, y, config) {
@@ -731,119 +731,81 @@
       doc.addPage();
 
       //it is an array of data, date fields
-      if(data.temperature.length > 0) {
-        doc.rect(
-          10,
-          10,
-          594,
-          108)
+      graphs.drawGraph(doc, data.temperature, "Temperature",  0, 0);
 
-        console.log(data.temperature);
+      graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 130);
 
-        var maxData = _.max(_.map(data.temperature,"data"));
-        var minData = _.min(_.map(data.temperature,"data"));
+      graphs.drawGraph(doc, data.pulse, "Pulse", 0, 260);
 
-        var maxDate = _.max(_.map(data.temperature,"date"));
-        var minDate = _.min(_.map(data.temperature,"date"));
+      graphs.drawGraph(doc, data.vitalsPain, "Vitals Pain", 0, 390);
 
-        console.log(maxData + " : " + minData); //get the max and min of our data
-        console.log(maxDate + " : " + minDate); //get the max and min of our data
+      graphs.drawGraph(doc, data.respiration, "Respiration", 0, 520);
 
-        _.forEach(data.temperature, function(point) {
-          //point.data and point.date
-        });
-
-        var graphSpacingY = (594/(data.temperature.length-1));
-        var coordsPerDataUnitY = 108/(maxData - minData);
-        var yValue;
-
-        for (i = 0; i < data.temperature.length; i++) {
-          doc.setFillColor(255,0,0);
-          doc.setDrawColor(255,0,0);
-          doc.circle(
-            (graphSpacingY * i) + 10, // x
-            118 - ((data.temperature[i].data - minData) * coordsPerDataUnitY), // y
-            3,  // radius
-            'F');
-
-          if (i !== (data.temperature.length - 1)) {
-            doc.line(
-              (graphSpacingY * i) + 10, // x1
-              118 - ((data.temperature[i].data - minData) * coordsPerDataUnitY),  // y1
-              (graphSpacingY * (i + 1)) + 10, // x2
-              118 - ((data.temperature[i + 1].data - minData) * coordsPerDataUnitY)); // y2
-          }
-          // doc.text(118 - ((data.temperature[i].data - minData) * coordsPerDataUnitY) + " ", 10, i * 20)
-        }
-
-        var chartTitle;
-        chartTitle = "Temperature";
-        doc.text(maxData.toString(), 11, 20)
-        doc.text((((maxData - minData)/2) + minData).toString(), 11, 67.5);
-        doc.text(minData.toString(), 11, 115);
-      }
+      graphs.drawGraph(doc, data.weight, "Weight", 0, 650);
 
       //it is an array of data, date fields
-      if(data.oxygenSaturation.length > 0) {
-        doc.setDrawColor(0,0,0);
-        doc.rect(
-          10,
-          128,
-          594,
-          108);
+      // if(data.oxygenSaturation.length > 0) {
+      //   doc.setDrawColor(0,0,0);
+      //   doc.rect(
+      //     10,
+      //     128,
+      //     594,
+      //     108);
 
-        console.log(data.oxygenSaturation);
+      //   console.log(data.oxygenSaturation);
 
-        var maxData = _.max(_.map(data.oxygenSaturation,"data"));
-        var minData = _.min(_.map(data.oxygenSaturation,"data"));
+      //   var maxData = _.max(_.map(data.oxygenSaturation,"data"));
+      //   var minData = _.min(_.map(data.oxygenSaturation,"data"));
 
-        var maxDate = _.max(_.map(data.oxygenSaturation,"date"));
-        var minDate = _.min(_.map(data.oxygenSaturation,"date"));
+      //   var maxDate = _.max(_.map(data.oxygenSaturation,"date"));
+      //   var minDate = _.min(_.map(data.oxygenSaturation,"date"));
 
-        console.log(maxData + " : " + minData); //get the max and min of our data
-        console.log(maxDate + " : " + minDate); //get the max and min of our data
+      //   console.log(maxData + " : " + minData); //get the max and min of our data
+      //   console.log(maxDate + " : " + minDate); //get the max and min of our date
 
-        _.forEach(data.oxygenSaturation, function(point) {
-          //point.data and point.date
-        });
+      //   _.forEach(data.oxygenSaturation, function(point) {
+      //     //point.data and point.date
+      //   });
 
-        var graphSpacingY = (594/(data.oxygenSaturation.length-1));
-        var coordsPerDataUnitY = 108/(maxData - minData);
-        var coordsPerDateUnitX = 594/(maxDate - minDate);
-        var yValue;
+      //   var graphSpacingY = (594/(data.oxygenSaturation.length-1));
+      //   var coordsPerDataUnitY = 108/(maxData - minData);
+      //   var coordsPerDateUnitX = 594/(maxDate - minDate);
+      //   var yValue;
 
-        for (i = 0; i < data.oxygenSaturation.length; i++) {
-          doc.setFillColor(255,0,0);
-          doc.setDrawColor(255,0,0);
-          doc.circle(
-            (graphSpacingY * i) + 10, // x
-            236 - ((data.oxygenSaturation[i].data - minData) * coordsPerDataUnitY), // y
-            3,  // radius
-            'F');
+      //   console.log(coordsPerDateUnitX + " " + coordsPerDataUnitY);
 
-          if (i !== (data.oxygenSaturation.length - 1)) {
-            doc.line(
-              (graphSpacingY * i) + 10, // x1
-              236 - ((data.oxygenSaturation[i].data - minData) * coordsPerDataUnitY),  // y1
-              (graphSpacingY * (i + 1)) + 10, // x2
-              236 - ((data.oxygenSaturation[i + 1].data - minData) * coordsPerDataUnitY
-            )); // y2
-          }
-          // doc.text(118 - ((data.temperature[i].data - minData) * coordsPerDataUnitY) + " ", 10, i * 20)
-        }
+      //   for (i = 0; i < data.oxygenSaturation.length; i++) {
+      //     doc.setFillColor(255,0,0);
+      //     doc.setDrawColor(255,0,0);
+      //     doc.circle(
+      //       (graphSpacingY * i) + 10, // x
+      //       236 - ((data.oxygenSaturation[i].data - minData) * coordsPerDataUnitY), // y
+      //       3,  // radius
+      //       'F');
 
-        var chartTitle;
-        chartTitle = "Oxygen Saturation";
-        doc.text(chartTitle, 602 - (chartTitle.length * coordsPerLetter), 138);
+      //     if (i !== (data.oxygenSaturation.length - 1)) {
+      //       doc.line(
+      //         (graphSpacingY * i) + 10, // x1
+      //         236 - ((data.oxygenSaturation[i].data - minData) * coordsPerDataUnitY),  // y1
+      //         (graphSpacingY * (i + 1)) + 10, // x2
+      //         236 - ((data.oxygenSaturation[i + 1].data - minData) * coordsPerDataUnitY
+      //       )); // y2
+      //     }
+      //     // doc.text(118 - ((data.temperature[i].data - minData) * coordsPerDataUnitY) + " ", 10, i * 20)
+      //   }
 
-        doc.text("Length: " + data.oxygenSaturation.length, 40, 440);
-        doc.text(data.oxygenSaturation[0].data.toString(), 40, 460);
-        doc.text(data.oxygenSaturation[0].date, 40, 480);
-        doc.text("coordsPerDataUnitY: " + coordsPerDataUnitY, 40, 500);
-        doc.text("coordsPerDateUnitX: " + coordsPerDateUnitX, 40, 520);
-        doc.text("max/minDate: " + maxDate + " : " + minDate, 40, 540);
+      //   var chartTitle;
+      //   chartTitle = "Oxygen Saturation";
+      //   doc.text(chartTitle, 602 - (chartTitle.length * coordsPerLetter), 138);
 
-      }
+      //   doc.text("Length: " + data.oxygenSaturation.length, 40, 440);
+      //   doc.text(data.oxygenSaturation[0].data.toString(), 40, 460);
+      //   doc.text(data.oxygenSaturation[0].date, 40, 480);
+      //   doc.text("coordsPerDataUnitY: " + coordsPerDataUnitY, 40, 500);
+      //   doc.text("coordsPerDateUnitX: " + coordsPerDateUnitX, 40, 520);
+      //   doc.text("max/minDate: " + maxDate + " : " + minDate, 40, 540);
+
+     // }
 
       // other fields you can use
       // data.oxygenSaturation
@@ -855,6 +817,7 @@
 
       doc.save(fileName);
     }
+
 
     // Helper functions to make blue dots
     function createDots(x, y, end, doc, positionY) {
