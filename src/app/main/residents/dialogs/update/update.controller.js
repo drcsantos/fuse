@@ -5,7 +5,7 @@
     .controller('UpdateController', UpdateController);
 
   /** @ngInject */
-  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping, $log,
+  function UpdateController($mdDialog, $mdConstant, Upload, $timeout, errorCheck, SliderMapping, $log, $location, category,
                             currResident, residentDisplay, apilaData, authentication, ResidentUpdateInfoService) {
 
     var vm = this;
@@ -20,6 +20,10 @@
     vm.form.communicatedWithResident = false;
     vm.form.communicatedWithPrimaryContact = false;
     vm.form.communicatedWithTrustedPerson = false;
+
+    vm.category = category;
+
+    //$location.hash(vm.category + '#' + currResident._id);
 
     vm.replaceNumberValue = SliderMapping.replaceNumberValue;
 

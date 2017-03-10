@@ -18,6 +18,7 @@
                     controller : 'ResidentController as vm'
                 }
             },
+            reloadOnSearch: false,
             bodyClass: 'residents'
         });
 

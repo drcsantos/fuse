@@ -7,7 +7,7 @@
 
 
   /** @ngInject */
-  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log,
+  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log, $stateParams, $location,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
@@ -28,6 +28,8 @@
 
     vm.latitude = -1;
     vm.longitude = -1;
+
+    var dontUpdateUrl = false;
 
     vm.scrollPos = 0;
     vm.scrollEl = angular.element('#content');
@@ -246,6 +248,54 @@
           vm.residentList = d.slice(0, 100);
           vm.originalList = angular.copy(vm.residentList);
 
+          console.log($location.hash());
+
+          // var data = $location.hash();
+
+          // if(data) {
+          //   var splitted = data.split('#');
+
+          //   if(splitted.length === 2) {
+          //     vm.selectedCategory = splitted[0];
+
+          //     var resident = _.find(vm.allResidents, {_id: splitted[1]});
+
+          //     if(resident) {
+          //       updateResident(resident);
+          //     }
+          //   }
+          // }
+
+        var oldHash = $location.hash();
+
+        $scope.$on('$locationChangeSuccess', function(event, newUrl, oldUrl){
+          
+          var data = $location.hash();
+
+          console.log("hash changed " + oldHash + " " + data);
+
+          if(dontUpdateUrl) {
+            dontUpdateUrl = false;
+            return;
+          }
+          
+          if(data) {
+            var splitted = data.split('#');
+
+              if(splitted.length === 2) {
+                vm.selectedCategory = splitted[0];
+
+                var resident = _.find(vm.allResidents, {_id: splitted[1]});
+
+                 //$location.hash(vm.selectedCategory + '#' + resident._id);
+
+                if(resident) {
+                  updateResident(resident);
+                }
+              }
+          }
+        });
+
         })
         .error(function(d) {
           $log.debug("Error Retrieving the List of Residents");
@@ -401,11 +451,17 @@
       exportBlankCarePlan.exportPdf(vm.selectedResident);
     }
 
-    function updateResident(resident) {
+    function updateResident(resident, from) {
       //switch form based on category selected
       var cat = vm.selectedCategory;
 
       if(resident) {
+
+        if(from === 'button') {
+          dontUpdateUrl = true;
+        }
+        $location.hash(cat + '#' + resident._id);
+
         apilaData.residentById(resident._id)
         .success(function(ress) {
 
@@ -438,7 +494,8 @@
               controllerAs: 'vm',
               locals: {
                 currResident: vm.selectedResident,
-                residentDisplay: resident
+                residentDisplay: resident,
+                category: cat
               },
               templateUrl: templateUrl,
               parent: angular.element($document.body),
@@ -446,6 +503,8 @@
               clickOutsideToClose: true
             })
             .then(function(res) {
+
+              $location.hash('');
 
               if(res) {
 
