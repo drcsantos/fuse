@@ -362,10 +362,18 @@
 
 
     function exportAppointment() {
-      var name = vm.calendarEvent.residentGoing.firstName + " to " +
+
+      apilaData.residentById(vm.calendarEvent.residentGoing._id)
+      .success(function(resident) {
+
+         var name = vm.calendarEvent.residentGoing.firstName + " to " +
                (vm.calendarEvent.locationName.name || vm.calendarEvent.locationName);
 
-      exportAppointDetail.exportPdf(name, vm.calendarEvent);
+         vm.calendarEvent.residentGoing = resident;
+
+        exportAppointDetail.exportPdf(name, vm.calendarEvent);
+      });
+
     }
 
     function closeDialog() {

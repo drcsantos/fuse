@@ -1,9 +1,9 @@
 (function() {
   angular.module("app.core").service("exportAppointDetail", exportAppointDetail);
 
-  exportAppointDetail.$inject = ['$filter', 'imageData', 'graphs'];
+  exportAppointDetail.$inject = ['imageData', 'graphs'];
 
-  function exportAppointDetail($filter, imageData, graphs) {
+  function exportAppointDetail(imageData, graphs) {
 
     function exportPdf(name, data) {
       var doc = new jsPDF('p', 'pt', 'letter');
@@ -11,8 +11,6 @@
       doc.addImage(imageData.getImage('apila_form'), 'JPEG', 15, 15, 580, 760);
 
       var appointmentDate = new Date(data._start);
-
-      var dateFilter = $filter('date');
 
       var currDay = moment().isoWeekday() - 1;
 
@@ -22,12 +20,11 @@
       var commentLength = 90;
 
       if(data.residentGoing.birthDate) {
-        var residentBirthDate = new Date(data.residentGoing.birthDate);
-        var residentFilteredBirthDate = dateFilter(residentBirthDate, 'MMM d, yyyy');
+        var residentBirthDateFormated = moment(data.residentGoing.birthDate).format('MMM d, YYYY');
       }
 
       //var appointmentFilteredTime = dateFilter(data._start, 'h:mm a');
-      var appointmentFilteredDate = dateFilter(appointmentDate, 'MMM d, yyyy');
+      var appointmentFilteredDate = moment(appointmentDate).format('MMM d, YYYY');
 
       var location = data.locationName.name || data.locationName;
 
@@ -46,7 +43,7 @@
       doc.text(140, 238, data.transportation);
 
       doc.text(415, 156, "Date of Birth:");
-      doc.text(490, 156, residentFilteredBirthDate || "Date not set");
+      doc.text(490, 156, residentBirthDateFormated || "Date not set");
 
       if(data.locationName.formatted_phone_number) {
         doc.text(415, 176, "Phone number:");

@@ -4,23 +4,21 @@
 
   angular.module("app.core").service("graphs", Graphs);
 
-  Graphs.$inject = ['$filter'];
-
   function Graphs() {
 
     function drawGraph(doc, data, name, x, y) {
 
       var coordsPerLetter = (610 / 84);
-      var dateVar = new Date(data[0].date);
-      var dateFilter = $filter('date');
-      var dateVarFiltered = dateFilter(dateVar, 'MMMM d, yyyy');
 
-      if (data.length > 0) {
+      if (data && data.length > 0) {
+
+        var dateFormat = moment(data[0].date).format('MMM d, YYYY');
+
         doc.rect(
           x + 10,
           y + 10,
           594,
-          108)
+          108);
 
         var maxData = _.max(_.map(data, "data"));
         var minData = _.min(_.map(data, "data"));
@@ -62,8 +60,8 @@
         doc.text(minData.toString(), x + 11, y + 115);
 
         doc.text("min: " + minDate.toString(), x + 30, y + 115);
-        doc.text("dateVar: " + dateVar, x + 30, y + 50);
-        doc.text("dateVarFiltered: " + dateVarFiltered, x + 30, y + 60);
+        //doc.text("dateVar: " + dateVar, x + 30, y + 50);
+        doc.text("dateFormat: " + dateFormat, x + 30, y + 60);
 
 
         //doc.text("min: " + minDate.toString() + "(" + minDate + ")", 100, 20 + y);
