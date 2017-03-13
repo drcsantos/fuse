@@ -731,18 +731,34 @@
       doc.addPage();
 
       //it is an array of data, date fields
-      graphs.drawGraph(doc, data.temperature, "Temperature",  0, 0);
+      graphs.drawGraph(doc, data.temperature, "Temperature",  0, -5);
 
-      graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 130);
+      graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 110);
 
-      graphs.drawGraph(doc, data.pulse, "Pulse", 0, 260);
+      graphs.drawGraph(doc, data.pulse, "Pulse", 0, 225);
 
-      graphs.drawGraph(doc, data.vitalsPain, "Vitals Pain", 0, 390);
+      graphs.drawGraph(doc, data.vitalsPain, "Vitals Pain", 0, 340);
 
-      graphs.drawGraph(doc, data.respiration, "Respiration", 0, 520);
+      graphs.drawGraph(doc, data.respiration, "Respiration", 0, 455);
 
-      graphs.drawGraph(doc, data.weight, "Weight", 0, 650);
+      graphs.drawGraph(doc, data.weight, "Weight", 0, 570);
 
+      doc.addPage();
+
+      // used for calculating the coordinates per letter - 84/610
+      doc.text(" 0         1         2         3          4        5         6         7         8", 0, 380);
+      doc.text("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", 0, 400);
+      doc.text("600", 600, 420);
+      doc.text("601", 601, 440);
+      doc.text("602", 602, 460);
+      doc.text("603", 603, 480);
+      doc.text("604", 604, 500);
+      doc.text("605", 605, 520);
+      doc.text("606", 606, 540);
+      doc.text("607", 607, 560);
+      doc.text("608", 608, 580);
+      doc.text("609", 609, 600);
+      doc.text("610", 610, 620);
 
       //Graph with 2 lines
       // doc.addPage();
