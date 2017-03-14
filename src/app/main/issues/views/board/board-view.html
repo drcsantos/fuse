@@ -37,7 +37,8 @@
                         <!-- CARD COVER -->
                         <div
                              class="list-card-cover">
-                            <img ng-src="{{vm.board.cards.getById(cardId).attachments[vm.board.cards.getById(cardId).attachments.length-1].url}}">
+                            <img 
+                            ng-src="{{ vm.getImageUrl(cardId); }}">
                         </div>
                         <!-- / CARD COVER -->
 

@@ -38,6 +38,18 @@
           }
         }
 
+        vm.getImageUrl = function(cardId) {
+          var card = vm.board.cards.getById(cardId); 
+          
+          var lastAttachment = card.attachments[card.attachments.length - 1];
+
+          if(lastAttachment) {
+            return lastAttachment.url;
+          } else {
+            return " ";
+          }
+        }
+
         vm.flagIssue = function(issue) {
           if(issue.updateInfo.length > 0) {
             var lastDate = issue.updateInfo[issue.updateInfo.length - 1].updateDate;
@@ -98,8 +110,6 @@
           console.log(vm.myCommunity.labels);
 
           setUserRole();
-
-          console.log(vm.board.lists);
 
           listCopy = angular.copy(vm.board.lists);
 
