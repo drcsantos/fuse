@@ -63,7 +63,7 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <md-checkbox ng-model="vm.form.confidential" aria-label="Confidential">
+        <md-checkbox ng-model="vm.form.confidential" ng-disabled="vm.userid !== vm.selectedItem.value" aria-label="Confidential">
           Confidential
         </md-checkbox>
       </md-input-container>

@@ -80,26 +80,21 @@
                                  </span>
                                  <!-- / CARD DUE -->
 
-                                <!-- CARD submitDate -->
-                                <!-- <span class="badge due-date"
-                                      ng-class="{'overdue': vm.isOverdue(vm.board.cards.getById(cardId).submitDate)}"
-                                      ng-if="vm.board.cards.getById(cardId).submitDate" layout="row"
-                                      layout-align="start center">
-                                    <i class="icon-clock s16"></i>
-                                    <span>{{vm.board.cards.getById(cardId).submitDate | date:'mediumDate'}}</span>
-                                </span> -->
-                                <!-- / CARD submitDate -->
-
-
                                 <span ng-if="vm.board.cards.getById(cardId).resolutionTimeframe"
                                       class="badge check-items"
                                       ng-class="{'completed': vm.board.cards.getById(cardId).resolutionTimeframeChecked === vm.board.cards.getById(cardId).resolutionTimeframe}"
                                       layout="row" layout-align="start center">
-                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Hours'" class="icon-clock-fast s16"></i>
-                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Days'" class="icon-view-day s16"></i>
-                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Weeks'" class="icon-view-week s16"></i>
-                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Months'" class="icon-view-module s16"></i>
-                                    <span>{{vm.board.cards.getById(cardId).resolutionTimeframe}}</span>
+                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Hours'" ng-class="vm.board.cards.getById(cardId).flag ? 'icon-alert s16' : 'icon-clock-fast s16'"></i>
+                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Days'" ng-class="vm.board.cards.getById(cardId).flag ? 'icon-alert s16' : 'icon-view-day s16'"></i>
+                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Weeks'" ng-class="vm.board.cards.getById(cardId).flag ? 'icon-alert s16' : 'icon-view-week s16'"></i>
+                                    <i ng-if="vm.board.cards.getById(cardId).resolutionTimeframe === 'Months'" ng-class="vm.board.cards.getById(cardId).flag ? 'icon-alert s16' : 'icon-view-module s16'"></i>
+                                    <span>{{ vm.board.cards.getById(cardId).resolutionTimeframe }}</span>
+
+                                    <md-tooltip>
+                                        <span ng-if="vm.board.cards.getById(cardId).flag">
+                                            The issue hasn't been updated in more than a {{ vm.board.cards.getById(cardId).resolutionTimeframe.toLowerCase().slice(0, -1); }}
+                                        </span>
+                                    </md-tooltip>
                                 </span>
 
 

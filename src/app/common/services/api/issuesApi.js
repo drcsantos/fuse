@@ -125,6 +125,10 @@
       return $http.put(apiUrl + '/api/issues/' + issueid +'/attachments/restore', data, getAuth());
     };
 
+     var updateConfidential = function(issueid, data) {
+      return $http.put(apiUrl + '/api/issues/' + issueid +'/confidential', data, getAuth());
+    };
+
 
     function getIssueRoutes() {
       return {
@@ -156,7 +160,8 @@
         createIssueRecovery: createIssueRecovery,
         verifyPassword: verifyPassword,
         issuePopulateOne: issuePopulateOne,
-        restoreAttachment: restoreAttachment
+        restoreAttachment: restoreAttachment,
+        updateConfidential: updateConfidential
       };
 
     }

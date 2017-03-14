@@ -34,8 +34,6 @@
         var unchangedDueDate = angular.copy(vm.card.due);
         var oldData = angular.copy(vm.card);
 
-        console.log(oldData);
-
         vm.oldData = oldData;
 
         vm.newCheckListTitle = "Checklist";
@@ -110,6 +108,21 @@
         vm.memberUpdate = memberUpdate;
         vm.updateLabel = updateLabel;
         vm.addMemberAutoComplete = addMemberAutoComplete;
+
+        vm.changeConfidential = function(confidentialChange) {
+          console.log("Change confidential");
+
+          vm.card.confidential = confidentialChange;
+
+          apilaData.updateConfidential(vm.card._id, {confidential: confidentialChange})
+          .success(function(resp) {
+            console.log(resp);
+          })
+          .error(function(err) {
+            $log.debug(err);
+          });
+
+        };
 
         //Other
         vm.wordCloud = wordCloud;

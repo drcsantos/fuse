@@ -30,6 +30,42 @@
 
         vm.getChecklistData = getChecklistData;
 
+        function checkDateOffset(issue, lastDate, timeUnit) {
+          var offsetDate = moment(lastDate).add(1, timeUnit);
+
+          if(moment().isAfter(offsetDate)) {
+            issue.flag = true;
+          }
+        }
+
+        vm.flagIssue = function(issue) {
+          if(issue.updateInfo.length > 0) {
+            var lastDate = issue.updateInfo[issue.updateInfo.length - 1].updateDate;
+
+
+            switch(issue.resolutionTimeframe) {
+              case "Hours":
+                checkDateOffset(issue, lastDate, 'hours');
+              break;
+
+              case "Days":
+                checkDateOffset(issue, lastDate, 'days');
+              break;
+
+              case "Weeks":
+                checkDateOffset(issue, lastDate, 'weeks');
+              break;
+
+              case "Months":
+                checkDateOffset(issue, lastDate, 'months');
+              break;
+
+            }
+
+          }
+          
+        };
+
         ////////////////////// PRELOAD DATA //////////////////////
 
         //push the first list for cuurent User, so it's always the first one
@@ -62,6 +98,8 @@
           console.log(vm.myCommunity.labels);
 
           setUserRole();
+
+          console.log(vm.board.lists);
 
           listCopy = angular.copy(vm.board.lists);
 
@@ -113,7 +151,7 @@
     }
 
       //add all the other issues assigned to users
-      function populateLists(id){
+      function populateLists(id) {
           apilaData.issuesList(status, id)
                 .success(function(issues) {
 
@@ -162,6 +200,8 @@
             }
           }
 
+          vm.flagIssue(card);
+
           if(confidential === false) {
             card.due = card.due;
 
@@ -206,6 +246,8 @@
                 confidential = true;
               }
             }
+
+            vm.flagIssue(v);
 
             if(confidential === false) {
               vm.board.cards.push(v);

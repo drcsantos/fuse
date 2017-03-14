@@ -13,7 +13,7 @@
 
       // Data
       var username = authentication.currentUser().name;
-      var userid = authentication.currentUser().id;
+      vm.userid = authentication.currentUser().id;
 
       vm.residentList = [];
       vm.selectedUser = {};
@@ -27,7 +27,7 @@
       vm.addIssue = addIssue;
       vm.getMatches = getMatches;
 
-      apilaData.userCommunity(userid)
+      apilaData.userCommunity(vm.userid)
       .success(function(d) {
         vm.myCommunity = d;
       });
@@ -121,7 +121,7 @@
       /////////////////////// HELPER FUNCTIONS //////////////////////////
 
       function updateIssueCount() {
-        apilaData.openIssuesCount(userid, vm.myCommunity._id)
+        apilaData.openIssuesCount(vm.userid, vm.myCommunity._id)
           .success(function(count) {
             msNavigationService.saveItem('fuse.issues', {
               badge: {
