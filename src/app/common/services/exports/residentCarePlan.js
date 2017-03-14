@@ -743,7 +743,7 @@
 
       graphs.drawGraph(doc, data.weight, "Weight", 0, 570);
 
-      graphs.drawGraph(doc, data.weight, "INR", 0, 685);
+      graphs.drawGraph(doc, data.internationalNormalizedRatio, "INR", 0, 685);
 
       doc.addPage();
 

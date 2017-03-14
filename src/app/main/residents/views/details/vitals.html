@@ -24,34 +24,28 @@
           </canvas>
         </div>
 
-        <h4>Blood Pressure Systolic:
+        <div class="double-title-vitals">Blood Pressure Systolic:
           <span ng-repeat="bloodPressureSystolic in vm.selectedResident.bloodPressureSystolic">
             {{ bloodPressureSystolic.data }} <span ng-if="!$last">,</span>
           </span>
-        </h4>
+        </div>
 
-        <!--  Blood Pressure Systolic canvas -->
-        <!-- <div class="card md-whiteframe-4dp">
-               <canvas id="bloodPressureSystolicCanvas" class="chart chart-line" chart-data="vm.vitalsCharts[1].data"
-                       chart-labels="vm.vitalsCharts[1].labels" chart-legend="true" chart-series="vm.vitalsCharts[1].series">
-               </canvas>
-             </div> -->
+        <div class="double-title-vitals">Blood Pressure Diastolic:
+          <span ng-repeat="bloodPressureDiastolic in vm.selectedResident.bloodPressureDiastolic">
+            {{ bloodPressureDiastolic.data }} <span ng-if="!$last">,</span>
+          </span>
+        </div>
+
         <div class="card md-whiteframe-4dp">
           <canvas id="bloodPressureCanvas" class="chart chart-line" chart-data="vm.vitalsCharts[1].data" chart-labels="vm.vitalsCharts[1].labels" chart-legend="true" chart-series="vm.vitalsCharts[1].series">
           </canvas>
         </div>
 
-        <h4>Blood Pressure Diastolic:
-          <span ng-repeat="bloodPressureDiastolic in vm.selectedResident.bloodPressureDiastolic">
-            {{ bloodPressureDiastolic.data }} <span ng-if="!$last">,</span>
-          </span>
-        </h4>
-
         <!--  Blood Pressure Diastolic canvas -->
-        <div class="card md-whiteframe-4dp">
+        <!--<div class="card md-whiteframe-4dp">
           <canvas id="bloodPressureDiastolicCanvas" class="chart chart-line" chart-data="vm.vitalsCharts[2].data" chart-labels="vm.vitalsCharts[2].labels" chart-legend="true" chart-series="vm.vitalsCharts[2].series">
           </canvas>
-        </div>
+        </div>-->
 
         <h4>Oxygen Saturation:
           <span ng-repeat="oxygenSaturation in vm.selectedResident.oxygenSaturation">
@@ -107,9 +101,21 @@
           </span>
         </h4>
 
-        <!--  Respiration canvas -->
+        <!--  Weight canvas -->
         <div class="card md-whiteframe-4dp">
           <canvas id="weightCanvas" class="chart chart-line" chart-data="vm.vitalsCharts[7].data" chart-labels="vm.vitalsCharts[7].labels" chart-legend="true" chart-series="vm.vitalsCharts[7].series">
+          </canvas>
+        </div>
+
+        <h4>INR:
+          <span ng-repeat="w in vm.selectedResident.internationalNormalizedRatio">
+            {{ w.data }} <span ng-if="!$last">,</span>
+          </span>
+        </h4>
+
+        <!--  INR canvas -->
+        <div class="card md-whiteframe-4dp">
+          <canvas id="weightCanvas" class="chart chart-line" chart-data="vm.vitalsCharts[8].data" chart-labels="vm.vitalsCharts[8].labels" chart-legend="true" chart-series="vm.vitalsCharts[8].series">
           </canvas>
         </div>
 

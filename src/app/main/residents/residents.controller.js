@@ -626,6 +626,7 @@
       vm.vitalsCharts.push(createGraphData(resident.vitalsPain, 'Vitals Pain'));
       vm.vitalsCharts.push(createGraphData(resident.respiration, 'Respiration'));
       vm.vitalsCharts.push(createGraphData(resident.weight, 'Weight'));
+      vm.vitalsCharts.push(createGraphData(resident.internationalNormalizedRatio, 'INR'));
 
     }
 
