@@ -743,6 +743,8 @@
 
       graphs.drawGraph(doc, data.weight, "Weight", 0, 570);
 
+      graphs.drawGraph(doc, data.weight, "INR", 0, 685);
+
       doc.addPage();
 
       // used for calculating the coordinates per letter - 84/610
