@@ -138,7 +138,7 @@
               }
             });
 
-            addCardsToList(currUserIssues, vm.board.lists[0]);
+            addCardsForCurrUser(currUserIssues, vm.board.lists[0]);
           })
           .error(function(issues) {
               $log.debug("Error while loading list of issues for: " + username);
@@ -196,27 +196,27 @@
 
         }
 
+
         function addCard(card) {
           card.id = msUtils.guidGenerator();
           card.name = card.title;
 
-          var confidential = false;
+          var currUserIsMember = false;
 
-          // the issue is confidential and it's not from our user don't show it
-          if(card.confidential) {
-            if(card.confidential === true && card.submitBy !== userid) {
-              confidential = true;
-              return null;
+          if(card.idMembers) {
+            if(_.find(card.idMembers, {_id: userid})) {
+              currUserIsMember = true;
             }
+          }
+
+          //if the card is confidential and we are not member of the card don't show it
+          if(card.confidential && !currUserIsMember) {
+            return null;
           }
 
           vm.flagIssue(card);
 
-          if(confidential === false) {
-            card.due = card.due;
-
-            vm.board.cards.push(card);
-          }
+          vm.board.cards.push(card);
 
           return card;
         }
@@ -241,28 +241,16 @@
           }
         }
 
-        //adds a list of cards to a selected list
-        function addCardsToList(cards, list) {
+        //adds a list of cards to a selected list (FOR THE CURRENT USER)
+        function addCardsForCurrUser(cards, list) {
 
-          angular.forEach(cards, function(v, key) {
-            v.id = v._id;
-            v.name = v.title;
+          angular.forEach(cards, function(card, key) {
+            card.id = card._id;
+            card.name = card.title;
 
-            var confidential = false;
-
-            // the issue is confidential and it's not from our user don't show it
-            if(v.confidential !== undefined) {
-              if(v.confidential === true && v.submitBy._id !== userid) {
-                confidential = true;
-              }
-            }
-
-            vm.flagIssue(v);
-
-            if(confidential === false) {
-              vm.board.cards.push(v);
-              list.idCards.push(v.id);
-            }
+            vm.flagIssue(card);
+            vm.board.cards.push(card);
+            list.idCards.push(card.id);
 
           });
 

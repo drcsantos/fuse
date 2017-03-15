@@ -467,8 +467,15 @@
 
             oldList.idCards = _.without(oldList.idCards, vm.card.id);
 
-            newList.idCards.push(vm.card.id);
+            console.log(vm.oldSelectedItem.value, vm.card.idMembers);
 
+            var hasMember = _.find(vm.card.idMembers, {_id: vm.oldSelectedItem.value})
+
+            //we push it to the new list if it's not confidential, or it is but has a member in it
+            if(hasMember || !vm.card.confidential) {
+              newList.idCards.push(vm.card.id);
+            }
+            
             vm.updateIssue(type);
 
             closeDialog();
