@@ -61,12 +61,14 @@
 
     var loadAppoitnments = function(id, month) {
 
+      console.log("Month not passed " + month);
+
       //load all the events and show them on the callendar
       apilaData.appointmentsList(id, month)
         .success(function(data) {
 
           if(data.length === 0) {
-            loadIssues(id);
+            loadIssues(id, month);
             return;
           }
 
@@ -88,7 +90,7 @@
             vm.events[0] = SearchService.getResult();
           });
 
-          loadIssues(id);
+          loadIssues(id, month);
 
         })
         .error(function(err) {
@@ -97,12 +99,14 @@
 
     };
 
-    var loadIssues = function(id) {
+    var loadIssues = function(id, month) {
       apilaData.dueIssuesList(id)
       .success(function(response) {
         angular.forEach(response, function(value, key) {
 
-          if(value.due) {
+          var splitedMonth = month.split(' ');
+
+          if(value.due && splitedMonth && moment(value.due).format('M') === splitedMonth[1]) {
             var dueDate = new Date(value.due);
 
             var calEvent = {
@@ -119,15 +123,14 @@
         });
 
         console.log('Loading birthdays');
-        loadBirthdays(id);
+        loadBirthdays(id, month);
       })
       .error(function(response) {
         $log.debug(response);
       });
     };
 
-    var loadBirthdays = function(id) {
-
+    var loadBirthdays = function(id, month) {
 
       apilaData.residentsList(id)
       .success(function(response) {
@@ -136,7 +139,10 @@
           // get current year, and set that for birthday on cal
           var currYear = moment().year();
 
-          if(value.birthDate && value.buildingStatus !== "Dead" && value.buildingStatus !== "Moved Out") {
+          var splitedMonth = month.split(' ');
+
+          if(value.birthDate && splitedMonth && value.buildingStatus !== "Dead" && value.buildingStatus !== "Moved Out" &&
+            moment(value.birthDate).format('M') === splitedMonth[1]) {
             var startDate = moment(value.birthDate).year(currYear);
 
             var calEvent = {
@@ -147,7 +153,7 @@
               color: "#9C27B0"
             };
 
-            //vm.events[0].push(calEvent);
+            vm.events[0].push(calEvent);
           }
 
 
@@ -229,6 +235,7 @@
 
       if(!visitedMonths[currMonth]) {
         console.log("Loaded");
+        console.log(currMonth);
         loadAppoitnments(vm.community._id, currMonth);
         visitedMonths[currMonth] = true;
       }
