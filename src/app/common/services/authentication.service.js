@@ -50,6 +50,8 @@
 
                 getCommunity(payload._id);
 
+                console.log(payload);
+
                 return {
                     email: payload.email,
                     name: name,

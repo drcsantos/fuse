@@ -67,7 +67,6 @@
       var data = $location.hash();
 
       if(data) {
-        console.log(appointments);
         //editEvent();
       }
     });
