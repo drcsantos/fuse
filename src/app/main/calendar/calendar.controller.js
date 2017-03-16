@@ -38,8 +38,12 @@
     vm.exportAppointments = exportAppoint;
     vm.openAppointmentMapDialog = openAppointmentMapDialog;
 
+    //resident list for the dropdown select
     apilaData.residentsList(communityid)
       .success(function(residentList) {
+
+        vm.birthdayResidents = residentList;
+
         vm.residentList = residentList.map(function(resid) {
 
           var name = resid.aliasName ? resid.aliasName : resid.firstName;
@@ -61,8 +65,6 @@
 
     var loadAppoitnments = function(id, month) {
 
-      console.log("Month not passed " + month);
-
       //load all the events and show them on the callendar
       apilaData.appointmentsList(id, month)
         .success(function(data) {
@@ -82,11 +84,9 @@
 
           vm.events[0] = vm.events[0].concat(appointLists);
 
-          console.log("Loading appointments");
-
           SearchService.setData(appointLists, searchParams);
           SearchService.subscribe($scope, function() {
-            console.log("Search stuff");
+          
             vm.events[0] = SearchService.getResult();
           });
 
@@ -122,7 +122,6 @@
 
         });
 
-        console.log('Loading birthdays');
         loadBirthdays(id, month);
       })
       .error(function(response) {
@@ -130,23 +129,20 @@
       });
     };
 
-    var loadBirthdays = function(id, month) {
-
-      apilaData.residentsList(id)
-      .success(function(response) {
-        angular.forEach(response, function(value, key) {
+    var addBirthdays = function(residents, id, month) {
+       angular.forEach(residents, function(resident) {
 
           // get current year, and set that for birthday on cal
           var currYear = moment().year();
 
           var splitedMonth = month.split(' ');
 
-          if(value.birthDate && splitedMonth && value.buildingStatus !== "Dead" && value.buildingStatus !== "Moved Out" &&
-            moment(value.birthDate).format('M') === splitedMonth[1]) {
-            var startDate = moment(value.birthDate).year(currYear);
+          if(resident.birthDate && splitedMonth && resident.buildingStatus !== "Dead" && resident.buildingStatus !== "Moved Out" &&
+            moment(resident.birthDate).format('M') === splitedMonth[1]) {
+            var startDate = moment(resident.birthDate).year(currYear);
 
             var calEvent = {
-              title: value.firstName + " " + value.lastName + "'s Birthday",
+              title: resident.firstName + " " + resident.lastName + "'s Birthday",
               start: startDate,
               end: null,
               stick: true,
@@ -158,10 +154,23 @@
 
 
         });
-      })
-      .error(function(response) {
+    };
 
-      });
+    var loadBirthdays = function(id, month) {
+
+      // if residents list already loaded just add it if not send a request to api
+      if(vm.birthdayResidents) {
+        addBirthdays(vm.birthdayResidents, id, month);
+      } else {
+        apilaData.residentsList(id)
+        .success(function(response) {
+          addBirthdays(response, id, month);
+        })
+        .error(function(err) {
+          $log.debug(response);
+        });
+      }
+
     };
 
     vm.calendarUiConfig = {
@@ -193,6 +202,7 @@
     };
 
     function exportAppoint() {
+
       var columns = ["Resident", "Date", "Reason", "Location", "Doctor", "Transportation"];
 
       var month = vm.calendar.getDate().format("MMMM");
@@ -234,8 +244,6 @@
       var currMonth = vm.calendar.getDate().format("YYYY M");
 
       if(!visitedMonths[currMonth]) {
-        console.log("Loaded");
-        console.log(currMonth);
         loadAppoitnments(vm.community._id, currMonth);
         visitedMonths[currMonth] = true;
       }
@@ -247,7 +255,6 @@
       var currMonth = vm.calendar.getDate().format("YYYY M");
 
       if(!visitedMonths[currMonth]) {
-        console.log("Loaded");
         loadAppoitnments(vm.community._id, currMonth);
         visitedMonths[currMonth] = true;
       }
@@ -395,9 +402,7 @@
       }).then(function(response) {
 
         if (response.type === 'add') {
-          console.log("We got the response so we add an appointment");
           vm.events[0].push(addAppointment(response.calendarEvent));
-
         } else {
 
           for (var i = 0; i < vm.events[0].length; i++) {
