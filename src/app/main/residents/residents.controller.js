@@ -7,7 +7,7 @@
 
 
   /** @ngInject */
-  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log, $stateParams, $location,
+  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log, $stateParams, $location, SearchResident,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
@@ -18,7 +18,6 @@
     vm.colors = ['blue-bg', 'blue-grey-bg', 'orange-bg', 'pink-bg', 'purple-bg'];
     vm.selectedAccount = 'creapond';
     vm.selectedResident = null;
-    vm.toggleSidenav = toggleSidenav;
 
     vm.responsiveReadPane = undefined;
     vm.activeMailPaneIndex = 0;
@@ -68,12 +67,6 @@
     vm.replyDialog = replyDialog;
     vm.composeDialog = composeDialog;
 
-    vm.checkAll = checkAll;
-    vm.closeReadPane = closeReadPane;
-    vm.isChecked = isChecked;
-    vm.toggleStarred = toggleStarred;
-    vm.toggleCheck = toggleCheck;
-
     vm.switchCategory = function(category) {
       vm.selectedCategory = category;
     };
@@ -106,61 +99,8 @@
         vm.residentList = vm.residentList.concat(vm.allResidents.slice(currResidBatch, currResidBatch + offset));
         currResidBatch += offset;
       }
-    }
+    };
 
-    var arrayFields = ['foodAllergies', 'medicationAllergies', 'otherAllergies', 'foodLikes',
-            'foodDislikes', 'outsideAgencyFile', 'psychosocialStatus', 'shopping', 'painManagedBy'];
-
-    function transformResidentForSearch(resident) {
-
-      var searchString = "";
-
-      var fieldsTypes = {};
-
-      for(var key in resident) {
-        if(resident.hasOwnProperty(key)) {
-
-          //skip over there fields
-          if(key === "_id" || key === '$$hashKey' || key === 'community' || key === 'submitBy' || key === 'submitDate') {
-            continue;
-          }
-
-          //format dates
-          if(key === 'birthDate') {
-            fieldsTypes[searchString.length] = key;
-            searchString += moment(resident[key]).format('YYYY MM DD') + ' ';
-            continue;
-          }
-
-          //handling boolean fields
-          if(resident[key] == true) {
-            fieldsTypes[searchString.length] = key;
-            searchString += key + ' ';
-            continue;
-          }
-
-          //handle arrays
-          if(_.includes(arrayFields, key)) {
-            fieldsTypes[searchString.length] = key;
-            searchString += resident[key].join(' ');
-            continue;
-          }
-
-          //skip objects for now
-          if(angular.isObject(resident[key])) {
-            continue;
-          }
-
-          if(resident[key]) {
-            fieldsTypes[searchString.length] = key;
-            searchString += resident[key] + ' ';
-          }
-
-        }
-      }
-
-      return { searchString: searchString, fieldsTypes: fieldsTypes };
-    }
 
     vm.clearSearch = function() {
       if(vm.search === "") {
@@ -178,15 +118,9 @@
         var residents = vm.allResidents.filter(function(resid) {
           var fullName = (resid.firstName + resid.aliasName + resid.lastName).toLowerCase();
 
-          var searchObject = transformResidentForSearch(resid);
+          var searchObject = SearchResident.transformResidentForSearch(resid);
 
           var indexValue  = searchObject.searchString.toLowerCase().indexOf(vm.search.toLowerCase());
-
-          // var matched = searchObject.searchString.toLowerCase().match(new RegExp(vm.search.toLowerCase(), 'g'));
-
-          // if(matched) {
-          //   console.log(matched);
-          // }
 
           if(indexValue !== -1) {
             resid.fieldType = _.startCase(searchObject.fieldsTypes[indexValue.toString()]);
@@ -248,31 +182,11 @@
           vm.residentList = d.slice(0, 100);
           vm.originalList = angular.copy(vm.residentList);
 
-          console.log($location.hash());
-
-          // var data = $location.hash();
-
-          // if(data) {
-          //   var splitted = data.split('#');
-
-          //   if(splitted.length === 2) {
-          //     vm.selectedCategory = splitted[0];
-
-          //     var resident = _.find(vm.allResidents, {_id: splitted[1]});
-
-          //     if(resident) {
-          //       updateResident(resident);
-          //     }
-          //   }
-          // }
-
         var oldHash = $location.hash();
 
         $scope.$on('$locationChangeSuccess', function(event, newUrl, oldUrl){
           
           var data = $location.hash();
-
-          console.log("hash changed " + oldHash + " " + data);
 
           if(dontUpdateUrl) {
             dontUpdateUrl = false;
@@ -286,8 +200,6 @@
                 vm.selectedCategory = splitted[0];
 
                 var resident = _.find(vm.allResidents, {_id: splitted[1]});
-
-                 //$location.hash(vm.selectedCategory + '#' + resident._id);
 
                 if(resident) {
                   updateResident(resident);
@@ -330,9 +242,6 @@
           vm.shownContact = resident.residentContacts[0];
 
           drawGraphs(vm.selectedResident);
-
-          //GRAPHS TESTING 
-       
 
           vm.updateInfoList = ResidentUpdateInfoService.formatUpdateArray(vm.selectedResident.updateInfo, vm.selectedResident);
 
@@ -649,81 +558,6 @@
       vm.dynamicHeight = current;
     });
 
-    /**
-     * Toggle sidenav
-     *
-     * @param sidenavId
-     */
-    function toggleSidenav(sidenavId) {
-      $mdSidenav(sidenavId).toggle();
-    }
 
-
-    /**
-     * Close read pane
-     */
-    function closeReadPane() {
-      if (angular.isDefined(vm.responsiveReadPane) && vm.responsiveReadPane) {
-        vm.activeMailPaneIndex = 0;
-
-        $timeout(function() {
-          vm.scrollEl.scrollTop(vm.scrollPos);
-        }, 650);
-      }
-    }
-
-    /**
-     * Toggle starred
-     *
-     * @param mail
-     * @param event
-     */
-    function toggleStarred(mail, event) {
-      event.stopPropagation();
-      mail.starred = !mail.starred;
-    }
-
-    function toggleCheck(mail, event) {
-      if (event) {
-        event.stopPropagation();
-      }
-
-      var idx = vm.checked.indexOf(mail);
-
-      if (idx > -1) {
-        vm.checked.splice(idx, 1);
-      } else {
-        vm.checked.push(mail);
-      }
-    }
-
-    /**
-     * Return checked status of the mail
-     *
-     * @param mail
-     * @returns {boolean}
-     */
-    function isChecked(mail) {
-      return vm.checked.indexOf(mail) > -1;
-    }
-
-
-    /**
-     * Check all
-     */
-    function checkAll() {
-      if (vm.allChecked) {
-        vm.checked = [];
-        vm.allChecked = false;
-      } else {
-        angular.forEach(vm.inbox, function(mail) {
-          if (!isChecked(mail)) {
-            toggleCheck(mail);
-          }
-        });
-
-        vm.allChecked = true;
-      }
-    }
   }
 })();

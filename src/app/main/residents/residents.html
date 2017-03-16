@@ -16,9 +16,6 @@
     <div class="header" layout="row" layout-align="start center">
 
       <div class="search-wrapper md-whiteframe-4dp" layout="row" layout-align="start center" flex>
-        <md-button class="md-icon-button sidenav-toggle" ng-click="vm.toggleSidenav('main-sidenav')" hide-gt-md aria-label="Toggle Sidenav" translate translate-attr-aria-label="MAIL.TOGGLE_SIDENAV">
-          <md-icon class="icon" md-font-icon="icon-menu"></md-icon>
-        </md-button>
 
         <div class="search" flex layout="row" layout-align="start center">
           <md-icon md-font-icon="icon-magnify" class="icon s24"></md-icon>
@@ -31,15 +28,6 @@
 
     <!-- CONTENT CARD -->
     <div class="content-card" layout="column" flex>
-
-      <!-- MAIL READ PANE TOOLBAR -->
-      <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activeMailPaneIndex === 1">
-        <md-button class="md-icon-button" ng-click="vm.closeReadPane()" aria-label="Back" translate translate-attr-aria-label="MAIL.BACK">
-          <md-icon md-font-icon="icon-keyboard-backspace"></md-icon>
-        </md-button>
-
-      </div>
-      <!-- / MAIL READ PANE TOOLBAR -->
 
       <!-- CONTENT TOOLBAR -->
       <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activeMailPaneIndex === 0">
