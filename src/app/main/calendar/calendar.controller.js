@@ -6,7 +6,7 @@
     .controller('AppoitmentsController', AppoitmentsController);
 
   /** @ngInject */
-  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService, $log,
+  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService, $log, $location,
                                  authentication, $state, $scope, SearchService, exportAppointments) {
     var vm = this;
 
@@ -62,6 +62,15 @@
         visitedMonths[moment().format("YYYY M")] = true; //remember that we loaded curr month
 
       });
+
+    $scope.$on('$locationChangeSuccess', function() {
+      var data = $location.hash();
+
+      if(data) {
+        console.log(appointments);
+        //editEvent();
+      }
+    });
 
     var loadAppoitnments = function(id, month) {
 
@@ -260,10 +269,6 @@
       }
     }
 
-    function eventDetail(calendarEvent, e) {
-      showEventDetailDialog(calendarEvent, e);
-    }
-
     function select(start, end, e) {
       showEventFormDialog('add', false, start, end, e);
     }
@@ -275,25 +280,9 @@
       showEventFormDialog('add', false, start, end, e);
     }
 
-
-    function showEventDetailDialog(calendarEvent, e) {
-      $mdDialog.show({
-        controller: 'EventDetailDialogController',
-        controllerAs: 'vm',
-        templateUrl: 'app/main/appointments/dialogs/event-detail/event-detail-dialog.html',
-        parent: angular.element($document.body),
-        targetEvent: e,
-        clickOutsideToClose: true,
-        locals: {
-          calendarEvent: calendarEvent,
-          showEventFormDialog: showEventFormDialog,
-          event: e
-        }
-      });
-    }
-
     function editEvent(calendarEvent)
     {
+        console.log(calendarEvent);
         showEventFormDialog('edit', calendarEvent, false, false, event);
     }
 
@@ -400,6 +389,8 @@
           residentList: vm.residentList
         }
       }).then(function(response) {
+
+        $location.hash('');
 
         if (response.type === 'add') {
           vm.events[0].push(addAppointment(response.calendarEvent));

@@ -120,6 +120,8 @@
 
           var searchObject = SearchResident.transformResidentForSearch(resid);
 
+          console.log(searchObject);
+
           var indexValue  = searchObject.searchString.toLowerCase().indexOf(vm.search.toLowerCase());
 
           if(indexValue !== -1) {

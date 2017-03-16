@@ -5,11 +5,14 @@
     .controller('EventFormDialogController', EventFormDialogController);
 
   /** @ngInject */
-  function EventFormDialogController($mdDialog, dialogData, residentList, $log, apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
+  function EventFormDialogController($mdDialog, dialogData, residentList, $log, $location,
+              apilaData, errorCheck, authentication, $window, $mdToast, Utils, exportAppointDetail) {
     var vm = this;
 
     // Data
     vm.dialogData = dialogData;
+
+    $location.hash(vm.dialogData.calendarEvent._id);
 
     vm.isDisabled = false;
     vm.Utils = Utils;
@@ -377,6 +380,7 @@
     }
 
     function closeDialog() {
+      $location.hash('');
       $mdDialog.cancel();
     }
 
