@@ -38,69 +38,6 @@
 
         //////////
 
-        init();
-
-        function init()
-        {
-            // Watch the model changes to trigger the search
-            $scope.$watch('MsSearchBar.query', function (current, old)
-            {
-                if ( angular.isUndefined(current) )
-                {
-                    return;
-                }
-
-                if ( angular.equals(current, old) )
-                {
-                    return;
-                }
-
-                if ( vm.collapsed )
-                {
-                    return;
-                }
-
-                // Evaluate the onSearch function to access the
-                // function itself
-                var onSearchEvaluated = $scope.$parent.$eval(vm.onSearch, {query: current}),
-                    isArray = angular.isArray(onSearchEvaluated),
-                    isPromise = (onSearchEvaluated && !!onSearchEvaluated.then);
-
-                if ( isArray )
-                {
-                    // Populate the results
-                    vm.populateResults(onSearchEvaluated);
-                }
-
-                if ( isPromise )
-                {
-                    // Show the loader
-                    vm.resultsLoading = true;
-
-                    onSearchEvaluated.then(
-                        // Success
-                        function (response)
-                        {
-                            // Populate the results
-                            vm.populateResults(response);
-                        },
-                        // Error
-                        function ()
-                        {
-                            // Assign an empty array to show
-                            // the no-results screen
-                            vm.populateResults([]);
-                        }
-                    ).finally(function ()
-                        {
-                            // Hide the loader
-                            vm.resultsLoading = false;
-                        }
-                    );
-                }
-            });
-        }
-
         /**
          * Populate the results
          *
@@ -190,73 +127,56 @@
          */
         function handleKeydown(event)
         {
-            var keyCode = event.keyCode,
-                keys = [27, 38, 40];
+            var keyCode = event.keyCode;
 
-            // Prevent the default action if
-            // one of the keys are pressed that
-            // we are listening
-            if ( keys.indexOf(keyCode) > -1 )
-            {
-                event.preventDefault();
-            }
+            if(keyCode === 13) {
+            
 
-            switch ( keyCode )
-            {
-                // Enter
-                case 13:
-
-                    // Trigger result click
-                    vm.handleResultClick(vm.results[vm.selectedResultIndex]);
-
-                    break;
-
-                // Escape
-                case 27:
-
-                    // Collapse the search bar
-                    vm.collapse();
-
-                    break;
-
-                // Up Arrow
-                case 38:
-
-                    // Decrease the selected result index
-                    if ( vm.selectedResultIndex - 1 >= 0 )
-                    {
-                        // Decrease the selected index
-                        vm.selectedResultIndex--;
-
-                        // Make sure the selected result is in the view
-                        vm.ensureSelectedResultIsVisible();
-                    }
-
-                    break;
-
-                // Down Arrow
-                case 40:
-
-                    if ( !vm.results )
+                    if ( vm.collapsed )
                     {
                         return;
                     }
 
-                    // Increase the selected result index
-                    if ( vm.selectedResultIndex + 1 < vm.results.length )
-                    {
-                        // Increase the selected index
-                        vm.selectedResultIndex++;
+                    // Evaluate the onSearch function to access the
+                    // function itself
+                    var onSearchEvaluated = $scope.$parent.$eval(vm.onSearch, {query: vm.query}),
+                        isArray = angular.isArray(onSearchEvaluated),
+                        isPromise = (onSearchEvaluated && !!onSearchEvaluated.then);
 
-                        // Make sure the selected result is in the view
-                        vm.ensureSelectedResultIsVisible();
+                    if ( isArray )
+                    {
+                        // Populate the results
+                        vm.populateResults(onSearchEvaluated);
                     }
 
-                    break;
+                    if ( isPromise )
+                    {
+                        // Show the loader
+                        vm.resultsLoading = true;
 
-                default:
-                    break;
+                        onSearchEvaluated.then(
+                            // Success
+                            function (response)
+                            {
+                                // Populate the results
+                                vm.populateResults(response);
+                            },
+                            // Error
+                            function ()
+                            {
+                                // Assign an empty array to show
+                                // the no-results screen
+                                vm.populateResults([]);
+                            }
+                        ).finally(function ()
+                            {
+                                // Hide the loader
+                                vm.resultsLoading = false;
+                            }
+                        );
+                    }
             }
+
         }
 
         /**
