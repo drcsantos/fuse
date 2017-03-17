@@ -6,7 +6,7 @@
     .controller('AppoitmentsController', AppoitmentsController);
 
   /** @ngInject */
-  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService, $log, $location,
+  function AppoitmentsController($mdDialog, $document, apilaData, msNavigationService, $log,
                                  authentication, $state, $scope, SearchService, exportAppointments) {
     var vm = this;
 
@@ -62,14 +62,6 @@
         visitedMonths[moment().format("YYYY M")] = true; //remember that we loaded curr month
 
       });
-
-    $scope.$on('$locationChangeSuccess', function() {
-      var data = $location.hash();
-
-      if(data) {
-        //editEvent();
-      }
-    });
 
     var loadAppoitnments = function(id, month) {
 
@@ -388,8 +380,6 @@
           residentList: vm.residentList
         }
       }).then(function(response) {
-
-        $location.hash('');
 
         if (response.type === 'add') {
           vm.events[0].push(addAppointment(response.calendarEvent));

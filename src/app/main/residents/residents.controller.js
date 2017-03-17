@@ -7,7 +7,7 @@
 
 
   /** @ngInject */
-  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log, $stateParams, $location, SearchResident,
+  function ResidentController($scope, $document, $timeout, $mdDialog, $mdMedia, SliderMapping, $log, $stateParams, SearchResident,
     $mdSidenav, $mdToast, apilaData, authentication, exportCarePlan, exportResidentCensus, exportFaceSheet, exportBlankCarePlan, uiGmapGoogleMapApi, ResidentUpdateInfoService) {
     var vm = this;
 
@@ -184,32 +184,6 @@
           vm.residentList = d.slice(0, 100);
           vm.originalList = angular.copy(vm.residentList);
 
-        var oldHash = $location.hash();
-
-        $scope.$on('$locationChangeSuccess', function(event, newUrl, oldUrl){
-          
-          var data = $location.hash();
-
-          if(dontUpdateUrl) {
-            dontUpdateUrl = false;
-            return;
-          }
-          
-          if(data) {
-            var splitted = data.split('#');
-
-              if(splitted.length === 2) {
-                vm.selectedCategory = splitted[0];
-
-                var resident = _.find(vm.allResidents, {_id: splitted[1]});
-
-                if(resident) {
-                  updateResident(resident);
-                }
-              }
-          }
-        });
-
         })
         .error(function(d) {
           $log.debug("Error Retrieving the List of Residents");
@@ -368,11 +342,6 @@
 
       if(resident) {
 
-        if(from === 'button') {
-          dontUpdateUrl = true;
-        }
-        $location.hash(cat + '#' + resident._id);
-
         apilaData.residentById(resident._id)
         .success(function(ress) {
 
@@ -414,8 +383,6 @@
               clickOutsideToClose: true
             })
             .then(function(res) {
-
-              $location.hash('');
 
               if(res) {
 
