@@ -730,20 +730,22 @@
       //draw the graphs page
       doc.addPage();
 
+      doc.line(305, 0, 305, 800);
+
+      doc.line(0, 201, 610, 201);
+      doc.line(0, 397, 610, 397);
+      doc.line(0, 593, 610, 593);
+
       //it is an array of data, date fields
-      graphs.drawGraph(doc, data.temperature, "Temperature",  0, -5);
+      graphs.drawGraph(doc, data.temperature, "Temperature",  0, 0);
+      //graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 196);
+      //graphs.drawGraph(doc, data.pulse, "Pulse", 0, 392);
+      //graphs.drawGraph(doc, data.vitalsPain, "Pain", 0, 588);
 
-      graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 110);
-
-      graphs.drawGraph(doc, data.pulse, "Pulse", 0, 225);
-
-      graphs.drawGraph(doc, data.vitalsPain, "Vitals Pain", 0, 340);
-
-      graphs.drawGraph(doc, data.respiration, "Respiration", 0, 455);
-
-      graphs.drawGraph(doc, data.weight, "Weight", 0, 570);
-
-      graphs.drawGraph(doc, data.internationalNormalizedRatio, "INR", 0, 685);
+      //graphs.drawGraph(doc, data.respiration, "Respiration", 310, 0);
+      //graphs.drawGraph(doc, data.weight, "Weight", 310, 196);
+      //graphs.drawGraph(doc, data.internationalNormalizedRatio, "INR", 310, 392);
+      //graphs.drawGraph(doc, data.bloodPressureDiastolic, "Blood Pressure", 310, 588);
 
       doc.addPage();
 
@@ -761,6 +763,28 @@
       doc.text("608", 608, 580);
       doc.text("609", 609, 600);
       doc.text("610", 610, 620);
+
+      // used to get height of page in coordinates = 850
+      doc.text("700", 10, 700);
+      doc.text("710", 10, 710);
+      doc.text("720", 10, 720);
+      doc.text("730", 10, 730);
+      doc.text("740", 10, 740);
+      doc.text("750", 10, 750);
+      doc.text("760", 10, 760);
+      doc.text("770", 10, 770);
+      doc.text("780", 10, 780);
+      doc.text("790", 10, 790);
+      doc.text("800", 10, 800);
+      doc.text("791", 30, 791);
+      doc.text("792", 60, 792);
+      doc.text("793", 90, 793);
+      doc.text("794", 120, 794);
+      doc.text("795", 150, 795);
+      doc.text("796", 180, 796);
+      doc.text("797", 210, 797);
+      doc.text("798", 240, 798);
+      doc.text("799", 270, 799);
 
       //Graph with 2 lines
       // doc.addPage();

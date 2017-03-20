@@ -12,56 +12,76 @@
 
       if (data && data.length > 0) {
 
-        var dateFormat = moment(data[0].date).format('MMM d, YYYY');
+        var dateFormat1 = moment(data[0].date).format('MMM d');
+        var dateFormat2 = moment(data[0].date).format('YYYY');
 
-        doc.rect(
-          x + 10,
-          y + 10,
-          594,
-          108);
+        var graphHeight = 196;
+        var graphWidth = 301;
 
         var maxData = _.max(_.map(data, "data"));
         var minData = _.min(_.map(data, "data"));
 
         var maxDate = moment(data[data.length - 1].date).utc();
         var minDate = moment(data[0].date).utc();
-        var minDatePlus1 = moment(data[1].date).utc();
 
-        var graphSpacingY = (594 / (data.length - 1));
-        var coordsPerDataUnitY = 108 / (maxData - minData);
-        var coordsPerDateUnitX = 594 / (maxDate - minDate);
-        var yValue;
+        var coordsPerDataUnitY = (graphHeight - 10) / (maxData - minData);
+        var coordsPerDateUnitX = graphWidth / (maxDate - minDate);
 
         for (i = 0; i < data.length; i++) {
           doc.setFillColor(255, 0, 0);
           doc.setDrawColor(255, 0, 0);
           doc.circle(
-            10 + ((moment(data[i].date).utc() - minDate) * coordsPerDateUnitX),
-            //(graphSpacingY * i) + x + 10, // x
-            (118 + y) - ((data[i].data - minData) * coordsPerDataUnitY), // y
+            x + ((moment(data[i].date).utc() - minDate) * coordsPerDateUnitX), // x
+            (graphHeight + y) - ((data[i].data - minData) * coordsPerDataUnitY), // y
             3, // radius
             'F');
 
           if (i !== (data.length - 1)) {
             doc.line(
-              10 + ((moment(data[i].date).utc() - minDate) * coordsPerDateUnitX), // x1
-              y + 118 - ((data[i].data - minData) * coordsPerDataUnitY), // y1
-              10 + ((moment(data[i + 1].date).utc() - minDate) * coordsPerDateUnitX), // x2
-              y + 118 - ((data[i + 1].data - minData) * coordsPerDataUnitY)); // y2
+              x + ((moment(data[i].date).utc() - minDate) * coordsPerDateUnitX), // x1
+              y + graphHeight - ((data[i].data - minData) * coordsPerDataUnitY), // y1
+              x + ((moment(data[i + 1].date).utc() - minDate) * coordsPerDateUnitX), // x2
+              y + graphHeight - ((data[i + 1].data - minData) * coordsPerDataUnitY)); // y2
           }
           // doc.text(118 - ((data.temperature[i].data - minData) * coordsPerDataUnitY) + " ", 10, i * 20)
         }
 
         var chartTitle;
         chartTitle = name;
-        doc.text(chartTitle, x + 602 - (chartTitle.length * coordsPerLetter), y + 20);
-        doc.text(maxData.toString(), x + 11, y + 20)
-        doc.text((((maxData - minData) / 2) + minData).toString(), x + 11, y + 67.5);
-        doc.text(minData.toString(), x + 11, y + 115);
+        doc.text(chartTitle, x + 300 - (chartTitle.length * coordsPerLetter), y + 16);
 
-        doc.text("min: " + minDate.toString(), x + 30, y + 115);
-        //doc.text("dateVar: " + dateVar, x + 30, y + 50);
-        doc.text("dateFormat: " + dateFormat, x + 30, y + 60);
+        // data unit labels
+        doc.text(
+          maxData.toString(),
+          x + 4,
+          y + 16);
+        doc.text(
+          (((maxData - minData) / 2) + minData).toString(),
+          x + 4,
+          y + 103);
+        doc.text(
+          minData.toString(),
+          x + 4,
+          y + 190);
+
+        // date labels
+
+        var midDate = (((maxDate - minDate) / 2) + minDate);
+        var dateFormat2 = moment(data[0].date).format('YYYY');
+
+        doc.text(
+          minDate.format('MMM d'),
+          x + 100,
+          y + 50);
+
+        doc.text(
+          minDate.format('YYYY'),
+          x + 100,
+          y + 60);
+
+        // doc.text("min: " + minDate.toString(), x + 30, y + 115);
+        // doc.text("dateVar: " + dateVar, x + 30, y + 50);
+        // doc.text("dateFormat: " + dateFormat, x + 30, y + 60);
 
 
         //doc.text("min: " + minDate.toString() + "(" + minDate + ")", 100, 20 + y);
