@@ -79,16 +79,14 @@
           y + 60);
 
         // midDate that doesnt work
-        /*
         doc.text(
-          midDate.format('MMM d'),
+          moment(midDate).format('MMM d'),
           x + 150,
           y + 50);
         doc.text(
-          midDate.format('YYYY'),
+          moment(midDate).format('YYYY'),
           x + 150,
           y + 60);
-        */
 
         doc.text("min string: " + minDate.toString(), 200, 400);
         doc.text("max string: " + maxDate.toString(), 200, 410);

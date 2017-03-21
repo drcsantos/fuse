@@ -48,12 +48,14 @@
 
           if ( query )
           {
+
               resultData = data.filter(function (item)
               {
+                console.log(item.title, angular.lowercase(item['title'].toString()).search(angular.lowercase(query)));
 
                   for(var i = 0; i < searchBy.length; ++i) {
                     if(item[searchBy[i]] !== undefined) {
-                      if ( angular.lowercase(item[searchBy[i]].toString()).search(angular.lowercase(query)) > -1 ) {
+                      if ( angular.lowercase(item[searchBy[i]].toString()).indexOf(angular.lowercase(query)) !== -1 ) {
                         return true;
                       }
                     }
@@ -61,14 +63,16 @@
 
                   // searching of nested fields
                   if(item.residentGoing !== undefined) {
-                    if ( angular.lowercase(item.residentGoing.firstName + item.residentGoing.lastname).search(angular.lowercase(query)) > -1 ) {
+                    if ( angular.lowercase(item.residentGoing.firstName + item.residentGoing.lastname).indexOf(angular.lowercase(query)) !== -1 ) {
                       return true;
                     }
                   }
 
+                  return false;
+
               });
 
-              resultData = _.uniqBy(resultData, "_id");
+              //resultData = _.uniqBy(resultData, "_id");
 
           } else if(query === "") {
 

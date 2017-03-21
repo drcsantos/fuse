@@ -84,12 +84,6 @@
 
           vm.events[0] = vm.events[0].concat(appointLists);
 
-          SearchService.setData(appointLists, searchParams);
-          SearchService.subscribe($scope, function() {
-          
-            vm.events[0] = SearchService.getResult();
-          });
-
           loadIssues(id, month);
 
         })
@@ -98,6 +92,11 @@
         });
 
     };
+
+       SearchService.subscribe($scope, function() {
+            console.log(vm.events, SearchService.getResult());
+            vm.events[0] = [];
+          });
 
     var loadIssues = function(id, month) {
       apilaData.dueIssuesList(id)
@@ -154,6 +153,8 @@
 
 
         });
+
+        SearchService.setData(vm.events[0], searchParams);
     };
 
     var loadBirthdays = function(id, month) {
