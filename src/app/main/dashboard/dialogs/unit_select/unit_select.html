@@ -1,0 +1,51 @@
+<md-dialog class="compose-dialog" aria-label="Update">
+    <form class="md-inline-form">
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">Unit select</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+
+          <md-input-container class="md-block">
+            <label>Length/Area</label>
+            <md-switch ng-model="vm.form.areaUnit" ng-change="vm.convertUnit()">
+              <span ng-if="vm.form.areaUnit">Feet</span>
+              <span ng-if="!vm.form.areaUnit">Meters</span>
+            </md-switch>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Temperature</label>
+            <md-switch ng-model="vm.form.tempUnit" ng-change="vm.convertUnit()">
+              <span ng-if="vm.form.tempUnit">F</span>
+              <span ng-if="!vm.form.tempUnit">C</span>
+            </md-switch>
+          </md-input-container>
+
+
+          <md-input-container class="md-block">
+            <label>Weight</label>
+            <md-switch ng-model="vm.form.weightUnit" ng-change="vm.convertUnit()">
+              <span ng-if="vm.form.weightUnit">Lbs</span>
+              <span ng-if="!vm.form.weightUnit">Kg</span>
+            </md-switch>
+          </md-input-container>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <md-button ng-click="" id="send-request" class="send-button md-accent md-raised" aria-label="Update">
+                    Update
+                </md-button>
+
+            </div>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -65,6 +65,7 @@
         vm.openJoinModal = openJoinModal;
         vm.openCommunityModal = openCommunityModal;
         vm.openLogsModal = openLogsModal;
+        vm.openUnitModal = openUnitModal;
 
         vm.updateBillingModal = BillingService.updateBillingModal;
         vm.selectProject = selectProject;
@@ -414,6 +415,17 @@
               templateUrl        : 'app/main/dashboard/dialogs/logs/logs.html',
               parent             : angular.element($document.body),
               locals             : {name: name, userId: id},
+              clickOutsideToClose: true
+          });
+        }
+
+        function openUnitModal() {
+          $mdDialog.show({
+              controller         : 'UnitSelectController',
+              controllerAs       : 'vm',
+              templateUrl        : 'app/main/dashboard/dialogs/unit_select/unit_select.html',
+              parent             : angular.element($document.body),
+              locals             : {},
               clickOutsideToClose: true
           });
         }
