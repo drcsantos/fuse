@@ -374,6 +374,10 @@
 
          vm.calendarEvent.residentGoing = resident;
 
+
+        vm.calendarEvent.tempUnit = vm.community.tempUnit === 'Celsius' ? 'C' : 'F';
+        vm.calendarEvent.weightUnit = vm.community.weightUnit === 'Pounds' ? 'lbs' : 'kg';
+
         exportAppointDetail.exportPdf(name, vm.calendarEvent);
       });
 

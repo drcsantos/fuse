@@ -91,17 +91,17 @@
       doc.addPage();
 
       //it is an array of data, date fields
-      graphs.drawGraph(doc, data.residentGoing.temperature, "Temperature",  0, 0);
+      graphs.drawGraph(doc, data.residentGoing.temperature, "Temperature",  0, 0, data.tempUnit);
 
-      graphs.drawGraph(doc, data.residentGoing.oxygenSaturation, "Oxygen Saturation", 0, 130);
+      graphs.drawGraph(doc, data.residentGoing.oxygenSaturation, "Oxygen Saturation", 0, 130, '%');
 
-      graphs.drawGraph(doc, data.residentGoing.pulse, "Pulse", 0, 260);
+      graphs.drawGraph(doc, data.residentGoing.pulse, "Pulse", 0, 260, 'BMP');
 
-      graphs.drawGraph(doc, data.residentGoing.vitalsPain, "Vitals Pain", 0, 390);
+      graphs.drawGraph(doc, data.residentGoing.vitalsPain, "Vitals Pain", 0, 390, 'BMP');
 
       graphs.drawGraph(doc, data.residentGoing.respiration, "Respiration", 0, 520);
 
-      graphs.drawGraph(doc, data.residentGoing.weight, "Weight", 0, 650);
+      graphs.drawGraph(doc, data.residentGoing.weight, "Weight", 0, 650, data.weightUnit);
 
       doc.save(name);
     }

@@ -6,9 +6,11 @@
 
   function Graphs() {
 
-    function drawGraph(doc, data, name, x, y) {
+    function drawGraph(doc, data, name, x, y, unit) {
 
       var coordsPerLetter = (610 / 84);
+
+      console.log('Unit in graph: ' + unit);
 
       if (data && data.length > 0) {
 

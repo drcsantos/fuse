@@ -737,7 +737,10 @@
       doc.line(0, 593, 610, 593);
 
       //it is an array of data, date fields
-      graphs.drawGraph(doc, data.temperature, "Temperature",  0, 0);
+
+      console.log(data.tempUnit, data.weightUnit);
+
+      graphs.drawGraph(doc, data.temperature, "Temperature",  0, 0, data.tempUnit);
       //graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 196);
       //graphs.drawGraph(doc, data.pulse, "Pulse", 0, 392);
       //graphs.drawGraph(doc, data.vitalsPain, "Pain", 0, 588);

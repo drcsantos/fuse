@@ -294,6 +294,9 @@
       carePlanData.communityName = vm.community.name;
       carePlanData.community = vm.community;
 
+      carePlanData.tempUnit = vm.community.tempUnit === 'Celsius' ? 'C' : 'F';
+      carePlanData.weightUnit = vm.community.weightUnit === 'Pounds' ? 'lbs' : 'kg';
+
       exportCarePlan.exportPdf(carePlanData);
 
     }
