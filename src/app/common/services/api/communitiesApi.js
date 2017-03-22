@@ -72,6 +72,9 @@
       return $http.put(apiUrl + '/api/communities/' + communityid + '/roomstyle/' + data._id, data, getAuth());
     };
 
+    var updateUnits = function(communityid, data) {
+      return $http.put(apiUrl + '/api/communities/' + communityid + '/units', data, getAuth());
+    };
 
 
     function getCommunitiesRoutes() {
@@ -90,7 +93,8 @@
         restoreCommunity: restoreCommunity,
         updateContactAndRoomInfo: updateContactAndRoomInfo,
         createRoomStyle: createRoomStyle,
-        updateRoomStyle: updateRoomStyle
+        updateRoomStyle: updateRoomStyle,
+        updateUnits: updateUnits
       };
 
     }

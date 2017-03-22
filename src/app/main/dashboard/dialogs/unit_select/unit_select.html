@@ -13,26 +13,25 @@
 
           <md-input-container class="md-block">
             <label>Length/Area</label>
-            <md-switch ng-model="vm.form.areaUnit" ng-change="vm.convertUnit()">
+            <md-switch ng-model="vm.form.areaUnit">
               <span ng-if="vm.form.areaUnit">Feet</span>
               <span ng-if="!vm.form.areaUnit">Meters</span>
             </md-switch>
           </md-input-container>
 
           <md-input-container class="md-block">
-            <label>Temperature</label>
-            <md-switch ng-model="vm.form.tempUnit" ng-change="vm.convertUnit()">
-              <span ng-if="vm.form.tempUnit">F</span>
-              <span ng-if="!vm.form.tempUnit">C</span>
+            <label>Weight</label>
+            <md-switch ng-model="vm.form.weightUnit">
+              <span ng-if="vm.form.weightUnit">Pounds</span>
+              <span ng-if="!vm.form.weightUnit">Kilograms</span>
             </md-switch>
           </md-input-container>
 
-
-          <md-input-container class="md-block">
-            <label>Weight</label>
-            <md-switch ng-model="vm.form.weightUnit" ng-change="vm.convertUnit()">
-              <span ng-if="vm.form.weightUnit">Lbs</span>
-              <span ng-if="!vm.form.weightUnit">Kg</span>
+        <md-input-container class="md-block">
+            <label>Temperature</label>
+            <md-switch ng-model="vm.form.tempUnit">
+              <span ng-if="vm.form.tempUnit">Fahrenheith</span>
+              <span ng-if="!vm.form.tempUnit">Celsius</span>
             </md-switch>
           </md-input-container>
 
@@ -40,7 +39,7 @@
 
         <md-dialog-actions layout="row" layout-align="space-between center">
             <div layout="row" layout-align="start center">
-                <md-button ng-click="" id="send-request" class="send-button md-accent md-raised" aria-label="Update">
+                <md-button ng-click="vm.updateUnits()" id="send-request" class="send-button md-accent md-raised" aria-label="Update">
                     Update
                 </md-button>
 

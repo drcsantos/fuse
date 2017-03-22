@@ -339,7 +339,6 @@
         function listLogs(communitid) {
           apilaData.listLogs(communitid)
           .success(function(resp) {
-            console.log(resp);
           })
           .error(function(err) {
             $log.debug(err);
@@ -425,7 +424,7 @@
               controllerAs       : 'vm',
               templateUrl        : 'app/main/dashboard/dialogs/unit_select/unit_select.html',
               parent             : angular.element($document.body),
-              locals             : {},
+              locals             : {community: vm.myCommunity},
               clickOutsideToClose: true
           });
         }
