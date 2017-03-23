@@ -741,14 +741,14 @@
       console.log(data.tempUnit, data.weightUnit);
 
       graphs.drawGraph(doc, data.temperature, "Temperature",  0, 0, data.tempUnit);
-      //graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 196);
-      //graphs.drawGraph(doc, data.pulse, "Pulse", 0, 392);
-      //graphs.drawGraph(doc, data.vitalsPain, "Pain", 0, 588);
+      graphs.drawGraph(doc, data.oxygenSaturation, "Oxygen Saturation", 0, 196, '%');
+      graphs.drawGraph(doc, data.pulse, "Pulse", 0, 392, 'BPM');
+      graphs.drawGraph(doc, data.vitalsPain, "Pain", 0, 588, ' ');
 
-      //graphs.drawGraph(doc, data.respiration, "Respiration", 310, 0);
-      //graphs.drawGraph(doc, data.weight, "Weight", 310, 196);
-      //graphs.drawGraph(doc, data.internationalNormalizedRatio, "INR", 310, 392);
-      //graphs.drawGraph(doc, data.bloodPressureDiastolic, "Blood Pressure", 310, 588);
+      graphs.drawGraph(doc, data.respiration, "Respiration", 310, 0, 'BPM');
+      graphs.drawGraph(doc, data.weight, "Weight", 310, 196, data.weightUnit);
+      graphs.drawGraph(doc, data.internationalNormalizedRatio, "INR", 310, 392, ' ');
+      graphs.drawGraph(doc, data.bloodPressureDiastolic, "Blood Pressure", 310, 588, 'mmHg');
 
       doc.addPage();
 

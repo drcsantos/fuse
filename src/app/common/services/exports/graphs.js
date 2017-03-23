@@ -10,8 +10,6 @@
 
       var coordsPerLetter = (610 / 84);
 
-      console.log('Unit in graph: ' + unit);
-
       if (data && data.length > 0) {
 
         var dateFormat1 = moment(data[0].date).format('MMM d');
@@ -54,7 +52,7 @@
 
         // data unit labels
         doc.text(
-          maxData.toString(),
+          maxData.toString() + " " + unit,
           x + 4,
           y + 16);
         doc.text(
@@ -67,10 +65,8 @@
           y + 190);
 
         // date labels
-        var midDate = Math.floor(((maxDate - minDate) / 2) + minDate);
-        var dateFormat2 = moment(data[0].date).format('YYYY');
+        var midDate = (((maxDate - minDate) / 2) + minDate);
 
-        // minDate that works
         doc.text(
           minDate.format('MMM d'),
           x + 100,
@@ -80,7 +76,6 @@
           x + 100,
           y + 60);
 
-        // midDate that doesnt work
         doc.text(
           moment(midDate).format('MMM d'),
           x + 150,
@@ -89,23 +84,6 @@
           moment(midDate).format('YYYY'),
           x + 150,
           y + 60);
-
-        doc.text("min string: " + minDate.toString(), 200, 400);
-        doc.text("max string: " + maxDate.toString(), 200, 410);
-        doc.text("min number: " + minDate, 200, 420);
-        doc.text("max number: " + maxDate, 200, 430);
-
-        doc.text("mid number: " + midDate, 200, 450);
-        doc.text("mid string: " + midDate.toString(), 200, 460);
-
-
-        //doc.text("min: " + minDate.toString() + "(" + minDate + ")", 100, 20 + y);
-        //doc.text("max: " + maxDate.toString() + "(" + maxDate + ")", 100, 30 + y);
-        //doc.text("coordinates per time unit: " + coordsPerDateUnitX, 100, 60 + y);
-        //doc.text("x value calculation: " + ((moment(data[3].date).utc() - minDate) * coordsPerDateUnitX), 100, 70 + y);
-        //doc.text("time as number: " + moment(data[0].date).utc(), 100, 80 + y);
-
-
       }
 
       doc.setFillColor(0, 0, 0);
