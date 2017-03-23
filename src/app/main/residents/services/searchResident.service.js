@@ -24,17 +24,23 @@
                     continue;
                 }
 
+                // if(key === 'drivesCar' && resident[key] === true) {
+                //     fieldsTypes[searchString.length] = 'car';
+                //     searchString += 'car \n';
+                //     continue;
+                // }
+
                 //format dates
                 if(key === 'birthDate') {
                     fieldsTypes[searchString.length] = key;
-                    searchString += moment(resident[key]).format('YYYY MM DD') + ' ';
+                    searchString += moment(resident[key]).format('YYYY MM DD') + '\n';
                     continue;
                 }
 
                 //handling boolean fields
                 if(resident[key] == true) {
                     fieldsTypes[searchString.length] = key;
-                    searchString += key + ' ';
+                    searchString += key + '\n';
                     continue;
                 }
 
@@ -52,7 +58,7 @@
 
                 if(resident[key]) {
                     fieldsTypes[searchString.length] = key;
-                    searchString += resident[key] + ' ';
+                    searchString += resident[key] + '\n';
                 }
 
                 }

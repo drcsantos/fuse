@@ -108,6 +108,17 @@
       }
     }
 
+    // get the end of field text which are seperated by newline
+    function findBeginingOfField(indexValue, searchObject) {
+       for(var i = indexValue; i >= 0; --i) {
+          if(searchObject.searchString[i] === '\n') {
+            return i + 1;
+          }
+       }
+
+       return indexValue;
+    }
+
     vm.searchResidents = function() {
 
       if(vm.search === "") {
@@ -120,14 +131,21 @@
 
           var searchObject = SearchResident.transformResidentForSearch(resid);
 
-          console.log(searchObject);
-
           var indexValue  = searchObject.searchString.toLowerCase().indexOf(vm.search.toLowerCase());
 
           if(indexValue !== -1) {
-            resid.fieldType = _.startCase(searchObject.fieldsTypes[indexValue.toString()]);
-          }
 
+            var fieldType = _.startCase(searchObject.fieldsTypes[indexValue.toString()]);
+
+            //if we didnt find the type of field for the part of string we found
+            if(!fieldType) {
+              var fieldStart = findBeginingOfField(indexValue, searchObject);
+
+              fieldType = _.startCase(searchObject.fieldsTypes[fieldStart]);
+            }
+
+            resid.fieldType = fieldType;
+          }
 
           return indexValue !== -1;
         });
