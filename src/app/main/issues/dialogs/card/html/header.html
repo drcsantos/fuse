@@ -211,17 +211,17 @@
     </md-button>
     <!-- / WORD CLOUD -->
 
-    <md-icon ng-if="vm.card.confidential === true && vm.card.responsibleParty._id === vm.userid" ng-click="vm.changeConfidential(false)" md-menu-origin md-font-icon="icon-lock">
-      <md-tooltip>
-        Click to make the issue non confidential
-      </md-tooltip>
-    </md-icon>
 
-    <md-icon ng-if="vm.card.confidential !== true && vm.card.responsibleParty._id === vm.userid" ng-click="vm.changeConfidential(true)" md-menu-origin md-font-icon="icon-lock-unlocked">
-      <md-tooltip>
-        Click to make the issue confidential
-      </md-tooltip>
-    </md-icon>
+    <md-button class="md-icon-button" ng-click="vm.changeConfidential(false)"  ng-if="vm.card.confidential === true && vm.card.responsibleParty._id === vm.userid" aria-label="Non Confidential">
+      <md-tooltip>Click to make the issue non confidential</md-tooltip>
+      <md-icon md-menu-origin md-font-icon="icon-lock"></md-icon>
+    </md-button>
+
+    <md-button class="md-icon-button" ng-click="vm.changeConfidential(true)"  ng-if="vm.card.confidential !== true && vm.card.responsibleParty._id === vm.userid" aria-label="Confidential">
+      <md-tooltip>Click to make the issue confidential</md-tooltip>
+      <md-icon md-menu-origin md-font-icon="icon-lock-unlocked"></md-icon>
+    </md-button>
+
 
     <span flex></span>
 
