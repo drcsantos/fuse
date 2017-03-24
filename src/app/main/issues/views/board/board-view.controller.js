@@ -103,11 +103,9 @@
           vm.myCommunity = d;
 
           populateCurrentUserList(vm.myCommunity._id);
-          populateLists(vm.myCommunity._id);
           issuesCount(vm.myCommunity._id);
 
           vm.board.labels = vm.myCommunity.labels;
-          console.log(vm.myCommunity.labels);
 
           setUserRole();
 
@@ -139,6 +137,8 @@
             });
 
             addCardsForCurrUser(currUserIssues, vm.board.lists[0]);
+
+            populateLists(vm.myCommunity._id);
           })
           .error(function(issues) {
               $log.debug("Error while loading list of issues for: " + username);
@@ -168,6 +168,7 @@
                 angular.forEach(issues, function(v, k) {
 
                   var currList = createList(v._id.name);
+                  vm.board.lists.push(currList);
 
                   //we don't want to add ourself to the list, we are already added
                   if(currList.name !== username) {
@@ -182,7 +183,6 @@
 
                       });
 
-                      vm.board.lists.push(currList);
                     }
                     });
 
@@ -250,6 +250,9 @@
 
             vm.flagIssue(card);
             vm.board.cards.push(card);
+
+            console.log(card);
+
             list.idCards.push(card.id);
 
           });

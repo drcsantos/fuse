@@ -460,14 +460,10 @@
             vm.card.responsibleParty = vm.selectedItem.value;
             UpdateInfoService.addUpdateInfo('', 'responsibleParty', vm.selectedItem.display, oldData.responsibleParty.name);
 
-            console.log("new: " + vm.selectedItem.display + " old: " + vm.oldSelectedItem.display);
-
             var newList = _.find(vm.board.lists, {name: vm.selectedItem.display});
             var oldList = _.find(vm.board.lists, {name: vm.oldSelectedItem.display});
 
             oldList.idCards = _.without(oldList.idCards, vm.card.id);
-
-            console.log(vm.oldSelectedItem.value, vm.card.idMembers);
 
             var hasMember = _.find(vm.card.idMembers, {_id: vm.oldSelectedItem.value})
 
